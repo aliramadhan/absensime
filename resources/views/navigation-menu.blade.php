@@ -248,18 +248,12 @@
                  <div class="ml-3 relative">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
-                            @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
-                                    <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                            <span class="inline-flex rounded-md">
+                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                    <img class="h-8 w-8 object-cover border-2 rounded-lg border-red-400 opacity-75 hover:opacity-100 duration-300" src="{{ asset('image/logo.png') }}" alt="{{ Auth::user()->name }}" />
+                                   
                                 </button>
-                            @else
-                                <span class="inline-flex rounded-md">
-                                    <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
-                                        <img class="h-8 w-8 object-cover border-2 rounded-lg border-red-400 opacity-75 hover:opacity-100 duration-300" src="{{ asset('image/logo.png') }}" alt="{{ Auth::user()->name }}" />
-                                       
-                                    </button>
-                                </span>
-                            @endif
+                            </span>
                         </x-slot>
 
                         <x-slot name="content">
@@ -271,7 +265,7 @@
                                 <a href="">DSA</a>
                                 <a href="">SA</a>
                             </div> -->
-                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                            <x-jet-dropdown-link href="#">
                                 <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance App') }}
                             </x-jet-dropdown-link>
                              <x-jet-dropdown-link href="http://localhost/cateringme/setcookie?id={{Session::getId()}}">
