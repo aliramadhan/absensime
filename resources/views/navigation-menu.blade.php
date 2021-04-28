@@ -267,11 +267,8 @@
                             <div class="block px-4 py-2 text-xs text-gray-700 font-semibold border-b">
                                 {{ __('Change Application') }}
                             </div>
-                         <!--    <div class="grid grid-cols-2">
-                                <a href="">DSA</a>
-                                <a href="">SA</a>
-                            </div> -->
-                            <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                     
+                            <x-jet-dropdown-link href="#">
                                 <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance App') }}
                             </x-jet-dropdown-link>
                              <x-jet-dropdown-link href="http://localhost/cateringme/setcookie?id={{Session::getId()}}">
