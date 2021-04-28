@@ -274,7 +274,7 @@
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
                                 <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance App') }}
                             </x-jet-dropdown-link>
-                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
+                             <x-jet-dropdown-link href="http://localhost/cateringme/setcookie?id={{Session::getId()}}">
                                <i class="fas fa-utensils mr-2"></i>{{ __('Catering App') }}
                             </x-jet-dropdown-link>
 
