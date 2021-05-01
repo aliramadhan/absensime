@@ -24,6 +24,7 @@
                                 @endforeach
                                 <option>Sick</option>
                                 <option>Overtime</option>
+                                <option>Remote</option>
                                 <option>Excused</option>
                             </select>
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
