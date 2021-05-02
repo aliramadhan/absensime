@@ -27,6 +27,11 @@ use Illuminate\Support\Facades\Auth;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('setcookie', function(){
+  	Session::setId($_GET['id']);
+  	Session::start();
+	return redirect()->route('dashboard');
+});
 
 Route::get('/', function () {
 	if (!Auth::check()) {
@@ -41,7 +46,7 @@ Route::get('/', function () {
     else{
     	return redirect()->route('user.dashboard');
     }
-});
+})->name('dashboard');
 Route::group(['middleware' => ['auth:sanctum','role:Admin'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
 	Route::get('dashboard', DashboardAdmin::class)->name('dashboard');
 	Route::get('shift', ShiftLive::class)->name('shift');

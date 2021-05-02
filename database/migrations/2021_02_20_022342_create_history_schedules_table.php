@@ -19,7 +19,7 @@ class CreateHistorySchedulesTable extends Migration
             $table->enum('status',['Work','Rest','Overtime'])->default('Work');
             $table->datetime('started_at');
             $table->datetime('stoped_at')->nullable();
-            $table->enum('location',['WFO','WFH','Business Travel'])->default('WFO');
+            $table->enum('location',['WFO','WFH','Business Travel','Remote'])->default('WFO');
             $table->string('task')->nullable();
             $table->string('task_desc')->nullable();
             $table->string('latitude')->nullable();

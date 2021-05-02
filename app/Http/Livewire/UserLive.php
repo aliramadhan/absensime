@@ -14,7 +14,7 @@ class UserLive extends Component
     public $users, $user, $name, $email, $role, $division, $isModal, $divisions;
     public function render()
     {
-        $this->users = User::where('is_active',0)->get();
+        $this->users = User::where('is_active',0)->orderBy('updated_at','asc')->get();
         $this->divisions = Division::all();
         return view('livewire.Admin.user-live');
     }
