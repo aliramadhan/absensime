@@ -338,10 +338,11 @@
 
                         <label class="block flex gap-4 items-center mb-2 ">
                             <span class="text-gray-700 flex gap-1"><span class="hidden md:block">Tracking </span> Option</span>
-                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location">
+                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($location == 'Remote') disabled @endif>
                                 <option value="WFO" selected >Work From Office</option>
                                 <option value="WFH">Work From Home</option>
                                 <option value="Business Travel">Business Travel</option>
+                                <option>Remote</option>
                             </select>
                         </label>
                     <div class="flex justify-between items-center flex-col md:flex-row">
@@ -400,7 +401,7 @@
               @elseif($schedule != null && $schedule->status == 'Not sign in')
               <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Start Record</button>             
               <label class="flex items-center mt-3 w-auto">
-                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md" checked><span class="ml-2 text-gray-700" wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif> Writing assignments ?     </span>
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Writing assignments ?     </span>
               </label>
               @elseif($schedule != null && ($schedule->status == 'Done'))
                <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Today's recording is complete</button>               
@@ -432,12 +433,14 @@
             <div wire:poll.10ms class="absolute">
               @if($schedule != null)
                 @php
-                  $request_late = App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Excused')->first();
+                  $request_late = App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Excused')->where('status','Accept')->first();
+                  $request_remote= App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Remote')->where('status','Accept')->first();
                 @endphp
                 @if($request_late != null)
-                  @if($request_late->status == 'Accept')
-                    $schedule->update(['status_depart' => 'Present']);
-                  @endif
+                  $schedule->update(['status_depart' => 'Present']);
+                @endif
+                @if($request_remote != null)
+                  $location = 'Remote';
                 @endif
                 @php
                 $start = Carbon\Carbon::parse($schedule->started_at);
@@ -450,6 +453,7 @@
                 }
                 $time_out = Carbon\Carbon::parse($schedule->shift->time_out);
                 $schedule->update(['timer' => $timeInt]);
+                $timeInt = $schedule->workhour + $schedule->timer;
                 $seconds = intval($timeInt%60);
                 $total_minutes = intval($timeInt/60);
                 $minutes = $total_minutes%60;

@@ -16,7 +16,7 @@ class UsersActivated extends LivewireDatatable
 	public $user;
     public function builder()
     {
-	    return User::where('id','!=',null);
+	    return User::where('id','!=',null)->orderBy('is_active','asc')->orderBy('updated_at','asc');
     }
 
     public function columns()

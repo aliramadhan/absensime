@@ -141,6 +141,9 @@ class ScheduleLive extends Component
     $data = Excel::toArray(new Schedule, $this->file)[0];
     for ($i=1; $i < count($data); $i++) { 
       $employee = User::where('code_number',$data[$i][0])->orWhere('name','like','%'.$data[$i][0].'%')->first();
+      if ($employee == null) {
+        continue;
+      }
       for ($k=1; $k < count($data[0]); $k++) { 
         $date = Carbon::parse(Date::excelToDateTimeObject($data[0][$k]));
         if($data[$i][$k] == null){

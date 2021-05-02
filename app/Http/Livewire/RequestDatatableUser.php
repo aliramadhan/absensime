@@ -35,6 +35,7 @@ class RequestDatatableUser extends LivewireDatatable
     	$list_leave = ListLeave::pluck('name');
     	$list_leave->push('Sick');
     	$list_leave->push('Overtime');
+    	$list_leave->push('Remote');
     	if (auth()->user()->role == 'Manager') {
 	        return [
 	            Column::callback(['employee_id'], function ($employee_id) {

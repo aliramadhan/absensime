@@ -17,7 +17,7 @@ class DashboardUser extends Component
 {
 	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
-    public $wfo = 0, $wfh = 0, $business_travel = 0, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves;
+    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves;
     //for Request
     public $type, $desc,$date,$time_overtime, $tasking = false;
 
@@ -72,6 +72,7 @@ class DashboardUser extends Component
             //count WFO/WFH
             $wfo = 0;
             $wfh = 0;
+            $remote = 0;
             $business_travel = 0;
             foreach ($this->schedule->details->where('status','Work') as $work) {
                 if ($work->stoped_at != null) {
@@ -82,6 +83,9 @@ class DashboardUser extends Component
                     }
                     elseif($work->location == 'WFH'){
                         $wfh += $startPause->diffInSeconds($stopPause);
+                    }
+                    elseif($work->location == 'Remote'){
+                        $remote += $startPause->diffInSeconds($stopPause);
                     }
                     else{
                         $business_travel += $startPause->diffInSeconds($stopPause);
@@ -95,6 +99,9 @@ class DashboardUser extends Component
                     elseif($work->location == 'WFH'){
                         $wfh += $startPause->diffInSeconds(Carbon::now());
                     }
+                    elseif($work->location == 'Remote'){
+                        $remote += $startPause->diffInSeconds(Carbon::now());
+                    }
                     else{
                         $business_travel += $startPause->diffInSeconds(Carbon::now());
                     }
@@ -102,6 +109,7 @@ class DashboardUser extends Component
             }
             $this->wfo = $this->intToTime($wfo);
             $this->wfh = $this->intToTime($wfh);
+            $this->remote = $this->intToTime($remote);
             $this->business_travel = $this->intToTime($business_travel);
         }
         return view('livewire.User.dashboard');
