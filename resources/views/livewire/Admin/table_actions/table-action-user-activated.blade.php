@@ -24,7 +24,7 @@
                   </div>
                   <div class=" py-6 text-2xl text-gray-700">Are you sure ?</div>
                   <div class=" font-light text-gray-700 mb-8">
-                      Do you really want to activate <span class="font-semibold">{{$user->name}}</span> ? This process cannot be undone.
+                      Do you really want to activate <span class="font-semibold">{{$user->name}}</span>? This process cannot be undone.
                   </div>
                   <div class="flex justify-center gap-2  ">
                       <button class="modal-close bg-gray-300 text-gray-900 rounded hover:bg-gray-200 px-6 py-2 focus:outline-none mx-1 tracking-wider" onclick="toggleModal('activate{{$id}}')">Cancel</button>
