@@ -8,7 +8,7 @@
         @endif
         <button wire:click="$set('isModal', 'create')" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 py-2 text-lg font-semibold tracking-wider text-white rounded-lg md:rounded-xl shadow-md focus:outline-none flex items-center gap-2"><i class="fas fa-plus"></i><span class="hidden md:block">New Leave</span></button> 
 
-         <div wire:loading wire:target="create,closeModal,import" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
+         <div wire:loading wire:target="create,closeModal" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
            <section class="h-full w-full border-box  transition-all duration-500 flex bg-gray-500 opacity-75"    >   
             <div class="text-6xl text-white m-auto text-center">        
              <i class="fas fa-circle-notch animate-spin"></i>

@@ -1,29 +1,6 @@
 <div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
-	<style type="text/css">   
-    
-/* width */
-::-webkit-scrollbar {
-  width: 6px;
-
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  box-shadow: inset 0 0 1px grey;  
-}
- 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: gray; 
-  border-radius: 14px;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #b30000; 
-}
-</style>
+	
     @if($isModal == 'Import')
       @include('livewire.Admin.Schedule.import')
     @elseif($isModal == 'Division')

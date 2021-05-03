@@ -38,10 +38,11 @@
                             <label for="formDesc" class="block text-gray-600 text-sm font-semibold mb-2">Leave Duration:</label>
                             <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" name="duration" value="{{$leave->duration}}">
                             @error('duration') <span class="text-red-500">{{ $message }}</span>@enderror
-                        </div>
-                        <div class="mb-4">
-                            <label for="formIsAnnual" class="block text-gray-600 text-sm font-semibold mb-2">Is Annual:</label>
-                            <input type="checkbox" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline" id="formIsAnnual" name="is_annual" @if($leave->is_annual == 1) checked @endif>
+                        </div>                      
+
+                        <div class="mb-4 flex-auto flex items-center gap-2">
+                            <label for="formIsAnnual" class="block text-gray-500 text-base font-semibold">Is Annual:</label>
+                            <input type="checkbox" class="shadow appearance-none border rounded h-6 w-6 py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline rounded-lg" id="formIsAnnual" name="is_annual" @if($leave->is_annual == 1) checked @endif>
                             @error('is_annual') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                 </div>
