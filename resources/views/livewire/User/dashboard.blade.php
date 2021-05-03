@@ -1,4 +1,3 @@
-
 <div>
   <div class="bg-white shadow">
   <div class="flex justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
@@ -73,7 +72,7 @@
                       </div>
                     </div>  
 
-                    <div class="-mx-1 -mb-1  hide-scroll">
+                    <div class="-mx-1 -mb-1 hide-scroll">
                       <div class="flex flex-wrap md:text-xs" style="margin-bottom: -40px;">
                         <template x-for="(day, index) in DAYS" :key="index">  
                           <div style="width: 14.1%" class="px-2 py-2 ">
@@ -601,7 +600,7 @@
                        <h2 class="text-white bg-orange-500 py-1 rounded-lg w-full md:w-10/12 md:text-base text-xs">Weekly Hour</h2>
 	                     </div>
 	                   	</div>
-	                   	<div class="hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3">
+	                   	<div class="hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3 overflow-x-auto">
                         @foreach($schedules as $scheduleUser)
                         @php
                           $seconds = intval(($scheduleUser->workhour + $scheduleUser->timer)%60);
