@@ -21,10 +21,14 @@
             font-family: 'Poppins', sans-serif;       
         }
     </style>
+      <script type="text/javascript">
+          function modalfu() {}
+        </script>
     </head>
-    <body>
+    <body onload="modalfu();">
         <div class="text-gray-900 antialiased">
             {{ $slot }}
         </div>
     </body>
+       <script src="{{ asset('/js/modal.js') }}" defer></script>
 </html>
