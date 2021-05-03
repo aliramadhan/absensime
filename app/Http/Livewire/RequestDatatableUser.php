@@ -128,19 +128,19 @@ class RequestDatatableUser extends LivewireDatatable
     	if ($action == 'Accept') {
     		$schedule = Schedule::whereDate('date',$request->date)->first();
     		$cekLeave = ListLeave::where('name','like','%'.$request->type.'%')->first();
-    		if($request->type != 'Overtime' && $request->type != 'Excused'){
-	    		$schedule->update([
-	    			'status' => $request->type
-	    		]);
+    		if($cekLeave != null && $cekLeave->is_annual == 1){
+    			$user->leave_count -= 1;
+    			$user->save();
     		}
     		elseif($request->type == 'Excused'){
     			$schedule->update([
     				'status_depart' => 'Present'
     			]);
     		}
-    		elseif($cekLeave != null && $cekLeave->is_annual == 1){
-    			$user->leave_count -= 1;
-    			$user->save();
+    		elseif($request->type != 'Overtime' && $request->type != 'Excused'){
+	    		$schedule->update([
+	    			'status' => $request->type
+	    		]);
     		}
     		$request->status = $action;
     		$request->save();
