@@ -124,8 +124,10 @@ class RequestDatatableUser extends LivewireDatatable
     public function actionRequest($id, $action)
     {
     	$request = Request::find($id);
+    	$user = User::find($request->employee_id);
     	if ($action == 'Accept') {
     		$schedule = Schedule::whereDate('date',$request->date)->first();
+    		$cekLeave = ListLeave::where('name','like','%'.$request->type.'%')->first();
     		if($request->type != 'Overtime' && $request->type != 'Excused'){
 	    		$schedule->update([
 	    			'status' => $request->type
@@ -135,6 +137,10 @@ class RequestDatatableUser extends LivewireDatatable
     			$schedule->update([
     				'status_depart' => 'Present'
     			]);
+    		}
+    		elseif($cekLeave != null && $cekLeave->is_annual == 1){
+    			$user->leave_count -= 1;
+    			$user->save();
     		}
     		$request->status = $action;
     		$request->save();

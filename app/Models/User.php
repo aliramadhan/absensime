@@ -33,7 +33,8 @@ class User extends Authenticatable
         'division',
         'number_phone',
         'address',
-        'last_seen'
+        'last_seen',
+        'leave_count',
     ];
 
     /**
