@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->boolean('can_order')->default(0);
             $table->boolean('is_active')->default(1);
             $table->timestamp('last_seen')->nullable();
+            $table->integer('leave_count')->default(0);
             $table->timestamps();
         });
     }

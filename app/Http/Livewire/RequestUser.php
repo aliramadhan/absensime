@@ -54,36 +54,44 @@ class RequestUser extends Component
                 'desc' => 'required',
             ]);
         }
-
-        //send mail to manager if manager founded
-        $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
-        if($manager != null){
-            $date = Carbon::parse($this->date);
-            $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
-            Mail::to($manager->email)->send(new RequestNotificationMail($data));
+        $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
+        if ($this->user->leave_count < 1 && $cekLeave->is_annual == 1 && !in_array($this->type, ['Overtime','Sick','Remote','Excused'])) {
+            $this->closeModal();
+            $this->resetFields();
+            return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
         }
+        else{
 
-        //send mail to admin
-        $admins = User::where('role','Admin')->get();
-        foreach ($admins as $admin) {
-            $date = Carbon::parse($this->date);
-            $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
-            Mail::to($admin->email)->send(new RequestNotificationMail($data));
+            //send mail to manager if manager founded
+            $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+            if($manager != null){
+                $date = Carbon::parse($this->date);
+                $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
+                Mail::to($manager->email)->send(new RequestNotificationMail($data));
+            }
+
+            //send mail to admin
+            $admins = User::where('role','Admin')->get();
+            foreach ($admins as $admin) {
+                $date = Carbon::parse($this->date);
+                $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
+                Mail::to($admin->email)->send(new RequestNotificationMail($data));
+            }
+
+            $request = Request::create([
+                'employee_id' => $this->user->id,
+                'employee_name' => $this->user->name,
+                'type' => $this->type,
+                'desc' => $this->desc,
+                'date' => $this->date,
+                'time' => $this->time_overtime,
+            ]);
+            //send mail to manager
+
+            $this->closeModal();
+            $this->resetFields();
+            session()->flash('success', 'Request successfully added.');
+            $this->emit('refreshLivewireDatatable');
         }
-
-        $request = Request::create([
-            'employee_id' => $this->user->id,
-            'employee_name' => $this->user->name,
-            'type' => $this->type,
-            'desc' => $this->desc,
-            'date' => $this->date,
-            'time' => $this->time_overtime,
-        ]);
-        //send mail to manager
-
-        $this->closeModal();
-        $this->resetFields();
-        session()->flash('success', 'Request successfully added.');
-        $this->emit('refreshLivewireDatatable');
     }
 }

@@ -460,11 +460,11 @@
                 $hours = intval($total_minutes/60);
                 $time = $hours."h ".$minutes."m";
                 @endphp
-              @endif
               @if($now->gte($time_out) && $time_out->diffInMinutes($now) <= 5)
                 <audio controls loop autoplay height="" width="">
                   <source src="{{ asset('audio/sound.mp3') }}" type="audio/mp3" />
                 </audio>
+              @endif
               @endif
             </div>
                    	<div class="bg-white overflow-hidden shadow-md sm:rounded-lg p-4 ">
