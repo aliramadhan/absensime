@@ -28,7 +28,7 @@
 	                <i class="fas fa-times-circle text-red-600"></i>
 	                </div>
 	                <div class="ml-2 mr-6">
-	                    <span class="font-semibold">Processing was Successful!</span>
+	                    <span class="font-semibold">Somethings wrong!</span>
 	                    <span class="block text-gray-500">{{ session('failure') }}</span>
 	                </div>
 	            </div>

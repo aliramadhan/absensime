@@ -321,36 +321,43 @@ class DashboardUser extends Component
                 'desc' => 'required',
             ]);
         }
-        //send mail to manager if manager founded
-        $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
-        if($manager != null){
-            $date = Carbon::parse($this->date);
-            $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
-            Mail::to($manager->email)->send(new RequestNotificationMail($data));
+        if ($this->user->leave_count < 1 && $cekLeave->is_annual == 1 && !in_array($this->type, ['Overtime','Sick','Remote','Excused'])) {
+            $this->closeModal();
+            $this->resetFields();
+            return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
         }
+        else{
+            //send mail to manager if manager founded
+            $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+            if($manager != null){
+                $date = Carbon::parse($this->date);
+                $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
+                Mail::to($manager->email)->send(new RequestNotificationMail($data));
+            }
 
-        //send mail to admin
-        $admins = User::where('role','Admin')->get();
-        foreach ($admins as $admin) {
-            $date = Carbon::parse($this->date);
-            $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
-            Mail::to($admin->email)->send(new RequestNotificationMail($data));
+            //send mail to admin
+            $admins = User::where('role','Admin')->get();
+            foreach ($admins as $admin) {
+                $date = Carbon::parse($this->date);
+                $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
+                Mail::to($admin->email)->send(new RequestNotificationMail($data));
+            }
+
+            $request = Request::create([
+                'employee_id' => $this->user->id,
+                'employee_name' => $this->user->name,
+                'type' => $this->type,
+                'desc' => $this->desc,
+                'date' => $this->date,
+                'time' => $this->time_overtime,
+            ]);
+
+            $this->closeModal();
+            $this->type = null;
+            $this->desc = null;
+            $this->date = null;
+            $this->time_overtime = null;
+            session()->flash('message', 'Request successfully added.');
         }
-
-        $request = Request::create([
-            'employee_id' => $this->user->id,
-            'employee_name' => $this->user->name,
-            'type' => $this->type,
-            'desc' => $this->desc,
-            'date' => $this->date,
-            'time' => $this->time_overtime,
-        ]);
-
-        $this->closeModal();
-        $this->type = null;
-        $this->desc = null;
-        $this->date = null;
-        $this->time_overtime = null;
-        session()->flash('message', 'Request successfully added.');
     }
 }

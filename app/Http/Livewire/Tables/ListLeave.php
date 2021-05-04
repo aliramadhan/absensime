@@ -23,8 +23,8 @@ class ListLeave extends LivewireDatatable
     	return [
 	    	Column::name('name')
 	    		->label('Leave Name'),
-	    	Column::name('duration')
-	    		->label('Duration'),
+	    	Column::name('desc')
+	    		->label('Description'),
 	        Column::callback(['is_annual'], function ($is_annual) {
 	        	if ($is_annual == 1) {
 	        		return 'yes';

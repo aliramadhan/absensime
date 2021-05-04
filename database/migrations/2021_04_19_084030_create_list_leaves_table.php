@@ -16,7 +16,7 @@ class CreateListLeavesTable extends Migration
         Schema::create('list_leaves', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('duration');
+            $table->string('desc');
             $table->boolean('is_annual')->default(0);
             $table->timestamps();
         });
