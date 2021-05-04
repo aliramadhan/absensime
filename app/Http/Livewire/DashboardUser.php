@@ -321,9 +321,13 @@ class DashboardUser extends Component
                 'desc' => 'required',
             ]);
         }
+        $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
         if ($this->user->leave_count < 1 && $cekLeave->is_annual == 1 && !in_array($this->type, ['Overtime','Sick','Remote','Excused'])) {
             $this->closeModal();
-            $this->resetFields();
+            $this->type = null;
+            $this->desc = null;
+            $this->date = null;
+            $this->time_overtime = null;
             return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
         }
         else{
