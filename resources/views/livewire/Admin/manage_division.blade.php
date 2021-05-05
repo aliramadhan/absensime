@@ -16,7 +16,7 @@
                     </svg>
                   </div>
                 </div>
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 overflow-y-auto max-h-80">
                     <div class="">
                         @if (session()->has('notif_update'))
                             <div class="alert alert-success">
@@ -38,21 +38,21 @@
                     </div>
                 </div>
     
-                <div class="bg-gray-50 px-4 py-3 flex justify-between items-center  md:flex-row gap-2 flex-col-reverse">
+                <div class="bg-gray-50 md:px-6 px-4 py-3 flex justify-between items-center md:flex-row gap-2 flex-col">
                 
                            
-                  <div x-data="{ showDivision: false }" > 
+                  <div x-data="{ showDivision: false }" class="w-full"> 
                     <button @click="showDivision = true" x-show="!showDivision" type="button" class="inline-flex justify-center w-auto rounded-md border border-transparent px-4 py-2 bg-green-500 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-600 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5 items-center flex tracking-wider">
                       <i class="fas fa-plus mr-1"></i>Division
                     </button>
-                    <div x-show="showDivision" class="flex gap-2">
-                      <div class="relative text-gray-600 focus-within:text-gray-400 ">
+                    <div x-show="showDivision" class="flex gap-2 w-full">
+                      <div class="relative text-gray-600 focus-within:text-gray-400 w-80 md:w-auto">
                         <span class="absolute inset-y-0 right-0 flex items-center pl-2">
                           <button type="button" @click="showDivision = false" class="p-1 focus:outline-none focus:shadow-outline">
                           <i class="fas fa-times text-red-400 hover:text-red-600 mr-2"></i>
                           </button>
                         </span>
-                        <input type="text" name="" class="rounded-lg" wire:model="divisionName" placeholder="New Division">
+                        <input type="text" name="" class="rounded-lg w-full" wire:model="divisionName" placeholder="New Division">
                         @error('divisionName') <span class="text-red-500">{{ $message }}</span>@enderror
                       </div>
                     <button wire:click="storeDivision()" @click="showDivision = false" class="rounded-lg bg-green-500 text-white px-4 py-2 ">

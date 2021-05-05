@@ -4,7 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
-
+   <link rel="shortcut icon" href="{{ asset('image/favicon.png') }}">
+    <title>{{ config('app.name', 'Attendence App') }}</title>
   <title> @if (isset($title)){{ $title }} @endif</title>
 
   <!-- Fonts -->
@@ -42,7 +43,7 @@
 
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-      background: #b30000; 
+      background: #74b9ff; 
     }
   </style>
   <style type="text/css">
@@ -114,27 +115,6 @@
     
     
     
-    /* width */
-    ::-webkit-scrollbar {
-      width: 6px;
-
-    }
-
-    /* Track */
-    ::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 1px grey;  
-    }
-    
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: gray; 
-      border-radius: 14px;
-    }
-
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #b30000; 
-    }
   </style>
 
 </style>
