@@ -15,14 +15,15 @@ class Role
      * @param  \Closure  $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, ... $roles)
+    public function handle(Request $request, Closure $next, $level, ... $roles)
     {
         $user = Auth::user();
 
         foreach($roles as $role) {
             // Check if user has the role This check will depend on how your roles are set up
-            if($user->role == $role)
+            if($user->role == $role && $user->roles == $level){
                 return $next($request);
+            }
         }
 
         return redirect('login');

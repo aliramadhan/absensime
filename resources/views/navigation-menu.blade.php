@@ -20,7 +20,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-20 sm:flex">
-                    @if(auth()->user()->role == 'Admin')
+                    @if(auth()->user()->roles == 'Admin')
                     <x-jet-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
@@ -112,7 +112,7 @@
                         </div>
 
 
-                    @elseif(auth()->user()->role == 'Employee')
+                    @elseif(auth()->user()->roles == 'Employee')
                     <x-jet-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
@@ -126,7 +126,7 @@
                      <x-jet-nav-link href="{{ route('user.show.schedule') }}" :active="request()->routeIs('user.show.schedule')">
                         {{ __('Show Schedule') }}
                     </x-jet-nav-link>
-                    @elseif(auth()->user()->role == 'Manager')
+                    @elseif(auth()->user()->roles == 'Manager')
                     <x-jet-nav-link href="{{ route('manager.dashboard') }}" :active="request()->routeIs('manager.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-nav-link>
@@ -294,7 +294,7 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-             @if(auth()->user()->role == 'Admin')
+             @if(auth()->user()->roles == 'Admin')
                     <x-jet-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-responsive-nav-link>
@@ -310,7 +310,7 @@
                     <x-jet-responsive-nav-link href="{{ route('admin.users') }}" :active="request()->routeIs('admin.users')">
                         {{ __('Users') }}
                     </x-jet-responsive-nav-link>
-                    @elseif(auth()->user()->role == 'Employee')
+                    @elseif(auth()->user()->roles == 'Employee')
                     <x-jet-responsive-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-responsive-nav-link>
@@ -321,7 +321,7 @@
                      <x-jet-responsive-nav-link href="{{ route('user.history.schedule') }}" :active="request()->routeIs('user.history.schedule')">
                         {{ __('History Schedule') }}
                     </x-jet-responsive-nav-link>
-                    @elseif(auth()->user()->role == 'Manager')
+                    @elseif(auth()->user()->roles == 'Manager')
                     <x-jet-responsive-nav-link href="{{ route('manager.dashboard') }}" :active="request()->routeIs('manager.dashboard')">
                         {{ __('Dashboard') }}
                     </x-jet-responsive-nav-link>

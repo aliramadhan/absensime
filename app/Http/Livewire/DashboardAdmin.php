@@ -154,7 +154,15 @@ class DashboardAdmin extends Component
     {
     	$user = User::find($user_id);
     	$division = Division::find($id);
-    	$user->update(['division' => $division->name]);
+    	$cekManager = User::where('roles','Manager')->where('division',$division->name)->get();
+    	if ($cekManager->count() >= 1) {
+    		foreach ($cekManager as $manager) {
+    			$manager->roles = 'Employee';
+    			$manager->save();
+    		}
+    	}
+    	$user->roles = 'Manager';
+    	$user->save();
 		session()->flash('notif_update	', 'updated Manager successfully.');
 		$this->emit('refreshComponent');
     }

@@ -37,17 +37,17 @@ Route::get('/', function () {
 	if (!Auth::check()) {
 		return redirect()->route('login');
 	}
-    if (auth()->user()->role == 'Admin') {
+    if (auth()->user()->roles == 'Admin') {
     	return redirect()->route('admin.dashboard');
     }
-    elseif (auth()->user()->role == 'Manager') {
+    elseif (auth()->user()->roles == 'Manager') {
     	return redirect()->route('manager.dashboard');
     }
     else{
     	return redirect()->route('user.dashboard');
     }
 })->name('dashboard');
-Route::group(['middleware' => ['auth:sanctum','role:Admin'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
+Route::group(['middleware' => ['auth:sanctum','role:Admin,Admin'], 'prefix' => 'admin', 'as' => 'admin.'], function() {
 	Route::get('dashboard', DashboardAdmin::class)->name('dashboard');
 	Route::get('shift', ShiftLive::class)->name('shift');
 	Route::put('shift/update/{id}', [AdminController::class, 'updateShift'])->name('shift.update');
@@ -67,15 +67,16 @@ Route::group(['middleware' => ['auth:sanctum','role:Admin'], 'prefix' => 'admin'
 	Route::put('leave/update/{id}', [AdminController::class, 'updateLeave'])->name('leave.update');
 	Route::delete('leave/destroy/{id}', [AdminController::class, 'destroyLeave'])->name('leave.destroy');
 });
-Route::group(['middleware' => ['auth:sanctum','role:Employee'], 'prefix' => 'user', 'as' => 'user.'], function() {
+Route::group(['middleware' => ['auth:sanctum','role:Employee,Employee'], 'prefix' => 'user', 'as' => 'user.'], function() {
 	Route::get('dashboard', DashboardUser::class)->name('dashboard');
 	Route::get('request', RequestUser::class)->name('request');
 	Route::get('history-schedule', HistorySchedule::class)->name('history.schedule');
 	Route::get('show-schedule', ShowSCheduleEmployees::class)->name('show.schedule');
 	Route::get('details-schedule', DetailsSchedule::class)->name('details.schedule');
+	Route::delete('request/destroy/{id}', [AdminController::class, 'destroyRequest'])->name('request.destroy');
 });
 
-Route::group(['middleware' => ['auth:sanctum','role:Manager'], 'prefix' => 'manager', 'as' => 'manager.'], function() {
+Route::group(['middleware' => ['auth:sanctum','role:Manager,Employee'], 'prefix' => 'manager', 'as' => 'manager.'], function() {
 	Route::get('dashboard', DashboardUser::class)->name('dashboard');
 	Route::get('request', RequestAdmin::class)->name('request');
 	Route::post('request/accept/{id}', [AdminController::class, 'acceptRequestOvertime'])->name('request.accept');

@@ -28,13 +28,16 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_active',
         'role',
         'division',
+        'roles',
         'number_phone',
+        'code_number',
         'address',
         'last_seen',
         'leave_count',
+        'is_active',
+        'joined_at',
     ];
 
     /**

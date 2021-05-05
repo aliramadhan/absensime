@@ -28,8 +28,8 @@
                             <label for="formName{{$loop->iteration}}" class="block text-gray-500 text-sm font-semibold mb-2">{{$division->name}}:</label>
                             <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formName{{$loop->iteration}}" wire:change="changeManager({{$division->id}},$event.target.value)">
                               <option hidden></option>
-                              @foreach($users->where('role','Manager') as $manager)
-                                <option value="{{$manager->id}}" @if($manager->division == $division->name) selected @endif>{{$manager->name}}</option>
+                              @foreach($users->where('role','!=','Admin')->where('role','!=','Catering')->where('division',$division->name) as $manager)
+                                <option value="{{$manager->id}}" @if($manager->division == $division->name && $manager->roles == 'Manager') selected @endif>{{$manager->name}}</option>
                               @endforeach
                             </select>
                             @error('name') <span class="text-red-500">{{ $message }}</span>@enderror

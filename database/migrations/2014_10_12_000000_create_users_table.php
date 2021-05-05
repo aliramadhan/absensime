@@ -20,9 +20,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->enum('role', ['Admin', 'Catering','Employee','Manager'])->default('Employee');
+            $table->enum('role', ['Admin', 'Catering','Employee'])->default('Employee');
             $table->string('division')->default('Support');
-            $table->string('roles')->nullable();
+            $table->enum('roles',['Admin','Catering','Employee','Manager'])->default('Employee');
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
             $table->string('number_phone')->nullable();
@@ -31,6 +31,7 @@ class CreateUsersTable extends Migration
             $table->boolean('can_order')->default(0);
             $table->boolean('is_active')->default(1);
             $table->timestamp('last_seen')->nullable();
+            $table->timestamp('joined_at')->useCurrent();
             $table->integer('leave_count')->default(0);
             $table->timestamps();
         });

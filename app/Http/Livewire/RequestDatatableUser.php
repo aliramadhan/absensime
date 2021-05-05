@@ -19,7 +19,7 @@ class RequestDatatableUser extends LivewireDatatable
 	public $hideable = 'select',$time_overtime;
     public function builder()
     {
-    	if (auth()->user()->role == 'Manager') {
+    	if (auth()->user()->roles == 'Manager') {
         	return Request::where('employee_id','!=',null);
     	}
     	elseif (auth()->user()->role == 'Admin') {
@@ -36,7 +36,7 @@ class RequestDatatableUser extends LivewireDatatable
     	$list_leave->push('Sick');
     	$list_leave->push('Overtime');
     	$list_leave->push('Remote');
-    	if (auth()->user()->role == 'Manager') {
+    	if (auth()->user()->roles == 'Manager') {
 	        return [
 	            Column::callback(['employee_id'], function ($employee_id) {
 	            	$user = User::find($employee_id);
@@ -116,8 +116,14 @@ class RequestDatatableUser extends LivewireDatatable
 	                ->label('Status')->filterable(['Waiting', 'Approve', 'Decline']),           
 	            DateColumn::name('created_at')
 	                ->label('Request at')
-	                ->format('H:i l, d F Y')
-	                ,
+	                ->format('H:i l, d F Y'),
+	            Column::callback(['id'], function ($id) {
+	            	$request = Request::find($id);
+	            	$this->time_overtime = $request->time_overtime;
+	            	if ($request->status == 'Waiting') {
+		                return view('livewire.User.table_actions.table-actions-request-user', ['id' => $id, 'request' => $request]);
+	            	}
+	            })->label('Action')
 	        ];
     	}
     }

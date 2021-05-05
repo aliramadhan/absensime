@@ -158,4 +158,15 @@ class AdminController extends Controller
 
         return redirect()->back()->with(['success' => $message]);
     }
+    public function destroyRequest($id)
+    {
+        $request = RequestEmployee::find($id);
+        if ($request == null) {
+            return redirect()->back()->with(['failure' => 'Request not found.']);
+        }
+        $message = "Request ".$request->type. " at ".Carbon::parse($request->date)->format('d F Y')." canceled successfully.";
+        $request->delete();
+
+        return redirect()->back()->with(['success' => $message]);
+    }
 }
