@@ -11,7 +11,7 @@ use App\Mail\RegisterSuccessfully;
 
 class UserLive extends Component
 {
-    public $users, $user, $name, $email, $role, $division, $isModal, $divisions;
+    public $users, $user, $name, $email, $role, $division,$joined_at, $isModal, $divisions;
     public function render()
     {
         $this->users = User::where('is_active',0)->orderBy('updated_at','asc')->get();
@@ -33,7 +33,8 @@ class UserLive extends Component
             'name' => 'required|string|unique:users',
             'email' => 'required|email|unique:users',
             'role' => 'required',
-            'division' => 'required'
+            'division' => 'required',
+            'joined_at' => 'required|date',
         ]);
         return dd($this->division);
         $cekManager = User::where('role','Manager')->where('division',$this->division)->first();
@@ -47,6 +48,7 @@ class UserLive extends Component
                 'email' => $this->email,
                 'password' => Hash::make($password),
                 'role' => $this->role,
+                'roles' => $this->role,
                 'division' => $this->division
             ]);
             $data = [
