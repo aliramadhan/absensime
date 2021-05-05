@@ -370,10 +370,10 @@
                         <label class="block flex gap-4 items-center mb-2 ">
                             <span class="text-gray-700 flex gap-1"><span class="hidden md:block">Tracking </span> Option</span>
                             <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($location == 'Remote') disabled @endif>
+                                @if($location == 'Remote')<option>Remote</option>@endif
                                 <option value="WFO" selected >Work From Office</option>
                                 <option value="WFH">Work From Home</option>
                                 <option value="Business Travel">Business Travel</option>
-                                <option>Remote</option>
                             </select>
                         </label>
                     <div class="flex justify-between items-center flex-col md:flex-row">
