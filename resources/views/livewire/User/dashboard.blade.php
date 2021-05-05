@@ -317,7 +317,7 @@
                     <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl shadow-md static ">
                     <div class="border-b-2 row-span-1 px-4 flex justify-between items-center relative "> 
 
-                        <div class="py-2 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center gap-2">
+                        <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center gap-2">
                            <div class=" bg-cover w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
                          <label> {{$now->format('l')}}</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none ml-2 mt-2 ">
