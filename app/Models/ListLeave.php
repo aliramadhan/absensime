@@ -10,7 +10,7 @@ class ListLeave extends Model
     use HasFactory;
     protected $fillable = [
         'name',
-        'duration',
+        'desc',
         'is_annual',
     ];
 }

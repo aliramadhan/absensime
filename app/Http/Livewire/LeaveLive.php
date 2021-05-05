@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\ListLeave;
 class LeaveLive extends Component
 {
-	public $leaves, $leave, $name, $duration, $is_annual = false, $isModal;
+	public $leaves, $leave, $name, $desc, $is_annual = false, $isModal;
     public function render()
     {
     	$this->leaves = ListLeave::all();
@@ -15,7 +15,7 @@ class LeaveLive extends Component
     public function resetField()
     {
     	$this->name = null;
-    	$this->duration = null;
+    	$this->desc = null;
     	$this->is_annual = null;
     }
     public function closeModal()
@@ -26,11 +26,11 @@ class LeaveLive extends Component
     {
     	$this->validate([
     		'name' => 'required|unique:list_leaves',
-    		'duration' => 'required',
+    		'desc' => 'required',
     	]);
     	ListLeave::create([
     		'name' => $this->name,
-    		'duration' => $this->duration,
+    		'desc' => $this->desc,
     		'is_annual' => $this->is_annual,
     	]);
       	session()->flash('success', 'new Leave added successfully.');
