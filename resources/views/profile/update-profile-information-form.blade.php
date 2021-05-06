@@ -65,6 +65,34 @@
             <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
             <x-jet-input-error for="email" class="mt-2" />
         </div>
+
+        <!-- Division -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="division" value="{{ __('Division') }}" />
+            <x-jet-input id="division" type="text" class="mt-1 block w-full" wire:model.defer="state.division" autocomplete="division" readonly/>
+            <x-jet-input-error for="division" class="mt-2" />
+        </div>
+
+        <!-- Role -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="roles" value="{{ __('Role') }}" />
+            <x-jet-input id="roles" type="text" class="mt-1 block w-full" wire:model.defer="state.roles" autocomplete="roles" readonly />
+            <x-jet-input-error for="roles" class="mt-2" />
+        </div>
+
+        <!-- Number Phone -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="number_phone" value="{{ __('Number Phone') }}" />
+            <x-jet-input id="number_phone" type="text" class="mt-1 block w-full" wire:model.defer="state.number_phone" autocomplete="number_phone" />
+            <x-jet-input-error for="number_phone" class="mt-2" />
+        </div>
+
+        <!-- Address -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="address" value="{{ __('Address') }}" />
+            <x-jet-input id="address" type="text" class="mt-1 block w-full" wire:model.defer="state.address" autocomplete="address" />
+            <x-jet-input-error for="address" class="mt-2" />
+        </div>
     </x-slot>
 
     <x-slot name="actions">

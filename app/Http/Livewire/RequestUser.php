@@ -6,6 +6,7 @@ use Livewire\Component;
 use App\Models\Request;
 use App\Models\User;
 use App\Models\ListLeave;
+use App\Models\Schedule;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestNotificationMail;
@@ -55,13 +56,26 @@ class RequestUser extends Component
             ]);
         }
         $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
-        if ($this->user->leave_count < 1 && $cekLeave->is_annual == 1 && !in_array($this->type, ['Overtime','Sick','Remote','Excused'])) {
+        if ($cekLeave != null) {
+            if ($this->user->leave_count < 1 && $cekLeave->is_annual == 1 && !in_array($this->type, ['Overtime','Sick','Remote','Excused'])) {
+                $this->closeModal();
+                $this->resetFields();
+                return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
+            }
+        }
+        $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
+        $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->user->id)->first();
+        if ($issetRequest != null) {
             $this->closeModal();
             $this->resetFields();
-            return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
+            return session()->flash('failure', "Can't submit request, duplicate request.");
+        }
+        elseif ($isSchedule == null) {
+            $this->closeModal();
+            $this->resetFields();
+            return session()->flash('failure', "Can't submit request, no schedule found.");
         }
         else{
-
             //send mail to manager if manager founded
             $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
             if($manager != null){
