@@ -312,6 +312,7 @@
 
                     <h2 class="font-semibold text-xl tracking-wide">{{auth()->user()->name}}</h2>                  
                     <h2 class="text-gray-50">{{auth()->user()->roles}}</h2> 
+                    <h2 class="text-gray-50">{{auth()->user()->leave_count}}</h2> 
                 </div>
                 <div class="flex-auto col-span-4 xl:col-span-6 h-full md:py-6 pt-8 md:pt-0">
                     <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl shadow-md static ">
