@@ -11,7 +11,7 @@ use App\Mail\RegisterSuccessfully;
 
 class UserLive extends Component
 {
-    public $users, $user, $name, $email, $role, $division,$joined_at, $isModal, $divisions;
+    public $users, $user, $name, $email, $role, $division, $joined_at, $number, $address, $isModal, $divisions;
     public function render()
     {
         $this->users = User::where('is_active',0)->orderBy('updated_at','asc')->get();
@@ -36,7 +36,6 @@ class UserLive extends Component
             'division' => 'required',
             'joined_at' => 'required|date',
         ]);
-        return dd($this->division);
         $cekManager = User::where('role','Manager')->where('division',$this->division)->first();
         if ($this->role == 'Manager' && $cekManager != null) {
             $this->addError('role', 'Manager at '.$this->division.' division already exist.');
@@ -49,6 +48,8 @@ class UserLive extends Component
                 'password' => Hash::make($password),
                 'role' => $this->role,
                 'roles' => $this->role,
+                'number' => $this->number,
+                'address' => $this->address,
                 'division' => $this->division
             ]);
             $data = [

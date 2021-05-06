@@ -43,6 +43,16 @@
                             @error('division') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4 flex-auto">
+                            <label for="formNumber" class="block text-gray-500 text-sm font-semibold mb-2">Number Phone:</label>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNumber" wire:model="number">
+                            @error('number') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4 flex-auto">
+                            <label for="formAddress" class="block text-gray-500 text-sm font-semibold mb-2">Address:</label>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formAddress" wire:model="address">
+                            @error('address') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4 flex-auto">
                             <label for="formJoinedAt" class="block text-gray-500 text-sm font-semibold mb-2">Role:</label>
                             <input type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formJoinedAt" wire:model="joined_at">
                             @error('joined_at') <span class="text-red-500">{{ $message }}</span>@enderror
