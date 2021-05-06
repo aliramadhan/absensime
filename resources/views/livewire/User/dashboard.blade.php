@@ -287,8 +287,12 @@
 
     </div>
 
-
-
+              <div class="overflow-hidden md:col-span-1 col-span-2 ">
+                <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
+                  <label class=" text-gray-700">Annual Leave Quota</label>
+                  <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
+                </div>
+              </div>
             <div class="overflow-hidden md:col-span-1 col-span-2">
 
               @include('livewire.User.tasks-components')
@@ -311,8 +315,8 @@
                   </div>
 
                     <h2 class="font-semibold text-xl tracking-wide">{{auth()->user()->name}}</h2>                  
-                    <h2 class="text-gray-50">{{auth()->user()->roles}}</h2> 
-                    <h2 class="text-gray-50">{{auth()->user()->leave_count}}</h2> 
+                    <h2 class="text-gray-50">{{auth()->user()->division}}</h2> 
+                  
                 </div>
                 <div class="flex-auto col-span-4 xl:col-span-6 h-full md:py-6 pt-8 md:pt-0">
                     <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl shadow-md static ">
