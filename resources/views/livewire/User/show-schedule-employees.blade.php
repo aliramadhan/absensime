@@ -63,7 +63,7 @@ textarea:focus, input:focus{
         <tr >
             <th class=" p-2 -ml-1 border-l border-r headcol bg-white w-60 whitespace-nowrap hide-scroll absolute border-t text-left   h-auto text-sm font-semibold shadow-xl z-10">{{$user->name}}</th>
             
-            @for($i = 1; $i <= $now->daysInMonth; $i++)
+            @for($i = 0; $i <= $now->daysInMonth; $i++)
                 @php
                     $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
                     $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
