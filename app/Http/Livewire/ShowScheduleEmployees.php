@@ -14,7 +14,7 @@ class ShowScheduleEmployees extends Component
 	public $schedules, $now, $users;
     public function render()
     {
-    	$this->users = User::where('role','Employee')->orWhere('role','Manager')->get();
+    	$this->users = User::where('role','Employee')->orWhere('role','Manager')->orderBy('name','asc')->get();
     	$this->now = $now = Carbon::now();
     	$schedules = Schedule::whereBetween('date',[$now->startOfMonth()->format('Y-m-d'),$now->endOfMonth()->format('Y-m-d')])->get();
         return view('livewire.User.show-schedule-employees');

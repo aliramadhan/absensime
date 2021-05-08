@@ -13,7 +13,7 @@ use App\Mail\RequestNotificationMail;
 
 class RequestUser extends Component
 {
-	public $user, $tasks,$now, $isModal, $type, $desc,$date, $time_overtime, $leaves;
+	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $leaves;
 
     public function render()
     {
@@ -36,6 +36,7 @@ class RequestUser extends Component
         $this->desc = null;
         $this->date = null;
         $this->time_overtime = null;
+        $this->is_cancel_order = null;
     }
     public function createRequest()
     {
@@ -99,6 +100,7 @@ class RequestUser extends Component
                 'desc' => $this->desc,
                 'date' => $this->date,
                 'time' => $this->time_overtime,
+                'is_cancel_order' => $this->is_cancel_order,
             ]);
             //send mail to manager
 

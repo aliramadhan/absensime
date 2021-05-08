@@ -16,5 +16,6 @@ class Request extends Model
         'time',
         'desc',
         'status',
+        'is_cancel_order',
     ];
 }

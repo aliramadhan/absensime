@@ -9,6 +9,7 @@ use App\Models\ListLeave;
 use App\Models\Division;
 use App\Models\User;
 use App\Models\Request as RequestEmployee;
+use DB;
 use Carbon\Carbon;
 
 class AdminController extends Controller

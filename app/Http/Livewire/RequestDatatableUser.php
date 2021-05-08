@@ -13,6 +13,7 @@ use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\TimeColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
+use DB;
 
 class RequestDatatableUser extends LivewireDatatable
 {
@@ -132,11 +133,20 @@ class RequestDatatableUser extends LivewireDatatable
     	$request = Request::find($id);
     	$user = User::find($request->employee_id);
     	if ($action == 'Accept') {
-    		$schedule = Schedule::whereDate('date',$request->date)->first();
+    		$schedule = Schedule::whereDate('date',$request->date)->where('employee_id',$user->id)->first();
     		$cekLeave = ListLeave::where('name','like','%'.$request->type.'%')->first();
     		if($cekLeave != null && $cekLeave->is_annual == 1){
     			$user->leave_count -= 1;
     			$user->save();
+	    		$schedule->update([
+	    			'status' => $request->type
+	    		]);
+	    		if ($request->is_cancel_order == 1) {
+					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+					if ($order != null) {
+						$order->delete();
+					}
+	    		}
     		}
     		elseif($request->type == 'Excused'){
     			$schedule->update([
@@ -147,6 +157,12 @@ class RequestDatatableUser extends LivewireDatatable
 	    		$schedule->update([
 	    			'status' => $request->type
 	    		]);
+	    		if ($request->is_cancel_order == 1) {
+					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+					if ($order != null) {
+						$order->delete();
+					}
+	    		}
     		}
     		$request->status = $action;
     		$request->save();
