@@ -15,7 +15,7 @@ use App\Mail\RequestNotificationMail;
 
 class DashboardUser extends Component
 {
-	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800;
+	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves;
     //for Request
@@ -329,6 +329,7 @@ class DashboardUser extends Component
                 $this->desc = null;
                 $this->date = null;
                 $this->time_overtime = null;
+                $this->is_cancel_order = null;
                 return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
             }
         }
@@ -368,6 +369,7 @@ class DashboardUser extends Component
                 'desc' => $this->desc,
                 'date' => $this->date,
                 'time' => $this->time_overtime,
+                'is_cancel_order' => $this->is_cancel_order,
             ]);
 
             $this->closeModal();
@@ -375,6 +377,7 @@ class DashboardUser extends Component
             $this->desc = null;
             $this->date = null;
             $this->time_overtime = null;
+            $this->is_cancel_order = null;
             session()->flash('message', 'Request successfully added.');
         }
     }

@@ -46,6 +46,11 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
+                        <div class="mb-4 px-2">
+                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm  mb-2">Cancel Order Catering ?</label>
+                            <input type="checkbox" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
+                            @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
                     </div>
                 </div>
     
