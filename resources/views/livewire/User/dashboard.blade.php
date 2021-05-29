@@ -422,8 +422,9 @@
              <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full">
               
               <h2 class="text-gray-700 text-center mb-2">@if($schedule != null)<i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{$schedule->current_position}}@endif</h2>
-              
-              @if($schedule != null && ($schedule->status == 'Working'))
+              @if(auth()->user()->is_active != 1)
+               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Your accoutn can't start record for several reason!</button>   
+              @elseif($schedule != null && ($schedule->status == 'Working'))
               <div class="grid grid-cols-2 items-center gap-4">
                 <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
                 <button wire:click="showStop()" class=" bg-red-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-stop-circle"></i><br> Stop</button>
@@ -434,7 +435,7 @@
               <label class="flex items-center mt-3 w-auto">
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md" wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Writing assignments ?</span>
               </label>
-              @elseif($schedule != null && $schedule->status == 'Not sign in')
+              @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1)
               <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Start Record</button>             
               <label class="flex items-center mt-3 w-auto">
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Writing assignments ?     </span>
