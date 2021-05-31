@@ -9,7 +9,7 @@
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form>
              <div class=" py-4 px-6 sm:flex border-b flex ">
-                <h1 class=" font-semibold text-2xl text-gray-600">Request Form {{$type}}</h1>                 
+                <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span></h1>                 
             </div>
                 <div class="bg-white px-4 pb-4 sm:p-6 sm:pb-4 font-semibold">
 
@@ -18,7 +18,7 @@
                         <div class="mb-4 px-2">
                             <label for="formType" class="block text-gray-500 text-sm  mb-2">Request Type</label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="type">
-                                <option hidden>Choose here...</option>
+                                <option hidden>Choose here</option>
                                 @foreach($leaves as $leave)
                                     <option>{{$leave->name}}</option>
                                 @endforeach
@@ -38,8 +38,8 @@
                         </div>
                         @endif
                         <div class="mb-4 px-2">
-                            <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Description </label>
-                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="fill in here...">
+                            <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
+                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @if($type == 'Overtime')

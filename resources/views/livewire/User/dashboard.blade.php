@@ -360,8 +360,7 @@
                           </div>
                           @else
                           <div class="gap-2 flex mx-auto items-center ">
-                            <h2 class="font-semibold text-sm md:text-base "> No Schedule Today</h2>                           
-
+                            <h2 class="font-semibold text-sm md:text-base "> No Schedule Today</h2>                          
                           </div>
                          
                           @endif
@@ -443,7 +442,7 @@
               @elseif($schedule != null && ($schedule->status == 'Done'))
                <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Today's recording is complete</button>               
               @else
-               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> No Schedule today!</button>             
+               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> No Schedule today!</button>             
               @endif              
             
             
