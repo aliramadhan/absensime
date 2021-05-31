@@ -25,6 +25,9 @@ textarea:focus, input:focus{
 	padding-left: 88px;
   
 }
+.scroll::-webkit-scrollbar{
+    height: 8px;
+}
 </style>
 
         
@@ -36,12 +39,12 @@ textarea:focus, input:focus{
               <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
           </button>
       </span>
-      <input type="search" id="myInput" onkeyup="searching()"  class="py-2 text-sm text-white bg-gray-100 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
+      <input type="search" id="myInput" onkeyup="searching()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
   </div>
-  <button class="text-sm focus:outline-none font-semibold bg-blue-400  hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg" wire:click="exportSchedule()">Export Schedule</button>
+  <button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg" wire:click="exportSchedule()">Export Schedule</button>
 </div>
      
-   <div class="scroll overflow-x-auto py-4">
+   <div class="scroll overflow-x-auto py-4 cursor-pointer">
     <table class="table-fixed border flex-initial">
           <thead>
     	<tr>
@@ -52,13 +55,19 @@ textarea:focus, input:focus{
                 @php
                     $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
                 @endphp
-                <th class='hover:bg-blue-400 px-6 py-1 bg-white font-semibold border-b-2 border-gray-400 w-32'>
+                @if($i==$now->daysInMonth)
+                <th class='bg-blue-500 text-white px-6 py-1 font-semibold border-b-2 border-gray-400 w-32'>
                     {{$date->format('d')}}
                 </th>
+                @else
+                <th class='hover:bg-yellow-500 hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-400 w-32'>
+                    {{$date->format('d')}}
+                </th>
+                @endif
             @endfor
         </tr>
      </thead>
-      <tbody class="border duration-300" id="myTable">
+      <tbody class="border-gray-50 duration-300" id="myTable">
         @foreach($users as $user)
         <tr >
             <th class="p-2 -ml-1 border-l border-r headcol bg-white w-60 whitespace-nowrap hide-scroll absolute border-t text-left h-auto text-sm font-semibold shadow-xl z-10 text-gray-700">{{$user->name}}</th>
@@ -68,14 +77,26 @@ textarea:focus, input:focus{
                     $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
                     $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
                 @endphp
-                @if($schedule == null)
-                    <td class='px-1 py-2 text-center border border-gray-500 text-xs w-48'>
-                    <label class="hover:bg-red-400 bg-red-600 text-white py-0 px-2 rounded-full"></label>
+                 @if($i==$now->daysInMonth)
+                 @if($schedule == null)
+                    <td class='px-1 py-2 text-center border border-gray-500 text-xs w-48 bg-blue-200'>
+                    <label class="hover:bg-red-300 duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label>
                     </td>
                 @elseif($schedule != null && $schedule->status != 'Not sign in')
-                    <td class='hover:bg-blue-400 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-400  text-xs'>{{$schedule->shift_name}}</td>
+                    <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-400 text-xs'>{{$schedule->shift_name}}</td>
                 @else
-                    <td class='hover:bg-blue-400 px-1 py-2 text-center bg-gray-200 border border-gray-400 font-semibold tracking-wide text-center text-xs '>{{$schedule->shift_name}}</td>
+                    <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-200 border border-gray-400 font-semibold tracking-wide text-center text-xs '>{{$schedule->shift_name}}</td>
+                @endif
+                 @else
+                @if($schedule == null)
+                    <td class='px-1 py-2 text-center border border-gray-500 text-xs w-48'>
+                    <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label>
+                    </td>
+                @elseif($schedule != null && $schedule->status != 'Not sign in')
+                    <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-400 text-xs'>{{$schedule->shift_name}}</td>
+                @else
+                    <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-200 border border-gray-400 font-semibold tracking-wide text-center text-xs '>{{$schedule->shift_name}}</td>
+                @endif
                 @endif
             @endfor
         </tr>
@@ -96,7 +117,13 @@ textarea:focus, input:focus{
           </span>
           Day Off
         </h4>
-
+        <h4 class="min-w-0 font-medium text-md leading-snug text-left flex items-center text-gray-700">
+          <span class="flex h-3 w-3 mr-2">
+            <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-blue-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
+          </span>
+          Today / Day Active
+        </h4>
         <h4 class="font-medium text-md flex items-center text-gray-700">           
             <span class="font-bold mr-2 w-3  text-lg">A</span>
             <label>08.00 - 16.00</label>
