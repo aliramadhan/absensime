@@ -181,7 +181,21 @@
       {{ $slot }}
     </main>
   </div>
-
+  <footer class="text-gray-600 body-font z-0">
+      <div class="container lg:px-5 md:px-4 px-2 py-8 mx-auto flex items-center flex-col md:flex-row">
+        <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
+         <img class="mb-1 logo-login h-10" src="{{ asset('resources/image/logo2.png')}}" alt="" height="38px">
+          <span class="ml-3 text-xl">Malang</span>
+        </a>
+        <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© 2021 24Slides —
+          <a href="#" class="text-gray-600 ml-1" rel="ADN Dev" target="_blank">ADN</a>
+        </p>
+         <span class="flex-col text-center sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+          You have problem or suggestion about app ? 
+          <a href="mailto:sigit@24slides.com?&cc=fajarfaz@gmail.com&subject=My%20Ask&body=your subject" class="ml-2 font-semibold hover:text-blue-400"> Email Us</a>
+         </span> 
+      </div>
+    </footer>
   @stack('modals')
 
   @livewireScripts
