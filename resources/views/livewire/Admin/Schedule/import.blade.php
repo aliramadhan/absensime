@@ -4,7 +4,7 @@
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
         <!-- This element is to trick the browser into centering the modal contents. -->
-        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>​
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"></span>
         
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form enctype="multipart/form-data">
@@ -28,7 +28,7 @@
                 </div>
     
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex justify-between">
-                     <a href="https://drive.google.com/u/0/uc?id=1w499X0E8za_22Fs7gN15ULND0qZ-LVy1&export=download" class="px-3 py-2 bg-blue-400 text-white rounded-lg font-semibold hover:bg-blue-600"><i class="fas fa-file-import mr-2 "></i>Download</a>
+                     <a href="{{ asset('format/ImportSchedule.xlsx') }}" class="px-3 py-2 bg-blue-400 text-white rounded-lg font-semibold hover:bg-blue-600"><i class="fas fa-file-import mr-2 "></i>Download</a>
                      <div class="flex  sm:flex-row-reverse gap-2">
                     <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                         <button wire:click.prevent="importSchedule()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5">
