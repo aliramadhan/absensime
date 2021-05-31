@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Absensi.com</title>
+    <title>Attendance App</title>
 </head>
 <body>
+	<label><b>Notification</b></label><br>
 	<p>
-		User {{$data['name']}} di nonaktifkan karena di stop record melebihi pergantian hari.
+		{{$data['name']}} account was deactivated because didn't stop recording until the next day
 	</p>
     <p>Thank you</p>
 </body>

@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Absensi.com</title>
+    <title>Attendance App</title>
 </head>
 <body>
+	<label><b>Notification</b></label><br>
 	<p>
-		Notif belum stop setelah shift
+		Your recording has exceeded shift, please stop recording
 	</p>
     <p>Thank you</p>
 </body>
