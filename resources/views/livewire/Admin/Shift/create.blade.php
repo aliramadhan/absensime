@@ -14,19 +14,19 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="">
                         <div class="mb-4">
-                            <label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Shift Name:</label>
-                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formName" wire:model="name">
+                            <label for="formNameShift" class="block text-gray-500 text-sm font-semibold mb-2">Shift Name:</label>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNameShift" wire:model="name">
                             @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="flex flex-row justify-between gap-4">
                         <div class="mb-4 flex-auto">
-                            <label for="formEmail" class="block text-gray-500 text-sm font-semibold mb-2">Time In:</label>
-                            <input type="time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formEmail" wire:model="time_in">
+                            <label for="formTimeInShift" class="block text-gray-500 text-sm font-semibold mb-2">Time In:</label>
+                            <input type="time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTimeInShift" wire:model="time_in">
                             @error('time_in') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4 flex-auto">
-                            <label for="formPhone" class="block text-gray-500 text-sm font-semibold mb-2">Time Out:</label>
-                            <input type="time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formPhone" wire:model="time_out">
+                            <label for="formTimeOutShift" class="block text-gray-500 text-sm font-semibold mb-2">Time Out:</label>
+                            <input type="time" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTimeOutShift" wire:model="time_out">
                             @error('time_out') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         </div>

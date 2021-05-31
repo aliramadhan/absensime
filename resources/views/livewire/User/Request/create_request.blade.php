@@ -9,7 +9,7 @@
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form>
              <div class=" py-4 px-6 sm:flex border-b flex ">
-                <h1 class=" font-semibold text-2xl text-gray-600">Request Form</h1>                 
+                <h1 class=" font-semibold text-2xl text-gray-600">Request Form {{$type}}</h1>                 
             </div>
                 <div class="bg-white px-4 pb-4 sm:p-6 sm:pb-4 font-semibold">
 
@@ -22,6 +22,7 @@
                                 @foreach($leaves as $leave)
                                     <option>{{$leave->name}}</option>
                                 @endforeach
+                                <option>Activated Record</option>
                                 <option>Sick</option>
                                 <option>Overtime</option>
                                 <option>Remote</option>
@@ -29,11 +30,13 @@
                             </select>
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
+                        @if($type != 'Activated Record')
                         <div class="mb-4 px-2">
                             <label for="formDate" class="block text-gray-500 text-sm  mb-2">Date </label>
                             <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
                             @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
+                        @endif
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Description </label>
                             <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="fill in here...">
@@ -46,11 +49,12 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
+                        <!--
                         <div class="mb-4 px-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  mb-2">Cancel Order Catering ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
-                        </div>
+                        </div>-->
                     </div>
                 </div>
     
