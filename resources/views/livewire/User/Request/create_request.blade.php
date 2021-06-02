@@ -31,7 +31,7 @@
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @if($type != 'Activated Record')
-                            @if($type  == 'Sick')
+                            @if($type  == 'Sick' || $leaves->contains('name',$type))
                             <div class="mb-4 flex ">
                             <div class="px-2 flex-auto">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
