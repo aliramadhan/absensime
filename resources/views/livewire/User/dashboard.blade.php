@@ -503,7 +503,7 @@
               @endif
               @endif
             </div>
-                   	<div class="bg-white overflow-hidden shadow-md sm:rounded-lg p-4 ">
+                   	<div class="bg-white overflow-hidden border-1 sm:rounded-lg p-4 ">
                   		<div class="grid md:grid-cols-6 items-center gap-2">
 	                      <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2">
                           <div class="flex flex-col">
@@ -616,7 +616,7 @@
       					    $hours = intval($total_minutes/60);
       					    $time_weekly = $hours."h ".$minutes."m";
                 	@endphp
-                   	<div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-4 flex flex-col ">
+                   	<div class="bg-white overflow-hidden sm:rounded-lg p-4 flex flex-col border">
                    		<div class="grid md:grid-cols-6  grid-rows-2 items-center gap-2">
 	                      <div class="col-span-3 flex flex-col text-2xl text-gray-800 leading-none font-semibold">
 	                        <h2 class="text-3xl leading-none">Recent</h2>
