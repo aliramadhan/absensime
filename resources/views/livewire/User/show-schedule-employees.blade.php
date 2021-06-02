@@ -124,16 +124,12 @@ textarea:focus, input:focus{
           </span>
           Today / Day Active
         </h4>
+        @foreach($shifts as $shift)
         <h4 class="font-medium text-md flex items-center text-gray-700">           
-            <span class="font-bold mr-2 w-3  text-lg">A</span>
-            <label>08.00 - 16.00</label>
-
+            <span class="font-bold mr-2 w-3  text-lg">{{$shift->name}}</span>
+            <label>{{Carbon\Carbon::parse($shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($shift->time_out)->format('H.i')}}</label>
         </h4>
-        <h4 class="font-medium text-md flex items-center text-gray-700">          
-            <span class="font-bold mr-2 w-3  text-lg">B</span>          
-            <label>09.00 - 17.00</label>
-        </h4>
-
+        @endforeach
       </div>     
      </div>
    
