@@ -497,7 +497,7 @@
                 $time = $hours."h ".$minutes."m";
                 @endphp
               @if($now->gte($time_out) && $time_out->diffInMinutes($now) <= 5)
-                <audio controls loop autoplay height="" width="">
+                <audio controls autoplay height="" width="">
                   <source src="{{ asset('audio/sound.mp3') }}" type="audio/mp3" />
                 </audio>
               @endif

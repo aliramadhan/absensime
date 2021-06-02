@@ -32,15 +32,17 @@
                         </div>
                         @if($type != 'Activated Record')
                             @if($type  == 'Sick')
-                            <div class="mb-4 px-2">
-                                <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">Start Date</label>
+                            <div class="mb-4 flex ">
+                            <div class="px-2 flex-auto">
+                                <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
                                 <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
                                 @error('startRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
-                            <div class="mb-4 px-2">
-                                <label for="formStopRequestDate" class="block text-gray-500 text-sm  mb-2">Stop Date</label>
+                            <div class="flex-auto px-2">
+                                <label for="formStopRequestDate" class="block text-gray-500 text-sm  mb-2">To</label>
                                 <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
                                 @error('stopRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
                             </div>
                             @else
                             <div class="mb-4 px-2">
@@ -63,9 +65,9 @@
                         </div>
                         @endif
                         @if($type != 'Overtime')
-                        <div class="mb-4 px-2">
-                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm  mb-2">Cancel Order Catering ?</label>
-                            <input type="checkbox" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
+                        <div class="mb-4 px-2 flex items-center gap-2">
+                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm ">Cancel Order Catering ?</label>
+                            <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
