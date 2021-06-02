@@ -199,7 +199,7 @@
             <a class="bg-blue-400 focus:outline-none  py-2 rounded-lg text-sm mt-4 text-white w-full hover:bg-blue-600 mx-auto modal-open" wire:click="showManageDivision()">Manage</a>
           </div>
           
-          <div class="flex hide-scroll lg:grid lg:grid-cols-4 xl:gap-8 gap-2 mt-2 text-gray-700">
+          <div class="flex hide-scroll lg:grid lg:grid-cols-4 xl:gap-8 gap-2 mt-2 text-gray-700 mb-4">
          
             <div class="flex hover:shadow-lg duration-200 justify-between bg-blue-200 gap-2 py-4 px-4 xl:px-8 rounded-lg flex-col items-center">
               <i class="fas fa-sign-in-alt bg-white px-6 text-gray-600 py-5 rounded-full text-3xl "></i>
@@ -230,7 +230,7 @@
       </div>
     </div>
  
-   <div  wire:loading wire:loading.min.300ms wire:loading.delay.500ms wire:loading.class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" wire:target="exportShift, exportSchedule, exportRequest, exportAll">
+   <div wire:loading wire:loading.min.300ms wire:loading.delay.500ms wire:loading.class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" wire:target="exportShift, exportSchedule, exportRequest, exportAll">
     <section class="h-full w-full border-box lg:px-24 md:px-16 sm:px-8 px-8 sm:pt-32 pt-20 sm:pb-32 pb-20 transition-all duration-500 linear" style="background-image: linear-gradient(to bottom, rgb(31 29 43 / 76%), rgba(39, 37, 53, 1));"    >     
       <div class="container mx-auto flex items-center justify-center flex-col ">        
         <img class="md:w-2/12 w-7/12 mb-10  object-center rounded-full border-4 border-white p-4" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pg0KPCEtLSBHZW5lcmF0b3I6IEFkb2JlIElsbHVzdHJhdG9yIDE5LjAuMCwgU1ZHIEV4cG9ydCBQbHVnLUluIC4gU1ZHIFZlcnNpb246IDYuMDAgQnVpbGQgMCkgIC0tPg0KPHN2ZyB2ZXJzaW9uPSIxLjEiIGlkPSJDYXBhXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB2aWV3Qm94PSIwIDAgNDY0IDQ2NCIgc3R5bGU9ImVuYWJsZS1iYWNrZ3JvdW5kOm5ldyAwIDAgNDY0IDQ2NDsiIHhtbDpzcGFjZT0icHJlc2VydmUiPg0KPHBhdGggc3R5bGU9ImZpbGw6I0ZDRjA1QTsiIGQ9Ik0zNzYsNDY0SDQwVjMyaDIyNGwxMTIsMTEyVjQ2NHoiLz4NCjxwYXRoIHN0eWxlPSJmaWxsOiNGREJENDA7IiBkPSJNNDI0LDQxNkg4OFYwaDIyNGwxMTIsMTEyVjQxNnoiLz4NCjxwYXRoIHN0eWxlPSJmaWxsOiNGNDlFMjE7IiBkPSJNMzEyLDExMmgxMTJMMzEyLDBWMTEyeiIvPg0KPGc+DQoJPHBhdGggc3R5bGU9ImZpbGw6I0U5Njg2QTsiIGQ9Ik0xNTIsMzUyaC0xNmMtNC40MTgsMC04LTMuNTgyLTgtOHMzLjU4Mi04LDgtOGgxNmM0LjQxOCwwLDgsMy41ODIsOCw4UzE1Ni40MTgsMzUyLDE1MiwzNTJ6Ii8+DQoJPHBhdGggc3R5bGU9ImZpbGw6I0U5Njg2QTsiIGQ9Ik0zNzYsMzUySDE4NGMtNC40MTgsMC04LTMuNTgyLTgtOHMzLjU4Mi04LDgtOGgxOTJjNC40MTgsMCw4LDMuNTgyLDgsOFMzODAuNDE4LDM1MiwzNzYsMzUyeiIvPg0KCTxwYXRoIHN0eWxlPSJmaWxsOiNFOTY4NkE7IiBkPSJNMTUyLDMwNGgtMTZjLTQuNDE4LDAtOC0zLjU4Mi04LThzMy41ODItOCw4LThoMTZjNC40MTgsMCw4LDMuNTgyLDgsOFMxNTYuNDE4LDMwNCwxNTIsMzA0eiIvPg0KCTxwYXRoIHN0eWxlPSJmaWxsOiNFOTY4NkE7IiBkPSJNMzc2LDMwNEgxODRjLTQuNDE4LDAtOC0zLjU4Mi04LThzMy41ODItOCw4LThoMTkyYzQuNDE4LDAsOCwzLjU4Miw4LDhTMzgwLjQxOCwzMDQsMzc2LDMwNHoiLz4NCgk8cGF0aCBzdHlsZT0iZmlsbDojRTk2ODZBOyIgZD0iTTE1MiwyNTZoLTE2Yy00LjQxOCwwLTgtMy41ODItOC04czMuNTgyLTgsOC04aDE2YzQuNDE4LDAsOCwzLjU4Miw4LDhTMTU2LjQxOCwyNTYsMTUyLDI1NnoiLz4NCgk8cGF0aCBzdHlsZT0iZmlsbDojRTk2ODZBOyIgZD0iTTM3NiwyNTZIMTg0Yy00LjQxOCwwLTgtMy41ODItOC04czMuNTgyLTgsOC04aDE5MmM0LjQxOCwwLDgsMy41ODIsOCw4UzM4MC40MTgsMjU2LDM3NiwyNTZ6Ii8+DQoJPHBhdGggc3R5bGU9ImZpbGw6I0U5Njg2QTsiIGQ9Ik0xNTIsMjA4aC0xNmMtNC40MTgsMC04LTMuNTgyLTgtOHMzLjU4Mi04LDgtOGgxNmM0LjQxOCwwLDgsMy41ODIsOCw4UzE1Ni40MTgsMjA4LDE1MiwyMDh6Ii8+DQoJPHBhdGggc3R5bGU9ImZpbGw6I0U5Njg2QTsiIGQ9Ik0zNzYsMjA4SDE4NGMtNC40MTgsMC04LTMuNTgyLTgtOHMzLjU4Mi04LDgtOGgxOTJjNC40MTgsMCw4LDMuNTgyLDgsOFMzODAuNDE4LDIwOCwzNzYsMjA4eiIvPg0KCTxwYXRoIHN0eWxlPSJmaWxsOiNFOTY4NkE7IiBkPSJNMTUyLDE2MGgtMTZjLTQuNDE4LDAtOC0zLjU4Mi04LThzMy41ODItOCw4LThoMTZjNC40MTgsMCw4LDMuNTgyLDgsOFMxNTYuNDE4LDE2MCwxNTIsMTYweiIvPg0KCTxwYXRoIHN0eWxlPSJmaWxsOiNFOTY4NkE7IiBkPSJNMzc2LDE2MEgxODRjLTQuNDE4LDAtOC0zLjU4Mi04LThzMy41ODItOCw4LThoMTkyYzQuNDE4LDAsOCwzLjU4Miw4LDhTMzgwLjQxOCwxNjAsMzc2LDE2MHoiLz4NCgk8cGF0aCBzdHlsZT0iZmlsbDojRTk2ODZBOyIgZD0iTTEzNiw3Mmg0OHY0OGgtNDhWNzJ6Ii8+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8Zz4NCjwvZz4NCjxnPg0KPC9nPg0KPGc+DQo8L2c+DQo8L3N2Zz4NCg==" alt="">
@@ -268,4 +268,4 @@
       </script>
      
 </div>
-<div class="bg-white w-full text-center mt-10">footer</div>
+

@@ -54,8 +54,9 @@ textarea:focus, input:focus{
             @for($i = 1; $i <= $now->daysInMonth; $i++)
                 @php
                     $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
+                     $mytimenow=Carbon\Carbon::now('d');
                 @endphp
-                @if($i==$now->daysInMonth)
+                @if($i==$mytimenow->format('d'))
                 <th class='bg-blue-500 text-white px-6 py-1 font-semibold border-b-2 border-gray-400 w-32'>
                     {{$date->format('d')}}
                 </th>
@@ -77,7 +78,7 @@ textarea:focus, input:focus{
                     $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
                     $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
                 @endphp
-                 @if($i==$now->daysInMonth)
+                 @if($i==$mytimenow->format('d'))
                  @if($schedule == null)
                     <td class='px-1 py-2 text-center border border-gray-500 text-xs w-48 bg-blue-200'>
                     <label class="hover:bg-red-300 duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label>
@@ -105,33 +106,68 @@ textarea:focus, input:focus{
     </table>
     </div>
      <div class="flex flex-col row-span-1 text-right pointer px-4 capitalize gap-4 bg-white py-4 bg-gray-100 rounded-xl border mt-4">
-        <h4 class="min-w-0 text-gray-900 font-semibold text-xl leading-snug text-left " >         
+        <h4 class=" text-gray-900 font-semibold text-xl leading-snug text-left " >         
          Legend         
        </h4>
-       <div class="flex flex-col gap-2" id="hideTarget">
+       <div class="grid grid-cols-3 gap-2">
         
-        <h4 class="min-w-0 font-medium text-md leading-snug text-left flex items-center text-gray-700">
+        <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">
           <span class="flex h-3 w-3 mr-2">
             <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-3 w-3" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></span>
           </span>
           Day Off
         </h4>
-        <h4 class="min-w-0 font-medium text-md leading-snug text-left flex items-center text-gray-700">
+        <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
           <span class="flex h-3 w-3 mr-2">
             <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-blue-400 opacity-75"></span>
             <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
           </span>
           Today / Day Active
         </h4>
-        <h4 class="font-medium text-md flex items-center text-gray-700">           
-            <span class="font-bold mr-2 w-3  text-lg">A</span>
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">           
+            <span class="font-bold mr-2 w-min-3  text-lg">A</span>
             <label>08.00 - 16.00</label>
 
         </h4>
-        <h4 class="font-medium text-md flex items-center text-gray-700">          
-            <span class="font-bold mr-2 w-3  text-lg">B</span>          
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
+            <span class="font-bold mr-2 w-min-3  text-lg">B</span>
+            <label>13.00 - 17.00</label>
+        </h4>
+
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
+            <span class="font-bold mr-2 w-min-3  text-lg">C</span>
+            <label>17.00 - 21.00</label>
+        </h4>
+
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
+            <span class="font-bold mr-2 w-min-3  text-lg">W</span>
+            <label>14.00 - 21.00</label>
+        </h4>
+
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
+            <span class="font-bold mr-2 w-min-3  text-lg">X</span>
+            <label>12.00 - 21.00</label>
+        </h4>
+
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
+            <span class="font-bold mr-2 w-min-3  text-lg">Y</span>
             <label>09.00 - 17.00</label>
+        </h4>
+
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
+            <span class="font-bold mr-2 w-min-3  text-lg">Z</span>
+            <label>08.00 - 17.00</label>
+        </h4>
+
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
+            <span class="font-bold mr-2 w-min-3  text-lg">7(S)</span>
+            <label>08.00 - 16.00</label>
+        </h4>
+
+        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">          
+            <span class="font-bold mr-2 w-min-3  text-lg">7</span>          
+            <label>14.00 - 21.00</label>
         </h4>
 
       </div>     

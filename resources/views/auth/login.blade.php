@@ -42,7 +42,7 @@
                 {{ __('Forgot your password?') }}
             </a>
             @endif
-            <x-jet-button class="font-semibold text-base bg-yellow-500 text-center px-8 hover:yellow-600 md:w-auto w-full focus:border-yellow-800">
+            <x-jet-button class="font-semibold text-base bg-yellow-500 text-center px-8 hover:bg-blue-400 md:w-auto w-full focus:border-yellow-100 duration-500">
                 {{ __('Sign In') }}
             </x-jet-button>
         </div>
