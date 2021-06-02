@@ -31,11 +31,24 @@
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @if($type != 'Activated Record')
-                        <div class="mb-4 px-2">
-                            <label for="formDate" class="block text-gray-500 text-sm  mb-2">Date </label>
-                            <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                            @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
-                        </div>
+                            @if($type  == 'Sick')
+                            <div class="mb-4 px-2">
+                                <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">Start Date</label>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
+                                @error('startRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                            <div class="mb-4 px-2">
+                                <label for="formStopRequestDate" class="block text-gray-500 text-sm  mb-2">Stop Date</label>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
+                                @error('stopRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                            @else
+                            <div class="mb-4 px-2">
+                                <label for="formDate" class="block text-gray-500 text-sm  mb-2">Date </label>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
+                                @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                            @endif
                         @endif
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
@@ -49,12 +62,13 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        <!--
+                        @if($type != 'Overtime')
                         <div class="mb-4 px-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  mb-2">Cancel Order Catering ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
-                        </div>-->
+                        </div>
+                        @endif
                     </div>
                 </div>
     

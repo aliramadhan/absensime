@@ -57,7 +57,7 @@ class RequestDatatableUser extends LivewireDatatable
 			        return $time/60;
 	            })->label('Duration Request(Hour)'),
 	        	Column::name('status')
-	                ->label('Status')->filterable(['Waiting', 'Approve', 'Decline']),       
+	                ->label('Status')->filterable(['Waiting', 'Accept', 'Decline']),       
 	            DateColumn::name('created_at')
 	                ->label('Request at')
 	                ->format('d F Y H:i'),
@@ -114,7 +114,7 @@ class RequestDatatableUser extends LivewireDatatable
 			        return $time/60;
 	            })->label('Duration Request(Hour)'),
 	        	Column::name('status')
-	                ->label('Status')->filterable(['Waiting', 'Approve', 'Decline']),           
+	                ->label('Status')->filterable(['Waiting', 'Accept', 'Decline']),           
 	            DateColumn::name('created_at')
 	                ->label('Request at')
 	                ->format('H:i l, d F Y'),
