@@ -125,51 +125,12 @@ textarea:focus, input:focus{
           </span>
           Today / Day Active
         </h4>
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">           
-            <span class="font-bold mr-2 w-min-3  text-lg">A</span>
-            <label>08.00 - 16.00</label>
-
+@foreach($shifts as $shift)
+        <h4 class="font-medium text-md flex items-center text-gray-700">           
+            <span class="font-bold mr-2 w-3  text-lg">{{$shift->name}}</span>
+            <label>{{Carbon\Carbon::parse($shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($shift->time_out)->format('H.i')}}</label>
         </h4>
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
-            <span class="font-bold mr-2 w-min-3  text-lg">B</span>
-            <label>13.00 - 17.00</label>
-        </h4>
-
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
-            <span class="font-bold mr-2 w-min-3  text-lg">C</span>
-            <label>17.00 - 21.00</label>
-        </h4>
-
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
-            <span class="font-bold mr-2 w-min-3  text-lg">W</span>
-            <label>14.00 - 21.00</label>
-        </h4>
-
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
-            <span class="font-bold mr-2 w-min-3  text-lg">X</span>
-            <label>12.00 - 21.00</label>
-        </h4>
-
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
-            <span class="font-bold mr-2 w-min-3  text-lg">Y</span>
-            <label>09.00 - 17.00</label>
-        </h4>
-
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
-            <span class="font-bold mr-2 w-min-3  text-lg">Z</span>
-            <label>08.00 - 17.00</label>
-        </h4>
-
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">
-            <span class="font-bold mr-2 w-min-3  text-lg">7(S)</span>
-            <label>08.00 - 16.00</label>
-        </h4>
-
-        <h4 class="font-medium flex-1 text-md flex items-center text-gray-700">          
-            <span class="font-bold mr-2 w-min-3  text-lg">7</span>          
-            <label>14.00 - 21.00</label>
-        </h4>
-
+        @endforeach
       </div>     
      </div>
    
