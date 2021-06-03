@@ -57,11 +57,11 @@
             $mytimenow=Carbon\Carbon::now('d');
             @endphp
             @if($i==$mytimenow->format('d'))
-            <th class='bg-blue-500 text-white px-6 py-1 font-semibold border-b-2 border-gray-400 w-32'>
+            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold border-b-2 rounded-t-md w-32 shadow-lg'>
                 {{$date->format('d')}}
             </th>
             @else
-            <th class='hover:bg-yellow-500 hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-400 w-32'>
+            <th class='hover:bg-yellow-500 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-400 w-32'>
                 {{$date->format('d')}}
             </th>
             @endif
@@ -80,13 +80,13 @@
                 @endphp
                 @if($i==$mytimenow->format('d'))
                 @if($schedule == null)
-                <td class='px-1 py-2 text-center border border-gray-500 text-xs w-48 bg-blue-200'>
-                    <label class="hover:bg-red-300 duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label>
+                <td class='px-1 py-2 text-center z-10 shadow-md text-xs w-48 bg-blue-400'>
+                    <label class="hover:bg-red-300 border-2 border-white duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label>
                 </td>
                 @elseif($schedule != null && $schedule->status != 'Not sign in')
-                <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-400 text-xs'>{{$schedule->shift_name}}</td>
+                <td class='hover:bg-blue-500 px-1 py-2 text-center font-semibold tracking-wide text-center border border-white bg-blue-400 text-xs text-white'>{{$schedule->shift_name}}</td>
                 @else
-                <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-200 border border-gray-400 font-semibold tracking-wide text-center text-xs '>{{$schedule->shift_name}}</td>
+                <td class='hover:bg-blue-500 px-1 py-2 text-center bg-gray-200 border border-white bg-blue-400 font-semibold tracking-wide text-center text-xs text-white '>{{$schedule->shift_name}}</td>
                 @endif
                 @else
                 @if($schedule == null)
@@ -109,7 +109,7 @@
     <h4 class=" text-gray-900 font-semibold text-xl leading-snug text-left " >         
        Legend         
    </h4>
-   <div class="grid grid-cols-3 gap-2">
+   <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
 
     <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">
       <span class="flex h-3 w-3 mr-2">
