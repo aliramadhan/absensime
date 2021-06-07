@@ -512,9 +512,9 @@
 	                        <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-orange-500">{{ Carbon\Carbon::parse($schedule->started_at)->format('H:i') }}</span></h2>@endif
                           </div>
                           <div class="block md:hidden flex flex-col md:text-sm xl:text-base border-2 rounded-xl px-2 py-1 text-gray-500 leading-none font-semibold">
-                            <h2 class="font-xs leading-tight">WFH<span class="ml-2 text-gray-800">{{$wfh}}</span></h2>
-                            <h2 class="font-xs leading-tight">WFO<span class="ml-2 text-gray-800">{{$wfo}}</span></h2>
-                            <h2 class="font-xs leading-tight">BT<span class="ml-2 text-gray-800">{{$business_travel}}</span></h2>
+                            <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-800">{{$wfh}}</span></h2>
+                            <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-800">{{$wfo}}</span></h2>
+                            <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-right flex-auto text-gray-800">{{$business_travel}}</span></h2>
                           </div>
 	                      </div>
 	                      <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold">
@@ -526,9 +526,9 @@
 	                       <h2 class="md:text-sm xl:text-lg text-base text-gray-500 font-base">Productive</h2>
 	                     </div>
                       <div class="hidden md:block flex flex-col md:text-xs xl:text-sm border-2 rounded-xl px-2 py-1 text-gray-500 leading-none font-semibold">
-                        <h2 class="font-base leading-tight">WFH<span class="ml-2 text-gray-800">{{$wfh}}</span></h2>
-                        <h2 class="font-base leading-tight">WFO<span class="ml-2 text-gray-800">{{$wfo}}</span></h2>
-                        <h2 class="font-base leading-tight">BT<span class="ml-2 text-gray-800">{{$business_travel}}</span></h2>
+                        <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-800">{{$wfh}}</span></h2>
+                        <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-800">{{$wfo}}</span></h2>
+                        <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-gray-800">{{$business_travel}}</span></h2>
                       </div>
 	                   </div>
 	               

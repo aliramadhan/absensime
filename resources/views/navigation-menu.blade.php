@@ -135,7 +135,8 @@
                     </x-jet-nav-link>
                      <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
                         {{ __('History Schedule') }}
-                    </x-jet-nav-link>                  
+                    </x-jet-nav-link>       
+                 
 
                     @endif
                 </div>
@@ -245,7 +246,7 @@
                     </x-jet-dropdown>
                 </div>
 
-                 <div class="ml-3 relative">
+                 <div class="relative">
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
@@ -328,6 +329,11 @@
                     <x-jet-responsive-nav-link href="{{ route('manager.request') }}" :active="request()->routeIs('manager.request')">
                         {{ __('Request') }}
                     </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link hhref="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
+                        {{ __('History') }}
+                    </x-jet-responsive-nav-link>
+               
+                   
                     @endif
                     
            

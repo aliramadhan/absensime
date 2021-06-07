@@ -123,7 +123,7 @@
   
   <div>
     @if (session()->has('success'))
-    <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 1000)">
+    <div class="flex absolute bottom-10 z-20" x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 1000)">
       <div class="m-auto">
         <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
           <div class="flex flex-row">
@@ -143,7 +143,7 @@
     @endif
 
     @if (session()->has('failure'))
-    <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show.transition="show" x-init="setTimeout(() => show = false, 1000)">
+    <div class="flex absolute bottom-10 z-20" x-data="{ show: true }" x-show.transition="show" x-init="setTimeout(() => show = false, 1000)">
       <div class="m-auto">
         <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
           <div class="flex flex-row">
