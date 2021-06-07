@@ -79,7 +79,7 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if($type != 'Overtime')
+                        @if(($type != 'Overtime')&&($type != 'Activated Record'))
                         <div class="mb-4 px-2 flex items-center gap-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Cancel your <span class="text-orange-500">catering</span> order ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
