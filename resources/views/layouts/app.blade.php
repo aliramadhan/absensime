@@ -121,9 +121,9 @@
 </head>
 <body class="antialiased">
   
-  <div>
+ 
     @if (session()->has('success'))
-    <div class="flex absolute bottom-10 z-20" x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 1000)">
+    <div class="flex absolute bottom-10 z-20" x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 8000)">
       <div class="m-auto">
         <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
           <div class="flex flex-row">
@@ -143,9 +143,9 @@
     @endif
 
     @if (session()->has('failure'))
-    <div class="flex absolute bottom-10 z-20" x-data="{ show: true }" x-show.transition="show" x-init="setTimeout(() => show = false, 1000)">
+        <div class="flex absolute bottom-10 z-20 shadow-xl" x-data="{ show: true }" x-show.transition="show" x-init="setTimeout(() => show = false, 8000)">
       <div class="m-auto">
-        <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
+        <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
           <div class="flex flex-row">
             <div class="px-2">
               <i class="fas fa-times-circle text-red-600"></i>
@@ -157,10 +157,11 @@
           </div>
         </div>
       </div>
-    </div>      
+    </div>  
 
     @endif
-  </div>
+
+
   <x-jet-banner />
 
   <div class="min-h-screen bg-gray-100">

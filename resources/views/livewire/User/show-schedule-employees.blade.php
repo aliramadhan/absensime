@@ -84,9 +84,9 @@
                     <label class="hover:bg-red-300 border-2 border-white duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label>
                 </td>
                 @elseif($schedule != null && $schedule->status != 'Not sign in')
-                <td class='hover:bg-blue-500 px-1 py-2 text-center font-semibold tracking-wide text-center border border-white bg-blue-400 text-xs text-white'>{{$schedule->shift_name}}</td>
+                <td class='hover:bg-blue-500 px-1 py-2 text-center font-semibold tracking-wide text-center border border-white bg-blue-400 text-sm text-white'>{{$schedule->shift_name}}</td>
                 @else
-                <td class='hover:bg-blue-500 px-1 py-2 text-center bg-gray-200 border border-white bg-blue-400 font-semibold tracking-wide text-center text-xs text-white '>{{$schedule->shift_name}}</td>
+                <td class='hover:bg-blue-500 px-1 py-2 text-center bg-gray-200 border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
                 @endif
                 @else
                 @if($schedule == null)
@@ -94,9 +94,9 @@
                     <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label>
                 </td>
                 @elseif($schedule != null && $schedule->status != 'Not sign in')
-                <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-400 text-xs'>{{$schedule->shift_name}}</td>
+                <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-400 text-sm'>{{$schedule->shift_name}}</td>
                 @else
-                <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-200 border border-gray-400 font-semibold tracking-wide text-center text-xs '>{{$schedule->shift_name}}</td>
+                <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-200 border border-gray-400 font-semibold tracking-wide text-center text-sm '>{{$schedule->shift_name}}</td>
                 @endif
                 @endif
                 @endfor
