@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Request;
 use App\Models\HistorySchedule;
 use App\Models\ListLeave;
+use App\Models\Shift;
 use Carbon\Carbon;
 use Geocoder;
 use Illuminate\Support\Facades\Mail;
@@ -17,7 +18,7 @@ class DashboardUser extends Component
 {
 	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
-    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves;
+    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts;
     //for Request
     public $type, $desc,$date,$time_overtime, $tasking = false,$stopRequestDate, $startRequestDate;
 
@@ -48,6 +49,7 @@ class DashboardUser extends Component
         $unproductive = 0;
         $this->user = auth()->user();
         $this->now = Carbon::now();
+        $this->shifts = Shift::all();
         $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
     	$this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
         if ($this->schedule != null) {
@@ -333,6 +335,14 @@ class DashboardUser extends Component
             ]);
             $this->is_cancel_order = 0;
         }
+        elseif ($this->type == 'Change Shift') {
+            $this->validate([
+                'type' => 'required|string',
+                'date' => 'required|date',
+                'newShift' => 'required'
+            ]);
+            $this->is_cancel_order = 0;
+        }
         else{
             $this->validate([
                 'type' => 'required|string',
@@ -380,7 +390,7 @@ class DashboardUser extends Component
             return session()->flash('failure', "Can't submit request, no schedule found.");
         }
         else{
-
+            //create activated record
             if ($this->type == 'Activated Record') {
                 $request = Request::create([
                     'employee_id' => $this->user->id,
@@ -395,6 +405,7 @@ class DashboardUser extends Component
                 $this->user->update(['is_active' => 1]);
             }
             else{
+                //create request sick
                 if ($this->type == 'Sick') {
                     $startDate = Carbon::parse($this->startRequestDate);
                     $stopDate = Carbon::parse($this->stopRequestDate);
@@ -410,7 +421,6 @@ class DashboardUser extends Component
                                 'type' => $this->type,
                                 'desc' => $this->desc,
                                 'date' => $startDate,
-                                'time' => $this->time_overtime,
                                 'is_cancel_order' => $this->is_cancel_order,
                                 'status' => 'Accept'
                             ]);
@@ -433,6 +443,73 @@ class DashboardUser extends Component
                         Mail::to($admin->email)->send(new RequestNotificationMail($data));
                     }
                 }
+                //create request leave / remote
+                elseif($cekLeave != null || $this->type == 'Remote'){
+                    $startDate = Carbon::parse($this->startRequestDate);
+                    $stopDate = Carbon::parse($this->stopRequestDate);
+                    for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
+                        $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
+                        if ($isSchedule == null) {
+                            continue;
+                        }
+                        else{
+                            $request = Request::create([
+                                'employee_id' => $this->user->id,
+                                'employee_name' => $this->user->name,
+                                'type' => $this->type,
+                                'desc' => $this->desc,
+                                'date' => $startDate,
+                                'is_cancel_order' => $this->is_cancel_order,
+                            ]);
+                        }
+                    }
+
+                    //send mail to manager if manager founded
+                    $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+                    if($manager != null){
+                        $date = $this->startRequestDate .' -> '.$this->stopRequestDate;
+                        $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date, 'desc' => $this->desc,'user_mail' => $this->user->email);
+                        Mail::to($manager->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    //send mail to admin
+                    $admins = User::where('role','Admin')->get();
+                    foreach ($admins as $admin) {
+                        $date = $this->startRequestDate .' -> '.$this->stopRequestDate;
+                        $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date, 'desc' => $this->desc,'user_mail' => $this->user->email);
+                        Mail::to($admin->email)->send(new RequestNotificationMail($data));
+                    }
+                }
+                //create request change shift
+                elseif ($this->type == 'Change Shift') {
+                    $shift = Shift::find($this->newShift);
+                    $date = Carbon::parse($this->date);
+                    $desc = $this->user->name .' change shift from '.$isSchedule->shift_name.' to '.$shift->name.' for date '.$date->format('d F Y');
+                    //send mail to manager if manager founded
+                    $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+                    if($manager != null){
+                        $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $desc,'user_mail' => $this->user->email);
+                        Mail::to($manager->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    //send mail to admin
+                    $admins = User::where('role','Admin')->get();
+                    foreach ($admins as $admin) {
+                        $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $desc,'user_mail' => $this->user->email);
+                        Mail::to($admin->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    $request = Request::create([
+                        'employee_id' => $this->user->id,
+                        'employee_name' => $this->user->name,
+                        'type' => $this->type,
+                        'desc' => $desc,
+                        'date' => $this->date,
+                        'is_cancel_order' => $this->is_cancel_order,
+                    ]);
+
+                }
+                //create request overtime
                 else{
                     //send mail to manager if manager founded
                     $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
@@ -460,7 +537,6 @@ class DashboardUser extends Component
                         'is_cancel_order' => $this->is_cancel_order,
                     ]);
                 }
-                
             }
 
             $this->closeModal();

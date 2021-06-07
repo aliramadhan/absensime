@@ -26,37 +26,56 @@
                                 <option>Sick</option>
                                 <option>Overtime</option>
                                 <option>Remote</option>
+                                <option>Change Shift</option>
                                 <option>Excused</option>
                             </select>
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @if($type != 'Activated Record')
-                            @if($type  == 'Sick' || $leaves->contains('name',$type))
+                            @if($type  == 'Sick' || $leaves->contains('name',$type) || $type == 'Remote')
                             <div class="mb-4 flex ">
                             <div class="px-2 flex-auto">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
-                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" @if($type != 'Sick') min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @endif>
                                 @error('startRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                             <div class="flex-auto px-2">
                                 <label for="formStopRequestDate" class="block text-gray-500 text-sm  mb-2">To</label>
-                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate" @if($type != 'Sick') min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @endif>
                                 @error('stopRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                             </div>
                             @else
                             <div class="mb-4 px-2">
                                 <label for="formDate" class="block text-gray-500 text-sm  mb-2">Date </label>
-                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $now->lte(Carbon\Carbon::parse('today 8am'))) min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
                                 @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                             @endif
                         @endif
+                        @if($type == 'Change Shift')
+                        <div class="mb-4 px-2">
+                            <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">New Shift </label>
+                            <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
+                                <option hidden>Choose here</option>
+                                @foreach($shifts as $listShift)
+                                @if($shift->id == $listShift->id)
+
+                                @else
+                                <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                            @error('newShift') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        @endif
+                        @if($type != 'Change Shift')
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                             <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
+                        @endif
                         @if($type == 'Overtime')
                         <div class="mb-4 px-2">
                             <label for="formTime" class="block text-gray-500 text-sm  mb-2">Duration (minute) :</label>

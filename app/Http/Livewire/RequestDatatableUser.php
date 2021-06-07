@@ -7,6 +7,7 @@ use App\Models\Request;
 use App\Models\Schedule;
 use App\Models\User;
 use App\Models\ListLeave;
+use App\Models\Shift;
 use Illuminate\Support\Str;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -37,6 +38,8 @@ class RequestDatatableUser extends LivewireDatatable
     	$list_leave->push('Sick');
     	$list_leave->push('Overtime');
     	$list_leave->push('Remote');
+    	$list_leave->push('Change Shift');
+    	$list_leave->push('Excused');
     	if (auth()->user()->roles == 'Manager') {
 	        return [
 	            Column::callback(['employee_id'], function ($employee_id) {
@@ -141,28 +144,35 @@ class RequestDatatableUser extends LivewireDatatable
 	    		$schedule->update([
 	    			'status' => $request->type
 	    		]);
-	    		if ($request->is_cancel_order == 1) {
-					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
-					if ($order != null) {
-						$order->delete();
-					}
-	    		}
     		}
     		elseif($request->type == 'Excused'){
     			$schedule->update([
     				'status_depart' => 'Present'
     			]);
     		}
+    		elseif($request->type == 'Change Shift'){
+				$string = $request->desc;
+				$prefix = "to ";
+				$index = strpos($string, $prefix) + strlen($prefix);
+				$result = substr($string, $index);
+				$pieces = explode(" ", $result);
+				$shift = Shift::where('name',$pieces[0].' '.$pieces[1])->first();
+				$schedule->update([
+					'shift_id' => $shift->id,
+					'shift_name' => $shift->name
+				]);
+    		}
     		elseif($request->type != 'Overtime' && $request->type != 'Excused'){
 	    		$schedule->update([
 	    			'status' => $request->type
 	    		]);
-	    		if ($request->is_cancel_order == 1) {
-					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
-					if ($order != null) {
-						$order->delete();
-					}
-	    		}
+    		}
+    		//cancel catering
+    		if ($request->is_cancel_order == 1) {
+				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+				if ($order != null) {
+					$order->delete();
+				}
     		}
     		$request->status = $action;
     		$request->save();
