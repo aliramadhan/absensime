@@ -59,11 +59,7 @@
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
                                 <option hidden>Choose here</option>
                                 @foreach($shifts as $listShift)
-                                @if($shift->id == $listShift->id)
-
-                                @else
-                                <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
-                                @endif
+                                    <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
                                 @endforeach
                             </select>
                             @error('newShift') <span class="text-red-500">{{ $message }}</span>@enderror
