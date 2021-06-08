@@ -370,7 +370,7 @@
                     </div>
 
                     <div class="row-span-4 px-4 py-3 mt-2">                      
-
+                      <div class="flex justify-between">
                         <label class="block flex gap-4 items-center mb-2 ">
                             <span class="text-gray-700 flex gap-1"><span class="hidden md:block">Tracking </span> Option</span>
                             <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($location == 'Remote') disabled @endif>
@@ -380,6 +380,9 @@
                                 <option value="Business Travel">Business Travel</option>
                             </select>
                         </label>
+
+                         <h2 class="text-gray-700 text-center mr-2">@if($schedule != null)<i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{$schedule->current_position}}@endif</h2>
+                         </div>
                     <div class="flex justify-between items-center flex-col md:flex-row">
 					    @if($isModal == 'Pause')
 					        @include('livewire.User.create_pause')
@@ -420,7 +423,7 @@
 						@endif
              <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full">
               
-              <h2 class="text-gray-700 text-center mb-2">@if($schedule != null)<i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{$schedule->current_position}}@endif</h2>
+             
               @if(auth()->user()->is_active != 1)
                <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Your accoutn can't start record for several reason!</button>   
               @elseif($schedule != null && ($schedule->status == 'Working'))

@@ -28,10 +28,16 @@
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
-                            <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">@if($type_pause == 'New Task')Task @else Description @endif</label>
+                            <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">@if($type_pause == 'New Task')Task @else Reason @endif</label>
                             <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTask" wire:model="task">
                             @error('task') <span class="text-red-500">{{ $message }}</span>@enderror
+                                                
                         </div>
+                         @if($type_pause != 'New Task')      
+                         <label class="mt-1 text-gray-600 font-semibold">
+                            (This type must <span class="text-orange-500">replace</span> the elapsed hours)</label>
+                            @endif
+
                         @if($type_pause == 'New Task')
                         <div class="mb-4">
                             <label for="formTaskDesc" class="block text-gray-500 text-sm font-semibold mb-2">Task Description</label>
@@ -52,7 +58,7 @@
                     </span>
                     @else
                     <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                        <button wire:click.prevent="pauseOn()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-6 py-2 bg-yellow-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-yellow-500 focus:outline-none focus:border-yellow-700 focus:shadow-outline-yellow transition ease-in-out duration-150 sm:text-sm sm:leading-5 items-center">
+                        <button wire:click.prevent="pauseOn()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-6 py-2 bg-blue-500 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-600 focus:outline-none focus:border-yellow-700 focus:shadow-outline-yellow transition ease-in-out duration-150 sm:text-sm sm:leading-5 items-center">
                         <i class="fas fa-pause-circle mr-2 -ml-2"></i> Pause
                         </button>
                     </span>

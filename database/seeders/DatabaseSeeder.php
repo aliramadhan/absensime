@@ -40,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'address' => 'Null',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
-        ]);/*
+        ]);
         DB::table('users')->insert([
             'name' => 'Catering 1',
             'email' => 'catering1@cateringme.com',
@@ -51,7 +51,7 @@ class DatabaseSeeder extends Seeder
             'address' => 'Null',
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
-        ]);*/
+        ]);
         DB::table('users')->insert([
             'name' => 'Employee 1',
             'email' => 'employee1@cateringme.com',
