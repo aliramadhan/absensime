@@ -164,7 +164,7 @@ class RequestDatatableUser extends LivewireDatatable
 						$order->delete();
 					}
 	    		}
-	    		elseif($request->is_cancel_order == 1 && $request->change_catering !=null){
+	    		elseif($request->is_cancel_order == 0 && $request->change_catering !=null){
 					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
 	    			$order->update([
 	    				'shift' => $request->change_catering
