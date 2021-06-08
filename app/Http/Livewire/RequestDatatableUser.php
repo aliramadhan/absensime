@@ -185,7 +185,7 @@ class RequestDatatableUser extends LivewireDatatable
     		}
     		//cancel catering
     		if ($request->is_cancel_order == 1) {
-				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
 				if ($order != null) {
 					$order->delete();
 				}
