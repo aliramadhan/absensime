@@ -157,6 +157,20 @@ class RequestDatatableUser extends LivewireDatatable
 				$result = substr($string, $index);
 				$pieces = explode(" ", $result);
 				$shift = Shift::where('name',$pieces[0].' '.$pieces[1])->first();
+	    		//cancel catering
+	    		if ($request->is_cancel_order == 1) {
+					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+					if ($order != null) {
+						$order->delete();
+					}
+	    		}
+	    		elseif($request->is_cancel_order == 1 && $request->change_catering !=null){
+					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+	    			$order->update([
+	    				'shift' => $request->change_catering
+	    			]);
+	    		}
+
 				$schedule->update([
 					'shift_id' => $shift->id,
 					'shift_name' => $shift->name

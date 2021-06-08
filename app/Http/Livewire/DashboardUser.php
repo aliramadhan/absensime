@@ -316,7 +316,7 @@ class DashboardUser extends Component
             $this->date = Carbon::now();
             $this->is_cancel_order = 0;
         }
-        elseif($this->type == 'Sick'){
+        elseif($this->type == 'Sick' || $this->type == 'Remote'){
             $this->validate([
                 'type' => 'required|string',
                 'desc' => 'required',
@@ -368,7 +368,7 @@ class DashboardUser extends Component
         }
         $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
         $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->user->id)->first();
-        if ($this->type == 'Sick') {
+        if ($this->type == 'Sick' || $this->type == 'Remote') {
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
                 if ($issetRequest != null) {
@@ -384,7 +384,7 @@ class DashboardUser extends Component
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick') {
+        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type == 'Remote') {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
@@ -499,12 +499,21 @@ class DashboardUser extends Component
                         Mail::to($admin->email)->send(new RequestNotificationMail($data));
                     }
 
+                    //cek if cancel order
+                    if ($this->newCatering == 'Cancel Order') {
+                        $this->is_cancel_order = 1;
+                    }
+                    elseif($this->newCatering == 'Do Nothing!'){
+                        $this->is_cancel_order = 0;
+                    }
+
                     $request = Request::create([
                         'employee_id' => $this->user->id,
                         'employee_name' => $this->user->name,
                         'type' => $this->type,
                         'desc' => $desc,
                         'date' => $this->date,
+                        'change_catering' => $this->newCatering,
                         'is_cancel_order' => $this->is_cancel_order,
                     ]);
 
@@ -545,6 +554,7 @@ class DashboardUser extends Component
             $this->date = null;
             $this->time_overtime = null;
             $this->is_cancel_order = null;
+            $this->emit('refreshLivewireDatatable');
             session()->flash('message', 'Request successfully added.');
         }
     }
