@@ -2,7 +2,7 @@
   <div class="bg-white shadow">
   <div class="flex justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
       <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-        {{ __('Attedence Record') }}
+        {{ __('Attendance Record') }}
       </h2>
       @if (session()->has('success'))
       <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 1000)">
@@ -44,7 +44,7 @@
       @endif
       <div class="flex gap-2">
       <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button>
-      <button wire:click="showMandatory()" class="bg-gradient-to-r from-blue-500 to-green-400 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-envelope-open-text"></i><span class="hidden md:block">Mandatory</span></button>
+      <button wire:click="showMandatory()" class="border-blue-500 border-2 hover:bg-blue-500 hover:text-white text-blue-500 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-envelope-open-text"></i><span class="hidden md:block">Mandatory</span></button>
       </div>
 
       <div wire:loading wire:target="showCreateRequest,closeModal,showMandatory" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
@@ -320,7 +320,7 @@
                   	<progress-ring stroke="4" percent="5" radius="74.5" progress="{{$progress}}"  class=" left-11 -mt-1 "></progress-ring>                 
                   </div>
 
-                    <h2 class="font-semibold text-xl tracking-wide">{{auth()->user()->name}}</h2>                  
+                    <h2 class="font-semibold text-xl tracking-wide truncate">{{auth()->user()->name}}</h2>                  
                     <h2 class="text-gray-50">{{auth()->user()->division}}</h2> 
                   
                 </div>
@@ -330,8 +330,8 @@
 
                         <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center gap-2">
                            <div class=" bg-cover w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
-                         <label> {{$now->format('l')}}</label>
-                          <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none ml-2 mt-2 ">
+                         <label class="border-r pr-2"> {{$now->format('l')}}</label>
+                          <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
                             <label class="leading-none text-base">{{$now->format('d F')}} </label>
                             <label class="text-blue-500 xl:text-lg text-base md:text-base leading-none ">{{$now->format('Y')}}</label>
                           </div>
@@ -453,7 +453,7 @@
               @elseif($schedule != null && ($schedule->status == 'Done'))
                <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Today's recording is complete</button>               
               @else
-               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> No Schedule today!</button>             
+               <button  class="border-4 underline border-blue-600 duration-200 opacity-80 hover:opacity-100 py-4 text-xl font-bold tracking-wider px-6  text-gray-600 rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> No Schedule Today!</button>             
               @endif              
             
             
