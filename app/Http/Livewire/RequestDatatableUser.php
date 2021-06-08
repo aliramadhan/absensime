@@ -22,7 +22,7 @@ class RequestDatatableUser extends LivewireDatatable
     public function builder()
     {
     	if (auth()->user()->roles == 'Manager') {
-        	return Request::where('employee_id','!=',null);
+        	return Request::where('employee_id','!=',null)->orderBy('id','desc');
     	}
     	elseif (auth()->user()->role == 'Admin') {
         	return Request::where('employee_id','!=',null);
@@ -185,7 +185,7 @@ class RequestDatatableUser extends LivewireDatatable
     		}
     		//cancel catering
     		if ($request->is_cancel_order == 1) {
-				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
 				if ($order != null) {
 					$order->delete();
 				}
