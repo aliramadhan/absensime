@@ -42,14 +42,20 @@
       </div>      
 
       @endif
+      <div class="flex gap-2">
       <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button>
-      <div wire:loading wire:target="showCreateRequest,closeModal" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
+      <button wire:click="showMandatory()" class="bg-gradient-to-r from-blue-500 to-green-400 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-envelope-open-text"></i><span class="hidden md:block">Mandatory</span></button>
+      </div>
+
+      <div wire:loading wire:target="showCreateRequest,closeModal,showMandatory" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
        <section class="h-full w-full border-box  transition-all duration-500 flex bg-gray-500 opacity-75"    >   
         <div class="text-6xl text-white m-auto text-center">        
          <i class="fas fa-circle-notch animate-spin"></i>
        </div>
      </section>
    </div>
+
+
     
   </div>
   </div>
@@ -392,6 +398,8 @@
                   @include('livewire.User.create_start')
               @elseif($isModal == 'Create Request')
                   @include('livewire.User.Request.create_request')
+              @elseif($isModal == 'Create Mandatory')
+                  @include('livewire.User.Request.create_mandatory')
               @elseif($isModal == 'Stop')
                   @include('livewire.User.show_stop')
 					    @endif
