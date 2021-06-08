@@ -22,7 +22,7 @@
                                 @foreach($leaves as $leave)
                                     <option>{{$leave->name}}</option>
                                 @endforeach
-                                <option>Activated Record</option>
+                                <option>Activation Record</option>
                                 <option>Sick</option>
                                 <option>Overtime</option>
                                 <option>Remote</option>
@@ -31,7 +31,7 @@
                             </select>
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
-                        @if($type != 'Activated Record')
+                        @if($type != 'Activation Record')
                             @if($type  == 'Sick' || $leaves->contains('name',$type) || $type == 'Remote')
                             <div class="mb-4 flex ">
                             <div class="px-2 flex-auto">
@@ -79,11 +79,23 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if(($type != 'Overtime')&&($type != 'Activated Record')&&($type != 'Excused'))
+                        @if(($type != 'Overtime' && $type != 'Change Shift')&&($type != 'Activation Record')&&($type != 'Excused'))
                         <div class="mb-4 px-2 flex items-center gap-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Cancel your <span class="text-orange-500">catering</span> order ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
-                            @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        @elseif($type == 'Change Shift')
+                        <div class="mb-4 px-2">
+                            <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Change Catering Shift </label>
+                            <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newCatering">
+                                <option hidden>Choose here</option>
+                                <option>Do Nothing!</option>
+                                <option>Cancel Order</option>
+                                <option>Pagi</option>
+                                <option>Siang</option>
+                            </select>
+                            @error('newCatering') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
                     </div>
