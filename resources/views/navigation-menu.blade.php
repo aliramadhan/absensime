@@ -136,11 +136,9 @@
                      <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
                         {{ __('History Schedule') }}
                     </x-jet-nav-link>   
-                     <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
+                     <x-jet-nav-link href="{{ route('manager.show.schedule') }}" :active="request()->routeIs('manager.show.schedule')">
                         {{ __('Show Schedule') }}
-                    </x-jet-nav-link>       
-                 
-
+                    </x-jet-nav-link>    
                     @endif
                 </div>
             </div>
