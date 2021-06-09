@@ -484,10 +484,10 @@
                   $request_remote= App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Remote')->where('status','Accept')->first();
                 @endphp
                 @if($request_late != null)
-                  $schedule->update(['status_depart' => 'Present']);
+                  @php $schedule->update(['status_depart' => 'Present']); @endphp
                 @endif
                 @if($request_remote != null)
-                  $location = 'Remote';
+                  @php $location = 'Remote'; @endphp
                 @endif
                 @php
                 $start = Carbon\Carbon::parse($schedule->started_at);
