@@ -18,7 +18,7 @@ class DashboardUser extends Component
 {
 	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
-    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering;
+    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser;
     //for Request
     public $type, $desc,$date,$time_overtime, $tasking = false,$stopRequestDate, $startRequestDate;
 
@@ -50,6 +50,7 @@ class DashboardUser extends Component
         $this->user = auth()->user();
         $this->now = Carbon::now();
         $this->shifts = Shift::all();
+        $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
     	$this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
         if ($this->schedule != null) {
@@ -343,6 +344,15 @@ class DashboardUser extends Component
             ]);
             $this->is_cancel_order = 0;
         }
+        elseif ($this->type == 'Mandatory') {
+            $this->validate([
+                'setUser' => 'required',
+                'type' => 'required|string',
+                'date' => 'required|date',
+                'newShift' => 'required'
+            ]);
+            $this->is_cancel_order = 0;
+        }
         else{
             $this->validate([
                 'type' => 'required|string',
@@ -366,8 +376,17 @@ class DashboardUser extends Component
                 return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
             }
         }
+        //cek if request not duplicate
         $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
+        if ($this->type == 'Mandatory') {
+            $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->setUser)->first();
+        }
+
+        //cek if user has schedule
         $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->user->id)->first();
+        if ($this->type == 'Mandatory') {
+            $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->setUser)->first();
+        }
         if ($this->type == 'Sick' || $this->type == 'Remote') {
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
@@ -515,6 +534,68 @@ class DashboardUser extends Component
                         'date' => $this->date,
                         'change_catering' => $this->newCatering,
                         'is_cancel_order' => $this->is_cancel_order,
+                    ]);
+
+                }
+                elseif($this->type == 'Mandatory'){
+                    $user = User::where('id',$this->setUser)->first();
+                    $shift = Shift::find($this->newShift);
+                    $date = Carbon::parse($this->date);
+                    $desc = $user->name .' change shift from '.$isSchedule->shift_name.' to '.$shift->name.' for date '.$date->format('d F Y');
+                    //send mail to manager if manager founded
+                    $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+                    if($manager != null){
+                        $data = array('name' => $user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $desc,'user_mail' => $user->email);
+                        Mail::to($manager->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    //send mail to admin
+                    $admins = User::where('role','Admin')->get();
+                    foreach ($admins as $admin) {
+                        $data = array('name' => $user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $desc,'user_mail' => $user->email);
+                        Mail::to($admin->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    //cek if cancel order
+                    if ($this->newCatering == 'Cancel Order') {
+                        $this->is_cancel_order = 1;
+                    }
+                    elseif($this->newCatering == 'Do Nothing!'){
+                        $this->is_cancel_order = 0;
+                    }
+
+                    $request = Request::create([
+                        'employee_id' => $user->id,
+                        'employee_name' => $user->name,
+                        'type' => $this->type,
+                        'desc' => $desc,
+                        'date' => $this->date,
+                        'change_catering' => $this->newCatering,
+                        'is_cancel_order' => $this->is_cancel_order,
+                        'status' => 'Accept',
+                    ]);
+
+                    //update schedule after create mandatory
+                    $schedule = Schedule::whereDate('date',$date)->where('employee_id',$user->id)->first();
+                    //cancel catering
+                    if ($request->is_cancel_order == 1) {
+                        $order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
+                        if ($order != null) {
+                            $order->delete();
+                        }
+                    }
+                    elseif($request->is_cancel_order == 0 && $request->change_catering !=null){
+                        $order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
+                        if ($order != null) {
+                            $order->update([
+                                'shift' => $request->change_catering
+                            ]);
+                        }
+                    }
+
+                    $schedule->update([
+                        'shift_id' => $shift->id,
+                        'shift_name' => $shift->name
                     ]);
 
                 }

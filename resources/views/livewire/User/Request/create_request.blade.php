@@ -28,9 +28,24 @@
                                 <option>Remote</option>
                                 <option>Change Shift</option>
                                 <option>Excused</option>
+                                @if($user->roles == 'Manager')
+                                    <option>Mandatory</option>
+                                @endif
                             </select>
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
+                        @if($type == 'Mandatory')
+                            <div class="mb-4 px-2">
+                                <label for="formSetUser" class="block text-gray-500 text-sm  mb-2">Select Employee </label>
+                                <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formSetUser" wire:model="setUser">
+                                    <option hidden>Choose here</option>
+                                    @foreach($users as $thisUser)
+                                        <option value="{{$thisUser->id}}" >{{$thisUser->name}}</option>
+                                    @endforeach
+                                </select>
+                                @error('setUser') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                        @endif
                         @if($type != 'Activation Record')
                             @if($type  == 'Sick' || $leaves->contains('name',$type) || $type == 'Remote')
                             <div class="mb-4 flex ">
@@ -53,7 +68,7 @@
                             </div>
                             @endif
                         @endif
-                        @if($type == 'Change Shift')
+                        @if($type == 'Change Shift' || $type == 'Mandatory')
                         <div class="mb-4 px-2">
                             <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">New Shift </label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
@@ -65,7 +80,7 @@
                             @error('newShift') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if($type != 'Change Shift')
+                        @if($type != 'Change Shift' && $type != 'Mandatory')
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                             <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
@@ -79,13 +94,13 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if(($type != 'Overtime' && $type != 'Change Shift')&&($type != 'Activation Record')&&($type != 'Excused'))
+                        @if(($type != 'Overtime' && $type != 'Change Shift' && $type != 'Mandatory')&&($type != 'Activation Record')&&($type != 'Excused'))
                         <div class="mb-4 px-2 flex items-center gap-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Cancel your <span class="text-orange-500">catering</span> order ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
                             @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
-                        @elseif($type == 'Change Shift')
+                        @elseif($type == 'Change Shift' || $type == 'Mandatory')
                         <div class="mb-4 px-2">
                             <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Change Catering Shift </label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newCatering">
