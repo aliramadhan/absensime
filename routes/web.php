@@ -94,7 +94,7 @@ Route::group(['middleware' => ['auth:sanctum','role:Employee,Employee'], 'prefix
 
 Route::group(['middleware' => ['auth:sanctum','role:Manager,Employee'], 'prefix' => 'manager', 'as' => 'manager.'], function() {
 	Route::get('dashboard', DashboardUser::class)->name('dashboard');
-	Route::get('request', RequestAdmin::class)->name('request');
+	Route::get('request', RequestUser::class)->name('request');
 	Route::post('request/accept/{id}', [AdminController::class, 'acceptRequestOvertime'])->name('request.accept');
 	Route::get('history-schedule', HistorySchedule::class)->name('history.schedule');
 });

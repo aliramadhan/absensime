@@ -11,6 +11,7 @@ use App\Models\ListLeave;
 use App\Models\Shift;
 use Carbon\Carbon;
 use Geocoder;
+use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestNotificationMail;
 

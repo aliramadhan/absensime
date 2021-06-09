@@ -9,18 +9,20 @@ use App\Models\ListLeave;
 use App\Models\Schedule;
 use App\Models\Shift;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestNotificationMail;
 
 class RequestUser extends Component
 {
-	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering;
+	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser;
 
     public function render()
     {
         $this->leaves = ListLeave::all();
     	$this->now = Carbon::now();
     	$this->user = auth()->user();
+        $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->shifts = Shift::all();
         return view('livewire.User.Request.request-user');
     }
@@ -80,6 +82,15 @@ class RequestUser extends Component
             ]);
             $this->is_cancel_order = 0;
         }
+        elseif ($this->type == 'Mandatory') {
+            $this->validate([
+                'setUser' => 'required',
+                'type' => 'required|string',
+                'date' => 'required|date',
+                'newShift' => 'required'
+            ]);
+            $this->is_cancel_order = 0;
+        }
         else{
             $this->validate([
                 'type' => 'required|string',
@@ -103,8 +114,17 @@ class RequestUser extends Component
                 return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
             }
         }
+        //cek if request not duplicate
         $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
+        if ($this->type == 'Mandatory') {
+            $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->setUser)->first();
+        }
+        //cek if user has schedule
         $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->user->id)->first();
+        if ($this->type == 'Mandatory') {
+            $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->setUser)->first();
+        }
+
         if ($this->type == 'Sick' || $this->type == 'Remote') {
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
@@ -252,6 +272,68 @@ class RequestUser extends Component
                         'date' => $this->date,
                         'change_catering' => $this->newCatering,
                         'is_cancel_order' => $this->is_cancel_order,
+                    ]);
+
+                }
+                elseif($this->type == 'Mandatory'){
+                    $user = User::where('id',$this->setUser)->first();
+                    $shift = Shift::find($this->newShift);
+                    $date = Carbon::parse($this->date);
+                    $desc = $user->name .' change shift from '.$isSchedule->shift_name.' to '.$shift->name.' for date '.$date->format('d F Y');
+                    //send mail to manager if manager founded
+                    $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+                    if($manager != null){
+                        $data = array('name' => $user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $desc,'user_mail' => $user->email);
+                        Mail::to($manager->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    //send mail to admin
+                    $admins = User::where('role','Admin')->get();
+                    foreach ($admins as $admin) {
+                        $data = array('name' => $user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $desc,'user_mail' => $user->email);
+                        Mail::to($admin->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    //cek if cancel order
+                    if ($this->newCatering == 'Cancel Order') {
+                        $this->is_cancel_order = 1;
+                    }
+                    elseif($this->newCatering == 'Do Nothing!'){
+                        $this->is_cancel_order = 0;
+                    }
+
+                    $request = Request::create([
+                        'employee_id' => $user->id,
+                        'employee_name' => $user->name,
+                        'type' => $this->type,
+                        'desc' => $desc,
+                        'date' => $this->date,
+                        'change_catering' => $this->newCatering,
+                        'is_cancel_order' => $this->is_cancel_order,
+                        'status' => 'Accept',
+                    ]);
+
+                    //update schedule after create mandatory
+                    $schedule = Schedule::whereDate('date',$date)->where('employee_id',$user->id)->first();
+                    //cancel catering
+                    if ($request->is_cancel_order == 1) {
+                        $order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
+                        if ($order != null) {
+                            $order->delete();
+                        }
+                    }
+                    elseif($request->is_cancel_order == 0 && $request->change_catering !=null){
+                        $order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
+                        if ($order != null) {
+                            $order->update([
+                                'shift' => $request->change_catering
+                            ]);
+                        }
+                    }
+
+                    $schedule->update([
+                        'shift_id' => $shift->id,
+                        'shift_name' => $shift->name
                     ]);
 
                 }
