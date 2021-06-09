@@ -379,9 +379,8 @@
                       <div class="flex justify-between">
                         <label class="block flex gap-4 items-center mb-2 ">
                             <span class="text-gray-700 flex gap-1"><span class="hidden md:block">Tracking </span> Option</span>
-                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($schedule->status == 'Remote') disabled @endif>
-                                @if($schedule->status == 'Remote')<option>Remote</option>@endif
-                                <option value="WFO" selected >Work From Office</option>
+<select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($cekRemote) disabled @endif>
+                                @if($cekRemote)<option selected="true">Remote</option>@endif
                                 <option value="WFH">Work From Home</option>
                                 <option value="Business Travel">Business Travel</option>
                             </select>

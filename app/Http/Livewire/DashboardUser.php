@@ -19,7 +19,7 @@ class DashboardUser extends Component
 {
 	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
-    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser;
+    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
     public $type, $desc,$date,$time_overtime, $tasking = false,$stopRequestDate, $startRequestDate;
 
@@ -53,6 +53,11 @@ class DashboardUser extends Component
         $this->shifts = Shift::all();
         $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
+        $request = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
+        if ($request != null) {
+            $this->cekRemote = 1;
+            $this->location = 'Remote';
+        }
     	$this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
         if ($this->schedule != null) {
             $this->shift = $this->schedule->shift;
