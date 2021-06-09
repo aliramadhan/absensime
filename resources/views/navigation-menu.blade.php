@@ -135,6 +135,9 @@
                     </x-jet-nav-link>
                      <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
                         {{ __('History Schedule') }}
+                    </x-jet-nav-link>   
+                     <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
+                        {{ __('Show Schedule') }}
                     </x-jet-nav-link>       
                  
 
@@ -331,6 +334,9 @@
                     </x-jet-responsive-nav-link>
                     <x-jet-responsive-nav-link hhref="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
                         {{ __('History') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link hhref="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
+                        {{ __('Schedule') }}
                     </x-jet-responsive-nav-link>
                
                    
