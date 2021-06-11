@@ -112,20 +112,6 @@
                         </div>
 
 
-                    @elseif(auth()->user()->roles == 'Employee')
-                    <x-jet-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-jet-nav-link>
-                   
-                    <x-jet-nav-link href="{{ route('user.request') }}" :active="request()->routeIs('user.request')">
-                        {{ __('Request') }}
-                    </x-jet-nav-link>
-                     <x-jet-nav-link href="{{ route('user.history.schedule') }}" :active="request()->routeIs('user.history.schedule')">
-                        {{ __('History Schedule') }}
-                    </x-jet-nav-link>
-                     <x-jet-nav-link href="{{ route('user.show.schedule') }}" :active="request()->routeIs('user.show.schedule')">
-                        {{ __('Show Schedule') }}
-                    </x-jet-nav-link>
                     @elseif(auth()->user()->roles == 'Manager')
                     <x-jet-nav-link href="{{ route('manager.dashboard') }}" :active="request()->routeIs('manager.dashboard')">
                         {{ __('Dashboard') }}
@@ -139,6 +125,20 @@
                      <x-jet-nav-link href="{{ route('manager.show.schedule') }}" :active="request()->routeIs('manager.show.schedule')">
                         {{ __('Show Schedule') }}
                     </x-jet-nav-link>    
+                    @else
+                    <x-jet-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-jet-nav-link>
+                   
+                    <x-jet-nav-link href="{{ route('user.request') }}" :active="request()->routeIs('user.request')">
+                        {{ __('Request') }}
+                    </x-jet-nav-link>
+                     <x-jet-nav-link href="{{ route('user.history.schedule') }}" :active="request()->routeIs('user.history.schedule')">
+                        {{ __('History Schedule') }}
+                    </x-jet-nav-link>
+                     <x-jet-nav-link href="{{ route('user.show.schedule') }}" :active="request()->routeIs('user.show.schedule')">
+                        {{ __('Show Schedule') }}
+                    </x-jet-nav-link>
                     @endif
                 </div>
             </div>
