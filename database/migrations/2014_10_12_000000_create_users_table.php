@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->rememberToken();
             $table->enum('role', ['Admin', 'Catering','Employee'])->default('Employee');
             $table->string('division')->default('Support');
+            $table->string('position')->nullable();
             $table->string('roles')->default('Employee');
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();

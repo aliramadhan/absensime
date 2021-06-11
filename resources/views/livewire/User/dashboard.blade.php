@@ -498,7 +498,12 @@
                   }
                 }
                 $time_out = Carbon\Carbon::parse($schedule->shift->time_out);
-                $schedule->update(['timer' => $timeInt]);
+                if($schedule->stoped_at == null){
+                  $schedule->update(['timer' => $timeInt]);
+                }
+                else{
+                  $schedule->update(['timer' => 0]);
+                }
                 $timeInt = $schedule->workhour + $schedule->timer;
                 $seconds = intval($timeInt%60);
                 $total_minutes = intval($timeInt/60);

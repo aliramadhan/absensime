@@ -45,17 +45,37 @@ class ScheduleToday extends LivewireDatatable
         		$time = $int/60/60;
 		        return number_format($time,1);
             })->label('WorkHour'),
-            Column::callback(['id'], function ($id) {
-            	$schedule = Schedule::find($id);
-            	if ($schedule->details->count() < 1) {
-            		return '-';
-            	}
-            	else{
-            		return $schedule->details->first()->location;
-            	}
+            Column::callback(['id','timer'], function ($id,$timer) {
+                $schedule = Schedule::find($id);
+                if ($schedule->details->count() < 1) {
+                    return '-';
+                }
+                else{
+                    return $schedule->details->first()->location;
+                }
             })->label('Work Type'),
-	    	Column::name('position_start')
-	    		->label('Position (start state)'),
+            Column::callback(['id'], function ($id) {
+                $schedule = Schedule::find($id);
+                $now = Carbon::now();
+                $shift = $schedule->shift;
+                if ($schedule->stoped_at != null) {
+                    $stoped = Carbon::parse($schedule->stoped_at);
+                    $time_out =Carbon::parse($shift->time_out);
+                    if ($stoped < $time_out) {
+                        return $stoped->diffInMinutes($time_out). "minutes";
+                    }
+                    else{
+                        return '-';
+                    }
+                }
+                else{
+                    return '-';
+                }
+            })->label('Wasted Time'),
+            Column::name('note')
+                ->label('Reason'),
+            Column::name('position_start')
+                ->label('Position (start state)'),
 	    	Column::name('position_stop')
 	    		->label('Position (stop state)'),
 

@@ -56,6 +56,13 @@
                             @error('address') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         </div>
+                        <div class="mb-4 flex-auto flex gap-4">
+                            <div class="flex-auto">
+                                <label for="formPosition" class="block text-gray-500 text-sm font-semibold mb-2">Position:</label>
+                                <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formPosition" wire:model="position">
+                                @error('position') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                        </div>
                         <div class="mb-4 flex-auto">
                             <label for="formJoinedAt" class="block text-gray-500 text-sm font-semibold mb-2">Joined At:</label>
                             <input type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formJoinedAt" wire:model="joined_at">
