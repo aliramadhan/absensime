@@ -39,6 +39,9 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
               Stop recording
             </h3>
+            @if($now < Carbon\Carbon::parse($shift->time_out))
+            <input type="text" wire:model="note">
+            @endif
             <div class="mt-2">
               <p class="text-sm text-gray-500">
                 Are you sure you want to stop your record workhour? This action cannot be undone.

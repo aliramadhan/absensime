@@ -17,7 +17,7 @@ use App\Mail\RequestNotificationMail;
 
 class DashboardUser extends Component
 {
-	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order;
+	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
@@ -306,6 +306,7 @@ class DashboardUser extends Component
             'workhour' => $workhour,
             'timer' => 0,
     		'status' => 'Done',
+            'note' => $this->note,
             'position_stop' => $this->position,
             'current_position' => $this->currentPosition
     	]);

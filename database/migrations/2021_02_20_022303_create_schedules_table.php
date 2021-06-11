@@ -24,6 +24,7 @@ class CreateSchedulesTable extends Migration
             $table->integer('timer')->default(0);
             $table->string('status')->default('Not sign in');
             $table->string('status_depart')->nullable();
+            $table->string('note')->nullable();
             $table->string('position_start')->nullable();
             $table->string('position_stop')->nullable();
             $table->string('current_position')->nullable();
