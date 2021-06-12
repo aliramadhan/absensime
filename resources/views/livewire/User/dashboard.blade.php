@@ -624,7 +624,7 @@
                 	@php
                 		$startWeek = Carbon\Carbon::now()->startOfWeek();
                 		$endWeek = Carbon\Carbon::now()->endOfWeek();
-                		$weekly_work = \App\Models\Schedule::whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
+                		$weekly_work = \App\Models\Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
                 		$seconds = intval($weekly_work->sum(\DB::raw('workhour + timer'))%60);
       					    $total_minutes = intval($weekly_work->sum(\DB::raw('workhour + timer'))/60);
       					    $minutes = $total_minutes%60;
