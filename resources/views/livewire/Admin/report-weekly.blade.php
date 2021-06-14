@@ -4,7 +4,7 @@
 			<tr>
 				<th>Employee</th>
 				<th>Weekly Hours</th>
-				<th>Target</th>
+				<th>Target Hours</th>
 				<th>Status</th>
 			</tr>
 		</thead>

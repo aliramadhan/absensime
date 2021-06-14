@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Models\Shift;
 use Carbon\Carbon;
 
 class ReportWeekly extends Component
@@ -26,18 +27,31 @@ class ReportWeekly extends Component
 		    $user->time_weekly = $hours."h ".$minutes."m";
 
     		//set target weekly
-    		if ($user->position == 'Security') {
-    			$user->target_weekly = '50h';
-    			$user->percent_weekly = ($total_minutes/3000) * 100;
-    		}
-    		elseif($user->position == 'Project Manager'){
-    			$user->target_weekly = '20h';
-    			$user->percent_weekly = ($total_minutes/1200) * 100;
-    		}
-    		else{
-    			$user->target_weekly = '40h';
-    			$user->percent_weekly = ($total_minutes/2400) * 100;
-    		}
+            foreach ($weekly_work->get() as $scheduleLoop) {
+                $minuteTarget = 0;
+                $shift = Shift::where('id',$scheduleLoop->shift_id)->first();
+                $time_out = Carbon::parse($shift->time_out);
+                $time_in = Carbon::parse($shift->time_in);
+                $user->target_weekly += $time_in->diffInMinutes($time_out);
+            }
+
+            if ($user->target_weekly == 0) {
+                $user->percent_weekly = 0;
+            }
+            else{
+                if ($user->position == 'Security') {
+                    $user->percent_weekly = ($total_minutes/$user->target_weekly) * 100;
+                }
+                elseif($user->position == 'Project Manager'){
+                    $user->percent_weekly = ($total_minutes/$user->target_weekly) * 100;
+                }
+                else{
+                    $user->percent_weekly = ($total_minutes/$user->target_weekly) * 100;
+                }
+                $minutes = $user->target_weekly%60;
+                $hours = intval($user->target_weekly/60);
+                $user->target_weekly = $hours."h ".$minutes."m";
+            }
     	}
         return view('livewire.Admin.report-weekly');
     }

@@ -16,7 +16,7 @@ class ScheduleToday extends LivewireDatatable
     public function builder()
     {
     	$now = Carbon::now();
-  		return Schedule::whereDate('date',$now);
+  		return Schedule::orderBy('date','desc');
     }
 
     public function columns()
@@ -60,7 +60,7 @@ class ScheduleToday extends LivewireDatatable
                 $shift = $schedule->shift;
                 if ($schedule->stoped_at != null) {
                     $stoped = Carbon::parse($schedule->stoped_at);
-                    $time_out =Carbon::parse($shift->time_out);
+                    $time_out =Carbon::parse($schedule->date .' '.$shift->time_out);
                     if ($stoped < $time_out) {
                         return $stoped->diffInMinutes($time_out). "minutes";
                     }
