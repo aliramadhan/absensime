@@ -40,7 +40,7 @@
               Stop recording
             </h3>
             @if($now < Carbon\Carbon::parse($shift->time_out))
-            <input type="text" wire:model="note">
+            <input type="text" wire:model="note" required>
             @endif
             <div class="mt-2">
               <p class="text-sm text-gray-500">
