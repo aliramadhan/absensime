@@ -32,48 +32,77 @@
 
 
 <div class=" block pb-8 mb-10">
-    <div class="flex items-center justify-between mb-4 relative">
-     <div class="relative text-gray-600 focus-within:text-gray-400 fixed">
+    <div class="flex items-center justify-between mb-4 relative flex-col md:flex-row gap-3 flex-col-reverse">
+     <div class="relative text-gray-600 focus-within:text-gray-400 fixed md:w-auto w-full">
       <span class="absolute inset-y-0 left-0 flex items-center pl-2">
         <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
           <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
       </button>
   </span>
-  <input type="search" id="myInput" onkeyup="searching()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
+  <input type="search" id="myInput" onkeyup="searching()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
 </div>
-<button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg" wire:click="exportSchedule()">Export Schedule</button>
+<button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export Schedule</button>
 </div>
 
-<div class="scroll overflow-x-auto py-4 cursor-pointer">
-    <table class="table-fixed border flex-initial">
+<style type="text/css">
+
+table {
+  position: relative;
+  border-collapse: collapse;
+}
+thead th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  top: 0;
+  width: 40px;
+ 
+}
+
+thead th:first-child {
+  left: 0;
+  z-index: 1;
+}
+
+tbody th {
+  position: -webkit-sticky; /* for Safari */
+  position: sticky;
+  left: 0;
+  background: #FFF;
+  border-right: 1px solid #CCC;
+   width: 40px;
+}
+
+</style>
+<div class="scroll overflow-auto cursor-pointer relative" style="max-height: 24em;">
+    <table class="table-fixed border flex-initial relative">
       <thead>
        <tr>
 
-           <th class="headcol text-gray-800 bg-white w-60 absolute border py-1  -ml-1">Employee Name</th>
-           <td class="px-28">a</td>
+           <th  class="text-gray-800 bg-white w-1/2  px-1 py-2 z-10 top-0">Employee Name</th>
+           
            @for($i = 1; $i <= $now->daysInMonth; $i++)
             @php
             $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
             $mytimenow=Carbon\Carbon::now('d');
             @endphp
             @if($i==$mytimenow->format('d'))
-            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold border-b-2 rounded-t-md w-32 shadow-lg'>
+            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold border-b-2 rounded-t-md w-32 shadow-lg border '>
                 {{$date->format('d')}}
             </th>
             @else
-            <th class='hover:bg-yellow-500 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-400 w-32'>
+            <th class='hover:bg-yellow-500 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-400 w-32 border '>
                 {{$date->format('d')}}
             </th>
             @endif
             @endfor
         </tr>
     </thead>
-    <tbody class="border-gray-50 duration-300" id="myTable">
+    <tbody class="border-gray-50 duration-300">
         @foreach($users as $user)
         <tr >
-            <th class="p-2 -ml-1 border-l border-r headcol bg-white w-60 whitespace-nowrap hide-scroll absolute border-t text-left h-auto text-sm font-semibold shadow-xl z-10 text-gray-700">{{$user->name}}</th>
+            <th  width="50%" class="p-2 -ml-1 truncate bg-white whitespace-nowrap hide-scroll border-2 text-left h-auto text-sm font-semibold shadow-xl text-gray-700 w-1/2   top-0 ">{{$user->name}}</th>
             
-            @for($i = 0; $i <= $now->daysInMonth; $i++)
+            @for($i = 1; $i <= $now->daysInMonth; $i++)
                 @php
                 $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
                 $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();

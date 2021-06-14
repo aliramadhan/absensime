@@ -379,8 +379,9 @@
                       <div class="flex justify-between">
                         <label class="block flex gap-4 items-center mb-2 ">
                             <span class="text-gray-700 flex gap-1"><span class="hidden md:block">Tracking </span> Option</span>
-<select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($cekRemote) disabled @endif>
+                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($cekRemote) disabled @endif>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
+                                <option value="WFO">Work From Office</option>
                                 <option value="WFH">Work From Home</option>
                                 <option value="Business Travel">Business Travel</option>
                             </select>
@@ -432,7 +433,7 @@
               
              
               @if(auth()->user()->is_active != 1)
-               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Your accoutn can't start record for several reason!</button>   
+               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Your account can't start record for several reason</button>   
               @elseif($schedule != null && ($schedule->status == 'Working'))
               <div class="grid grid-cols-2 items-center gap-4">
                 <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
