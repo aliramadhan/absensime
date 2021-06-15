@@ -107,6 +107,9 @@
                                     <x-jet-dropdown-link  href="{{ route('admin.weekly.report') }}">
                                         {{ __('Weekly Report') }}
                                     </x-jet-dropdown-link>
+                                    <x-jet-dropdown-link  href="{{ route('admin.all_late.report') }}">
+                                        {{ __('All Late Report') }}
+                                    </x-jet-dropdown-link>
                                     
 
                                 </x-slot>

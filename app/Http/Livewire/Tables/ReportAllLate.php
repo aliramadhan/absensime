@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\Schedule;
+use App\Models\User;
 use Illuminate\Support\Str;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -11,12 +12,11 @@ use Mediconesystems\LivewireDatatables\TimeColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use Carbon\Carbon;
 
-class ScheduleToday extends LivewireDatatable
+class ReportAllLate extends LivewireDatatable
 {
     public function builder()
     {
-    	$now = Carbon::now();
-  		return Schedule::whereDate('date',$now);
+    	return $schedules = Schedule::where('note','!=',null)->orderBy('date','desc');
     }
 
     public function columns()
