@@ -26,7 +26,87 @@
       <div class="grid md:grid-cols-8 md:grid-flow-col md:gap-4 md:divide-x  md:divide-gray-300 grid-cols-1 md:px-0 px-4">
         <div class="md:col-span-2 md:grid-rows-8 grid-cols-1 grid text-gray-600 text-center h-full md:mt-4 my-5">
           <livewire:show-task-activity />
+          @php
+          $now = Carbon\Carbon::now();
+          $activities = \App\Models\HistorySchedule::where('status','Work')->orWhere('status','Overtime')->whereDate('created_at',$now)->limit(10)->get();
+          //count unproductive and productive time per month
+          $productive = $unproductive = 0;
+          $detailSchedule = App\Models\HistorySchedule::whereDate('created_at',$now)->get();
+          //unproductive
+          foreach ($detailSchedule->where('status','Rest') as $detail) {
+            if ($detail->stoped_at != null) {
+              $startPause = Carbon\Carbon::parse($detail->started_at);
+              $stopPause = Carbon\Carbon::parse($detail->stoped_at);
+              $unproductive += $startPause->diffInSeconds($stopPause);
+            }
+            else{
+                $startPause = Carbon\Carbon::parse($detail->started_at);
+                $unproductive += $startPause->diffInSeconds(Carbon\Carbon::now());
+            }
+          }
+          $unproductive = $unproductive/60/60;
+
+          //productive
+          foreach ($detailSchedule->filter(function ($item){ return $item->status == 'Work' || $item->status == 'Overtime'; }) as $work) {
+            if ($work->stoped_at != null) {
+              $startPause = Carbon\Carbon::parse($work->started_at);
+              $stopPause = Carbon\Carbon::parse($work->stoped_at);
+              $productive += $startPause->diffInSeconds($stopPause);
+            }
+            else{
+              $startPause = Carbon\Carbon::parse($work->started_at);
+              $productive += $startPause->diffInSeconds(Carbon\Carbon::now());
+            }
+          }
+          $productive = number_format($productive/60/60,2);
+          @endphp
+
+
+          <div class="w-full bg-white flex flex-col items-center rounded-xl py-6 border px-2 row-span-2 max-h-64 relative">
+            <canvas id="myChart2" width="450" height="300" >
+              
+            </canvas>
+
+          </div>
+          <script type="text/javascript">
+          var unproductive = {!! $unproductive!!};
+          var productive = {!! $productive!!};
+          var ctx = document.getElementById("myChart2");
+          var myChart2 = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+              labels: ['Productive (Hour)', 'Unproductive (Hour)'],
+              datasets: [{
+                label: '# of Statistic',
+                data: [productive, unproductive],
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)'
+                ],
+                borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)'
+                ],
+                borderWidth: 1,
+                
+              }]
+            },
+            options: {
+              legend: {
+                
+              },
+            //cutoutPercentage: 40,
+            responsive: true,
+
+           }
+        });
+        </script>
         </div>
+
 
 
 
