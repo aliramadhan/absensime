@@ -27,6 +27,9 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
 
            
-            <livewire:tables.users-activated exportable/>
+            <livewire:tables.users-activated 
+            searchable="name, planet.name"
+             hideable="select"
+            exportable/>
             
 </div></div></div>
