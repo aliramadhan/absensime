@@ -317,7 +317,7 @@ class DashboardUser extends Component
     {
         //MEMBUAT VALIDASI
         $now = Carbon::now();
-        if($this->type == 'Activated Record'){
+        if($this->type == 'Activation Record'){
             $this->validate([
                 'desc' => 'required',
             ]);
@@ -417,7 +417,7 @@ class DashboardUser extends Component
         }
         else{
             //create activated record
-            if ($this->type == 'Activated Record') {
+            if ($this->type == 'Activation Record') {
                 $request = Request::create([
                     'employee_id' => $this->user->id,
                     'employee_name' => $this->user->name,
