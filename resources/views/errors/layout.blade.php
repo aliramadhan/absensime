@@ -50,6 +50,7 @@
             <div class="content">
                 <div class="title">
                     @yield('message')
+                   
                 </div>
             </div>
         </div>
