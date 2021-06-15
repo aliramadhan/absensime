@@ -44,6 +44,8 @@
   				</tbody>
   			</table>
 
+
+        <livewire:tables.report-weekly>
   		</div>
   	</div>
   </div>
