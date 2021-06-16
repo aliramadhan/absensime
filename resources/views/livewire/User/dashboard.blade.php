@@ -1,8 +1,16 @@
 <div>
   <div class="bg-white shadow">
-  <div class="flex justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
+  <div class="flex justify-between items-center max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 gap-2">
       <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-        {{ __('Attendance Record') }}
+        Attendance <span class="md:inline-block hidden"> Record </span>
+        <div class="overflow-hidden md:hidden block">
+          <div class="flex gap-1 items-center font-semibold text-sm">
+             <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
+            <label class=" text-gray-500">Annual Leave Quota</label>
+           
+          </div>
+        </div>
+
       </h2>
       @if (session()->has('success'))
       <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 1000)">
@@ -58,12 +66,14 @@
 
     
   </div>
+
+
   </div>
     <div class="md:py-12 py-0">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-8 flex-col flex flex-col-reverse gap-4">
 
-            <div class="lg:flex lg:flex-col md:grid md:grid-cols-2 gap-4 sm:rounded-lg col-span-2 flex flex-col-reverse">
+            <div class="lg:flex lg:flex-col md:grid md:grid-cols-2 gap-4 sm:rounded-lg col-span-2 flex flex-col-reverse hide-scroll">
                 
               <div class="overflow-hidden">
 
@@ -293,18 +303,22 @@
 
     </div>
 
-              <div class="overflow-hidden md:col-span-1 col-span-2 ">
+              <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden lg:block hidden">
                 <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
                   <label class=" text-gray-700">Annual Leave Quota</label>
                   <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
                 </div>
               </div>
             <div class="overflow-hidden md:col-span-1 col-span-2">
-
-              @include('livewire.User.tasks-components')
-
+              <div class="overflow-hidden md:col-span-1 col-span-2 md:block lg:hidden hidden mb-2">
+                <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
+                  <label class=" text-gray-700">Annual Leave Quota</label>
+                  <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
+                </div>
+              </div>             
+                @include('livewire.User.tasks-components') 
             </div>
-              
+               
 
             </div>
             <div class="overflow-hidden sm:rounded-lg col-span-6 grid gap-10">
@@ -376,7 +390,7 @@
                     </div>
 
                     <div class="row-span-4 px-4 py-3 mt-2">                      
-                      <div class="flex justify-between">
+                      <div class="flex md:flex-row flex-col justify-between gap-2">
                         <label class="block flex gap-4 items-center mb-2 ">
                             <span class="text-gray-700 flex gap-1"><span class="hidden md:block">Tracking </span> Option</span>
                             <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($cekRemote) disabled @endif>
@@ -409,7 +423,7 @@
                 <livewire:tracking-progress />
 
               @else
-								<div class="pt-3 block w-4/12 mt-2 text-gray-700">
+								<div class="pt-3 block md:w-4/12 mt-2 text-gray-700 w-auto">
 									@php
 					            $timeInt = $schedule->workhour;
 									    $seconds = intval($timeInt%60);
@@ -419,9 +433,9 @@
                       $time = $hours."h ".$minutes."m";
 									@endphp
                  <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
-                  <span class="hidden xl:inline-block -top-4 bg-white relative  xl:px-2 text-lg xl:font-medium lg:text-base ">Tracking Progress</span>
-                  <span class="xl:hidden hidden md:inline-block md:px-2  -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
-                  <div class="px-5 pb-2 -mt-6 flex flex-col items-center text-center ">
+                  <span class=" xl:inline-block inline-block  -top-4 bg-white relative  xl:px-2 text-lg xl:font-medium lg:text-base ">Tracking Progress</span>
+                  <span class="xl:hidden hidden md:inline-block md:px-2 -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
+                  <div class="md:px-5 px-12 pb-2 -mt-6 flex flex-col items-center text-center ">
                     <h2 class="text-2xl font-semibold text-orange-500 mt-3 ">{{$time}}</h2>
                     <h2 class="text-base ">Status: <span class="font-semibold text-gray-800">{{$schedule->status}}</span></h2>
                   </div>
@@ -453,7 +467,7 @@
               @elseif($schedule != null && ($schedule->status == 'Done'))
                <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Today's recording is complete</button>               
               @else
-               <button  class="border-4 underline border-blue-600 duration-200 opacity-80 hover:opacity-100 py-4 text-xl font-bold tracking-wider px-6  text-gray-600 rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> No Schedule Today!</button>             
+               <button  class="border-4 border-blue-600 duration-200 opacity-80 hover:opacity-100 py-4 text-xl font-bold tracking-wider px-6  text-gray-600 rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> No Schedule Today!</button>             
               @endif              
             
             
@@ -519,7 +533,7 @@
               @endif
               @endif
             </div>
-                   	<div class="bg-white overflow-hidden border-1 sm:rounded-lg p-4 ">
+                   	<div class="bg-white overflow-hidden border-1 sm:rounded-lg p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg">
                   		<div class="grid md:grid-cols-6 items-center gap-2">
 	                      <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2">
                           <div class="flex flex-col">
@@ -527,17 +541,17 @@
 	                        @if($schedule != null)
 	                        <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-orange-500">{{ Carbon\Carbon::parse($schedule->started_at)->format('H:i') }}</span></h2>@endif
                           </div>
-                          <div class="block md:hidden flex flex-col md:text-sm xl:text-base border-2 rounded-xl px-2 py-1 text-gray-500 leading-none font-semibold">
-                            <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-800">{{$wfh}}</span></h2>
-                            <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-800">{{$wfo}}</span></h2>
-                            <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-right flex-auto text-gray-800">{{$business_travel}}</span></h2>
+                          <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-gray-500 leading-none font-semibold border-yellow-300">
+                            <h2 class="font-xs leading-tight flex justify-between flex-auto gap-2">WFH<span class="text-gray-800">{{$wfh}}</span></h2>
+                            <h2 class="font-xs leading-tight flex justify-between flex-auto gap-2">WFO<span class="text-gray-800">{{$wfo}}</span></h2>
+                            <h2 class="font-xs leading-tight flex justify-between flex-auto gap-2">BT<span class="text-right flex-auto text-gray-800">{{$business_travel}}</span></h2>
                           </div>
 	                      </div>
-	                      <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold">
+	                      <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center">
 	                       <h2 class="text-base leading-none">{{$unproductive}}</h2>
 	                       <h2 class="md:text-sm xl:text-lg text-base text-gray-500 font-base">Unproductive</h2>
 	                     </div>
-	                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold">
+	                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center">
 	                       <h2 class="text-base leading-none">{{$time}}</h2>
 	                       <h2 class="md:text-sm xl:text-lg text-base text-gray-500 font-base">Productive</h2>
 	                     </div>
@@ -636,7 +650,7 @@
                    		<div class="grid md:grid-cols-6  grid-rows-2 items-center gap-2">
 	                      <div class="col-span-3 flex flex-col text-2xl text-gray-800 leading-none font-semibold">
 	                        <h2 class="text-3xl leading-none">Recent</h2>
-	                        <h2 class="text-base md:text-lg text-gray-500 font-base">You Have <span class="text-orange-500">{{$user->schedules->where('status','!=','Not sign in')->count()}}</span> Activities on this month</h2>
+	                        <h2 class="text-sm md:text-lg text-gray-500 font-base ">You Have <span class="text-orange-500">{{$user->schedules->where('status','!=','Not sign in')->count()}}</span> Activities on this month</h2>
 	                      </div>
 	                      <div class="flex flex-col text-xl text-center text-gray-800 leading-none font-semibold">
 	                       <h2 >{{$weekly_work->where('status','!=','Not sign in')->count()}}</h2>

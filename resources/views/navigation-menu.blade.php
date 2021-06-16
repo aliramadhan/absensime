@@ -321,13 +321,15 @@
                     @elseif(auth()->user()->roles == 'Employee')
                     <x-jet-responsive-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
                         {{ __('Dashboard') }}
-                    </x-jet-responsive-nav-link>
-                   
+                    </x-jet-responsive-nav-link>                   
                     <x-jet-responsive-nav-link href="{{ route('user.request') }}" :active="request()->routeIs('user.request')">
                         {{ __('Request') }}
                     </x-jet-responsive-nav-link>
                      <x-jet-responsive-nav-link href="{{ route('user.history.schedule') }}" :active="request()->routeIs('user.history.schedule')">
                         {{ __('History Schedule') }}
+                    </x-jet-responsive-nav-link>
+                     <x-jet-responsive-nav-link href="{{ route('user.show.schedule') }}" :active="request()->routeIs('user.dashboard')">
+                        {{ __('Schedule') }}
                     </x-jet-responsive-nav-link>
                     @elseif(auth()->user()->roles == 'Manager')
                     <x-jet-responsive-nav-link href="{{ route('manager.dashboard') }}" :active="request()->routeIs('manager.dashboard')">

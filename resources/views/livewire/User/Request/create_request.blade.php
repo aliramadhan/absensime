@@ -11,9 +11,9 @@
              <div class=" py-4 px-6 sm:flex border-b flex ">
                 <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span></h1>                 
             </div>
-                <div class="bg-white px-4 pb-4 sm:p-6 sm:pb-4 font-semibold">
+                <div class="bg-white px-4 md:pb-4 sm:p-6 pb-0 font-semibold">
 
-                    <div class=""> 
+                    <div class="mt-2 md:mt-0"> 
                        
                         <div class="mb-4 px-2">
                             <label for="formType" class="block text-gray-500 text-sm  mb-2">Request Type</label>
@@ -48,8 +48,8 @@
                         @endif
                         @if($type != 'Activation Record')
                             @if($type  == 'Sick' || $leaves->contains('name',$type) || $type == 'Remote')
-                            <div class="mb-4 flex ">
-                            <div class="px-2 flex-auto">
+                            <div class="mb-4 flex md:flex-row flex-col">
+                            <div class="px-2 flex-auto md:mb-0 mb-4">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
                                 <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" @if($type != 'Sick') min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @endif>
                                 @error('startRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
