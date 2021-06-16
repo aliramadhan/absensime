@@ -283,7 +283,7 @@ class DashboardUser extends Component
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'location' => $this->location,
-            'position' => $position[0]['formatted_address'];
+            'position' => $position[0]['formatted_address']
         ]);
 
         $this->closeModal();
