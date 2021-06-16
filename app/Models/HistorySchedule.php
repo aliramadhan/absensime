@@ -16,9 +16,9 @@ class HistorySchedule extends Model
         'started_at',
         'stoped_at',
         'location',
+        'position',
         'task',
         'task_desc',
-        'location',
         'latitude',
         'longitude',
     ];

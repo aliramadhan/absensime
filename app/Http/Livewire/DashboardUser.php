@@ -263,6 +263,7 @@ class DashboardUser extends Component
     public function resumeOn()
     {
     	$this->detailSchedule =$this->schedule->details->SortByDesc('id')->first();
+        $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
     	
         //update detail pause and stop it
         $this->schedule->update([
@@ -281,7 +282,8 @@ class DashboardUser extends Component
             'task_desc' => $this->task_desc,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
-            'location' => $this->location
+            'location' => $this->location,
+            'position' => $position
         ]);
 
         $this->closeModal();
