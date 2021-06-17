@@ -267,7 +267,9 @@ class DashboardUser extends Component
     	
         //update detail pause and stop it
         $this->schedule->update([
-    		'status' => 'Working'
+    		'status' => 'Working',
+            'current_position' => $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name,
+
     	]);
     	$this->detailSchedule->update([
     		'stoped_at' => Carbon::now(),
