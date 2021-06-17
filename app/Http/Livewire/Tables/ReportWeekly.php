@@ -92,7 +92,13 @@ class ReportWeekly extends LivewireDatatable
 	                $shift = Shift::where('id',$scheduleLoop->shift_id)->first();
 	                $time_out = Carbon::parse($shift->time_out);
 	                $time_in = Carbon::parse($shift->time_in);
-	                $user->target_weekly += $time_in->diffInMinutes($time_out);
+                    if ($time_in > $time_out) {
+                        $user->target_weekly += $time_in->diffInMinutes($time_out->addDay());
+                    }
+                    else{
+                        $user->target_weekly += $time_in->diffInMinutes($time_out);
+
+                    }
 	            }
                 $minutes = $user->target_weekly%60;
                 $hours = intval($user->target_weekly/60);
