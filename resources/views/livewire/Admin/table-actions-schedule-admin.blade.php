@@ -1,5 +1,3 @@
-<!--<i class="modal-open fas fa-pencil-alt focus:outline-none bg-transparent border border-yellow-500 hover:bg-yellow-400 text-yellow-500 hover:text-white font-bold py-3 px-3 rounded-full pointer cursor-pointer"  data-toggle="modal" data-target="edit{{$id}}"></i>
-<i  class="modal-open fas fa-trash-alt cursor-pointer ml-2 focus:outline-none bg-transparent border border-red-500 hover:bg-red-500 text-red-500 hover:text-white font-bold py-3 px-3 rounded-full" data-toggle="modal" data-target="delete{{$id}}"></i>-->
   <i class="modal-open fas fa-pencil-alt focus:outline-none bg-transparent border border-yellow-500 hover:bg-yellow-400 text-yellow-500 hover:text-white font-bold py-3 px-3 rounded-full pointer cursor-pointer" onclick="toggleModal('edit{{$id}}')"></i>
   <i  class="modal-open fas fa-trash-alt cursor-pointer ml-2 focus:outline-none bg-transparent border border-red-500 hover:bg-red-500 text-red-500 hover:text-white font-bold py-3 px-3 rounded-full" onclick="toggleModal('delete{{$id}}')"></i>
 

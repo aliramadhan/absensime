@@ -5,7 +5,7 @@
         </div>
     @endif
     <div class="relative">
-        <div class="flex flex-col md:flex-row justify-between md:items-center mb-1 gap-2">
+        <div class="flex flex-col md:flex-row justify-between md:items-center mb-1 space-x-2 space-y-2">
             <div class="flex-grow h-10 flex items-center">
                 @if($this->searchableColumns()->count())
                 <div class="flex rounded-lg shadow-sm w-100">

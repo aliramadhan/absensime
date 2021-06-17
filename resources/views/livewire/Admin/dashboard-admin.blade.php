@@ -23,7 +23,7 @@
   </div>
   
     <div class="max-w-full mx-auto sm:px-6 lg:px-8 xl:px-20">
-      <div class="grid md:grid-cols-8 md:grid-flow-col md:gap-4 md:divide-x  md:divide-gray-300 grid-cols-1 md:px-0 px-4">
+      <div class="grid md:grid-cols-8 md:grid-flow-col md:gap-4 md:divide-x md:divide-gray-300 grid-cols-1 md:px-0 px-4">
         <div class="md:col-span-2 md:grid-rows-8 grid-cols-1 grid text-gray-600 text-center h-full md:mt-4 my-5">
           <livewire:show-task-activity />
           @php
@@ -113,7 +113,7 @@
 
         <div class="grid md:grid-rows-8 grid-cols-1 md:divide-y md:divide-gray-300 col-span-6">
           <div class="flex flex-col place-items-auto gap-2 md:mt-0 mt-10 pt-4 py-6 row-span-1 md:pl-8">
-            <label class="text-xl text-center ">Today Statistic</label>
+            <label class="text-2xl text-center font-semibold tracking-wide text-gray-700 ">Today Statistic</label>
             <div class="grid md:grid-cols-3 grid-cols-1 lg:gap-10 md:gap-2 mt-5 ">
 
               <div id="jh-stats-positive" class="flex flex-col justify-center px-4 py-4 bg-white border border-gray-200 rounded-xl relative">
@@ -135,7 +135,7 @@
                         @if($prev_attend == 0)
                           100%
                         @else
-                          {{($count_attend - $prev_attend)/$prev_attend*100}}%
+                          {{number_format(($count_attend - $prev_attend)/$prev_attend*100,1)}}%
                         @endif
                       </span>
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path class="heroicon-ui" d="M20 15a1 1 0 002 0V7a1 1 0 00-1-1h-8a1 1 0 000 2h5.59L13 13.59l-3.3-3.3a1 1 0 00-1.4 0l-6 6a1 1 0 001.4 1.42L9 12.4l3.3 3.3a1 1 0 001.4 0L20 9.4V15z"/></svg>
@@ -178,7 +178,7 @@
                         @if($prev_notsignin == 0)
                           100%
                         @else
-                          {{($count_notsignin - $prev_notsignin)/$prev_notsignin*100}}%
+                          {{number_format(($count_notsignin - $prev_notsignin)/$prev_notsignin*100,1)}}%
                         @endif
                       </span>
                       <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 fill-current" viewBox="0 0 24 24"><path class="heroicon-ui" d="M20 15a1 1 0 002 0V7a1 1 0 00-1-1h-8a1 1 0 000 2h5.59L13 13.59l-3.3-3.3a1 1 0 00-1.4 0l-6 6a1 1 0 001.4 1.42L9 12.4l3.3 3.3a1 1 0 001.4 0L20 9.4V15z"/></svg>
@@ -194,7 +194,7 @@
                   <p class="text-base text-center leading-tight text-gray-500">Not Sign in</p>
                 </div>
                 <div class="relative">
-                  <label class="absolute top-0 right-0 text-center text-xs ">{{$count_notsignin}}/<span class="font-semibold">{{$schedules->count()}}</span>
+                  <label class="absolute top-0 right-0 text-center text-xs ">{{number_format($count_notsignin,1)}}/<span class="font-semibold">{{$schedules->count()}}</span>
                   </label>
                   <div class="overflow-hidden h-2 mt-4 text-xs flex rounded bg-gray-200">               
                     <div style="width: @if($schedules->count() != 0){{$count_notsignin/$schedules->count()*100}}% @else 0% @endif" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-500"></div>                
@@ -245,13 +245,13 @@
           
           </div>
           </div>
-          <div class="row-span-3 grid grid-cols-3 divide-x py-4 md:pl-8 gap-4">
+          <div class="row-span-3 grid grid-cols-3  py-4 md:pl-8 gap-4">
             <div class="lg:col-span-2 col-span-3">
               <livewire:charts.chart-attend-statistic />
 
             </div>
-            <div class="pl-4 py-1 flex flex-col hidden lg:block items-center ">
-            <label class="text-xl text-center ">Head of Division</label>
+            <div class="overflow-y-auto py-2 text-center flex flex-col hidden lg:block items-center bg-white rounded-lg shadow">
+            <label class="text-xl text-center font-semibold tracking-wide text-gray-700">Head of Division</label>
             @foreach($users->where('role','Manager') as $user)
             <div class="flex justify-between gap-2 items-center text-sm my-2"> 
               <label class=" font-semibold text-center">{{$user->division}}</label>
@@ -261,14 +261,14 @@
             @endforeach
             
             <div class="w-full text-center mt-4">
-            <a class="bg-gray-400 focus:outline-none py-2 text-center px-8 shadow-lg rounded-lg text-sm mt-4 text-white hover:bg-blue-600 mx-auto modal-open cursor-pointer" wire:click="showManageDivision()">Manage</a>
+            <a class="bg-blue-400 font-semibold focus:outline-none py-2 text-center px-8 shadow-lg rounded-lg text-sm mt-4 text-white hover:bg-blue-600 mx-auto modal-open cursor-pointer" wire:click="showManageDivision()">Manage</a>
             </div>
             </div>
           </div>
 
           <div class="row-span-3 md:grid md:grid-cols-2 lg:grid-cols-1 text-center md:pl-8 py-4">
-           <div class="px-4 py-1 flex flex-col  lg:hidden md:block">
-            <label class="text-xl text-center mb-5">Head Office</label>
+           <div class="px-4 py-4 flex flex-col  lg:hidden md:block bg-white shadow rounded-lg">
+            <label class="text-xl text-center font-semibold tracking-wide text-gray-700 mb-5">Head of Division</label>
             @foreach($users->where('role','Manager') as $user)
             <div class="flex justify-between gap-2 items-center text-sm my-2"> 
               <label class=" font-semibold text-center">{{$user->division}}</label>
@@ -276,30 +276,30 @@
               <label class=" text-center">{{$user->name}}</label>
             </div>
             @endforeach
-            <a class="bg-blue-400 focus:outline-none  py-2 rounded-lg text-sm mt-4 text-white w-full hover:bg-blue-600 mx-auto modal-open" wire:click="showManageDivision()">Manage</a>
+            <a class="bg-blue-400 focus:outline-none font-semibold py-2 rounded-lg text-sm my-4 text-white w-full hover:bg-blue-600 mx-auto modal-open cursor-pointer" wire:click="showManageDivision()">Manage</a>
           </div>
           
-          <div class="flex hide-scroll lg:grid lg:grid-cols-4 xl:gap-8 gap-2 mt-2 text-gray-700 mb-4">
+          <div class="flex hide-scroll lg:grid lg:grid-cols-4 xl:gap-8 md:gap-2 space-x-2 mt-2 text-gray-700 mb-4 md:mt-0 mt-4">
          
-            <div class="flex hover:shadow-lg duration-200 justify-between bg-blue-200 gap-2 py-4 px-4 xl:px-8 rounded-lg flex-col items-center">
+            <div style="background-color: #0093E9;background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);" class="flex hover:shadow-lg duration-200 justify-between gap-2 py-4 px-4 xl:px-8 rounded-lg flex-col items-center text-white">
               <i class="fas fa-sign-in-alt bg-white px-6 text-gray-600 py-5 rounded-full text-3xl "></i>
               <label class="font-semibold ">Recap Shift</label>
-              <button class="text-sm focus:outline-none  bg-blue-400 w-full hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg" wire:click="exportShift()">Download</button>
+              <button class="text-sm focus:outline-none font-semibold bg-white w-full hover:bg-gray-100 shadow-md cursor-pointer text-gray-700 py-2 px-6 rounded-lg" wire:click="exportShift()">Download</button>
             </div>
-             <div class="flex hover:shadow-lg duration-200 justify-between bg-blue-200 gap-2  py-4 px-4 xl:px-8 rounded-lg flex-col items-center">
+             <div style="background-color: #0093E9;background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);" class="flex hover:shadow-lg duration-200 justify-between gap-2 py-4 px-4 xl:px-8 rounded-lg flex-col items-center text-white">
               <i class="far fa-calendar-alt bg-white px-6 text-gray-600 py-5 rounded-full text-3xl "></i>
               <label class="font-semibold ">Recap Schedule</label>
-              <button class="text-sm focus:outline-none  bg-blue-400 w-full hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg" wire:click="exportSchedule()">Download</button>
+              <button class="text-sm focus:outline-none font-semibold bg-white w-full hover:bg-gray-100 shadow-md cursor-pointer text-gray-700 py-2 px-6 rounded-lg" wire:click="exportSchedule()">Download</button>
             </div>
-             <div class="flex hover:shadow-lg duration-200 justify-between bg-blue-200 gap-2  py-4 px-4 xl:px-8 rounded-lg flex-col items-center">
+             <div style="background-color: #0093E9;background-image: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);" class="flex hover:shadow-lg duration-200 justify-between gap-2 py-4 px-4 xl:px-8 rounded-lg flex-col items-center text-white">
               <i class="far fa-copy bg-white px-6 text-gray-600 py-5 rounded-full text-3xl "></i>
               <label class="font-semibold ">Recap Request</label>             
-              <button class="text-sm focus:outline-none  bg-blue-400 w-full hover:bg-blue-700 cursor-pointer text-white py-2 px-6 rounded-lg" wire:click="exportRequest()">Download</button>
+              <button class="text-sm focus:outline-none font-semibold bg-white w-full hover:bg-gray-100 shadow-md cursor-pointer text-gray-700 py-2 px-6 rounded-lg" wire:click="exportRequest()">Download</button>
             </div>
-             <div class="flex hover:shadow-lg duration-200 justify-between bg-yellow-200 gap-2  py-4 px-4 xl:px-8 rounded-lg flex-col items-center">
+             <div style="background-color: background-color: #FBAB7E;background-image: linear-gradient(62deg, #FBAB7E 0%, #F7CE68 100%);" class="flex hover:shadow-lg duration-200 justify-between bg-orange-500 gap-2  py-4 px-4 xl:px-8 rounded-lg flex-col items-center text-gray-800">
               <i class="fas fa-print bg-white px-6 text-gray-600 py-5 rounded-full text-3xl "></i>
               <label class="font-semibold ">Recap All Document</label>             
-              <button class="text-sm focus:outline-none  bg-yellow-400 w-full hover:bg-yellow-600 cursor-pointer text-white py-2 px-6 rounded-lg" wire:click="exportAll()">Download</button>
+              <button class="text-sm focus:outline-none font-semibold bg-white w-full hover:bg-gray-100 shadow-md cursor-pointer text-gray-700 py-2 px-6 rounded-lg" wire:click="exportAll()">Download</button>
             </div>
 
           </div>

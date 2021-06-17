@@ -8,7 +8,7 @@
 	})->take(10);
     @endphp
 	<div class="flex flex-col gap-4 overflow-auto md:pr-2 row-span-6 mb-5">
-		<label class="text-xl ">Employee Activities</label>
+		<label class="text-2xl text-center font-semibold tracking-wide text-gray-700">Employee Activities</label>
 		@foreach($activities as $activity)
 		<div class="" x-data="{ show: false }">
 		<button @click="show = !show" :aria-expanded="show ? 'true' : 'false'" class="grid lg:grid-cols-4 md:grid-cols-1 grid-cols-4 md:items-start items-center text-sm md:gap-0 lg:gap-2 hover:bg-white hover:border-yellow-300 rounded-lg border border-gray-300 duration-200 relative w-full focus:outline-none" >

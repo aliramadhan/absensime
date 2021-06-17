@@ -1,5 +1,5 @@
 <div class="fixed z-10 inset-0 overflow-y-auto ease-out duration-400">
-    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+    <div class="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
         <div class="fixed inset-0 transition-opacity">
             <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
         </div>
@@ -38,14 +38,14 @@
                     </div>
                 </div>
     
-                <div class="bg-gray-50 md:px-6 px-4 py-3 flex justify-between items-center md:flex-row gap-2 flex-col">
+                <div class="bg-gray-50 md:px-6 px-4 py-3 flex justify-between items-center md:flex-row space-y-2 flex-col">
                 
                            
                   <div x-data="{ showDivision: false }" class="w-full"> 
                     <button @click="showDivision = true" x-show="!showDivision" type="button" class="inline-flex justify-center w-auto rounded-md border border-transparent px-4 py-2 bg-green-500 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-600 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5 items-center flex tracking-wider">
                       <i class="fas fa-plus mr-1"></i>Division
                     </button>
-                    <div x-show="showDivision" class="flex gap-2 w-full">
+                    <div x-show="showDivision" class="flex space-x-2 w-full">
                       <div class="relative text-gray-600 focus-within:text-gray-400 w-80 md:w-auto">
                         <span class="absolute inset-y-0 right-0 flex items-center pl-2">
                           <button type="button" @click="showDivision = false" class="p-1 focus:outline-none focus:shadow-outline">

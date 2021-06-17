@@ -109,10 +109,9 @@
     background-color: #fff;
     border-color: #d2d6dc;
     border-width: 1px;
-    border-radius: .375rem;  
-    
+    border-radius: .375rem;      
     line-height: 1.5;
-    
+    }
     
     
   </style>
@@ -164,7 +163,7 @@
 
   <x-jet-banner />
 
-  <div class="min-h-screen bg-gray-100">
+  <div class="min-h-screen bg-gray-50">
 
     @livewire('navigation-menu')
 

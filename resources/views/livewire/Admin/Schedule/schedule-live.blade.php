@@ -1,5 +1,5 @@
 <div class="bg-white shadow">
-    <div class="flex gap-4 justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
+    <div class="flex space-x-4 justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
          <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
             {{ __('Employee Schedule') }}
         </h2>
@@ -12,7 +12,7 @@
         @elseif($isModal == 'import')
             @include('livewire.Admin.Schedule.import')
         @endif
-        <div class="flex gap-4">
+        <div class="flex space-x-4">
          <button wire:click="create()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-plus"></i> <span class="hidden md:block">Schedule</span></button>
          <button wire:click="import()" class="bg-gradient-to-r from-green-500 to-green-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-file-import"></i> <span class="hidden md:block">Import </span></button>
          </div>
