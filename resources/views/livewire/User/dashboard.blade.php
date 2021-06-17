@@ -563,7 +563,8 @@
                           <div class="flex flex-col">
 	                        <h2 class="text-3xl leading-none ">Detail</h2>
 	                        @if($schedule != null)
-	                        <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-orange-500">{{ Carbon\Carbon::parse($schedule->started_at)->format('H:i') }}</span></h2>@endif
+	                        <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-orange-500">
+                            @if($schedule->started_at != null){{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y, H:i') }}@endif</span></h2>@endif
                           </div>
                           <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-gray-500 leading-none font-semibold border-yellow-300">
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFH</label><label class="text-gray-800">{{$wfh}}</label></div>
