@@ -1,4 +1,3 @@
-
 <div class="bg-white p-4 rounded-lg overflow-y-auto h-full">
 	@php
 
@@ -29,10 +28,10 @@
 		@foreach($listSchedules as $listSchedule)
 			@if($listSchedule->details->count() > 0)
 			@foreach($listSchedule->details->where('task','!=',null)->where('status','Work')->sortByDesc('created_at')->groupBy('task') as $task)
-			<div class="flex flex-col gap-1 text-sm border-b">
-				<div class="flex items-center mb-2 font-semibold gap-2 text-gray-500">
-					<h1 class="bg-gray-600 text-white px-3 py-1 rounded-lg lg:text-xs">{{Carbon\Carbon::parse($task->first()->created_at)->format('d, D')}}</h1>
-					<h1 class="text-gray-800 lg:text-base xl:text-lg">{{$task->first()->task}}</h1>
+			<div class="flex flex-col gap-1 text-sm border-b capitalize">
+				<div class="flex items-center mb-2 font-semibold space-x-2 text-gray-500">
+					<h1 class="bg-gray-600 text-white px-3 py-1 rounded-lg lg:text-xs min-w-max">{{Carbon\Carbon::parse($task->first()->created_at)->format('d, D')}}</h1>
+					<h1 class="text-gray-800 lg:text-base xl:text-lg truncate">{{$task->first()->task}}</h1>
 				</div>
 				<p class="leading-tight ">{{$task->first()->task_desc}}</p>
 				

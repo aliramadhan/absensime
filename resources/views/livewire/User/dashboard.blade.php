@@ -4,9 +4,9 @@
       <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
         Attendance <span class="md:inline-block hidden"> Record </span>
         <div class="overflow-hidden md:hidden block">
-          <div class="flex gap-1 items-center font-semibold text-sm">
+          <div class="flex space-x-1 items-center font-semibold text-sm">
              <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
-            <label class=" text-gray-500">Annual Leave Quota</label>
+            <label class="text-gray-500">Annual Leave Quota</label>
            
           </div>
         </div>
@@ -73,9 +73,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-8 flex-col flex flex-col-reverse gap-4">
 
-            <div class="lg:flex lg:flex-col md:grid md:grid-cols-2 gap-4 sm:rounded-lg col-span-2 flex flex-col-reverse hide-scroll">
+            <div class="lg:flex lg:flex-col md:grid md:grid-cols-2  sm:rounded-lg col-span-2 space-y-4 flex flex-col-reverse hide-scroll">
                 
-              <div class="overflow-hidden">
+              <div class="overflow-hidden md:mt-0 mt-4">
 
                 <style>
                   [x-cloak] {
@@ -83,7 +83,7 @@
                   }
                 </style>
 
-                <div class="antialiased sans-serif bg-gray-100 ">
+                <div class="antialiased sans-serif bg-gray-100 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg mb-3 md:mb-0">
                   <div x-data="app()" x-init="[initDate(), getNoOfDays()]" x-cloak>
                     <div class="container mx-auto  ">
 
@@ -143,7 +143,7 @@
                             <div
                             @click="showEventModal(date)"
                             x-text="date"
-                            class="inline-flex w-8 h-8 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100 p-2 hover-trigger"
+                            class="inline-flex w-8 h-8 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100 p-2 hover-trigger mx-auto"
                             :class="{'bg-blue-500 text-white': isToday(date) == true, 'hover-trigger text-gray-700 hover:bg-blue-200': isToday(date) == false }"
                             x-on:mouseover="$wire.set('dateCheck', date)"
                             ></div> 
@@ -309,7 +309,7 @@
                   <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
                 </div>
               </div>
-            <div class="overflow-hidden md:col-span-1 col-span-2">
+            <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg">
               <div class="overflow-hidden md:col-span-1 col-span-2 md:block lg:hidden hidden mb-2">
                 <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
                   <label class=" text-gray-700">Annual Leave Quota</label>
@@ -321,7 +321,7 @@
                
 
             </div>
-            <div class="overflow-hidden sm:rounded-lg col-span-6 grid gap-10">
+            <div class="overflow-hidden sm:rounded-lg col-span-6 grid md:gap-10 md:space-y-0 space-y-4">
                 
                 <div class="overflow-hidden sm:rounded-lg h-60 grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 items-center leading-tight h-full ">
                  <div class=" bg-gradient-to-r from-purple-300 to-blue-400 w-full h-full py-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block ">   
@@ -342,7 +342,7 @@
                     <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl shadow-md static ">
                     <div class="border-b-2 row-span-1 px-4 flex justify-between items-center relative "> 
 
-                        <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center gap-2">
+                        <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-2 md:-ml-2">
                            <div class=" bg-cover w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
                          <label class="border-r pr-2"> {{$now->format('l')}}</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
@@ -358,7 +358,7 @@
                             $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
                         @endphp
                         <div class="my-auto flex-row">
-                            <h2 class="font-semibold text-gray-800 text-sm md:text-base"><i class="far fa-calendar-alt text-orange-500"></i>  {{$schedule->shift->name}}</h2>
+                            <h2 class="font-semibold text-gray-800 text-sm md:text-base"><i class="far fa-calendar-alt text-orange-500"></i> Shift {{$schedule->shift->name}}</h2>
                             <h4 class="text-sm md:text-base">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
                         </div>
                         @endif
@@ -374,7 +374,7 @@
                           $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
                           @endphp
                           <div class="gap-2 flex mx-auto items-center ">
-                            <h2 class="font-semibold text-sm md:text-base "><i class="far fa-calendar-alt"></i>  {{$schedule->shift->name}}</h2>
+                            <h2 class="font-semibold text-sm md:text-base "><i class="far fa-calendar-alt"></i>  Shift {{$schedule->shift->name}}</h2>
                             <h4 class="text-sm md:text-base">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
                            
                           </div>
@@ -389,10 +389,10 @@
 
                     </div>
 
-                    <div class="row-span-4 px-4 py-3 mt-2">                      
+                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4">                      
                       <div class="flex md:flex-row flex-col justify-between gap-2">
-                        <label class="block flex gap-4 items-center mb-2 ">
-                            <span class="text-gray-700 flex gap-1"><span class="hidden md:block">Tracking </span> Option</span>
+                        <label class="block flex space-x-4 items-center mb-2 ">
+                            <span class="text-gray-700 flex space-x-1">Tracking Option</span>
                             <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($cekRemote) disabled @endif>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
                                 <option value="WFO">Work From Office</option>
@@ -533,6 +533,7 @@
               @endif
               @endif
             </div>
+                    
                    	<div class="bg-white overflow-hidden border-1 sm:rounded-lg p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg">
                   		<div class="grid md:grid-cols-6 items-center gap-2">
 	                      <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2">
@@ -542,9 +543,9 @@
 	                        <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-orange-500">{{ Carbon\Carbon::parse($schedule->started_at)->format('H:i') }}</span></h2>@endif
                           </div>
                           <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-gray-500 leading-none font-semibold border-yellow-300">
-                            <h2 class="font-xs leading-tight flex justify-between flex-auto gap-2">WFH<span class="text-gray-800">{{$wfh}}</span></h2>
-                            <h2 class="font-xs leading-tight flex justify-between flex-auto gap-2">WFO<span class="text-gray-800">{{$wfo}}</span></h2>
-                            <h2 class="font-xs leading-tight flex justify-between flex-auto gap-2">BT<span class="text-right flex-auto text-gray-800">{{$business_travel}}</span></h2>
+                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFH</label><label class="text-gray-800">{{$wfh}}</label></div>
+                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFO</label><label class="text-gray-800">{{$wfo}}</label></div>
+                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>BT</label><label class="text-right flex-auto text-gray-800">{{$business_travel}}</label></div>
                           </div>
 	                      </div>
 	                      <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center">
@@ -646,7 +647,7 @@
       					    $hours = intval($total_minutes/60);
       					    $time_weekly = $hours."h ".$minutes."m";
                 	@endphp
-                   	<div class="bg-white overflow-hidden sm:rounded-lg p-4 flex flex-col border">
+                   	<div class="bg-white overflow-hidden rounded-lg p-4 flex flex-col border md:w-full w-11/12 mx-auto md:mx-0">
                    		<div class="grid md:grid-cols-6  grid-rows-2 items-center gap-2">
 	                      <div class="col-span-3 flex flex-col text-2xl text-gray-800 leading-none font-semibold">
 	                        <h2 class="text-3xl leading-none">Recent</h2>
@@ -667,7 +668,7 @@
                        <h2 class="text-white bg-orange-500 py-1 rounded-lg w-full md:w-10/12 md:text-base text-xs">Weekly Hour</h2>
 	                     </div>
 	                   	</div>
-	                   	<div class="hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3 overflow-x-auto">
+	                   	<div class="scroll hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3 overflow-x-auto cursor-pointer">
                         @foreach($schedules as $scheduleUser)
                         @php
                           $seconds = intval(($scheduleUser->workhour + $scheduleUser->timer)%60);
@@ -698,6 +699,8 @@
                       @endforeach
 	                   	</div>
                  	</div>
+                 
+
             </div>
             </div>
         </div>
@@ -783,18 +786,34 @@ window.customElements.define('progress-ring', ProgressRing);
             alert("Sorry, your browser does not support HTML5 geolocation.");
         }
     }
-    /*function getLocation(position) {
-        var latitude = position.coords.latitude;
-        var longitude = position.coords.longitude;
-        console.log('Lat : '+latitude+" & Long : "+longitude);
-        var url = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + latitude + "," + longitude + "&key=AIzaSyBhu9oJ070Updsrzpcy6HRWwcYS-ye35iI";
 
-        $.getJSON(url, function (data) {
-          var address = data.results[4].formatted_address;
-          console.log(data);
-          window.livewire.emit('set:latitude-longitude', latitude, longitude,address);
-        });
-    }*/
+    const slider = document.querySelector(".scroll");
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    slider.addEventListener("mousedown", e => {
+      isDown = true;
+      slider.classList.add("active");
+      startX = e.pageX - slider.offsetLeft;
+      scrollLeft = slider.scrollLeft;
+  });
+    slider.addEventListener("mouseleave", () => {
+      isDown = false;
+      slider.classList.remove("active");
+  });
+    slider.addEventListener("mouseup", () => {
+      isDown = false;
+      slider.classList.remove("active");
+  });
+    slider.addEventListener("mousemove", e => {
+      if (!isDown) return;
+      e.preventDefault();
+      const x = e.pageX - slider.offsetLeft;
+      const walk = x - startX;
+      slider.scrollLeft = scrollLeft - walk;
+  });
+
     window.onload = showPosition;
 
 </script>

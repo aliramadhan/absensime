@@ -24,14 +24,16 @@
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             <div class="max-w-xl mx-auto sm:px-6 lg:px-8 flex  items-center">
-                <div class="flex flex-col md:flex-row items-center pt-8 sm:justify-start sm:pt-0 gap-2 font-semibold">
-                    <div class="px-4 text-lg text-gray-500 border-r border-gray-400 tracking-wider">
+                <div class="flex flex-col md:flex-row items-center pt-8 sm:justify-start sm:pt-0 space-y-2 gap-2 font-semibold">
+                    <div class="w-full flex space-x-2">
+                    <div class="text-lg text-gray-500 border-r border-gray-400 tracking-wider">
                         @yield('code')
                     </div>
 
-                    <div class="ml-4 text-lg text-gray-500 uppercase tracking-wider">
+                    <div class="md:ml-4 ml-0 text-lg text-gray-500 uppercase tracking-wider">
                         @yield('message')
-                    </div>                   
+                    </div>         
+                    </div>
                      <a href="https://attendance.pahlawandesignstudio.com/" class="bg-blue-500 text-white duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 gap-2 text-base font-semibold tracking-wider rounded-xl shadow-md focus:outline-none ">Back to App</a>
                 </div>
                
