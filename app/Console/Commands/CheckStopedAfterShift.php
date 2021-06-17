@@ -52,7 +52,7 @@ class CheckStopedAfterShift extends Command
             $time_out = Carbon::parse($shift->time_out);
             if ($now->greaterThan($time_out)) {
                 $time_limit = $time_in->diffInSeconds($time_out);
-                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' || $schedule->status != 'Overtime' || $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) % 10 == 0)) {
+                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) / 10 == 1)) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending email to: {$user->name}!");
                 }
