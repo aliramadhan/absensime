@@ -37,6 +37,12 @@
         </div>         
 
         <div class="flex md:flex-row flex-col items-center justify-between gap-2">
+            <div class="block mt-4">
+                <label for="remember_me" class="flex items-center">
+                    <x-jet-checkbox id="remember_me" name="remember" />
+                    <span class="ml-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                </label>
+            </div>
             @if (Route::has('password.request'))
             <a class="underline text-base text-right text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                 {{ __('Forgot your password?') }}
