@@ -390,7 +390,7 @@
                     </div>
 
                     <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4">                      
-                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center ">
+                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center border-b pb-3">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($cekRemote) disabled @endif>
@@ -401,7 +401,7 @@
                             </select>
                         </label>
 
-                         <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }} asddsadsadasd</h2>
+                         <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
                     <div class="flex justify-between items-center flex-col md:flex-row">
 					    @if($isModal == 'Pause')
