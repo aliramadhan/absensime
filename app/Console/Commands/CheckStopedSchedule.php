@@ -46,31 +46,39 @@ class CheckStopedSchedule extends Command
         $schedules = Schedule::whereDate('date',$now)->get();
         foreach ($schedules as $schedule) {
             $user = User::find($schedule->employee_id);
-            if ($schedule->status != 'Done' && $schedule->status != 'Not sign in') {
-                $user->is_active = 0;
-                $user->save();
-                $data = [
-                    'name' => $user->name
-                ];
-                Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
-                Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));
-                Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
-                Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
-                $this->info('mail Sended.');
-                //set schedule to done
-                //update task and stop schedule
-                $detailSchedule = $schedule->details->sortByDesc('id')->first();
-                $detailSchedule->update([
-                    'stoped_at' => $now,
-                ]);
-                $timer = $schedule->timer;
-                $workhour = $schedule->workhour + $timer;
-                $schedule->update([
-                    'stoped_at' => $now,
-                    'workhour' => $workhour,
-                    'timer' => 0,
-                    'status' => 'Done',
-                ]);
+            $shift = $schedule->shift;
+            $time_in = Carbon::parse($shift->time_in);
+            $time_out = Carbon::parse($shift->time_out);
+            if ($time_in > $time_out) {
+                //do something
+            }
+            else{
+                if ($schedule->status != 'Done' && $schedule->status != 'Not sign in') {
+                    $user->is_active = 0;
+                    $user->save();
+                    $data = [
+                        'name' => $user->name
+                    ];
+                    Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
+                    Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));
+                    Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
+                    Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
+                    $this->info('mail Sended.');
+                    //set schedule to done
+                    //update task and stop schedule
+                    $detailSchedule = $schedule->details->sortByDesc('id')->first();
+                    $detailSchedule->update([
+                        'stoped_at' => $now,
+                    ]);
+                    $timer = $schedule->timer;
+                    $workhour = $schedule->workhour + $timer;
+                    $schedule->update([
+                        'stoped_at' => $now,
+                        'workhour' => $workhour,
+                        'timer' => 0,
+                        'status' => 'Done',
+                    ]);
+                }
             }
         }
 

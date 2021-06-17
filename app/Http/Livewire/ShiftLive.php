@@ -12,7 +12,7 @@ class ShiftLive extends Component
   protected $rules = [
     'name' => 'required|string',
     'time_in' => 'required|date_format:H:i',
-    'time_out' => 'required|date_format:H:i|after:time_in',
+    'time_out' => 'required|date_format:H:i|',
   ];
 
   public function render()

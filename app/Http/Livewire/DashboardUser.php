@@ -52,13 +52,19 @@ class DashboardUser extends Component
         $this->now = Carbon::now();
         $this->shifts = Shift::all();
         $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
-        $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->get();
+        $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->orderBy('date','asc')->get();
         $request = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
         if ($request != null) {
             $this->cekRemote = 1;
             $this->location = 'Remote';
         }
-    	$this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
+        //check if have shift over 24
+        if ($this->schedules->where('status','!=','Done')->first() != null) {
+            $this->schedule = $this->schedules->where('status','!=','Done')->first();
+        }
+        else{
+            $this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
+        }
         if ($this->schedule != null) {
             $this->shift = $this->schedule->shift;
             $time_in = Carbon::parse($this->shift->time_in);
