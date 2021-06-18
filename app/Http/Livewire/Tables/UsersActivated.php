@@ -16,7 +16,7 @@ class UsersActivated extends LivewireDatatable
     public $user;
     public function builder()
     {
-        return User::where('roles','Employee');
+        return User::where('role','Employee');
     }
 
     public function columns()

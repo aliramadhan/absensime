@@ -10,13 +10,16 @@ use Carbon\Carbon;
 
 class ReportWeekly extends Component
 {
-	public $users;
+	public $users, $time;
     
+    protected $listeners = ['refreshTable' => 'refreshDatatable'];
+
     public function render()
     {
     	$this->users = User::where('role','Employee')->get();
     	foreach ($this->users as $user) {
     		//get time weekly
+            $this->time = request('time');
     		$startWeek = Carbon::now()->startOfWeek();
     		$endWeek = Carbon::now()->endOfWeek();
     		$weekly_work = Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
@@ -55,4 +58,9 @@ class ReportWeekly extends Component
     	}
         return view('livewire.Admin.report-weekly');
     }
+    public function refreshDatatable()
+    {
+        $this->emit('refreshLivewireDatatable');
+    }
+
 }
