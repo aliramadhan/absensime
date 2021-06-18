@@ -324,7 +324,7 @@
             <div class="overflow-hidden sm:rounded-lg col-span-6 grid md:gap-10 md:space-y-0 space-y-4">
                 
                 <div class="overflow-hidden sm:rounded-lg h-60 grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 items-center leading-tight h-full ">
-                 <div class=" bg-gradient-to-r from-purple-300 to-blue-400 w-full h-full py-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block ">   
+                 <div class=" bg-gradient-to-r from-purple-300 to-blue-400 w-full h-full py-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-lg">   
                     <div class=" bg-cover w-32 h-32 mb-6 items-center rounded-full mx-auto" style="background-image: url({{ Auth::user()->profile_photo_url }});">
                     @if($schedule != null)
                     @php
@@ -390,7 +390,7 @@
                     </div>
 
                     <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4">                      
-                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center border-b pb-3">
+                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($cekRemote) disabled @endif>
@@ -557,34 +557,34 @@
               @endif
             </div>
                     
-                   	<div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg shadow-lg border md:border-4 border-gray-400">
+                   	<div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg shadow-lg border md:border-4 border-white">
                   		<div class="grid md:grid-cols-6 items-center gap-2">
-	                      <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2">
+	                      <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2 ">
                           <div class="flex flex-col">
 	                        <h2 class="text-3xl leading-none ">Detail</h2>
 	                        @if($schedule != null)
-	                        <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-orange-500 md:text-sm text-xs">
+	                        <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-gray-700 md:text-base text-xs">
                             @if($schedule->started_at != null)<span class="md:hidden block mt-1"></span> 
                            {{ Carbon\Carbon::parse($schedule->started_at)->format('H:i, d F Y') }}@endif</span></h2>@endif
                           </div>
-                          <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-gray-500 leading-none font-semibold border-yellow-300">
-                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFH</label><label class="text-gray-800">{{$wfh}}</label></div>
-                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFO</label><label class="text-gray-800">{{$wfo}}</label></div>
-                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>BT</label><label class="text-right flex-auto text-gray-800">{{$business_travel}}</label></div>
+                          <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-white leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg">
+                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFH</label><label class="text-gray-50">{{$wfh}}</label></div>
+                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFO</label><label class="text-gray-50">{{$wfo}}</label></div>
+                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>BT</label><label class="text-right flex-auto text-gray-50">{{$business_travel}}</label></div>
                           </div>
 	                      </div>
-	                      <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center">
+	                      <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow-lg py-2 px-2 border-2 rounded-lg border-red-300">
 	                       <h2 class="text-base leading-none">{{$unproductive}}</h2>
-	                       <h2 class="md:text-sm xl:text-lg text-base text-gray-500 font-base">Unproductive</h2>
+	                       <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Unproductive</h2>
 	                     </div>
-	                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center">
+	                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow-lg py-2 px-2 border-2 rounded-lg border-green-300">
 	                       <h2 class="text-base leading-none">{{$time}}</h2>
-	                       <h2 class="md:text-sm xl:text-lg text-base text-gray-500 font-base">Productive</h2>
+	                       <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Productive</h2>
 	                     </div>
-                      <div class="hidden md:block flex flex-col md:text-xs xl:text-sm border-2 rounded-xl px-2 py-1 text-gray-500 leading-none font-semibold">
-                        <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-800">{{$wfh}}</span></h2>
-                        <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-800">{{$wfo}}</span></h2>
-                        <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-gray-800">{{$business_travel}}</span></h2>
+                      <div class="hidden md:block flex flex-col md:text-xs xl:text-sm  rounded-xl px-3 py-2 text-white  leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg" style="">
+                        <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-50">{{$wfh}}</span></h2>
+                        <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-50">{{$wfo}}</span></h2>
+                        <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-gray-50">{{$business_travel}}</span></h2>
                       </div>
 	                   </div>
 	               
@@ -609,7 +609,10 @@
                            Tracking is Done 
                          </span> 
                          <span class="text-sm text-gray-500 font-semibold">
-                          <span class="text-orange-500">@if($schedule != null)Stop Tracking at {{ Carbon\Carbon::parse($schedule->stoped_at)->format('H:i') }}@endif</span>
+                          <span class="text-gray-700">@if($schedule != null)
+                            <span class="hidden md:inline-block">Stop Tracking at </span> 
+                            <span class="md:hidden inline-block"><i class="far fa-stop-circle"></i></span>
+                            <span class="text-orange-500">{{ Carbon\Carbon::parse($schedule->stoped_at)->format('H:i') }}@endif</span></span>
                          </span>   
                          @else
 

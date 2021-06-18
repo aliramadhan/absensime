@@ -163,7 +163,7 @@
 
   <x-jet-banner />
 
-  <div class="min-h-screen bg-gray-50">
+  <div class="min-h-screen bg-gradient-to-r from-gray-100 to-gray-200">
 
     @livewire('navigation-menu')
 
