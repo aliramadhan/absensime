@@ -37,7 +37,7 @@ class UserLive extends Component
             'position' => 'required',
             'joined_at' => 'required|date',
         ]);
-        $cekManager = User::where('role','Manager')->where('division',$this->division)->first();
+        $cekManager = User::where('roles','Manager')->where('division',$this->division)->first();
         if ($this->role == 'Manager' && $cekManager != null) {
             $this->addError('role', 'Manager at '.$this->division.' division already exist.');
         }
@@ -47,7 +47,8 @@ class UserLive extends Component
                 'name' => $this->name,
                 'email' => $this->email,
                 'password' => Hash::make($password),
-                'role' => $this->role,
+                'role' => 'Employee',
+                'roles' => $this->role,
                 'position' => $this->position,
                 'number' => $this->number,
                 'address' => $this->address,

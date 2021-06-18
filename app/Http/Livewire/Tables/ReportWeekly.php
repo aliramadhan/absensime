@@ -16,10 +16,15 @@ use Illuminate\Support\Collection;
 
 class ReportWeekly extends LivewireDatatable
 {
+    public $param = null, $startWeek, $endWeek;
     public function builder()
     {
+        if ($this->param == null) {
+            $this->param = Carbon::now();
+        }
+        $this->startWeek = Carbon::parse($this->param)->startOfWeek();
+        $this->endWeek = Carbon::parse($this->param)->endOfWeek();
 		return $users = User::where('role','Employee');
-
     }
 
     public function columns()
@@ -68,8 +73,8 @@ class ReportWeekly extends LivewireDatatable
 	    		->label('Employee Name')->filterable(),
             Column::callback(['id'], function ($id) {
             	$user = User::find($id);
-            	$startWeek = Carbon::now()->startOfWeek();
-	    		$endWeek = Carbon::now()->endOfWeek();
+            	$startWeek = $this->startWeek;
+	    		$endWeek = $this->endWeek;
 	    		$weekly_work = Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
 	    		$seconds = intval($weekly_work->sum(\DB::raw('workhour + timer'))%60);
 			    $total_minutes = intval($weekly_work->sum(\DB::raw('workhour + timer'))/60);
@@ -79,8 +84,8 @@ class ReportWeekly extends LivewireDatatable
             })->label('Weekly Hour'),
             Column::callback(['id','name'], function ($id,$name) {
             	$user = User::find($id);
-            	$startWeek = Carbon::now()->startOfWeek();
-	    		$endWeek = Carbon::now()->endOfWeek();
+                $startWeek = $this->startWeek;
+                $endWeek = $this->endWeek;
 	    		$weekly_work = Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
 	    		$seconds = intval($weekly_work->sum(\DB::raw('workhour + timer'))%60);
 			    $total_minutes = intval($weekly_work->sum(\DB::raw('workhour + timer'))/60);
@@ -106,8 +111,8 @@ class ReportWeekly extends LivewireDatatable
             })->label('Target Hour'),
             Column::callback(['id','name','role'], function ($id,$name, $role) {
             	$user = User::find($id);
-            	$startWeek = Carbon::now()->startOfWeek();
-	    		$endWeek = Carbon::now()->endOfWeek();
+                $startWeek = $this->startWeek;
+                $endWeek = $this->endWeek;
 	    		$weekly_work = Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
 	    		$seconds = intval($weekly_work->sum(\DB::raw('workhour + timer'))%60);
 			    $total_minutes = intval($weekly_work->sum(\DB::raw('workhour + timer'))/60);

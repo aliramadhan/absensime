@@ -148,7 +148,7 @@ class RequestUser extends Component
         }
         else{
             //create activated record
-            if ($this->type == 'Activated Record') {
+            if ($this->type == 'Activation Record') {
                 $request = Request::create([
                     'employee_id' => $this->user->id,
                     'employee_name' => $this->user->name,
