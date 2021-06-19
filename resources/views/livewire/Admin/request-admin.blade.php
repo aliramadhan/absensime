@@ -17,11 +17,7 @@
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
   
 
-    <livewire:request-datatable-user
-  		 searchable="employee"
-        exportable
-
-     />
+    <livewire:request-datatable-user searchable="employee" exportable />
 		</div>
 	</div>
 </div>

@@ -252,7 +252,7 @@
             </div>
             <div class="overflow-y-auto py-2 text-center flex flex-col hidden lg:block items-center bg-white rounded-lg shadow">
             <label class="text-xl text-center font-semibold tracking-wide text-gray-700">Head of Division</label>
-            @foreach($users->where('role','Manager') as $user)
+            @foreach($users->where('roles','Manager') as $user)
             <div class="flex justify-between gap-2 items-center text-sm my-2"> 
               <label class=" font-semibold text-center">{{$user->division}}</label>
               <span class="border flex-auto h-0.5 bg-gray-900 "></span>
@@ -269,7 +269,7 @@
           <div class="row-span-3 md:grid md:grid-cols-2 lg:grid-cols-1 text-center md:pl-8 py-4">
            <div class="px-4 py-4 flex flex-col  lg:hidden md:block bg-white shadow rounded-lg">
             <label class="text-xl text-center font-semibold tracking-wide text-gray-700 mb-5">Head of Division</label>
-            @foreach($users->where('role','Manager') as $user)
+            @foreach($users->where('roles','Manager') as $user)
             <div class="flex justify-between gap-2 items-center text-sm my-2"> 
               <label class=" font-semibold text-center">{{$user->division}}</label>
               <span class="border flex-auto h-0.5 bg-gray-900 "></span>
