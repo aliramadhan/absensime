@@ -69,7 +69,12 @@ class DashboardUser extends Component
             $this->shift = $this->schedule->shift;
             $time_in = Carbon::parse($this->shift->time_in);
             $time_out = Carbon::parse($this->shift->time_out);
-            $this->limit_workhour = $time_in->diffInSeconds($time_out);
+            if ($time_out < $time_in) {
+                $this->limit_workhour = $time_in->diffInSeconds(Carbon::parse($time_out)->addDay());
+            }
+            else{
+                $this->limit_workhour = $time_in->diffInSeconds($time_out);
+            }
             $this->detailSchedule = $this->schedule->details->SortByDesc('id')->first();
             foreach ($this->schedule->details->where('status','Rest') as $detail) {
                 if ($detail->stoped_at != null) {

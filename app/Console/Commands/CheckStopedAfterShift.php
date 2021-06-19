@@ -56,6 +56,9 @@ class CheckStopedAfterShift extends Command
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending email to: {$user->name}!");
                 }
+                else{
+                    $this->info("not Sending email.");
+                }
             }
             else{
                 $this->info("belum lewat shift");
