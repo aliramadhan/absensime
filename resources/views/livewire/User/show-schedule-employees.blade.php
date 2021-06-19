@@ -39,7 +39,7 @@
           <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
       </button>
   </span>
-  <input type="search" id="myInput" onkeyup="searching()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
+  <input type="search" id="myInputSearch" onkeyup="searching1()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
 </div>
 <button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export Schedule</button>
 </div>
@@ -74,7 +74,7 @@ tbody th {
 
 </style>
 <div class="scroll overflow-auto cursor-pointer relative" style="max-height: 24em;">
-    <table class="table-fixed border flex-initial relative">
+    <table class="table-fixed border flex-initial relative" id="scheduleTable">
       <thead>
        <tr>
 
@@ -90,7 +90,7 @@ tbody th {
                 {{$date->format('d')}}
             </th>
             @else
-            <th class='hover:bg-yellow-500 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-400 w-32 border '>
+            <th class='hover:bg-yellow-500 bg-gray-100 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border '>
                 {{$date->format('d')}}
             </th>
             @endif
@@ -100,7 +100,7 @@ tbody th {
     <tbody class="border-gray-50 duration-300">
         @foreach($users as $user)
         <tr >
-            <th  width="50%" class="p-2 -ml-1 truncate bg-white whitespace-nowrap hide-scroll border-2 text-left h-auto text-sm font-semibold shadow-xl text-gray-700 w-1/2   top-0 ">{{$user->name}}</th>
+            <th  width="50%" class="p-2  truncate bg-white whitespace-nowrap hide-scroll border-2 text-left h-auto text-sm font-semibold shadow-xl text-gray-700 w-1/2 top-0 ">{{$user->name}}</th>
             
             @for($i = 1; $i <= $now->daysInMonth; $i++)
                 @php
@@ -119,11 +119,11 @@ tbody th {
                 @endif
                 @else
                 @if($schedule == null)
-                <td class='px-1 py-2 text-center border border-gray-500 text-xs w-48'>
+                <td class='px-1 py-2 text-center border border-gray-300 text-xs w-48'>
                     <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label>
                 </td>
                 @elseif($schedule != null && $schedule->status != 'Not sign in')
-                <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-400 text-sm'>{{$schedule->shift_name}}</td>
+                <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm'>{{$schedule->shift_name}}</td>
                 @else
                 <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-200 border border-gray-400 font-semibold tracking-wide text-center text-sm '>{{$schedule->shift_name}}</td>
                 @endif
@@ -172,11 +172,11 @@ Today / Day Active
 
 
 <script>
-    function searching() {
+    function searching1() {
         var input, filter, tbody, tr, th, i, txtValue;
-        input = document.getElementById("myInput");
+        input = document.getElementById("myInputSearch");
         filter = input.value.toUpperCase();
-        tbody = document.getElementById("myTable");
+        tbody = document.getElementById("scheduleTable");
         tr = tbody.getElementsByTagName("tr");
         for (i = 0; i < tr.length; i++) {
             th = tr[i].getElementsByTagName("th")[0];
