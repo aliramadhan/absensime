@@ -20,7 +20,7 @@
                             @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4 flex-auto">
-                            <label for="formEmail" class="block text-gray-500 text-sm font-semibold mb-2">Duration:</label>
+                            <label for="formEmail" class="block text-gray-500 text-sm font-semibold mb-2">Description:</label>
                             <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formEmail" wire:model="desc" placeholder="Description">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
