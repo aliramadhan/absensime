@@ -344,10 +344,10 @@
 
                         <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-2 md:-ml-2">
                            <div class=" bg-cover w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
-                         <label class="border-r pr-2"> {{Carbon\Carbon::parse($schedule->date)->format('l')}}</label>
+                         <label class="border-r pr-2"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
-                            <label class="leading-none text-base">{{Carbon\Carbon::parse($schedule->date)->format('d F')}} </label>
-                            <label class="text-blue-500 xl:text-lg text-base md:text-base leading-none ">{{Carbon\Carbon::parse($schedule->date)->format('Y')}}</label>
+                            <label class="leading-none text-base">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d F')}} @else {{$now->format('d F')}} @endif</label>
+                            <label class="text-blue-500 xl:text-lg text-base md:text-base leading-none ">@if($schedule != null) {{Carbon\Carbon::parse($schedule->date)->format('Y')}} @else {{$now->format('Y')}} @endif</label>
                           </div>
                         </div>
                         <div class="flex items-center gap-4 hidden md:inline-flex">
