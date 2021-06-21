@@ -39,6 +39,7 @@ class RequestDatatableUser extends LivewireDatatable
     	$list_leave->push('Overtime');
     	$list_leave->push('Remote');
     	$list_leave->push('Change Shift');
+    	$list_leave->push('Activation Record');
     	$list_leave->push('Excused');
     	if (auth()->user()->roles == 'Manager') {
 	        return [
@@ -194,15 +195,6 @@ class RequestDatatableUser extends LivewireDatatable
     		$request->save();
     	}
     	else{
-    		$request->status = $action;
-    		$request->save();
-    		//cancel catering
-    		if ($request->is_cancel_order == 1) {
-				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
-				if ($order != null) {
-					$order->delete();
-				}
-    		}
     		$request->status = $action;
     		$request->save();
     	}
