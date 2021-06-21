@@ -153,6 +153,8 @@ class RequestDatatableUser extends LivewireDatatable
     public function actionRequest($id, $action)
     {
     	$request = Request::find($id);
+    	$dateRequest = Carbon::parse($request->created_at);
+    	$date = Carbon::parse($request->date);
     	$user = User::find($request->employee_id);
     	if ($action == 'Accept') {
     		$schedule = Schedule::whereDate('date',$request->date)->where('employee_id',$user->id)->first();
@@ -179,7 +181,8 @@ class RequestDatatableUser extends LivewireDatatable
 	    		//cancel catering
 	    		if ($request->is_cancel_order == 1) {
 					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
-					if ($order != null) {
+					$orderDate = Carbon::parse($order->order_date);
+					if ($order != null && !$orderDate->isSameDay($dateRequest)) {
 						$order->delete();
 					}
 	    		}
@@ -205,7 +208,8 @@ class RequestDatatableUser extends LivewireDatatable
     		//cancel catering
     		if ($request->is_cancel_order == 1) {
 				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
-				if ($order != null) {
+				$orderDate = Carbon::parse($order->order_date);
+				if ($order != null && !$orderDate->isSameDay($dateRequest)) {
 					$order->delete();
 				}
     		}
