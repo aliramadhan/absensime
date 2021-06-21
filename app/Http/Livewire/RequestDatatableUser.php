@@ -196,6 +196,15 @@ class RequestDatatableUser extends LivewireDatatable
     	else{
     		$request->status = $action;
     		$request->save();
+    		//cancel catering
+    		if ($request->is_cancel_order == 1) {
+				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
+				if ($order != null) {
+					$order->delete();
+				}
+    		}
+    		$request->status = $action;
+    		$request->save();
     	}
         $this->emit('refreshLivewireDatatable');
     }
