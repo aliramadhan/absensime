@@ -173,9 +173,11 @@ class DashboardUser extends Component
     public function startOn()
     {
         //set position
-        $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
-        $this->position = $position[0]['formatted_address'];
-        $this->currentPosition = $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name;
+        if ($this->location == 'WFO') {
+            $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
+            $this->position = $position[0]['formatted_address'];
+            $this->currentPosition = $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name;
+        }
         //Update schedule and create task
     	$this->now = Carbon::now();
         $shift = $this->schedule->shift;
@@ -275,14 +277,24 @@ class DashboardUser extends Component
     public function resumeOn()
     {
     	$this->detailSchedule =$this->schedule->details->SortByDesc('id')->first();
-        $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
-    	
-        //update detail pause and stop it
-        $this->schedule->update([
-    		'status' => 'Working',
-            'current_position' => $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name,
+        $setPosition = null;
+        if ($this->location == 'WFO') {
+            $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
+            $setPosition = $position[0]['formatted_address'];
+            //update detail pause and stop it
+            $this->schedule->update([
+                'status' => 'Working',
+                'current_position' => $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name,
 
-    	]);
+            ]);
+        }
+        else{
+            //update detail pause and stop it
+            $this->schedule->update([
+                'status' => 'Working',
+
+            ]);
+        }
     	$this->detailSchedule->update([
     		'stoped_at' => Carbon::now(),
     	]);
@@ -297,7 +309,7 @@ class DashboardUser extends Component
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'location' => $this->location,
-            'position' => $position[0]['formatted_address']
+            'position' => $setPosition
         ]);
 
         $this->closeModal();
@@ -306,10 +318,12 @@ class DashboardUser extends Component
     }
     public function stopOn()
     {
-        //set position
-        $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
-        $this->position = $position[0]['formatted_address'];
-        $this->currentPosition = $position[3]['address_components'][0]->long_name.', '.$position[3]['address_components'][1]->long_name;
+        if ($this->location == 'WFO') {
+            //set position
+            $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
+            $this->position = $position[0]['formatted_address'];
+            $this->currentPosition = $position[3]['address_components'][0]->long_name.', '.$position[3]['address_components'][1]->long_name;
+        }
         //update task and stop schedule
         $this->now = Carbon::now();
         $this->detailSchedule->update([
