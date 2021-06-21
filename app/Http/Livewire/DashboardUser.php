@@ -59,8 +59,9 @@ class DashboardUser extends Component
             $this->location = 'Remote';
         }
         //check if have shift over 24
-        if ($this->schedules->where('status','!=','Done')->first() != null) {
-            $this->schedule = $this->schedules->where('status','!=','Done')->first();
+        $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()])->where('status','!=','Done')->where('status','!=','No Record')->orderBy('date','asc')->get();
+        if ($schedules->first() != null) {
+            $this->schedule = $schedules->first();
         }
         else{
             $this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();

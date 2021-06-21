@@ -344,10 +344,10 @@
 
                         <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-2 md:-ml-2">
                            <div class=" bg-cover w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
-                         <label class="border-r pr-2"> {{$now->format('l')}}</label>
+                         <label class="border-r pr-2"> {{Carbon\Carbon::parse($schedule->date)->format('l')}}</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
-                            <label class="leading-none text-base">{{$now->format('d F')}} </label>
-                            <label class="text-blue-500 xl:text-lg text-base md:text-base leading-none ">{{$now->format('Y')}}</label>
+                            <label class="leading-none text-base">{{Carbon\Carbon::parse($schedule->date)->format('d F')}} </label>
+                            <label class="text-blue-500 xl:text-lg text-base md:text-base leading-none ">{{Carbon\Carbon::parse($schedule->date)->format('Y')}}</label>
                           </div>
                         </div>
                         <div class="flex items-center gap-4 hidden md:inline-flex">
@@ -482,10 +482,15 @@
               <label class="flex items-center mt-3 w-auto">
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md" wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Writing assignments ?</span>
               </label>
-              @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1)
+              @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1 && Carbon\Carbon::parse($schedule->shift->time_in)->diffInMinutes($now) <= 10)
               <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Start Record</button>             
               <label class="flex items-center mt-3 w-auto">
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Writing assignments ?     </span>
+              </label>
+              @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1)
+              <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Not ready to Record</button>             
+              <label class="flex items-center mt-3 w-auto">
+                Ready to start at : {{Carbon\Carbon::parse($schedule->shift->time_in)->subMinute(10)->format('H:i')}} 
               </label>
               @elseif($schedule != null && ($schedule->status == 'Done'))
                <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Today's recording is complete</button>               

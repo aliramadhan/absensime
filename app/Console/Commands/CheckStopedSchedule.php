@@ -53,7 +53,22 @@ class CheckStopedSchedule extends Command
                 //do something
             }
             else{
-                if ($schedule->status != 'Done' && $schedule->status != 'Not sign in') {
+                if ($schedule->status == 'Not sign in') {
+                    $user->is_active = 0;
+                    $user->save();
+                    $data = [
+                        'name' => $user->name
+                    ];
+                    Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
+                    Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));
+                    Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
+                    Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
+                    $this->info('mail Sended.');
+                    $schedule->update([
+                        'status' => 'No Record',
+                    ]);
+                }
+                elseif ($schedule->status != 'Done') {
                     $user->is_active = 0;
                     $user->save();
                     $data = [
