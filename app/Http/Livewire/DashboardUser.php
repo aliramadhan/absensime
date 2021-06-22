@@ -17,7 +17,7 @@ use App\Mail\RequestNotificationMail;
 
 class DashboardUser extends Component
 {
-	public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note;
+    public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
@@ -59,7 +59,7 @@ class DashboardUser extends Component
             $this->location = 'Remote';
         }
         //check if have shift over 24
-        $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()])->where('status','!=','Done')->where('status','!=','No Record')->orderBy('date','asc')->get();
+        $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->subDay(),Carbon::now()])->where('status','!=','Done')->where('status','!=','No Record')->orderBy('date','desc')->get();
         if ($schedules->first() != null) {
             $this->schedule = $schedules->first();
         }
@@ -177,7 +177,7 @@ class DashboardUser extends Component
         $this->position = $position[0]['formatted_address'];
         $this->currentPosition = $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name;
         //Update schedule and create task
-    	$this->now = Carbon::now();
+        $this->now = Carbon::now();
         $shift = $this->schedule->shift;
         $time_in = Carbon::parse($shift->time_in);
         if ($this->now < $time_in) {
@@ -189,13 +189,13 @@ class DashboardUser extends Component
         elseif($this->now->diffInMinutes($time_in) >= 60){
             $status_depart = 'Late';
         }
-    	$this->schedule->update([
-    		'started_at' => $this->now,
+        $this->schedule->update([
+            'started_at' => $this->now,
             'status' => 'Working',
-    		'status_depart' => $status_depart,
+            'status_depart' => $status_depart,
             'position_start' => $this->position,
             'current_position' => $this->currentPosition
-    	]);
+        ]);
         $this->detailSchedule = HistorySchedule::create([
             'schedule_id' => $this->schedule->id,
             'status' => 'Work',
@@ -212,10 +212,10 @@ class DashboardUser extends Component
         $this->resetFields();
         session()->flash('success', 'Record started.');
     }
-	public function closeModal()
-	{
-		$this->isModal = false;
-	}
+    public function closeModal()
+    {
+        $this->isModal = false;
+    }
     public function resetFields()
     {
         $this->task = null;
@@ -247,24 +247,24 @@ class DashboardUser extends Component
         $this->detailSchedule->update(['stoped_at' => Carbon::now()]);
 
         //create pause detail
-    	$this->detailSchedule = HistorySchedule::create([
-    		'schedule_id' => $this->schedule->id,
-    		'started_at' => Carbon::now(),
+        $this->detailSchedule = HistorySchedule::create([
+            'schedule_id' => $this->schedule->id,
+            'started_at' => Carbon::now(),
             'status' => $status,
             'task' => $this->task,
             'task_desc' => $this->task_desc,
             'latitude' => $this->latitude,
-    		'longitude' => $this->longitude,
+            'longitude' => $this->longitude,
             'location' => $this->location
-    	]);
-    	$timer = $this->schedule->timer;
+        ]);
+        $timer = $this->schedule->timer;
         $workhour = $this->schedule->workhour + $timer;
-    	$this->schedule->update([
-    		'workhour' => $workhour,
-    		'timer' => 0,
-    		'status' => $statusSchedule,
-    	]);
-    	$this->closeModal();
+        $this->schedule->update([
+            'workhour' => $workhour,
+            'timer' => 0,
+            'status' => $statusSchedule,
+        ]);
+        $this->closeModal();
         $this->resetFields();
         session()->flash('success', 'Record paused.');
     }
@@ -274,18 +274,18 @@ class DashboardUser extends Component
     }
     public function resumeOn()
     {
-    	$this->detailSchedule =$this->schedule->details->SortByDesc('id')->first();
+        $this->detailSchedule =$this->schedule->details->SortByDesc('id')->first();
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
-    	
+        
         //update detail pause and stop it
         $this->schedule->update([
-    		'status' => 'Working',
+            'status' => 'Working',
             'current_position' => $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name,
 
-    	]);
-    	$this->detailSchedule->update([
-    		'stoped_at' => Carbon::now(),
-    	]);
+        ]);
+        $this->detailSchedule->update([
+            'stoped_at' => Carbon::now(),
+        ]);
 
         //create new detail work
         $this->detailSchedule = HistorySchedule::create([
@@ -315,17 +315,24 @@ class DashboardUser extends Component
         $this->detailSchedule->update([
             'stoped_at' => $this->now,
         ]);
+        $time_out = Carbon::parse($this->shift->time_out);
+        $time_in = Carbon::parse($this->shift->time_in);
+        $time_limit = $time_in->diffInSeconds($time_out);
+        
         $timer = $this->schedule->timer;
         $workhour = $this->schedule->workhour + $timer;
-    	$this->schedule->update([
-    		'stoped_at' => $this->now,
+        if ($workhour > $time_limit) {
+            $workhour = $time_limit;
+        }
+        $this->schedule->update([
+            'stoped_at' => $this->now,
             'workhour' => $workhour,
             'timer' => 0,
-    		'status' => 'Done',
+            'status' => 'Done',
             'note' => $this->note,
             'position_stop' => $this->position,
             'current_position' => $this->currentPosition
-    	]);
+        ]);
         $this->closeModal();
         session()->flash('success', 'Record stoped.');
     }
