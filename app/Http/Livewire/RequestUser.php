@@ -179,7 +179,7 @@ class RequestUser extends Component
                                 'desc' => $this->desc,
                                 'date' => $startDate,
                                 'is_cancel_order' => $this->is_cancel_order,
-                                'status' => 'Accept'
+                                'status' => 'Waiting'
                             ]);
                         }
                     }
