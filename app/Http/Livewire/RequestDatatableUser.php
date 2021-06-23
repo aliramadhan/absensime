@@ -23,7 +23,8 @@ class RequestDatatableUser extends LivewireDatatable
     public function builder()
     {
     	if (auth()->user()->roles == 'Manager') {
-        	return Request::where('employee_id','!=',null)->orderBy('id','desc');
+    		$users = User::where('division',auth()->user()->division)->pluck('id');
+        	return Request::whereIn('employee_id',$users)->orderBy('id','desc');
     	}
     	elseif (auth()->user()->role == 'Admin') {
         	return Request::where('employee_id','!=',null)->orderBy('id','desc');

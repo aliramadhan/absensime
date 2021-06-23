@@ -136,7 +136,6 @@ class RequestUser extends Component
 
             }
         }
-                    return dd($this->type);
         if ($issetRequest != null) {
             $this->closeModal();
             $this->resetFields();
@@ -163,7 +162,6 @@ class RequestUser extends Component
                 $this->user->update(['is_active' => 1]);
             }
             else{
-                    return dd($this->type);
                 //create request sick
                 if ($this->type == 'Sick') {
                     $startDate = Carbon::parse($this->startRequestDate);
@@ -204,7 +202,6 @@ class RequestUser extends Component
                 }
                 //create request leave / remote
                 elseif($cekLeave != null || $this->type == 'Remote'){
-                    return dd($this->type);
                     $startDate = Carbon::parse($this->startRequestDate);
                     $stopDate = Carbon::parse($this->stopRequestDate);
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
