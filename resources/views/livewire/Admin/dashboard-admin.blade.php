@@ -250,10 +250,10 @@
               <livewire:charts.chart-attend-statistic />
 
             </div>
-            <div class="overflow-y-auto px-2 py-4 text-center flex flex-col hidden lg:block items-center bg-white rounded-lg shadow">
+            <div class="overflow-y-auto px-2 py-3 text-center flex flex-col hidden lg:block items-center bg-white rounded-lg shadow">
             <label class="text-xl text-center font-semibold tracking-wide text-gray-700">Head of Division</label>
             @foreach($users->where('roles','Manager') as $user)
-            <div class="flex justify-between gap-2 items-center text-sm my-2"> 
+            <div class="flex justify-between space-x-2 items-center text-sm my-2"> 
               <label class="truncate font-semibold text-center">{{$user->division}}</label>
               <span class="border flex-auto h-0.5 bg-gray-900 "></span>
               <label class="truncate text-center">{{$user->name}}</label>
@@ -266,17 +266,17 @@
             </div>
           </div>
 
-          <div class="row-span-3 md:grid md:grid-cols-2 lg:grid-cols-1 text-center md:pl-8 py-4">
+          <div class="row-span-3 md:grid md:grid-cols-2 lg:grid-cols-1 text-center md:pl-8 py-4 gap-2">
            <div class="px-4 py-4 flex flex-col  lg:hidden md:block bg-white shadow rounded-lg">
             <label class="text-xl text-center font-semibold tracking-wide text-gray-700 mb-5">Head of Division</label>
             @foreach($users->where('roles','Manager') as $user)
-            <div class="flex justify-between gap-2 items-center text-sm my-2"> 
+            <div class="flex justify-between space-x-2 items-center text-sm my-2"> 
               <label class="truncate font-semibold text-center">{{$user->division}}</label>
               <span class="border flex-auto h-0.5 bg-gray-900 "></span>
               <label class="truncate text-center">{{$user->name}}</label>
             </div>
             @endforeach
-            <a class="bg-blue-400 focus:outline-none font-semibold py-2 rounded-lg text-sm my-4 text-white w-full hover:bg-blue-600 mx-auto modal-open cursor-pointer" wire:click="showManageDivision()">Manage</a>
+            <a class="bg-blue-400 focus:outline-none font-semibold py-2 rounded-lg text-sm my-4 text-white w-full hover:bg-blue-600 mx-auto modal-open cursor-pointer px-5" wire:click="showManageDivision()">Manage</a>
           </div>
           
           <div class="flex hide-scroll lg:grid lg:grid-cols-4 xl:gap-8 md:gap-2 space-x-2 mt-2 text-gray-700 mb-4 md:mt-0 mt-4">
