@@ -15,6 +15,7 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\TimeColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use DB;
+use Carbon\Carbon;
 
 class RequestDatatableUser extends LivewireDatatable
 {
@@ -200,7 +201,7 @@ class RequestDatatableUser extends LivewireDatatable
 					'shift_name' => $shift->name
 				]);
     		}
-    		elseif($request->type != 'Overtime' && $request->type != 'Excused'){
+    		elseif($request->type != 'Overtime'){
 	    		$schedule->update([
 	    			'status' => $request->type
 	    		]);
