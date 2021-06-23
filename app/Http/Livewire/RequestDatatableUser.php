@@ -15,6 +15,7 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\TimeColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use DB;
+use Carbon\Carbon;
 
 class RequestDatatableUser extends LivewireDatatable
 {
@@ -22,13 +23,14 @@ class RequestDatatableUser extends LivewireDatatable
     public function builder()
     {
     	if (auth()->user()->roles == 'Manager') {
-        	return Request::where('employee_id','!=',null)->orderBy('id','desc');
+    		$users = User::where('division',auth()->user()->division)->pluck('id');
+        	return Request::whereIn('employee_id',$users)->orderBy('id','desc');
     	}
     	elseif (auth()->user()->role == 'Admin') {
-        	return Request::where('employee_id','!=',null);
+        	return Request::where('employee_id','!=',null)->orderBy('id','desc');
     	}
     	else{
-        	return Request::where('employee_id',auth()->user()->id);
+        	return Request::where('employee_id',auth()->user()->id)->orderBy('id','desc');
     	}
     }
 
@@ -200,7 +202,7 @@ class RequestDatatableUser extends LivewireDatatable
 					'shift_name' => $shift->name
 				]);
     		}
-    		elseif($request->type != 'Overtime' && $request->type != 'Excused'){
+    		elseif($request->type != 'Overtime'){
 	    		$schedule->update([
 	    			'status' => $request->type
 	    		]);
