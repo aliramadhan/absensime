@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\Schedule;
+use App\Models\ListLeave;
 use Illuminate\Support\Str;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -40,6 +41,13 @@ class UserScheduleTable extends LivewireDatatable
             })->label('WorkHour'),
             Column::name('status')
                 ->label('Status'),
+            Column::callback(['status'], function($status){
+                $listleave = ListLeave::where('id','!=',null)->pluck('name');
+                if (in_array($status, $listleave->toArray())) {
+                    return 'Cuti | '. $status;
+                }
+                return $status;
+            })->label('Status'),
             Column::name('status_depart')
                 ->label('Status Depart'),
             Column::callback(['started_at'], function ($started_at) {
