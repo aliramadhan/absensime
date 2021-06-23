@@ -338,6 +338,7 @@ class DashboardUser extends Component
     }
     public function createRequest()
     {
+        $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
         //MEMBUAT VALIDASI
         $now = Carbon::now();
         if($this->type == 'Activation Record'){
@@ -394,7 +395,6 @@ class DashboardUser extends Component
         if ($this->is_cancel_order == null) {
             $this->is_cancel_order = 0;
         }
-        $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
         if ($cekLeave != null) {
             if ($this->user->leave_count < 1 && $cekLeave->is_annual == 1 && !in_array($this->type, ['Overtime','Sick','Remote','Excused'])) {
                 $this->closeModal();
