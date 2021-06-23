@@ -74,7 +74,7 @@ tbody th {
 
 </style>
 <div class="scroll overflow-auto cursor-pointer relative" style="max-height: 24em;">
-    <table class="table-fixed border flex-initial relative" id="scheduleTable">
+    <table class="table-fixed border flex-initial relative">
       <thead>
        <tr>
 
@@ -97,7 +97,7 @@ tbody th {
             @endfor
         </tr>
     </thead>
-    <tbody class="border-gray-50 duration-300">
+    <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
         <tr >
             <th  width="50%" class="p-2  truncate bg-white whitespace-nowrap hide-scroll border-2 text-left h-auto text-sm font-semibold shadow-xl text-gray-700 w-1/2 top-0 ">{{$user->name}}</th>
@@ -113,7 +113,7 @@ tbody th {
                     <label class="hover:bg-red-300 border-2 border-white duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label>
                 </td>
                 @elseif($schedule != null && $schedule->status != 'Not sign in')
-                <td class='hover:bg-blue-500 px-1 py-2 text-center font-semibold tracking-wide text-center border border-white bg-blue-400 text-sm text-white'>{{$schedule->shift_name}}</td>
+                <td class='hover:bg-blue-500 px-1 py-2 text-center font-semibold tracking-wide text-center border border-white bg-blue-400 text-sm text-white'><label class="bg-blue-200">{{$schedule->shift_name}}</label></td>
                 @else
                 <td class='hover:bg-blue-500 px-1 py-2 text-center bg-gray-200 border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
                 @endif
