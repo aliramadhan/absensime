@@ -44,6 +44,7 @@ class RequestUser extends Component
     }
     public function createRequest()
     {
+        $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
         //MEMBUAT VALIDASI
         $now = Carbon::now();
         if($this->type == 'Activation Record'){
@@ -53,7 +54,7 @@ class RequestUser extends Component
             $this->date = Carbon::now();
             $this->is_cancel_order = 0;
         }
-        elseif($this->type == 'Sick' || $this->type == 'Remote'){
+        elseif($this->type == 'Sick' || $this->type == 'Remote' || $cekLeave != null){
             $this->validate([
                 'type' => 'required|string',
                 'desc' => 'required',
@@ -102,7 +103,6 @@ class RequestUser extends Component
         if ($this->is_cancel_order == null) {
             $this->is_cancel_order = 0;
         }
-        $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
         if ($cekLeave != null) {
             if ($this->user->leave_count < 1 && $cekLeave->is_annual == 1 && !in_array($this->type, ['Overtime','Sick','Remote','Excused'])) {
                 $this->closeModal();
@@ -125,7 +125,7 @@ class RequestUser extends Component
             $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->setUser)->first();
         }
 
-        if ($this->type == 'Sick' || $this->type == 'Remote') {
+        if ($this->type == 'Sick' || $this->type == 'Remote' || $cekLeave != null) {
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
                 if ($issetRequest != null) {
@@ -136,12 +136,13 @@ class RequestUser extends Component
 
             }
         }
+                    return dd($this->type);
         if ($issetRequest != null) {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type != 'Remote') {
+        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type != 'Remote' && $cekLeave == null) {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
@@ -162,6 +163,7 @@ class RequestUser extends Component
                 $this->user->update(['is_active' => 1]);
             }
             else{
+                    return dd($this->type);
                 //create request sick
                 if ($this->type == 'Sick') {
                     $startDate = Carbon::parse($this->startRequestDate);
@@ -202,6 +204,7 @@ class RequestUser extends Component
                 }
                 //create request leave / remote
                 elseif($cekLeave != null || $this->type == 'Remote'){
+                    return dd($this->type);
                     $startDate = Carbon::parse($this->startRequestDate);
                     $stopDate = Carbon::parse($this->stopRequestDate);
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
