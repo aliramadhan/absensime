@@ -78,7 +78,7 @@ tbody th {
       <thead>
        <tr>
 
-           <th  class="text-gray-800 bg-white w-1/2  px-1 py-2 z-10 top-0">Employee Name</th>
+           <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 z-10 top-0">Employee Name</th>
            
            @for($i = 1; $i <= $now->daysInMonth; $i++)
             @php
@@ -100,7 +100,7 @@ tbody th {
     <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
         <tr >
-            <th  width="50%" class="p-2  truncate bg-white whitespace-nowrap hide-scroll border-2 text-left h-auto text-sm font-semibold shadow-xl text-gray-700 w-1/2 top-0 ">{{$user->name}}</th>
+            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
             
             @for($i = 1; $i <= $now->daysInMonth; $i++)
                 @php
