@@ -16,7 +16,7 @@ class ScheduleToday extends LivewireDatatable
     public function builder()
     {
     	$now = Carbon::now();
-  		return Schedule::whereDate('date',$now);
+  		return Schedule::orderBy('date','desc');
     }
 
     public function columns()
