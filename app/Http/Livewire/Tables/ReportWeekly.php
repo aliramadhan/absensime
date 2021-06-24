@@ -5,6 +5,7 @@ namespace App\Http\Livewire\Tables;
 use App\Models\Schedule;
 use App\Models\User;
 use App\Models\Shift;
+use App\Models\ListLeave;
 use Illuminate\Support\Str;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -16,12 +17,13 @@ use Illuminate\Support\Collection;
 
 class ReportWeekly extends LivewireDatatable
 {
-    public $param = null, $startWeek, $endWeek;
+    public $param = null, $startWeek, $endWeek, $leaves;
     public function builder()
     {
         if ($this->param == null) {
             $this->param = Carbon::now();
         }
+        $this->leaves = ListLeave::all()->pluck('name')->toArray();
         $this->startWeek = Carbon::parse($this->param)->startOfWeek();
         $this->endWeek = Carbon::parse($this->param)->endOfWeek();
 		return $users = User::where('role','Employee');
@@ -165,6 +167,20 @@ class ReportWeekly extends LivewireDatatable
             		return 'Less';
             	}
             })->label('Status'),
+            Column::callback(['id','name','roles'], function ($id,$name,$roles) {
+                $user = User::find($id);
+                $startWeek = $this->startWeek;
+                $endWeek = $this->endWeek;
+                $weekly_work = Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
+                $leaves = 0;
+                //set target weekly
+                foreach ($weekly_work->get() as $scheduleLoop) {
+                    if (in_array($scheduleLoop->status, $this->leaves)) {
+                        $leaves++;
+                    }
+                }
+                return $leaves;
+            })->label('Leave'),
     	];
     }
 }
