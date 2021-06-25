@@ -45,6 +45,9 @@
     ::-webkit-scrollbar-thumb:hover {
       background: #74b9ff; 
     }
+    .scroll::-webkit-scrollbar{
+    height: 8px;
+}
   </style>
   <style type="text/css">
    html,body,table{
