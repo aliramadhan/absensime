@@ -337,6 +337,14 @@ class DashboardUser extends Component
         $this->closeModal();
         session()->flash('success', 'Record stoped.');
     }
+    public function continueOn()
+    {
+        $this->schedule->update([
+            'status_stop' => 'Continue Record',
+            'note' => $this->note
+        ]);
+        $this->closeModal();
+    }
     public function createRequest()
     {
         $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
