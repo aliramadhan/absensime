@@ -22,6 +22,7 @@ class Schedule extends Model
         'timer',
         'status',
         'status_depart',
+        'status_stop',
         'note',
         'position_start',
         'position_stop',

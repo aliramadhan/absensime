@@ -421,19 +421,28 @@
 						    <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
               <div wire:poll.10ms class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+                @if($schedule != null && $schedule->status != 'Not sign in')
                   @php
+                    $timeStart = Carbon\Carbon::parse($schedule->started_at);
+                    $diffStart = $now->diffInSeconds($timeStart);
+                  @endphp
+                  @if($diffStart >= $limit_workhour && $schedule->status_stop == null && $diffStart <= ($limit_workhour + 600))
+                    @include('livewire.User.show-confirm-stop')
+                  @endif
+                @endif
+                @php
                   $start = Carbon\Carbon::parse($schedule->started_at);
                   if($schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
-                  $start = Carbon\Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
-                }
-                $timeInt = $start->diffInSeconds(Carbon\Carbon::now());
-                $schedule->update(['timer' => $timeInt]);
-                $timeInt += $schedule->workhour;
-                $seconds = intval($timeInt%60);
-                $total_minutes = intval($timeInt/60);
-                $minutes = $total_minutes%60;
-                $hours = intval($total_minutes/60);
-                $time = $hours."h ".$minutes."m";
+                    $start = Carbon\Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
+                  }
+                  $timeInt = $start->diffInSeconds(Carbon\Carbon::now());
+                  $schedule->update(['timer' => $timeInt]);
+                  $timeInt += $schedule->workhour;
+                  $seconds = intval($timeInt%60);
+                  $total_minutes = intval($timeInt/60);
+                  $minutes = $total_minutes%60;
+                  $hours = intval($total_minutes/60);
+                  $time = $hours."h ".$minutes."m";
                 @endphp
                 <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
                   <span class="md:hidden xl:inline-block -top-4 bg-white relative  xl:px-2 md:text-lg text-base px-3 xl:font-medium lg:text-base ">Tracking Progress</span>
