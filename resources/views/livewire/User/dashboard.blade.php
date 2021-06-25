@@ -423,10 +423,14 @@
               <div wire:poll.10ms class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @php
-                    $timeStart = Carbon\Carbon::parse($schedule->started_at);
-                    $diffStart = $now->diffInSeconds($timeStart);
+                    $workhourDetail = 0;
+                    foreach ($schedule->details->where('status','Work') as $listDetail) {
+                        $started_atDetail = Carbon\Carbon::parse($listDetail->started_at);
+                        $stoped_atDetail = Carbon\Carbon::parse($listDetail->stoped_at);
+                        $workhourDetail += $started_atDetail->diffInSeconds($stoped_atDetail);
+                    }
                   @endphp
-                  @if($diffStart >= $limit_workhour && $schedule->status_stop == null && $diffStart <= ($limit_workhour + 600))
+                  @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 600))
                     @include('livewire.User.show-confirm-stop')
                   @endif
                 @endif

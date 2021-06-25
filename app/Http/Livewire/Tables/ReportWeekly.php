@@ -109,7 +109,7 @@ class ReportWeekly extends LivewireDatatable
 	            }
                 $minutes = $user->target_weekly%60;
                 $hours = intval($user->target_weekly/60);
-                if ($hours == 20) {
+                if ($user->position == 'Project Manager') {
                     $hours = $hours*2;
                 }
 			    return $hours."h ".$minutes."m";
@@ -138,7 +138,7 @@ class ReportWeekly extends LivewireDatatable
 	            }
                 $minutes = $user->target_weekly%60;
                 $hours = intval($user->target_weekly/60);
-                if ($user->target_weekly == 1200) {
+                if ($user->position == 'Project Manager') {
                     $user->target_weekly = $user->target_weekly * 2;
                 }
 
