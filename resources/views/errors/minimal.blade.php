@@ -24,7 +24,7 @@
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center sm:pt-0">
             <div class="max-w-xl mx-auto sm:px-6 lg:px-8 flex  items-center">
-                <div class="flex flex-col items-center pt-8 sm:justify-start sm:pt-0 space-y-2 gap-2 font-semibold w-full">
+                <div class="flex flex-col items-center pt-8 sm:justify-start sm:pt-0 space-y-2 gap-2 font-semibold w-full space-x-2">
                     <div class="w-full flex space-x-2">
                     <div class="text-lg text-gray-500 border-r border-gray-400 tracking-wider pr-2">
                         @yield('code')
