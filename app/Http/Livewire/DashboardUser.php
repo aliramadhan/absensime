@@ -330,6 +330,7 @@ class DashboardUser extends Component
             'workhour' => $workhour,
             'timer' => 0,
             'status' => 'Done',
+            'status_stop' => 'Done',
             'note' => $this->note,
             'position_stop' => $this->position,
             'current_position' => $this->currentPosition
