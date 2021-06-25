@@ -13,7 +13,7 @@
 
       </h2>
       @if (session()->has('success'))
-      <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 1000)">
+      <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 4000)">
         <div class="m-auto">
           <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
             <div class="flex flex-row">
@@ -33,7 +33,7 @@
       @endif
 
       @if (session()->has('failure'))
-      <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show.transition="show" x-init="setTimeout(() => show = false, 1000)">
+      <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show.transition="show" x-init="setTimeout(() => show = false, 4000)">
         <div class="m-auto">
           <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
             <div class="flex flex-row">
@@ -393,7 +393,7 @@
                       <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
-                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if($cekRemote) disabled @endif>
+                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if(($cekRemote)OR($schedule->status == 'Working')) disabled @endif>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
                                 <option value="WFO">Work From Office</option>
                                 <option value="WFH">Work From Home</option>
@@ -567,9 +567,7 @@
                 $time = $hours."h ".$minutes."m";
                 @endphp
               @if($now->gte($time_out) && $time_out->diffInMinutes($now) <= 5)
-                <audio controls autoplay height="" width="">
-                  <source src="{{ asset('audio/sound.mp3') }}" type="audio/mp3" />
-                </audio>
+                
               @endif
               @endif
             </div>
