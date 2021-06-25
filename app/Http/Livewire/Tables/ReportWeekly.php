@@ -109,6 +109,9 @@ class ReportWeekly extends LivewireDatatable
 	            }
                 $minutes = $user->target_weekly%60;
                 $hours = intval($user->target_weekly/60);
+                if ($hours == 20) {
+                    $hours = $hours*2;
+                }
 			    return $hours."h ".$minutes."m";
             })->label('Target Hour'),
             Column::callback(['id','name','role'], function ($id,$name, $role) {
@@ -131,11 +134,13 @@ class ReportWeekly extends LivewireDatatable
                     }
                     else{
                         $user->target_weekly += $time_in->diffInMinutes($time_out);
-
                     }
 	            }
                 $minutes = $user->target_weekly%60;
                 $hours = intval($user->target_weekly/60);
+                if ($user->target_weekly == 1200) {
+                    $user->target_weekly = $user->target_weekly * 2;
+                }
 
 	            if ($user->target_weekly == 0) {
 	                $user->percent_weekly = 0;
