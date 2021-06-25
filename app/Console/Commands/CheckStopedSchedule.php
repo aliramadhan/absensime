@@ -79,14 +79,18 @@ class CheckStopedSchedule extends Command
                     Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
                     Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
                     $this->info('mail Sended.');
-                    //set schedule to done
+
                     //update task and stop schedule
                     $detailSchedule = $schedule->details->sortByDesc('id')->first();
                     $detailSchedule->update([
                         'stoped_at' => $now,
                     ]);
-                    $timer = $schedule->timer;
-                    $workhour = $schedule->workhour + $timer;
+                    $workhour = 0;
+                    foreach ($schedule->details->where('status','Work') as $detail) {
+                        $started_at = Carbon::parse($detail->started_at);
+                        $stoped_at = Carbon::parse($detail->stoped_at);
+                        $workhour += $started_at->diffInSeconds($stoped_at);
+                    }
                     $schedule->update([
                         'stoped_at' => $now,
                         'workhour' => $workhour,
