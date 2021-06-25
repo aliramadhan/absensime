@@ -28,9 +28,9 @@
         <div class="grid gap-2">
             <div class="relative flex w-full flex-wrap items-stretch my-1">
                 <span class="z-10 h-full leading-snug font-normal absolute text-center text-gray-400 absolute bg-transparent rounded text-base items-center justify-center w-10 pl-3 flex items-center md:py-3">
-                    <img src="{{ asset('/image/name.svg')}}" alt="username" class="w-6 opacity-50" >
+                    <img src="{{ asset('/image/name.svg')}}" alt="icon" class="w-6 opacity-50" >
                 </span>
-                <x-jet-input type="email" name="email" :value="old('email')" required autofocus placeholder="{{ __('Email') }}" class="px-3 py-2 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-12 text-lg hover:border-blue-400 duration-1000"/>
+                <x-jet-input type="email" name="email" autocomplete="username" :value="old('email')" required autofocus placeholder="{{ __('Email') }}" class="px-3 py-2 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline w-full pl-12 text-lg hover:border-blue-400 duration-1000"/>
             </div>     
 
             <div class="relative flex w-full flex-wrap items-stretch ">

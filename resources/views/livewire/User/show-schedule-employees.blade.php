@@ -8,44 +8,35 @@
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg px-4 py-4">
 
-
-            <style type="text/css">
-            .headcol {
-              position: absolute; 
-              top: auto;
-              margin-top: -1px;
-          }
-          textarea:focus, input:focus{
-            outline: none;
-        }
-        *:focus {
-            outline: none;
-        }
-        .long {
-           padding-left: 88px;
-
-       }
-       .scroll::-webkit-scrollbar{
-        height: 8px;
-    }
-</style>
-
-
-<div class=" block pb-8 mb-10">
-    <div class="grid grid-cols-2 flex items-center justify-items-end  mb-4 relative flex-col md:flex-row gap-3 flex-col-reverse">
-     <div class="relative text-gray-600 focus-within:text-gray-400 fixed md:w-auto w-full justify-self-start">
-      <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-        <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-      </button>
-  </span>
-  <input type="search" id="myInputSearch" onkeyup="searching1()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
-</div>
-<button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export Schedule</button>
-</div>
-
 <style type="text/css">
+.headcol {
+  position: absolute; 
+  top: auto;
+  margin-top: -1px;
+}
+textarea:focus, input:focus{
+    outline: none;
+}
+*:focus {
+    outline: none;
+}
+.long {
+   padding-left: 88px;
 
+}
+.scroll::-webkit-scrollbar{
+    height: 8px;
+}
+.hover-trigger .hover-target {
+   visibility: hidden;
+   opacity: 0;
+   transition: visibility 0s, opacity 0.5s linear;
+}
+
+.hover-trigger:hover .hover-target {
+    visibility: visible;
+    opacity: 1;
+}
 table {
   position: relative;
   border-collapse: collapse;
@@ -71,8 +62,22 @@ tbody th {
   border-right: 1px solid #CCC;
    width: 40px;
 }
-
 </style>
+
+
+<div class=" block pb-8 mb-10">
+    <div class="grid grid-cols-2 flex items-center justify-items-end  mb-4 relative flex-col md:flex-row gap-3 flex-col-reverse">
+     <div class="relative text-gray-600 focus-within:text-gray-400 fixed md:w-auto w-full justify-self-start">
+      <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+        <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+      </button>
+  </span>
+  <input type="search" id="myInputSearch" onkeyup="searching1()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
+</div>
+<button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export Schedule</button>
+</div>
+
 <div class="scroll overflow-auto cursor-pointer relative" style="max-height: 24em;">
     <table class="table-fixed border flex-initial relative">
       <thead>
@@ -113,7 +118,10 @@ tbody th {
                       <label class="hover:bg-red-300 border-2 border-white duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label>
                   </td>
                   @elseif($schedule != null && in_array($schedule->status,$leaves))
-                  <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm'>{{$schedule->status}} | {{$schedule->shift_name}}</td>
+
+                  <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 hover-trigger relative'>{{$schedule->shift_name}}
+                    <div class="hover-target absolute">{{$schedule->status}} </div>
+                  </td>
                   @elseif($schedule != null && $schedule->status != 'Not sign in')
                   <td class='hover:bg-blue-500 px-1 py-2 text-center font-semibold tracking-wide text-center border border-white bg-blue-400 text-sm text-white'><label class="bg-blue-200">{{$schedule->shift_name}}</label></td>
                   @else
@@ -125,7 +133,9 @@ tbody th {
                       <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label>
                   </td>
                   @elseif($schedule != null && in_array($schedule->status,$leaves))
-                  <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm'>{{$schedule->status}} | {{$schedule->shift_name}}</td>
+                  <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300 '>{{$schedule->shift_name}}
+                  <div class="hover-target absolute duration-300 top-0 bg-yellow-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div>
+                  </td>
                   @elseif($schedule != null && $schedule->status != 'Not sign in')
                   <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm'>{{$schedule->shift_name}}</td>
                   @else
@@ -158,10 +168,18 @@ tbody th {
 </span>
 Today / Day Active
 </h4>
+<h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+  <span class="flex h-3 w-3 mr-2">
+    <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-yellow-400 opacity-75"></span>
+    <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
+</span>
+Permission / Leave
+</h4>
 @foreach($shifts as $shift)
 <h4 class="font-medium text-md flex items-center text-gray-700">           
     <span class="font-bold mr-2 w-min-3  text-lg">{{$shift->name}}</span>
     <label>{{Carbon\Carbon::parse($shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($shift->time_out)->format('H.i')}}</label>
+
 </h4>
 @endforeach
 </div>     

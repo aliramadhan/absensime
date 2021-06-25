@@ -325,7 +325,7 @@
                 
                 <div class="overflow-hidden sm:rounded-lg h-60 grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 items-center leading-tight h-full ">
                  <div class=" bg-gradient-to-r from-purple-300 to-blue-400 w-full h-full py-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-lg">   
-                    <div class=" bg-cover w-32 h-32 mb-6 items-center rounded-full mx-auto" style="background-image: url({{ Auth::user()->profile_photo_url }});">
+                    <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-6 items-center rounded-full mx-auto" style="background-image: url({{ Auth::user()->profile_photo_url }});">
                     @if($schedule != null)
                     @php
                     	$progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
@@ -343,7 +343,7 @@
                     <div class="border-b-2 row-span-1 px-4 flex justify-between items-center relative "> 
 
                         <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-2 md:-ml-2">
-                           <div class=" bg-cover w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
+                           <div class="bg-cover bg-no-repeat bg-center w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
                          <label class="border-r pr-2"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
                             <label class="leading-none text-base">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d F')}} @else {{$now->format('d F')}} @endif</label>
@@ -736,7 +736,7 @@
                           <i class="fas fa-check-circle mr-1"></i>Attend
                         </div>
                         @else
-                        <div class="text-red-500 flex text-sm items-center leading-tight items-start bg-white w-full justify-center py-1 rounded-lg">
+                        <div class="text-red-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
                           <i class="fas fa-times-circle mr-1"></i>{{$scheduleUser->status}}
                         </div>
                         @endif
