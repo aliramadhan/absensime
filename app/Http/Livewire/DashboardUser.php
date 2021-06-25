@@ -21,7 +21,7 @@ class DashboardUser extends Component
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
-    public $type, $desc,$date,$time_overtime, $tasking = false,$stopRequestDate, $startRequestDate;
+    public $type, $desc,$date,$time_overtime, $tasking = false,$stopRequestDate, $startRequestDate, $time_out, $time_in;
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude'
@@ -68,8 +68,8 @@ class DashboardUser extends Component
         }
         if ($this->schedule != null) {
             $this->shift = $this->schedule->shift;
-            $time_in = Carbon::parse($this->shift->time_in);
-            $time_out = Carbon::parse($this->shift->time_out);
+            $this->time_in = $time_in = Carbon::parse($this->shift->time_in);
+            $this->time_out = $time_out = Carbon::parse($this->shift->time_out);
             if ($time_out < $time_in) {
                 $this->limit_workhour = $time_in->diffInSeconds(Carbon::parse($time_out)->addDay());
             }
@@ -321,9 +321,10 @@ class DashboardUser extends Component
         
         $timer = $this->schedule->timer;
         $workhour = $this->schedule->workhour + $timer;
+        /*
         if ($workhour > $time_limit) {
             $workhour = $time_limit;
-        }
+        }*/
         $this->schedule->update([
             'stoped_at' => $this->now,
             'workhour' => $workhour,
