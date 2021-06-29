@@ -328,10 +328,10 @@
                     <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-6 items-center rounded-full mx-auto" style="background-image: url({{ Auth::user()->profile_photo_url }});">
                     @if($schedule != null)
                     @php
-                    	$progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
+                      $progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
                     @endphp
                     @endif
-                  	<progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>                 
+<progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>  
                   </div>
 
                     <h2 class="font-semibold text-xl tracking-wide truncate">{{auth()->user()->name}}</h2>                  
@@ -393,7 +393,7 @@
                       <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
-                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if(($cekRemote)OR($schedule->status == 'Working')) disabled @endif>
+                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if(($cekRemote) || ($schedule != null && $schedule->status == 'Working'))</select> disabled @endif>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
                                 <option value="WFO">Work From Office</option>
                                 <option value="WFH">Work From Home</option>
@@ -404,10 +404,10 @@
                          <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
                     <div class="flex justify-between items-center flex-col md:flex-row">
-					    @if($isModal == 'Pause')
-					        @include('livewire.User.create_pause')
-					    @elseif($isModal == 'Working')
-					        @include('livewire.User.create_start')
+              @if($isModal == 'Pause')
+                  @include('livewire.User.create_pause')
+              @elseif($isModal == 'Working')
+                  @include('livewire.User.create_start')
               @elseif($isModal == 'Resume')
                   @include('livewire.User.create_start')
               @elseif($isModal == 'Create Request')
@@ -416,9 +416,9 @@
                   @include('livewire.User.Request.create_mandatory')
               @elseif($isModal == 'Stop')
                   @include('livewire.User.show_stop')
-					    @endif
+              @endif
                         @if($schedule != null && $schedule->started_at != null)
-						    <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
+                <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
               <div wire:poll.10ms class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
@@ -459,15 +459,15 @@
               </div>
 
               @else
-								<div class="pt-3 block md:w-4/12 mt-2 text-gray-700 w-auto">
-									@php
-					            $timeInt = $schedule->workhour;
-									    $seconds = intval($timeInt%60);
-									    $total_minutes = intval($timeInt/60);
-									    $minutes = $total_minutes%60;
-									    $hours = intval($total_minutes/60);
+                <div class="pt-3 block md:w-4/12 mt-2 text-gray-700 w-auto">
+                  @php
+                      $timeInt = $schedule->workhour;
+                      $seconds = intval($timeInt%60);
+                      $total_minutes = intval($timeInt/60);
+                      $minutes = $total_minutes%60;
+                      $hours = intval($total_minutes/60);
                       $time = $hours."h ".$minutes."m";
-									@endphp
+                  @endphp
                  <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
                   <span class=" xl:inline-block inline-block  -top-4 bg-white relative  xl:px-2 text-lg xl:font-medium lg:text-base ">Tracking Progress</span>
                   <span class="xl:hidden hidden md:inline-block md:px-2 -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
@@ -477,8 +477,8 @@
                   </div>
                 </h2>
               </div>
-							@endif
-						@endif
+              @endif
+            @endif
              <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full">
               
              
@@ -576,13 +576,13 @@
               @endif
             </div>
                     
-                   	<div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg shadow-lg border md:border-4 border-white">
-                  		<div class="grid md:grid-cols-6 items-center gap-2">
-	                      <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2 ">
+                    <div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg shadow-lg border md:border-4 border-white">
+                      <div class="grid md:grid-cols-6 items-center gap-2">
+                        <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2 ">
                           <div class="flex flex-col">
-	                        <h2 class="text-3xl leading-none ">Detail</h2>
-	                        @if($schedule != null)
-	                        <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-gray-700 md:text-base text-xs">
+                          <h2 class="text-3xl leading-none ">Detail</h2>
+                          @if($schedule != null)
+                          <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-gray-700 md:text-base text-xs">
                             @if($schedule->started_at != null)<span class="md:hidden block mt-1"></span> 
                            {{ Carbon\Carbon::parse($schedule->started_at)->format('H:i, d F Y') }}@endif</span></h2>@endif
                           </div>
@@ -591,22 +591,22 @@
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFO</label><label class="text-gray-50">{{$wfo}}</label></div>
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>BT</label><label class="text-right flex-auto text-gray-50">{{$business_travel}}</label></div>
                           </div>
-	                      </div>
-	                      <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow-lg py-2 px-2 border-2 rounded-lg border-red-300">
-	                       <h2 class="text-base leading-none">{{$unproductive}}</h2>
-	                       <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Unproductive</h2>
-	                     </div>
-	                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow-lg py-2 px-2 border-2 rounded-lg border-green-300">
-	                       <h2 class="text-base leading-none">{{$time}}</h2>
-	                       <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Productive</h2>
-	                     </div>
+                        </div>
+                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow-lg py-2 px-2 border-2 rounded-lg border-red-300">
+                         <h2 class="text-base leading-none">{{$unproductive}}</h2>
+                         <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Unproductive</h2>
+                       </div>
+                          <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow-lg py-2 px-2 border-2 rounded-lg border-green-300">
+                         <h2 class="text-base leading-none">{{$time}}</h2>
+                         <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Productive</h2>
+                       </div>
                       <div class="hidden md:block flex flex-col md:text-xs xl:text-sm  rounded-xl px-3 py-2 text-white  leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg" style="">
                         <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-50">{{$wfh}}</span></h2>
                         <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-50">{{$wfo}}</span></h2>
                         <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-gray-50">{{$business_travel}}</span></h2>
                       </div>
-	                   </div>
-	               
+                     </div>
+                 
                     <div class="relative pt-1  mt-12">
                       <div class="flex mb-2 items-center justify-between">
                         <div>
@@ -683,39 +683,39 @@
 
                       </div> 
                     </div>
-					</div>
-                	@php
-                		$startWeek = Carbon\Carbon::now()->startOfWeek();
-                		$endWeek = Carbon\Carbon::now()->endOfWeek();
-                		$weekly_work = \App\Models\Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
-                		$seconds = intval($weekly_work->sum(\DB::raw('workhour + timer'))%60);
-      					    $total_minutes = intval($weekly_work->sum(\DB::raw('workhour + timer'))/60);
-      					    $minutes = $total_minutes%60;
-      					    $hours = intval($total_minutes/60);
-      					    $time_weekly = $hours."h ".$minutes."m";
-                	@endphp
-                   	<div class="bg-white overflow-hidden rounded-lg p-4 flex flex-col border md:w-full w-11/12 mx-auto md:mx-0">
-                   		<div class="grid md:grid-cols-6  grid-rows-2 items-center gap-2">
-	                      <div class="col-span-3 flex flex-col text-2xl text-gray-800 leading-none font-semibold">
-	                        <h2 class="text-3xl leading-none">Recent</h2>
-	                        <h2 class="text-sm md:text-lg text-gray-500 font-base ">You Have <span class="text-orange-500">{{$user->schedules->where('status','!=','Not sign in')->count()}}</span> Activities on this month</h2>
-	                      </div>
-	                      <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
-	                       <h2 >{{$weekly_work->where('status','!=','Not sign in')->count()}}</h2>
-	                       <h2 class="text-base border-t-2 border-gray-500 text-gray-500 font-base">Attend</h2>
-	                     </div>
-	                      <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
-	                       <h2 >{{$weekly_work->where('status','Not sign in')->count()}}</h2>
-	                       <h2 class="text-base border-t-2 border-gray-500 text-gray-500 font-base">Not Present</h2>
-	                     </div>
-	                      <div class="flex flex-col text-sm text-center text-gray-800 items-center">
-	                        <h2 class="text-lg text-orange-500 font-base font-semibold leading-none">
-	                        	{{$time_weekly}}
-	                        </h2>
+          </div>
+                  @php
+                    $startWeek = Carbon\Carbon::now()->startOfWeek();
+                    $endWeek = Carbon\Carbon::now()->endOfWeek();
+                    $weekly_work = \App\Models\Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
+                    $seconds = intval($weekly_work->sum(\DB::raw('workhour + timer'))%60);
+                    $total_minutes = intval($weekly_work->sum(\DB::raw('workhour + timer'))/60);
+                    $minutes = $total_minutes%60;
+                    $hours = intval($total_minutes/60);
+                    $time_weekly = $hours."h ".$minutes."m";
+                  @endphp
+                    <div class="bg-white overflow-hidden rounded-lg p-4 flex flex-col border md:w-full w-11/12 mx-auto md:mx-0">
+                      <div class="grid md:grid-cols-6  grid-rows-2 items-center gap-2">
+                        <div class="col-span-3 flex flex-col text-2xl text-gray-800 leading-none font-semibold">
+                          <h2 class="text-3xl leading-none">Recent</h2>
+                          <h2 class="text-sm md:text-lg text-gray-500 font-base ">You Have <span class="text-orange-500">{{$user->schedules->where('status','!=','Not sign in')->count()}}</span> Activities on this month</h2>
+                        </div>
+                        <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
+                         <h2 >{{$weekly_work->where('status','!=','Not sign in')->count()}}</h2>
+                         <h2 class="text-base border-t-2 border-gray-500 text-gray-500 font-base">Attend</h2>
+                       </div>
+                        <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
+                         <h2 >{{$weekly_work->where('status','Not sign in')->count()}}</h2>
+                         <h2 class="text-base border-t-2 border-gray-500 text-gray-500 font-base">Not Present</h2>
+                       </div>
+                        <div class="flex flex-col text-sm text-center text-gray-800 items-center">
+                          <h2 class="text-lg text-orange-500 font-base font-semibold leading-none">
+                            {{$time_weekly}}
+                          </h2>
                        <h2 class="text-white bg-orange-500 py-1 rounded-lg w-full md:w-10/12 md:text-base text-xs">Weekly Hour</h2>
-	                     </div>
-	                   	</div>
-	                   	<div class="scroll hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3 overflow-x-auto cursor-pointer">
+                       </div>
+                      </div>
+                      <div class="scroll hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3 overflow-x-auto cursor-pointer">
                         @foreach($schedules as $scheduleUser)
                         @php
                           $seconds = intval(($scheduleUser->workhour + $scheduleUser->timer)%60);
@@ -724,12 +724,12 @@
                           $hours = intval($total_minutes/60);
                           $timeMonthly = $hours."h ".$minutes."m";
                         @endphp
-	                   	<div class="flex flex-col px-4 py-3 text-center w-36 h-36 items-center hover:bg-gray-200 duration-200 cursor-pointer rounded-bl-3xl rounded-tr-3xl justify-between border-2 border-gray-400 " >
-	                   		<div class=" flex-col flex mb-2 ">
+                      <div class="flex flex-col px-4 py-3 text-center w-36 h-36 items-center hover:bg-gray-200 duration-200 cursor-pointer rounded-bl-3xl rounded-tr-3xl justify-between border-2 border-gray-400 " >
+                        <div class=" flex-col flex mb-2 ">
                           <label class="font-bold leading-none text-3xl text-gray-700">{{Carbon\Carbon::parse($scheduleUser->date)->format('d')}}</label>
                           <label class="text-sm font-base text-white leading-none bg-orange-500 px-2 py-1 rounded-md">{{Carbon\Carbon::parse($scheduleUser->date)->format('l')}}</label>
                         </div>
-	                   		@if($scheduleUser->status == 'Working' || $scheduleUser->status == 'Done')
+                        @if($scheduleUser->status == 'Working' || $scheduleUser->status == 'Done')
                       
                         <div class="text-gray-500 text-xs ">{{$scheduleUser->details->first()->location}}</div>
                         <div class="text-gray-700 text-xs ">{{$timeMonthly}}</div>
@@ -742,10 +742,10 @@
                           <i class="fas fa-times-circle mr-1"></i>{{$scheduleUser->status}}
                         </div>
                         @endif
-	                   	</div>
+                      </div>
                       @endforeach
-	                   	</div>
-                 	</div>
+                      </div>
+                  </div>
                  
 
             </div>
@@ -824,10 +824,10 @@ window.customElements.define('progress-ring', ProgressRing);
         if(navigator.geolocation) {
             //navigator.geolocation.getCurrentPosition(getLocation);
             navigator.geolocation.getCurrentPosition(function(position) {
-		        var latitude = position.coords.latitude;
-		        var longitude = position.coords.longitude;
-		        console.log('Lat : '+latitude+" & Long : "+longitude);
-            	window.livewire.emit('set:latitude-longitude', latitude, longitude);
+            var latitude = position.coords.latitude;
+            var longitude = position.coords.longitude;
+            console.log('Lat : '+latitude+" & Long : "+longitude);
+              window.livewire.emit('set:latitude-longitude', latitude, longitude);
             });
         } else {
             alert("Sorry, your browser does not support HTML5 geolocation.");
