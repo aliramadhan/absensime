@@ -716,9 +716,9 @@
 
                         <div class="flex flex-col text-sm text-center text-gray-800 items-center absolute weekly-target bg-white w-full rounded-lg shadow-lg">
                           <h2 class="text-lg text-blue-500 font-base font-semibold leading-none">
-                            {{$time_weekly}}
+                            {{$user->target_weekly}}
                           </h2>
-                          <h2 class="text-white bg-blue-500 py-1 rounded-lg w-full  md:text-base text-xs">Weekly Target</h2>
+                          <h2 class="text-white bg-blue-500 py-1 rounded-lg w-full md:text-base text-xs">Weekly Target</h2>
                         </div>
                         <style>
                         .weekly-trigger .weekly-target {
