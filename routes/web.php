@@ -20,6 +20,8 @@ use App\Http\Livewire\ReportAllLate;
 use App\Http\Livewire\DivisionLive;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
+use App\Mail\SendNotifUserNonActived;
+use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,6 +36,15 @@ Route::get('setcookie', function(){
   	Session::setId($_GET['id']);
   	Session::start();
 	return redirect()->route('dashboard');
+});
+
+Route::get('/cek_mail', function(){
+	$data = [];
+	$data [] = 'Rudi';
+	$data [] = 'Yudi';
+	$data [] = 'Budi';
+	$data [] = 'Eudi';
+    Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
 });
 
 Route::get('/', function () {
