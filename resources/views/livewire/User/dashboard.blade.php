@@ -331,7 +331,7 @@
                       $progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
                     @endphp
                     @endif
-                    <progress-ring stroke="4" percent="5" radius="74.5" progress="{{$progress}}"  class=" left-11 -mt-1 "></progress-ring>                 
+<progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>  
                   </div>
 
                     <h2 class="font-semibold text-xl tracking-wide truncate">{{auth()->user()->name}}</h2>                  
