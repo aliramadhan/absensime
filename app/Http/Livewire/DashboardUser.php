@@ -57,19 +57,20 @@ class DashboardUser extends Component
         $startWeek = Carbon::parse($this->now)->startOfWeek();
         $endWeek = Carbon::parse($this->now)->endOfWeek();
         $weekly_work = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
+        $this->user->target_weekly = 0;
         foreach ($weekly_work->get() as $scheduleLoop) {
-            $minuteTarget = 0;
             $shift = Shift::where('id',$scheduleLoop->shift_id)->first();
             $time_out = Carbon::parse($shift->time_out);
             $time_in = Carbon::parse($shift->time_in);
             if ($time_in > $time_out) {
-                $this->user->target_weekly += $time_in->diffInMinutes($time_out->addDay());
+                $this->user->target_weekly += $time_in->diffInSeconds($time_out->addDay());
             }
             else{
-                $this->user->target_weekly += $time_in->diffInMinutes($time_out);
+                $this->user->target_weekly += $time_in->diffInSeconds($time_out);
             }
         }
         $this->user->target_weekly = $this->intToTime($this->user->target_weekly);
+        //cek if request remote exist
         $request_remote = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
         if ($request_remote != null) {
             $this->cekRemote = 1;
@@ -460,7 +461,7 @@ class DashboardUser extends Component
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type != 'Remote' && $cekLeave == null) {
+        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type != 'Remote' && $cekLeave == null && $this->type != 'Activation Record') {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
