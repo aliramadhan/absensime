@@ -12,7 +12,7 @@
         </div>
 
       </h2>
-      @if (session()->has('success'))
+       @if (session()->has('success'))
     
       <div class="flex fixed bottom-10 " x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 5000)">
         <div class="m-auto">
@@ -49,7 +49,7 @@
             </div>
           </div>
         </div>
-      </div>      
+      </div>          
       @endif
       <div class="flex gap-2">
       <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button>
