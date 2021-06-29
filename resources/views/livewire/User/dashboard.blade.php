@@ -148,7 +148,7 @@
                             <div
                             @click="showEventModal(date)"
                             x-text="date"
-                            class="inline-flex w-8 h-8 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-100 p-2 hover-trigger mx-auto"
+                            class="inline-flex w-8 h-8 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-300 p-2 hover-trigger mx-auto"
                             :class="{'bg-blue-500 text-white': isToday(date) == true, 'hover-trigger text-gray-700 hover:bg-blue-200': isToday(date) == false }"
                             x-on:mouseover="$wire.set('dateCheck', date)"
                             ></div> 
@@ -336,7 +336,7 @@
                       $progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
                     @endphp
                     @endif
-<progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>  
+                    <progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>  
                   </div>
 
                     <h2 class="font-semibold text-xl tracking-wide truncate">{{auth()->user()->name}}</h2>                  
@@ -707,18 +707,39 @@
                         </div>
                         <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
                          <h2 >{{$weekly_work->where('status','!=','Not sign in')->count()}}</h2>
-                         <h2 class="text-base border-t-2 border-gray-500 text-gray-500 font-base">Attend</h2>
+                         <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Attend</h2>
                        </div>
                         <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
                          <h2 >{{$weekly_work->where('status','Not sign in')->count()}}</h2>
-                         <h2 class="text-base border-t-2 border-gray-500 text-gray-500 font-base">Not Present</h2>
+                         <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Not Present</h2>
                        </div>
-                        <div class="flex flex-col text-sm text-center text-gray-800 items-center">
-                          <h2 class="text-lg text-orange-500 font-base font-semibold leading-none">
-                            {{$time_weekly}}
+                       <div class="flex flex-col text-sm text-center text-gray-800 items-center relative weekly-trigger cursor-pointer">
+                        <h2 class="text-lg text-orange-500 font-base font-semibold leading-none">
+                          {{$time_weekly}}
+                        </h2>
+                        <h2 class="text-white bg-orange-500 py-1 rounded-lg w-full md:w-10/12 md:text-base text-xs">Weekly Hour</h2>
+
+                        <div class="flex flex-col text-sm text-center text-gray-800 items-center absolute weekly-target bg-white w-full rounded-lg shadow-lg">
+                          <h2 class="text-lg text-blue-500 font-base font-semibold leading-none">
+                            {{$user->target_weekly}}
                           </h2>
-                       <h2 class="text-white bg-orange-500 py-1 rounded-lg w-full md:w-10/12 md:text-base text-xs">Weekly Hour</h2>
-                       </div>
+                          <h2 class="text-white bg-blue-500 py-1 rounded-lg w-full md:text-base text-xs">Weekly Target</h2>
+                        </div>
+                        <style>
+                        .weekly-trigger .weekly-target {
+                         visibility: hidden;
+                         opacity: 0;
+                         transition: visibility 0s, opacity 0.5s linear;
+                        }
+
+                        .weekly-trigger:hover .weekly-target {
+                         visibility: visible;
+                         opacity: 1;
+
+                        }
+                      </style>
+
+                      </div>
                       </div>
                       <div class="scroll hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3 overflow-x-auto cursor-pointer">
                         @foreach($schedules as $scheduleUser)
