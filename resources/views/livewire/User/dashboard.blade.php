@@ -13,12 +13,10 @@
 
       </h2>
       @if (session()->has('success'))
-      <script type="text/javascript">
-        alert("{!! session('success') !!}");
-      </script>
-      <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 4000)">
+    
+      <div class="flex fixed bottom-10 " x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 5000)">
         <div class="m-auto">
-          <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
+          <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
             <div class="flex flex-row">
               <div class="px-2">
                 <svg width="24" height="24" viewBox="0 0 1792 1792" fill="#44C997" xmlns="http://www.w3.org/2000/svg">
@@ -36,12 +34,10 @@
       @endif
 
       @if (session()->has('failure'))
-      <script type="text/javascript">
-        alert("{!! session('failure') !!}");
-      </script>
-      <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show.transition="show" x-init="setTimeout(() => show = false, 4000)">
+     
+      <div class="flex fixed bottom-10 " x-data="{ showNotif: true }" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 5000)">
         <div class="m-auto">
-          <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
+          <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
             <div class="flex flex-row">
               <div class="px-2">
                 <i class="fas fa-times-circle text-red-600"></i>
