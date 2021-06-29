@@ -13,9 +13,9 @@
 
       </h2>
       @if (session()->has('success'))
-      <script type="text/javascript">
+      <!--<script type="text/javascript">
         alert("{!! session('success') !!}");
-      </script>
+      </script>-->
       <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 4000)">
         <div class="m-auto">
           <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
@@ -36,9 +36,9 @@
       @endif
 
       @if (session()->has('failure'))
-      <script type="text/javascript">
+      <!--<script type="text/javascript">
         alert("{!! session('failure') !!}");
-      </script>
+      </script>-->
       <div class="flex absolute bottom-10 " x-data="{ show: true }" x-show.transition="show" x-init="setTimeout(() => show = false, 4000)">
         <div class="m-auto">
           <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-lg">
