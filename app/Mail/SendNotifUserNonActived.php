@@ -29,7 +29,7 @@ class SendNotifUserNonActived extends Mailable
      */
     public function build()
     {
-        return $this->subject('User '.$this->data['name'].' non-activated')
+        return $this->subject('List User non-activated')
                 ->view('mail.notif_user_nonactive');
     }
 }

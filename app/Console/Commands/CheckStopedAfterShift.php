@@ -46,6 +46,7 @@ class CheckStopedAfterShift extends Command
     {
         $now = Carbon::now();
         $schedules = Schedule::whereDate('date',$now)->get();
+        $data = [];
         foreach ($schedules as $schedule) {
             $user = User::find($schedule->employee_id);
             $shift = Shift::find($schedule->shift_id);
@@ -57,7 +58,7 @@ class CheckStopedAfterShift extends Command
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending email to: {$user->name}!");
                 }
-                elseif(($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null)){
+                /*elseif(($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null) && ($time_out->diffInMinutes($now) == 10){
                     $workhour = 0;
                     foreach ($schedule->details->where('status','Work') as $detail) {
                         $started_at = Carbon::parse($detail->started_at);
@@ -67,14 +68,7 @@ class CheckStopedAfterShift extends Command
                     if ($workhour >= $time_limit) {
                         $user->is_active = 0;
                         $user->save();
-                        $data = [
-                            'name' => $user->name
-                        ];
-                        Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
-                        Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));
-                        Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
-                        Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
-                        $this->info('mail Sended.');
+                        $data [] = $user->name;
 
                         //update task and stop schedule
                         $detailSchedule = $schedule->details->sortByDesc('id')->first();
@@ -94,14 +88,21 @@ class CheckStopedAfterShift extends Command
                             'status' => 'Done',
                         ]);
                     }
-                }
+                }*/
                 else{
-                    $this->info("not Sending email.");
+                    //$this->info("not Sending email.");
                 }
             }
             else{
-                $this->info("belum lewat shift");
+                //$this->info("belum lewat shift");
             }
+        }
+        if (count($data) > 0) {
+            Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
+            Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));
+            Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
+            Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
+            $this->info('mail Sended.');
         }
     }
 }

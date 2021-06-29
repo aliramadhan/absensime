@@ -53,8 +53,25 @@ class DashboardUser extends Component
         $this->shifts = Shift::all();
         $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->orderBy('date','asc')->get();
-        $request = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
-        if ($request != null) {
+        //get target weekly hour
+        $startWeek = Carbon::parse($this->now)->startOfWeek();
+        $endWeek = Carbon::parse($this->now)->endOfWeek();
+        $weekly_work = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
+        foreach ($weekly_work->get() as $scheduleLoop) {
+            $minuteTarget = 0;
+            $shift = Shift::where('id',$scheduleLoop->shift_id)->first();
+            $time_out = Carbon::parse($shift->time_out);
+            $time_in = Carbon::parse($shift->time_in);
+            if ($time_in > $time_out) {
+                $this->user->target_weekly += $time_in->diffInMinutes($time_out->addDay());
+            }
+            else{
+                $this->user->target_weekly += $time_in->diffInMinutes($time_out);
+            }
+        }
+        $this->user->target_weekly = $this->intToTime($this->user->target_weekly);
+        $request_remote = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
+        if ($request_remote != null) {
             $this->cekRemote = 1;
             $this->location = 'Remote';
         }

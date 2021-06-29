@@ -4,10 +4,12 @@
     <title>Attendance App</title>
 </head>
 <body>
-	<label><b>Notification</b></label><br>
-	<p>
-		{{$data['name']}} account was deactivated because didn't stop recording until the next day
-	</p>
+	<label><b>List Employees can't start record tomorrow.</b></label><br>
+	<ul>
+	@foreach($data as $item)
+		<li>{{$item}}</li>
+	@endforeach
+	</ul>
     <p>Thank you</p>
 </body>
 </html>
