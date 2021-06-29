@@ -35,6 +35,8 @@ class User extends Authenticatable
         'number_phone',
         'code_number',
         'address',
+        'can_order',
+        'can_order_directly',
         'last_seen',
         'leave_count',
         'is_active',

@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('code_number')->unique()->nullable();
             $table->string('address')->nullable();
             $table->boolean('can_order')->default(0);
+            $table->boolean('can_order_directly')->default(0);
             $table->boolean('is_active')->default(1);
             $table->timestamp('last_seen')->nullable();
             $table->timestamp('joined_at')->useCurrent();
