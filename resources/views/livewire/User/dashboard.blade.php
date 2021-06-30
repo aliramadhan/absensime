@@ -1,4 +1,19 @@
 <div>
+ <style>
+ .weekly-trigger .weekly-target {
+   visibility: hidden;
+   opacity: 0;
+   transition: visibility 0s, opacity 0.5s linear;
+  
+ }
+
+ .weekly-trigger:hover .weekly-target {
+   visibility: visible;
+   opacity: 1;
+
+
+ }
+</style>
   <div class="bg-white shadow">
   <div class="flex justify-between items-center max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 gap-2">
       <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
@@ -326,13 +341,16 @@
                 
                 <div class="overflow-hidden sm:rounded-lg h-60 grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 items-center leading-tight h-full ">
                  <div class=" bg-gradient-to-r from-purple-300 to-blue-400 w-full h-full py-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-lg">   
-                    <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-6 items-center rounded-full mx-auto" style="background-image: url({{ Auth::user()->profile_photo_url }});">
+                    <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-6 items-center rounded-full mx-auto relative weekly-trigger cursor-pointer" style="background-image: url({{ Auth::user()->profile_photo_url }});">
                     @if($schedule != null)
                     @php
                       $progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
                     @endphp
                     @endif
                     <progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>  
+                    <div class="absolute weekly-target w-32 h-32 top-0  rounded-full justify-center text-center px-2 space-y-2 flex flex-col" style="background-color: #292929a3;">
+                      <label class="leading-none">Work Progress</label>
+                       <label class="text-4xl"> @if($progress>=100) {{100}}% @else {{$progress}}% @endif</label> </div>
                   </div>
 
                     <h2 class="font-semibold text-xl tracking-wide truncate">{{auth()->user()->name}}</h2>                  
@@ -703,11 +721,11 @@
                         </div>
                         <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
                          <h2 >{{$weekly_work->where('status','!=','Not sign in')->count()}}</h2>
-                         <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Weekly Attend</h2>
+                         <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Attend</h2>
                        </div>
                         <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
                          <h2 >{{$weekly_work->where('status','No Record')->count()}}</h2>
-                         <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Weekly Not Present</h2>
+                         <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Not Present</h2>
                        </div>
                        <div class="flex flex-col text-sm text-center text-gray-800 items-center relative weekly-trigger cursor-pointer">
                         <h2 class="text-lg text-orange-500 font-base font-semibold leading-none">
@@ -720,20 +738,7 @@
                             {{$user->target_weekly}}
                           </h2>
                           <h2 class="text-white bg-blue-500 py-1 rounded-lg w-full md:text-base text-xs">Weekly Target</h2>
-                        </div>
-                        <style>
-                        .weekly-trigger .weekly-target {
-                         visibility: hidden;
-                         opacity: 0;
-                         transition: visibility 0s, opacity 0.5s linear;
-                        }
-
-                        .weekly-trigger:hover .weekly-target {
-                         visibility: visible;
-                         opacity: 1;
-
-                        }
-                      </style>
+                        </div>                    
 
                       </div>
                       </div>

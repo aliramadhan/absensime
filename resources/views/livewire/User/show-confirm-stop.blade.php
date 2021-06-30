@@ -51,10 +51,7 @@
                 Now your Working Hours have been fulfilled, are you sure to continue recording? <br><br><span class="text-red-600">This action cannot be undone </span>.
               </p>
             </div>
-             @if($now < Carbon\Carbon::parse($shift->time_out))
-            <label class="text-orange-500 text-sm font-semibold">Note : Fill reason if you want to continue recording.</label>
-            <input type="text" wire:model="note" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" placeholder="Fill in your reason.." required>
-            @endif
+        
           </div>
         </div>
       </div>
