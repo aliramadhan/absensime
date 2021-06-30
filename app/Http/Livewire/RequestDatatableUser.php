@@ -24,13 +24,13 @@ class RequestDatatableUser extends LivewireDatatable
     {
     	if (auth()->user()->roles == 'Manager') {
     		$users = User::where('division',auth()->user()->division)->pluck('id');
-        	return Request::whereIn('employee_id',$users)->orderBy('id','desc');
+        	return Request::whereIn('employee_id',$users)->where('type','!=','Activation Order')->orderBy('id','desc');
     	}
     	elseif (auth()->user()->role == 'Admin') {
-        	return Request::where('employee_id','!=',null)->orderBy('id','desc');
+        	return Request::where('employee_id','!=',null)->where('type','!=','Activation Order')->orderBy('id','desc');
     	}
     	else{
-        	return Request::where('employee_id',auth()->user()->id)->orderBy('id','desc');
+        	return Request::where('employee_id',auth()->user()->id)->where('type','!=','Activation Order')->orderBy('id','desc');
     	}
     }
 
