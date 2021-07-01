@@ -18,6 +18,7 @@ use App\Http\Livewire\ScheduleToday;
 use App\Http\Livewire\ReportWeekly;
 use App\Http\Livewire\ReportAllLate;
 use App\Http\Livewire\DivisionLive;
+use App\Http\Livewire\Tables\EmployeePresence;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\SendNotifUserNonActived;
@@ -97,6 +98,7 @@ Route::group(['middleware' => ['auth:sanctum','role:Admin,Admin'], 'prefix' => '
 	Route::get('excuse-employee', ReportExcuseEmployee::class)->name('excuse.report');
 	Route::get('report-weekly', ReportWeekly::class)->name('weekly.report');
 	Route::get('report-all-late', ReportAllLate::class)->name('all_late.report');
+	Route::get('report-presence', EmployeePresence::class)->name('employee_presence.report');
 });
 Route::group(['middleware' => ['auth:sanctum','role:Employee,Employee'], 'prefix' => 'user', 'as' => 'user.'], function() {
 	Route::get('dashboard', DashboardUser::class)->name('dashboard');
