@@ -100,20 +100,20 @@
                                     <div class="block px-4 py-2 text-base text-gray-700 font-semibold border-b">
                                         {{ __('Report') }}
                                     </div>
- 
-                                    <x-jet-dropdown-link  href="{{ route('admin.schedule_today') }}">
-                                        {{ __('Attend Record ') }}
-                                    </x-jet-dropdown-link>
+    
                                     <x-jet-dropdown-link  href="{{ route('admin.employee_presence.report') }}">
-                                        {{ __('Presence Report') }}
+                                        {{ __('Attendance Report') }}
                                     </x-jet-dropdown-link>
+                                    <x-jet-dropdown-link  href="{{ route('admin.schedule_today') }}">
+                                        {{ __('Attend Detail Record ') }}
+                                    </x-jet-dropdown-link>                                    
                                     <x-jet-dropdown-link  href="{{ route('admin.weekly.report') }}">
-                                        {{ __('Weekly Report') }}
+                                        {{ __('Weekly Target Report') }}
                                     </x-jet-dropdown-link>
                                     <x-jet-dropdown-link  href="{{ route('admin.all_late.report') }}">
                                         {{ __('All Late Report') }}
                                     </x-jet-dropdown-link>
-                                    
+                                     
 
                                 </x-slot>
 
@@ -317,6 +317,18 @@
                     </x-jet-responsive-nav-link>
                     <x-jet-responsive-nav-link href="{{ route('admin.request') }}" :active="request()->routeIs('admin.request')">
                         {{ __('Request') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link  href="{{ route('admin.employee_presence.report') }}">
+                        {{ __('Attendance Report') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link  href="{{ route('admin.schedule_today') }}">
+                        {{ __('Attend Detail Record ') }}
+                    </x-jet-responsive-nav-link>                                    
+                    <x-jet-responsive-nav-link  href="{{ route('admin.weekly.report') }}">
+                        {{ __('Weekly Target Report') }}
+                    </x-jet-responsive-nav-link>
+                    <x-jet-responsive-nav-link  href="{{ route('admin.all_late.report') }}">
+                        {{ __('All Late Report') }}
                     </x-jet-responsive-nav-link>
                     <x-jet-responsive-nav-link href="{{ route('admin.users') }}" :active="request()->routeIs('admin.users')">
                         {{ __('Users') }}

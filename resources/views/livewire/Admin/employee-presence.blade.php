@@ -66,20 +66,24 @@ tbody th {
 
 
 <div class=" block pb-8 mb-10">
-    <div class="grid grid-cols-2 flex items-center justify-items-end  mb-4 relative flex-col md:flex-row gap-3 flex-col-reverse">
-     <div class="relative text-gray-600 focus-within:text-gray-400 fixed md:w-auto w-full justify-self-start">
-      <span class="absolute inset-y-0 left-0 flex items-center pl-2">
-        <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
-          <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-      </button>
-  </span>
-  <input type="search" id="myInputSearch" onkeyup="searching1()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
-  <form method="GET" action="#">
-    <input type="month" @if(request('month') != null) value="{{Carbon\Carbon::parse(request('month'))->format('Y-m')}}" @endif name="month">
-    <input type="submit" name="submit">
-  </form>
-</div>
-<button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export Schedule</button>
+
+    <div class="md:grid grid-cols-2 flex items-center justify-items-end w-full mb-4 relative flex-col md:flex-row gap-3 justify-items-stretch">
+        <form method="GET" action="#" class="relative text-gray-600 focus-within:text-gray-400 flex space-x-2 md:w-auto w-full justify-self-start f">
+            <input type="month" @if(request('month') != null) value="{{Carbon\Carbon::parse(request('month'))->format('Y-m')}}" @endif name="month" class="rounded-lg border-gray-400">
+            <input type="submit" name="submit" class="rounded-lg bg-blue-400 cursor-pointer hover:bg-blue-600 duration-300 text-white font-semibold px-4 py-2 tracking-wide" value="Filter">
+        </form>
+        <div class="flex space-x-2 justify-self-end items-center">
+        <div class="relative text-gray-600 focus-within:text-gray-400 fixed md:w-auto w-full ">
+          <span class="absolute inset-y-0 left-0 flex items-center pl-2">
+            <button type="submit" class="p-1 focus:outline-none focus:shadow-outline">
+              <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+          </button>
+      </span>
+      <input type="search" id="myInputSearch" onkeyup="searching1()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
+
+  </div>
+  <button class=" focus:outline-none font-semibold hover:bg-green-400 shadow-md duration-300 border-2 border-green-400 cursor-pointer text-green-500 hover:text-white  py-2 px-6 rounded-lg md:w-auto w-6/12" wire:click="exportSchedule()">Export</button>
+  </div>
 </div>
 
 <div class="scroll overflow-auto cursor-pointer relative" style="max-height: 24em;">
@@ -87,29 +91,36 @@ tbody th {
       <thead>
        <tr>
 
-           <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 z-10 top-0">Employee Name</th>
-           
-           @for($i = 1; $i <= $now->daysInMonth; $i++)
+           <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 z-10 top-0 " rowspan="2" >Name</th>
+           <th class="z-10 top-0" colspan="{{$now->daysInMonth}}"> Bulan Tahun</th>         
+          
+        </tr>
+        <tr class="bg-white">
+             @for($i = 1; $i <= $now->daysInMonth; $i++)
             @php
             $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
             $mytimenow=Carbon\Carbon::now('d');
             @endphp
+
             @if($i==$mytimenow->format('d'))
-            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold border-b-2 rounded-t-md w-32 shadow-lg border '>
+          
+            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold border-b-2 rounded-t-md w-32 shadow-lg border' style="z-index:-1;">
                 {{$date->format('d')}}
             </th>
             @else
             <th class='hover:bg-yellow-500 bg-gray-100 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border '>
                 {{$date->format('d')}}
             </th>
+
             @endif
             @endfor
         </tr>
     </thead>
     <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
-        <tr >
-            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
+        <tr class="text-center">
+            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0   "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
+            
             
             @for($i = 1; $i <= $now->daysInMonth; $i++)
               @php
@@ -117,13 +128,13 @@ tbody th {
               $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
               @endphp
               @if($schedule == null)
-                <td>-</td>
+                <td class="bg-red-300">-</td>
               @elseif($schedule->status == 'Not sign in')
-                <td>not yet started</td>
+                <td >Not sign in</td>
               @elseif($schedule->status_depart == 'Late')
                 <td>Late</td>
               @elseif($schedule->status == 'No Record')
-                <td>absence</td>
+                <td class="bg-red-500 text-white">A</td>
               @else
                 <td>{{$schedule->status}}</td>
               @endif  
