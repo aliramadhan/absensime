@@ -19,10 +19,10 @@
                                 @if($schedule->status == 'Overtime')
                                     <option value="Break">Break</option>
                                     <option>New Task</option>                               
-                                @else
+                                @else      
+                                    <option>Permission</option> 
                                     <option value="Break">Break</option>
-                                    <option>New Task</option>        
-                                    <option>Permission</option>                                
+                                    <option>New Task</option>                                 
                                 @endif
                             </select>
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
@@ -33,7 +33,7 @@
                             @error('task') <span class="text-red-500">{{ $message }}</span>@enderror
                                                 
                         </div>
-                         @if($type_pause != 'New Task')      
+                         @if($type_pause == 'Break')      
                          <label class="mt-1 text-gray-600 font-semibold">
                             (This type must <span class="text-orange-500">replace</span> the elapsed hours)</label>
                             @endif
