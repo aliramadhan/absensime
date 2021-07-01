@@ -350,7 +350,7 @@
                     <progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>  
                     <div class="absolute weekly-target w-32 h-32 top-0  rounded-full justify-center text-center px-2 space-y-2 flex flex-col" style="background-color: #292929a3;">
                       <label class="leading-none">Work Progress</label>
-                       <label class="text-4xl"> @if($progress>=100) {{100}}% @else {{$progress}}% @endif</label> </div>
+                       <label class="text-4xl"> @if($progress>=100) {{100}}% @else {{number_format($progress,0)}}% @endif</label> </div>
                   </div>
 
                     <h2 class="font-semibold text-xl tracking-wide truncate">{{auth()->user()->name}}</h2>                  
@@ -412,10 +412,10 @@
                       <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
-                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if(($cekRemote) || ($schedule != null && $schedule->status == 'Working'))</select> disabled @endif>
+                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if(($cekRemote)OR($schedule->status == 'Working')) disabled @endif>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
-                                <option @if($location = 'WFO') selected @endif value="WFO">Work From Office</option>
-                                <option @if($location = 'WFH') selected @endif value="WFH">Work From Home</option>
+                                <option @if($location == 'WFO') selected="true" @endif value="WFO">Work From Office</option>
+                                <option @if($location == 'WFH') selected="true" @endif value="WFH">Work From Home</option>
                                 <option value="Business Travel">Business Travel</option>
                             </select>
                         </label>
