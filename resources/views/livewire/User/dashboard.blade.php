@@ -414,8 +414,8 @@
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if(($cekRemote) || ($schedule != null && $schedule->status == 'Working'))</select> disabled @endif>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
-                                <option value="WFO">Work From Office</option>
-                                <option value="WFH">Work From Home</option>
+                                <option @if($location = 'WFO') selected @endif value="WFO">Work From Office</option>
+                                <option @if($location = 'WFH') selected @endif value="WFH">Work From Home</option>
                                 <option value="Business Travel">Business Travel</option>
                             </select>
                         </label>
