@@ -411,13 +411,22 @@
                     <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4">                      
                       <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
-                            <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
-                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" @if(($cekRemote)OR($schedule->status == 'Working')) disabled @endif>
+                            <span class="text-gray-700 flex space-x-1 ">Tracking Option {{$location}}</span>
+                            @if(($cekRemote)OR($schedule->status == 'Working'))
+                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" disabled >
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
-                                <option @if($location == 'WFO') selected="true" @endif value="WFO">Work From Office</option>
-                                <option @if($location == 'WFH') selected="true" @endif value="WFH">Work From Home</option>
-                                <option value="Business Travel">Business Travel</option>
+                                <option @if($location == 'WFO') selected="true" @endif >Work From Office</option>
+                                <option @if($location == 'WFH') selected="true" @endif >Work From Home</option>
+                                <option @if($location == 'Business Travel') selected="true" @endif >Business Travel</option>
                             </select>
+                            @else
+                              <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" >
+                                @if($cekRemote)<option selected="true">Remote</option>@endif
+                                <option value="WFO">Work From Office</option>
+                                <option value="WFH">Work From Home</option>
+                                <option value="Business Travel">Business Travel</option>
+                                  </select>
+                            @endif
                         </label>
 
                          <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
@@ -439,7 +448,7 @@
                         @if($schedule != null && $schedule->started_at != null)
                 <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
-              <div wire:poll.10ms class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+              <div @if($schedule != null && $schedule->status == 'Working') wire:poll.10ms @endif class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @php
                     $workhourDetail = 0;
@@ -554,7 +563,7 @@
                 </div>
                  </div>
                  
-            <div wire:poll.10ms class="absolute">
+            <div @if($schedule != null && $schedule->status == 'Working') wire:poll.10ms @endif class="absolute">
               @if($schedule != null)
                 @php
                   $request_late = App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Excused')->where('status','Accept')->first();

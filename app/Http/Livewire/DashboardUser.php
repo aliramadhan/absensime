@@ -17,7 +17,7 @@ use App\Mail\RequestNotificationMail;
 
 class DashboardUser extends Component
 {
-    public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location = "WFO", $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note;
+    public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
@@ -53,26 +53,8 @@ class DashboardUser extends Component
         $this->shifts = Shift::all();
         $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->orderBy('date','asc')->get();
-        //get target weekly hour
-        $startWeek = Carbon::parse($this->now)->startOfWeek();
-        $endWeek = Carbon::parse($this->now)->endOfWeek();
-        $weekly_work = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
-        $this->user->target_weekly = 0;
-        foreach ($weekly_work->get() as $scheduleLoop) {
-            $shift = Shift::where('id',$scheduleLoop->shift_id)->first();
-            $time_out = Carbon::parse($shift->time_out);
-            $time_in = Carbon::parse($shift->time_in);
-            if ($time_in > $time_out) {
-                $this->user->target_weekly += $time_in->diffInSeconds($time_out->addDay());
-            }
-            else{
-                $this->user->target_weekly += $time_in->diffInSeconds($time_out);
-            }
-        }
-        $this->user->target_weekly = $this->intToTime($this->user->target_weekly);
-        //cek if request remote exist
-        $request_remote = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
-        if ($request_remote != null) {
+        $request = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
+        if ($request != null) {
             $this->cekRemote = 1;
             $this->location = 'Remote';
         }
@@ -95,6 +77,9 @@ class DashboardUser extends Component
                 $this->limit_workhour = $time_in->diffInSeconds($time_out);
             }
             $this->detailSchedule = $this->schedule->details->SortByDesc('id')->first();
+            if($this->detailSchedule->stoped_at != null){
+                $this->location = $this->detailSchedule->location;
+            }
             foreach ($this->schedule->details->where('status','Rest') as $detail) {
                 if ($detail->stoped_at != null) {
                     $startPause = Carbon::parse($detail->started_at);
@@ -461,7 +446,7 @@ class DashboardUser extends Component
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type != 'Remote' && $cekLeave == null && $this->type != 'Activation Record') {
+        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type != 'Remote' && $cekLeave == null) {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
