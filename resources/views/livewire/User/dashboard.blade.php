@@ -726,14 +726,22 @@
                       <div class="grid md:grid-cols-6  grid-rows-2 items-center gap-2">
                         <div class="col-span-3 flex flex-col text-2xl text-gray-800 leading-none font-semibold">
                           <h2 class="text-3xl leading-none">Recent</h2>
-                          <h2 class="text-sm md:text-lg text-gray-500 font-base ">You Have <span class="text-orange-500">{{$user->schedules->where('status','!=','Not sign in')->count()}}</span> Activities on this month</h2>
+                          <h2 class="text-sm md:text-lg text-gray-500 font-base ">You Have <span class="text-orange-500">{{$schedules->count()}}</span> Activities on this month</h2>
                         </div>
                         <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
-                         <h2 >{{$weekly_work->where('status','!=','Not sign in')->count()}}</h2>
+                         <h2 >
+                            {{$schedules->filter(function ($item) {
+                               return $item->status == 'Working' || $item->status == 'Done' || $item->status == 'Rest';
+                            })->count()}}
+                         </h2>
                          <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Attend</h2>
                        </div>
                         <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
-                         <h2 >{{$weekly_work->where('status','No Record')->count()}}</h2>
+                         <h2 >
+                            {{$schedules->filter(function ($item) {
+                               return $item->status != 'Working' && $item->status != 'Done' && $item->status != 'Rest';
+                            })->count()}}
+                         </h2>
                          <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Not Present</h2>
                        </div>
                        <div class="flex flex-col text-sm text-center text-gray-800 items-center relative weekly-trigger cursor-pointer">

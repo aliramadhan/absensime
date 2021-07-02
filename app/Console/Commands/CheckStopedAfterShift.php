@@ -93,6 +93,9 @@ class CheckStopedAfterShift extends Command
                     //$this->info("not Sending email.");
                 }
             }
+            elseif ($now->greaterThan($time_in)) {
+                //send email if 1 hour not yet started
+            }
             else{
                 //$this->info("belum lewat shift");
             }
