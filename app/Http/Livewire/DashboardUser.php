@@ -136,6 +136,22 @@ class DashboardUser extends Component
             $this->remote = $this->intToTime($remote);
             $this->business_travel = $this->intToTime($business_travel);
         }
+        //set weekly target
+        $startWeek = Carbon::now()->startOfWeek();
+        $endWeek = Carbon::now()->endOfWeek();
+        $weekly_work = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
+        foreach ($weekly_work->get() as $weeklySchedule) {
+            $shiftWeekly = $weeklySchedule->shift;
+            $time_inWeekly = Carbon::parse($shiftWeekly->time_in);
+            $time_outWeekly = Carbon::parse($shiftWeekly->time_out);
+            if ($time_outWeekly < $time_inWeekly) {
+                $this->user->target_weekly += $time_inWeekly->diffInSeconds($time_outWeekly->addDay());
+            }
+            else{
+                $this->user->target_weekly += $time_inWeekly->diffInSeconds($time_outWeekly);
+            }
+        }
+        $this->user->target_weekly = $this->intToTime($this->user->target_weekly);
         return view('livewire.User.dashboard');
     }
     public function showStart()
