@@ -411,7 +411,7 @@
                     <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4">                      
                       <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
-  <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
+                            <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
                             <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" disabled >
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
@@ -767,7 +767,6 @@
                         </div>
                         @if($scheduleUser->status == 'Working' || $scheduleUser->status == 'Done')
                       
-                        <div class="text-gray-500 text-xs ">{{$scheduleUser->details->first()->location}}</div>
                         <div class="text-gray-700 text-xs ">{{$timeMonthly}}</div>
                         <!-- <div class="mb-6 text-xs">{{$scheduleUser->details->first()->note}}</div> -->
                          <div class="text-blue-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">

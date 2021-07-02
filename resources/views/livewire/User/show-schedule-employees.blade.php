@@ -51,7 +51,7 @@ thead th {
 
 thead th:first-child {
   left: 0;
-  z-index: 1;
+  z-index: 30;
 }
 
 tbody th {
@@ -73,7 +73,7 @@ tbody th {
           <svg fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" class="w-6 h-6"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
       </button>
   </span>
-  <input type="search" id="myInputSearch" onkeyup="searching1()"  class="py-2 text-sm text-white bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
+  <input type="search" id="myInputSearch" onkeyup="searching1()"  class="py-2 text-sm bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
 </div>
 <button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export Schedule</button>
 </div>
@@ -83,7 +83,7 @@ tbody th {
       <thead>
        <tr>
 
-           <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 z-10 top-0">Employee Name</th>
+           <th  class="text-white bg-gray-700 w-1/2 px-1 py-2 top-0">Employee Name</th>
            
            @for($i = 1; $i <= $now->daysInMonth; $i++)
             @php
@@ -91,11 +91,11 @@ tbody th {
             $mytimenow=Carbon\Carbon::now('d');
             @endphp
             @if($i==$mytimenow->format('d'))
-            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold border-b-2 rounded-t-md w-32 shadow-lg border '>
+            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold border-b-2 rounded-t-md w-32 shadow-lg border z-20'>
                 {{$date->format('d')}}
             </th>
             @else
-            <th class='hover:bg-yellow-500 bg-gray-100 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border '>
+            <th class='hover:bg-yellow-500 bg-gray-100 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border z-10'>
                 {{$date->format('d')}}
             </th>
             @endif
@@ -105,7 +105,7 @@ tbody th {
     <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
         <tr >
-            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
+            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0  z-20"><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
             
             @for($i = 1; $i <= $now->daysInMonth; $i++)
                 @php
@@ -119,11 +119,12 @@ tbody th {
                   </td>
                   @elseif($schedule != null && in_array($schedule->status,$leaves))
 
-                  <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 hover-trigger relative'>{{$schedule->shift_name}}
-                    <div class="hover-target absolute">{{$schedule->status}} </div>
+                  <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 hover-trigger relative'>{{$schedule->shift_name}}
+                    <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div>
                   </td>
                   @elseif($schedule != null && $schedule->status != 'Not sign in')
-                  <td class='hover:bg-blue-500 px-1 py-2 text-center font-semibold tracking-wide text-center border border-white bg-blue-400 text-sm text-white'><label class="bg-blue-200">{{$schedule->shift_name}}</label></td>
+                  <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 relative hover-trigger duration-300 '>{{$schedule->shift_name}}
+                    <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div></td>
                   @else
                   <td class='hover:bg-blue-500 px-1 py-2 text-center bg-gray-200 border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
                   @endif
