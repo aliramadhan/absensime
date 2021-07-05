@@ -420,7 +420,7 @@
                                 <option value="Business Travel">Business Travel</option>
                             </select>
                             @else
-                              <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" >
+                              <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400  @error('location') border-red-500  @enderror" wire:model="location" >
                                 <option hidden value="none">Choose One</option>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
                                 <option value="WFO">Work From Office</option>
@@ -429,7 +429,7 @@
                                   </select>
                             @endif
                         </label>
-                        @error('location') <span class="text-red-500">{{ $message }}</span>@enderror
+                          @error('location') <span class="text-red-500 text-xl font-semibold shadow-md"><i class="fas fa-times-circle"></i></span>@enderror
 
                          <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
