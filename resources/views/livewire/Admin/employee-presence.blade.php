@@ -46,12 +46,14 @@ thead th {
   position: sticky;
   top: 0;
   width: 40px;
- 
+    background-color: #5775ef;
+    height: 36px;
+
 }
 
 thead th:first-child {
   left: 0;
-  z-index: 1;
+ 
 }
 
 tbody th {
@@ -86,16 +88,17 @@ tbody th {
   </div>
 </div>
 
-<div class="scroll overflow-auto cursor-pointer relative" style="max-height: 24em;">
+<div class="scroll overflow-auto cursor-pointer relative" style="max-height: 35em;">
     <table class="table-fixed border flex-initial relative">
       <thead>
        <tr>
-
-           <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 z-10 top-0 " rowspan="2" >Name</th>
-           <th class="z-10 top-0" colspan="{{$now->daysInMonth}}"> Bulan Tahun</th>         
-          
+         <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 top-0 z-50" rowspan="2" >Name</th>
+         <th class="text-white tracking-wider top-0" colspan="{{$now->daysInMonth}}"> Bulan Tahun</th>   
+         <th class="text-gray-700 bg-gray-700 w-2"></th>
+         <th class="text-gray-700 tracking-wide top-0 bg-white" colspan="5">TOTAL</th>      
         </tr>
-        <tr class="bg-white">
+        <tr >
+
              @for($i = 1; $i <= $now->daysInMonth; $i++)
             @php
             $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
@@ -104,22 +107,31 @@ tbody th {
 
             @if($i==$mytimenow->format('d'))
           
-            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold border-b-2 rounded-t-md w-32 shadow-lg border' style="z-index:-1;">
+            <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold w-32 shadow-lg border z-10' rowspan="2" >
                 {{$date->format('d')}}
             </th>
             @else
-            <th class='hover:bg-yellow-500 bg-gray-100 duration-300 rounded-t-md hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border '>
+            <th class='hover:bg-yellow-500 duration-300  hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border z-10' rowspan="2" >
                 {{$date->format('d')}}
             </th>
 
             @endif
             @endfor
+            <th class="text-gray-700 bg-gray-700 w-2"></th>
+            <th class="text-white px-1 z-10">V </th>
+            <th class="text-white px-1 z-10">V(r)</th>
+            <th class="text-white px-1 z-10">CUTI</th>
+            <th class="text-white px-1 z-10">X</th>
+            <th class="text-white px-1 z-10">S</th>
+            <th class="text-white px-1 z-10">I</th>
         </tr>
+        
+          
     </thead>
     <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
         <tr class="text-center">
-            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0   "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
+            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-10  "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
             
             
             @for($i = 1; $i <= $now->daysInMonth; $i++)
@@ -128,11 +140,11 @@ tbody th {
               $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
               @endphp
               @if($schedule == null)
-                <td class="bg-red-300">-</td>
+                <td class="bg-gray-50">-</td>
               @elseif($schedule->status == 'Not sign in')
-                <td >Not sign in</td>
+                <td class="bg-red-500 text-white">Not Yet</td>
               @elseif($schedule->status_depart == 'Late')
-                <td>Late</td>
+                <td class="bg-green-400 text-green-900">T</td>
               @elseif($schedule->status == 'No Record')
                 <td class="bg-red-500 text-white">A</td>
               @else
@@ -140,8 +152,16 @@ tbody th {
               @endif  
 
             @endfor
+            <th class="text-gray-700 bg-gray-700 w-2"></th>
+            <th>V </th>
+            <th>V(r)</th>
+            <th>CUTI</th>
+            <th>X</th>
+            <th>S</th>
+            <th>I</th>
         </tr>
-        @endforeach    
+        @endforeach  
+
         </tbody>
     </table>
 </div>
