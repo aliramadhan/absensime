@@ -873,6 +873,11 @@ window.customElements.define('progress-ring', ProgressRing);
             var longitude = position.coords.longitude;
             console.log('Lat : '+latitude+" & Long : "+longitude);
               window.livewire.emit('set:latitude-longitude', latitude, longitude);
+            },function error(msg) {alert('Please enable your GPS position feature.');}
+            , {
+                maximumAge: 600000,
+                timeout: 10000,
+                enableHighAccuracy: true
             });
         } else {
             alert("Sorry, your browser does not support HTML5 geolocation.");
