@@ -190,7 +190,7 @@
                       @endif
                     </p>
                   </div>
-                  <p class="text-2xl leading-tight font-semibold text-center text-gray-800">{{$count_notsignin}}</p>
+                  <p class="text-2xl leading-tight font-semibold text-center text-gray-800">{{number_format($count_notsignin,1)}}</p>
                   <p class="text-base text-center leading-tight text-gray-500">Not Sign in</p>
                 </div>
                 <div class="relative">

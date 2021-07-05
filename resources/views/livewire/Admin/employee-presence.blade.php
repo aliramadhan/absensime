@@ -89,7 +89,7 @@ tbody th {
 </div>
 
 <div class="scroll overflow-auto cursor-pointer relative" style="max-height: 35em;">
-    <table class="table-fixed border flex-initial relative">
+    <table class="table-fixed  flex-initial relative">
       <thead>
        <tr>
          <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 top-0 z-50" rowspan="2" >Name</th>

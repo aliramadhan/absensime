@@ -89,7 +89,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="lg:grid lg:grid-cols-8 flex-col flex flex-col-reverse gap-4">
 
-            <div class="lg:flex lg:flex-col md:grid md:grid-cols-2  sm:rounded-lg col-span-2 space-y-4 flex flex-col-reverse hide-scroll">
+            <div class="lg:flex lg:flex-col md:grid md:grid-cols-2  sm:rounded-lg col-span-2 lg:space-y-4 flex flex-col-reverse hide-scroll lg:space-x-0 md:space-x-2">
                 
               <div class="overflow-hidden md:mt-0 mt-4">
 
