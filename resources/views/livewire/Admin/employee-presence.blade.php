@@ -93,6 +93,7 @@ tbody th {
       <thead>
        <tr>
          <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 top-0 z-50" rowspan="2" >Name</th>
+         <th  class="text-white bg-gray-900 w-1/2  px-1 py-2 top-0 z-40" rowspan="2" >Leader</th>
          <th class="text-white tracking-wider top-0" colspan="{{$now->daysInMonth}}"> Bulan Tahun</th>   
          <th class="text-gray-700 bg-gray-700 w-2"></th>
          <th class="text-gray-700 tracking-wide top-0 bg-white" colspan="5">TOTAL</th>      
@@ -131,8 +132,8 @@ tbody th {
     <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
         <tr class="text-center">
-            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-10  "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
-            
+            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-20  "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
+             <th  class="p-2  truncate text-white bg-gray-900 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-10  "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
             
             @for($i = 1; $i <= $now->daysInMonth; $i++)
               @php
