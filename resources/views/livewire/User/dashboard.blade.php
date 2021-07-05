@@ -413,14 +413,15 @@
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
-                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" disabled >
+                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" disabled wire:model="location" >
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
-                                <option @if($location == 'WFO') selected="true" @endif >Work From Office</option>
-                                <option @if($location == 'WFH') selected="true" @endif >Work From Home</option>
-                                <option @if($location == 'Business Travel') selected="true" @endif >Business Travel</option>
+                                <option value="WFO">Work From Office</option>
+                                <option value="WFH">Work From Home</option>
+                                <option value="Business Travel">Business Travel</option>
                             </select>
                             @else
                               <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400" wire:model="location" >
+                                <option hidden value="none">Choose One</option>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
                                 <option value="WFO">Work From Office</option>
                                 <option value="WFH">Work From Home</option>
@@ -428,6 +429,7 @@
                                   </select>
                             @endif
                         </label>
+                        @error('location') <span class="text-red-500">{{ $message }}</span>@enderror
 
                          <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>

@@ -1,4 +1,4 @@
-<div wire:poll.10ms class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+<div @if($schedule != null && $schedule->status == 'Working') wire:poll.10ms @endif class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
 	  @php
 	  $start = Carbon\Carbon::parse($schedule->started_at);
 	  if($schedule->details->where('status','Work')->sortByDesc('id')->first() != null){

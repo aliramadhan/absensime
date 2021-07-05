@@ -77,7 +77,7 @@ class DashboardUser extends Component
                 $this->limit_workhour = $time_in->diffInSeconds($time_out);
             }
             $this->detailSchedule = $this->schedule->details->SortByDesc('id')->first();
-            if($this->detailSchedule != null && $this->detailSchedule->stoped_at == null){
+            if($this->detailSchedule != null && $this->detailSchedule->status != 'Rest' && $this->detailSchedule->stoped_at == null){
                 $this->location = $this->detailSchedule->location;
             }
             foreach ($this->schedule->details->where('status','Rest') as $detail) {
@@ -274,7 +274,6 @@ class DashboardUser extends Component
             'task_desc' => $this->task_desc,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
-            'location' => $this->location
         ]);
         $timer = $this->schedule->timer;
         $workhour = $this->schedule->workhour + $timer;
@@ -295,7 +294,11 @@ class DashboardUser extends Component
     {
         $this->detailSchedule =$this->schedule->details->SortByDesc('id')->first();
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
-        
+        $this->validate([
+            'location' => 'required|string|not_in:none',
+        ],[
+            'location.required' => 'Please, Choose Tracking Option before resuming.',
+        ]);
         //update detail pause and stop it
         $this->schedule->update([
             'status' => 'Working',
