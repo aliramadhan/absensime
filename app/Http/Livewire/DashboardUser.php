@@ -77,7 +77,7 @@ class DashboardUser extends Component
                 $this->limit_workhour = $time_in->diffInSeconds($time_out);
             }
             $this->detailSchedule = $this->schedule->details->SortByDesc('id')->first();
-            if($this->detailSchedule != null && $this->detailSchedule->stoped_at != null){
+            if($this->detailSchedule != null && $this->detailSchedule->stoped_at == null){
                 $this->location = $this->detailSchedule->location;
             }
             foreach ($this->schedule->details->where('status','Rest') as $detail) {
