@@ -131,9 +131,12 @@ tbody th {
     </thead>
     <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
+        @php
+          $manager = App\Models\User::where('division',$user->division)->where('roles','Manager')->first();
+        @endphp
         <tr class="text-center">
             <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-20  "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
-             <th  class="p-2  truncate text-white bg-gray-900 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-10  "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
+             <th  class="p-2  truncate text-white bg-gray-900 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-10  "><div class="truncate md:w-full w-28">@if($manager != null) {{$manager->name}} @endif </div></th>
             
             @for($i = 1; $i <= $now->daysInMonth; $i++)
               @php
