@@ -133,6 +133,13 @@ tbody th {
         @foreach($users as $user)
         @php
           $manager = App\Models\User::where('division',$user->division)->where('roles','Manager')->first();
+          if($manager == null){
+            $manager = App\Models\User::where('division',$user->division)->where('position','Small Leader')->first();
+          }
+          $totalWFO = 0;
+          $totalWFH = 0;
+          $totalRemote = 0;
+          $totalVr = 0;
         @endphp
         <tr class="text-center">
             <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-20  "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
@@ -142,6 +149,12 @@ tbody th {
               @php
               $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
               $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
+              if($schedule != null){
+                  $detailSchedule = App\Models\HistorySchedule::where('schedule_id',$schedule->id)->where('status','Work')->get();
+                  $wfo = $detailSchedule->where('location','WFO')->count();
+                  $wfh = $detailSchedule->where('location','WFH')->count();
+                  $remote = $detailSchedule->where('location','Remote')->count();
+              }
               @endphp
               @if($schedule == null)
                 <td class="bg-gray-50">-</td>
@@ -149,6 +162,12 @@ tbody th {
                 <td class="bg-red-500 text-white">Not Yet</td>
               @elseif($schedule->status_depart == 'Late')
                 <td class="bg-green-400 text-green-900">T</td>
+              @elseif($remote > 0)
+                <td class="bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
+              @elseif($wfh > $wfo)
+                <td class="bg-green-400 text-green-900">WFH</td>@php $totalWFH++; $totalVr++; @endphp
+              @elseif($wfh < $wfo)
+                <td class="bg-green-400 text-green-900">WFO</td>@php $totalWFO++; $totalVr++; @endphp
               @elseif($schedule->status == 'No Record')
                 <td class="bg-red-500 text-white">A</td>
               @else
@@ -157,8 +176,8 @@ tbody th {
 
             @endfor
             <th class="text-gray-700 bg-gray-700 w-2"></th>
-            <th>V </th>
-            <th>V(r)</th>
+            <th>{{$totalWFO}}</th>
+            <th>{{$totalVr}}</th>
             <th>CUTI</th>
             <th>X</th>
             <th>S</th>
