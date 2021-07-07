@@ -119,12 +119,12 @@ tbody th {
             @endif
             @endfor
             <th class="text-gray-700 bg-gray-700 w-2"></th>
-            <th class="text-white px-1 z-10">V </th>
-            <th class="text-white px-1 z-10">V(r)</th>
-            <th class="text-white px-1 z-10">CUTI</th>
-            <th class="text-white px-1 z-10">X</th>
-            <th class="text-white px-1 z-10">S</th>
-            <th class="text-white px-1 z-10">I</th>
+            <th class="text-white px-1 z-10 w-6"><label class="w-5">V </label></th>
+            <th class="text-white px-1 z-10 w-6"><label class="w-5">V(r)</label></th>
+            <th class="text-white px-1 z-10 w-6"><label class="w-5">CUTI</label></th>
+            <th class="text-white px-1 z-10 w-6"><label class="w-5">X</label></th>
+            <th class="text-white px-1 z-10 w-6"><label class="w-5">S</label></th>
+            <th class="text-white px-1 z-10 w-6"><label class="w-5">I</label></th>
         </tr>
         
           
@@ -176,12 +176,12 @@ tbody th {
 
             @endfor
             <th class="text-gray-700 bg-gray-700 w-2"></th>
-            <th>{{$totalWFO}}</th>
-            <th>{{$totalVr}}</th>
-            <th>CUTI</th>
-            <th>X</th>
-            <th>S</th>
-            <th>I</th>
+            <th ><label class="w-5"> {{$totalWFO}}</label></th>
+            <th ><label class="w-5"> {{$totalVr}}</label></th>
+            <th ><label class="w-5"> CUTI</label></th>
+            <th ><label class="w-5"> X</label></th>
+            <th ><label class="w-5"> S</label></th>
+            <th ><label class="w-5"> I</label></th>
         </tr>
         @endforeach  
 
