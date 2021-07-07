@@ -94,7 +94,7 @@ tbody th {
        <tr>
          <th  class="text-white bg-gray-700 w-1/2  px-1 py-2 top-0 z-50" rowspan="2" >Name</th>
          <th  class="text-white bg-gray-900 w-1/2  px-1 py-2 top-0 z-40" rowspan="2" >Leader</th>
-         <th class="text-white tracking-wider top-0" colspan="{{$now->daysInMonth}}"> Bulan Tahun</th>   
+         <th class="text-white tracking-wider top-0" colspan="{{$now->daysInMonth}}"> {{$now->format('F Y')}}</th>   
          <th class="text-gray-700 bg-gray-700 w-2"></th>
          <th class="text-gray-700 tracking-wide top-0 bg-white" colspan="5">TOTAL</th>      
         </tr>
@@ -171,6 +171,8 @@ tbody th {
                 <td class="bg-green-400 text-green-900">WFO</td>@php $totalWFO++; $totalVr++; @endphp
               @elseif($schedule->status == 'No Record')
                 <td class="bg-red-500 text-white">A</td>
+              @elseif(in_array($schedule->status,$leaves))
+                <td>ini buat cuti</td>
               @else
                 <td>{{$schedule->status}}</td>
               @endif  
