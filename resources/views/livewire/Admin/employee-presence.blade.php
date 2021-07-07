@@ -96,7 +96,7 @@ tbody th {
          <th  class="text-white bg-gray-900 w-1/2  px-1 py-2 top-0 z-40" rowspan="2" >Leader</th>
          <th class="text-white tracking-wider top-0" colspan="{{$now->daysInMonth}}"> {{$now->format('F Y')}}</th>   
          <th class="text-gray-700 bg-gray-700 w-2"></th>
-         <th class="text-gray-700 tracking-wide top-0 bg-white" colspan="5">TOTAL</th>      
+         <th class="text-gray-700 tracking-wide top-0 bg-white" colspan="7">TOTAL</th>      
         </tr>
         <tr >
 
@@ -119,13 +119,13 @@ tbody th {
             @endif
             @endfor
             <th class="text-gray-700 bg-gray-700 w-2"></th>
-            <th class="text-white px-2 z-10 w-6"><label class="w-5">V </label></th>
-            <th class="text-white px-2 z-10 w-6"><label class="w-5">V(r)</label></th>
-            <th class="text-white px-2 z-10 w-6"><label class="w-5">CUTI</label></th>
-            <th class="text-white px-2 z-10 w-6"><label class="w-5">R</label></th>
-            <th class="text-white px-2 z-10 w-6"><label class="w-5">S</label></th>
-            <th class="text-white px-2 z-10 w-6"><label class="w-5">I</label></th>
-            <th class="text-white px-2 z-10 w-6"><label class="w-5"></label></th>
+            <th class="text-white px-2 z-10 w-32">V </th>
+            <th class="text-white px-2 z-10 w-32">V(r)</th>
+            <th class="text-white px-2 z-10 w-32">CUTI</th>
+            <th class="text-white px-2 z-10 w-32">R</th>
+            <th class="text-white px-2 z-10 w-32">S</th>
+            <th class="text-white px-2 z-10 w-32">I</th>
+            <th class="text-white px-2 z-10 w-32"></th>
         </tr>
         
           
@@ -180,13 +180,13 @@ tbody th {
 
             @endfor
             <th class="text-gray-700 bg-gray-700 w-2"></th>
- <th>{{$totalWFO}}</th>
-            <th>{{$totalVr}}</th>
-            <th>{{$schedules->WhereIn('status',$leaves)->count()}}</th>
-            <th>R</th>
-            <th>S</th>
-            <th>I</th>
-            <th >total keseluruhan</th>
+            <th class="w-32">{{$totalWFO}}</th>
+            <th class="w-32">{{$totalVr}}</th>
+            <th class="w-32">{{$schedules->WhereIn('status',$leaves)->count()}}</th>
+            <th class="w-32">R</th>
+            <th class="w-32">S</th>
+            <th class="w-32">I</th>
+            <th class="w-32" >total keseluruhan</th>
         </tr>
         @endforeach  
 
@@ -194,39 +194,36 @@ tbody th {
     </table>
 </div>
 <div class="flex flex-col row-span-1 text-right pointer px-4 capitalize  bg-white py-4 bg-gray-100 rounded-xl border mt-4">
-    <h4 class=" text-gray-900 font-semibold text-xl leading-snug text-left mb-4" >         
-       Legend         
-   </h4>
-   <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
+  <h4 class=" text-gray-900 font-semibold text-xl leading-snug text-left mb-4" >         
+   Legend         
+ </h4>
+ <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
 
-    <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">
-      <span class="flex h-3 w-3 mr-2">
-        <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-3 w-3" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></span>
-    </span>
-    Day Off
-</h4>
-<h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-  <span class="flex h-3 w-3 mr-2">
-    <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-blue-400 opacity-75"></span>
-    <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-500"></span>
-</span>
-Today / Day Active
-</h4>
-<h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-  <span class="flex h-3 w-3 mr-2">
-    <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-yellow-400 opacity-75"></span>
-    <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
-</span>
-Permission / Leave
-</h4>
-@foreach($shifts as $shift)
-<h4 class="font-medium text-md flex items-center text-gray-700">           
-    <span class="font-bold mr-2 w-min-3  text-lg">{{$shift->name}}</span>
-    <label>{{Carbon\Carbon::parse($shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($shift->time_out)->format('H.i')}}</label>
+  <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+    A : Absence 
+  </h4>
+  <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+    Cuti : Leave 
+  </h4>
+  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    T : Late
+  </h4>
+   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+    I : Permission 
+  </h4>
+    <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    R : Remote (allowance)
+  </h4>
+  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    S : Sick
+  </h4>
+  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    V : Attend
+  </h4>
+  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    V(r) : Remote (covid)
+  </h4>
 
-</h4>
-@endforeach
 </div>     
 </div>
 
