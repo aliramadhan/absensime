@@ -183,7 +183,7 @@ tbody th {
             <th>{{$totalVr}}</th>
             <th>{{$schedules->WhereIn('status',$leaves)->count()}}</th>
             <th>X</th>
-            <th>S</th>
+            <th>{{$schedules->where('status','Sick')->count()}}</th>
             <th>I</th>
         </tr>
         @endforeach  
