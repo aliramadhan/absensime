@@ -119,12 +119,13 @@ tbody th {
             @endif
             @endfor
             <th class="text-gray-700 bg-gray-700 w-2"></th>
-            <th class="text-white px-1 z-10">V </th>
-            <th class="text-white px-1 z-10">V(r)</th>
-            <th class="text-white px-1 z-10">CUTI</th>
-            <th class="text-white px-1 z-10">X</th>
-            <th class="text-white px-1 z-10">S</th>
-            <th class="text-white px-1 z-10">I</th>
+            <th class="text-white px-2 z-10 w-6"><label class="w-5">V </label></th>
+            <th class="text-white px-2 z-10 w-6"><label class="w-5">V(r)</label></th>
+            <th class="text-white px-2 z-10 w-6"><label class="w-5">CUTI</label></th>
+            <th class="text-white px-2 z-10 w-6"><label class="w-5">R</label></th>
+            <th class="text-white px-2 z-10 w-6"><label class="w-5">S</label></th>
+            <th class="text-white px-2 z-10 w-6"><label class="w-5">I</label></th>
+            <th class="text-white px-2 z-10 w-6"><label class="w-5"></label></th>
         </tr>
         
           
@@ -182,9 +183,10 @@ tbody th {
             <th>{{$totalWFO}}</th>
             <th>{{$totalVr}}</th>
             <th>{{$schedules->WhereIn('status',$leaves)->count()}}</th>
-            <th>X</th>
             <th>{{$schedules->where('status','Sick')->count()}}</th>
+            <th>S</th>
             <th>I</th>
+            <th >total keseluruhan</th>
         </tr>
         @endforeach  
 
