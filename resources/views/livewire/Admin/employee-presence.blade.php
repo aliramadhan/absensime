@@ -163,15 +163,15 @@ tbody th {
               @elseif($schedule->status == 'Not sign in')
                 <td class="border border-gray-200 bg-red-500 text-white">Not Yet</td>
               @elseif($schedule->status_depart == 'Late')
-                <td class="border border-gray-200 bg-green-400 text-green-900">T</td>
+                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">T</td>
               @elseif($remote > 0)
-                <td class="border border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
+                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > $wfo)
-                <td class="border border-gray-200 bg-green-400 text-green-900">WFH</td>@php $totalWFH++; $totalVr++; @endphp
+                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">WFH</td>@php $totalWFH++; $totalVr++; @endphp
               @elseif($wfh < $wfo)
-                <td class="border border-gray-200 bg-green-400 text-green-900">V</td>@php $totalWFO++; $totalVr++; @endphp
+                <td class="border font-semibold border-gray-200 ">V</td>@php $totalWFO++; $totalVr++; @endphp
               @elseif($schedule->status == 'No Record')
-                <td class="border border-gray-200 bg-red-500 text-white">A</td>
+                <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
               @elseif(in_array($schedule->status,$leaves))
                 <td>ini buat cuti</td>
               @else
