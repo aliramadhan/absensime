@@ -179,12 +179,12 @@ tbody th {
               @endif  
 
             @endfor
-            <th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
+ <th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
             <th class="border border-gray-200 w-32">{{$totalWFO}}</th>
             <th class="border border-gray-200 w-32">{{$totalVr}}</th>
             <th class="border border-gray-200 w-32">{{$schedules->WhereIn('status',$leaves)->count()}}</th>
             <th class="border border-gray-200 w-32">R</th>
-            <th class="border border-gray-200 w-32">S</th>
+            <th class="border border-gray-200 w-32">{{$schedules->where('status','Sick')->count()}}</th>
             <th class="border border-gray-200 w-32">I</th>
             <th class="border border-gray-200 w-32" >total keseluruhan</th>
         </tr>
