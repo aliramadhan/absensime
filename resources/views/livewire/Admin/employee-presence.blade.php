@@ -159,19 +159,19 @@ tbody th {
               }
               @endphp
               @if($schedule == null)
-                <td class="bg-gray-50">-</td>
+                <td class="border border-gray-200 bg-gray-50">-</td>
               @elseif($schedule->status == 'Not sign in')
-                <td class="bg-red-500 text-white">Not Yet</td>
+                <td class="border border-gray-200 bg-red-500 text-white">Not Yet</td>
               @elseif($schedule->status_depart == 'Late')
-                <td class="bg-green-400 text-green-900">T</td>
+                <td class="border border-gray-200 bg-green-400 text-green-900">T</td>
               @elseif($remote > 0)
-                <td class="bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
+                <td class="border border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > $wfo)
-                <td class="bg-green-400 text-green-900">WFH</td>@php $totalWFH++; $totalVr++; @endphp
+                <td class="border border-gray-200 bg-green-400 text-green-900">WFH</td>@php $totalWFH++; $totalVr++; @endphp
               @elseif($wfh < $wfo)
-                <td class="bg-green-400 text-green-900">WFO</td>@php $totalWFO++; $totalVr++; @endphp
+                <td class="border border-gray-200 bg-green-400 text-green-900">V</td>@php $totalWFO++; $totalVr++; @endphp
               @elseif($schedule->status == 'No Record')
-                <td class="bg-red-500 text-white">A</td>
+                <td class="border border-gray-200 bg-red-500 text-white">A</td>
               @elseif(in_array($schedule->status,$leaves))
                 <td>ini buat cuti</td>
               @else
@@ -179,14 +179,14 @@ tbody th {
               @endif  
 
             @endfor
-            <th class="text-gray-700 bg-gray-700 w-2"></th>
-            <th class="w-32">{{$totalWFO}}</th>
-            <th class="w-32">{{$totalVr}}</th>
-            <th class="w-32">{{$schedules->WhereIn('status',$leaves)->count()}}</th>
-            <th class="w-32">R</th>
-            <th class="w-32">S</th>
-            <th class="w-32">I</th>
-            <th class="w-32" >total keseluruhan</th>
+            <th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
+            <th class="border border-gray-200 w-32">{{$totalWFO}}</th>
+            <th class="border border-gray-200 w-32">{{$totalVr}}</th>
+            <th class="border border-gray-200 w-32">{{$schedules->WhereIn('status',$leaves)->count()}}</th>
+            <th class="border border-gray-200 w-32">R</th>
+            <th class="border border-gray-200 w-32">S</th>
+            <th class="border border-gray-200 w-32">I</th>
+            <th class="border border-gray-200 w-32" >total keseluruhan</th>
         </tr>
         @endforeach  
 
