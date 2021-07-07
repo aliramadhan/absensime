@@ -200,28 +200,28 @@ tbody th {
  <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
 
   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    A : Absence 
+    <span class="font-bold">A</span> : Absence 
   </h4>
   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    Cuti : Leave 
+    <span class="font-bold">Cuti</span> : Leave 
   </h4>
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    T : Late
+    <span class="font-bold">T</span> : Late
   </h4>
    <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    I : Permission 
+    <span class="font-bold">I</span> : Permission 
   </h4>
     <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    R : Remote (allowance)
+    <span class="font-bold">R</span> : Remote (allowance)
   </h4>
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    S : Sick
+    <span class="font-bold">S</span> : Sick
   </h4>
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    V : Attend
+    <span class="font-bold">V</span> : Attend
   </h4>
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    V(r) : Remote (covid)
+    <span class="font-bold">V(r)</span> : Remote (covid)
   </h4>
 
 </div>     
