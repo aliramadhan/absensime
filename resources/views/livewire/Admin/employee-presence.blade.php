@@ -132,6 +132,7 @@ tbody th {
     <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
         @php
+          $schedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('date',[$now->startOfMonth()->format('Y-m-d'),$now->endOfMonth()->format('Y-m-d')])->get();
           $manager = App\Models\User::where('division',$user->division)->where('roles','Manager')->first();
           if($manager == null){
             $manager = App\Models\User::where('division',$user->division)->where('position','Small Leader')->first();
@@ -178,7 +179,7 @@ tbody th {
             <th class="text-gray-700 bg-gray-700 w-2"></th>
             <th>{{$totalWFO}}</th>
             <th>{{$totalVr}}</th>
-            <th>CUTI</th>
+            <th>{{$schedules->WhereIn('status',$leaves)->count()}}</th>
             <th>X</th>
             <th>S</th>
             <th>I</th>
