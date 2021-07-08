@@ -191,6 +191,13 @@ class DashboardUser extends Component
     }
     public function startOn()
     {
+        //validate option tracking
+        $this->validate([
+            'location' => 'required|string|not_in:none',
+        ],[
+            'location.required' => 'Please, Choose Tracking Option before start record.',
+            'location.not_in' => 'Please, Choose Tracking Option before start record.',
+        ]);
         //set position
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
         $this->position = $position[0]['formatted_address'];
