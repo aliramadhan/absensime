@@ -178,7 +178,7 @@ tbody th {
               @elseif($remote > 0)
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > $wfo)
-                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">WFH</td>@php $totalWFH++; $totalVr++; @endphp
+                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">V(r)</td>@php $totalWFH++; $totalVr++; @endphp
               @elseif($wfh < $wfo)
                 <td class="border font-semibold border-gray-200 ">V</td>@php $totalWFO++; $totalVr++; @endphp
               @elseif($schedule->status == 'No Record')
