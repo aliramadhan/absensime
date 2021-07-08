@@ -9,23 +9,13 @@
     </tr>
     <tr >
 
-         @for($i = 1; $i <= $now->daysInMonth; $i++)
-        @php
-        $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
-        $mytimenow=Carbon\Carbon::now('d');
-        @endphp
-
-        @if($i==$mytimenow->format('d'))
-      
-        <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold w-32 shadow-lg border z-10'  >
-            {{$date->format('d')}}
-        </th>
-        @else
-        <th class='hover:bg-yellow-500 duration-300  hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border z-10'  >
-            {{$date->format('d')}}
-        </th>
-
-        @endif
+@for($i = 1; $i <= $now->daysInMonth; $i++)
+          @php
+          $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
+          @endphp
+          <th class='hover:bg-yellow-500 duration-300  hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border z-10' >
+              {{$date->format('d')}}
+          </th>
         @endfor
         <th class="text-gray-700 bg-gray-700 w-2"></th>
         <th class="text-white px-2 z-10 w-32">V </th>
@@ -87,7 +77,7 @@
           @elseif($remote > 0)
             <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
           @elseif($wfh > $wfo)
-            <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">WFH</td>@php $totalWFH++; $totalVr++; @endphp
+            <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">V(r)</td>@php $totalWFH++; $totalVr++; @endphp
           @elseif($wfh < $wfo)
             <td class="border font-semibold border-gray-200 ">V</td>@php $totalWFO++; $totalVr++; @endphp
           @elseif($schedule->status == 'No Record')
