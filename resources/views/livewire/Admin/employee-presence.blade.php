@@ -168,7 +168,11 @@ tbody th {
               @if($schedule == null)
                 <td class="border border-gray-200 bg-gray-50">-</td>
               @elseif($schedule->status == 'Not sign in')
-                <td class="border border-gray-200 bg-red-500 text-white">Not Yet</td>
+                @if($date->day >= Carbon\Carbon::now()->day)
+                  <td class="border border-gray-200 bg-gray-50">-</td>
+                @else
+                  <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
+                @endif
               @elseif($schedule->status_depart == 'Late')
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">T</td>
               @elseif($remote > 0)
