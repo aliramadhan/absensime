@@ -7,7 +7,7 @@ use Carbon\Carbon;
 use App\Models\Schedule;
 use App\Models\Shift;
 use App\Models\ListLeave;
-use App\Exports\ScheduleExport;
+use App\Exports\EmployeePresence as ExportPresence;
 use App\Models\User;
 use Excel;
 
@@ -26,9 +26,9 @@ class EmployeePresence extends Component
     	$schedules = Schedule::whereBetween('date',[$now->startOfMonth()->format('Y-m-d'),$now->endOfMonth()->format('Y-m-d')])->get();
         return view('livewire.Admin.employee-presence');
     }
-    public function exportSchedule()
+    public function exportSchedule($now)
     {
-    	$filename = 'Schedule_'.$this->now->format('F Y').'.xlsx';
-        return Excel::download(new ScheduleExport('User'), $filename);
+    	$filename = 'EmployeePresence_'.$this->now->format('F Y').'.xlsx';
+        return Excel::download(new ExportPresence($now), $filename);
     }
 }
