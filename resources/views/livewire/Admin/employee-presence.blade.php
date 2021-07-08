@@ -125,7 +125,8 @@ tbody th {
             <th class="text-white px-2 z-10 w-32">R</th>
             <th class="text-white px-2 z-10 w-32">S</th>
             <th class="text-white px-2 z-10 w-32">I</th>
-            <th class="text-white px-2 z-10 w-32"></th>
+            <th class="text-white px-2 z-10 w-32">A</th>
+            <th class="text-white px-2 z-10 w-32">Total</th>
         </tr>
         
           
@@ -138,6 +139,12 @@ tbody th {
           if($manager == null){
             $manager = App\Models\User::where('division',$user->division)->where('position','Small Leader')->first();
           }
+
+          $totalA = $schedules->filter(function ($item) {
+             return $item->date <= Carbon\Carbon::now() && $item->status != 'Not sign in';
+          });
+
+
           $totalWFO = 0;
           $totalWFH = 0;
           $totalRemote = 0;
@@ -181,12 +188,13 @@ tbody th {
             @endfor
  <th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
             <th class="border border-gray-200 w-32">{{$totalWFO}}</th>
-            <th class="border border-gray-200 w-32">{{$totalVr}}</th>
+            <th class="border border-gray-200 w-32">{{$totalWFH}}</th>
             <th class="border border-gray-200 w-32">{{$schedules->WhereIn('status',$leaves)->count()}}</th>
-            <th class="border border-gray-200 w-32">R</th>
+            <th class="border border-gray-200 w-32">{{$totalRemote}}</th>
             <th class="border border-gray-200 w-32">{{$schedules->where('status','Sick')->count()}}</th>
             <th class="border border-gray-200 w-32">I</th>
-            <th class="border border-gray-200 w-32" >total keseluruhan</th>
+            <th class="border border-gray-200 w-32">{{$schedules->where('status','No Record')->count()}}</th>
+            <th class="border border-gray-200 w-32 bg-gray-400" >{{$totalA->count()}}</th>
         </tr>
         @endforeach  
 
