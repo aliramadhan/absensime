@@ -177,10 +177,12 @@ tbody th {
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">T</td>
               @elseif($remote > 0)
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
-              @elseif($wfh > $wfo)
-                <td class="border font-semibold border-gray-200 ">V(r)</td>@php $totalWFH++; $totalVr++; @endphp
-              @elseif($wfh < $wfo)
-                <td class="border font-semibold border-gray-200 ">V</td>@php $totalWFO++; $totalVr++; @endphp
+              @elseif($wfh > 0 && $wfo > 0)
+                <td class="border font-semibold border-gray-200 ">V(r) & V</td>@php $totalWFH++; $totalWFO++; @endphp
+              @else($wfh > 0)
+                <td class="border font-semibold border-gray-200 ">V(r)</td>@php $totalWFH++; @endphp
+              @elseif($wfo > 0)
+                <td class="border font-semibold border-gray-200 ">V</td>@php $totalWFO++; @endphp
               @elseif($schedule->status == 'No Record')
                 <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
               @elseif(in_array($schedule->status,$leaves))
