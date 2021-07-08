@@ -17,11 +17,11 @@
 
         @if($i==$mytimenow->format('d'))
       
-        <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold w-32 shadow-lg border z-10' rowspan="2" >
+        <th class='bg-blue-500 hover:bg-blue-700 duration-300 text-white px-6 py-1 font-semibold w-32 shadow-lg border z-10'  >
             {{$date->format('d')}}
         </th>
         @else
-        <th class='hover:bg-yellow-500 duration-300  hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border z-10' rowspan="2" >
+        <th class='hover:bg-yellow-500 duration-300  hover:text-white px-6 py-1 bg-white font-semibold border-b-2 border-gray-200 w-32 border z-10'  >
             {{$date->format('d')}}
         </th>
 
