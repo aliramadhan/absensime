@@ -96,7 +96,7 @@ tbody th {
          <th  class="text-white bg-gray-900 w-1/2  px-1 py-2 top-0 z-40" rowspan="2" >Leader</th>
          <th class="text-white tracking-wider top-0" colspan="{{$now->daysInMonth}}"> {{$now->format('F Y')}}</th>   
          <th class="text-gray-700 bg-gray-700 w-2"></th>
-         <th class="text-gray-700 tracking-wide top-0 bg-white" colspan="7">TOTAL</th>      
+         <th class="text-gray-700 tracking-wide top-0 bg-white" colspan="8">TOTAL</th>      
         </tr>
         <tr >
 
@@ -126,7 +126,7 @@ tbody th {
             <th class="text-white px-2 z-10 w-32">S</th>
             <th class="text-white px-2 z-10 w-32">I</th>
             <th class="text-white px-2 z-10 w-32">A</th>
-            <th class="text-white px-2 z-10 w-32">Total</th>
+            <th class="text-white px-2 z-10 w-32 bg-blue-800">Total</th>
         </tr>
         
           
@@ -178,15 +178,15 @@ tbody th {
               @elseif($remote > 0)
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > $wfo)
-                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">V(r)</td>@php $totalWFH++; $totalVr++; @endphp
+                <td class="border font-semibold border-gray-200 ">V(r)</td>@php $totalWFH++; $totalVr++; @endphp
               @elseif($wfh < $wfo)
                 <td class="border font-semibold border-gray-200 ">V</td>@php $totalWFO++; $totalVr++; @endphp
               @elseif($schedule->status == 'No Record')
                 <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
               @elseif(in_array($schedule->status,$leaves))
-                <td>ini buat cuti</td>
+                <td class="bg-yellow-500 text-white font-semibold">CUTI</td>
               @else
-                <td>{{$schedule->status}}</td>
+                <td class="bg-yellow-500 text-white font-semibold">{{$schedule->status}}</td>
               @endif  
 
             @endfor
@@ -198,7 +198,7 @@ tbody th {
             <th class="border border-gray-200 w-32">{{$schedules->where('status','Sick')->count()}}</th>
             <th class="border border-gray-200 w-32">I</th>
             <th class="border border-gray-200 w-32">{{$schedules->where('status','No Record')->count()}}</th>
-            <th class="border border-gray-200 w-32 bg-gray-400" >{{$totalA->count()}}</th>
+            <th class="border border-gray-200 w-32 bg-gray-700 text-white" >{{$totalA->count()}}</th>
         </tr>
         @endforeach  
 

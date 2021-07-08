@@ -83,7 +83,7 @@
           @elseif($schedule->status == 'No Record')
             <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
           @elseif(in_array($schedule->status,$leaves))
-            <td>ini buat cuti</td>
+            <td>CUTI</td>
           @else
             <td>{{$schedule->status}}</td>
           @endif  
