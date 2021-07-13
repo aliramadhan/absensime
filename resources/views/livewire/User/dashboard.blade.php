@@ -450,7 +450,7 @@
                         @if($schedule != null && $schedule->started_at != null)
                 <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
-              <div @if($schedule != null && $schedule->status == 'Working') wire:poll.10ms @endif class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+              <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @endif class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @php
                     $workhourDetail = 0;
@@ -565,7 +565,7 @@
                 </div>
                  </div>
                  
-            <div @if($schedule != null && $schedule->status == 'Working') wire:poll.10ms @endif class="absolute">
+            <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @endif class="absolute">
               @if($schedule != null)
                 @php
                   $request_late = App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Excused')->where('status','Accept')->first();
