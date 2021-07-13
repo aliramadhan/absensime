@@ -272,17 +272,15 @@
                             <div class="block px-4 py-2 text-xs text-gray-700 font-semibold border-b">
                                 {{ __('Change Application') }}
                             </div>
-                         <!--    <div class="grid grid-cols-2">
-                                <a href="">DSA</a>
-                                <a href="">SA</a>
-                            </div> -->
-                     
-                            <x-jet-dropdown-link href="#">
-                                <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance App') }}
+                            <x-jet-dropdown-link href="https://pahlawandesignstudio.com/">                                
+                                <i class="fas fa-laptop-house mr-2"></i>{{ __('Homepage') }}
                             </x-jet-dropdown-link>
-                             <x-jet-dropdown-link href="http://localhost/cateringme/setcookie?id={{Session::getId()}}">
-                               <i class="fas fa-utensils mr-2"></i>{{ __('Catering App') }}
+                            <x-jet-dropdown-link href="https://attendance.pahlawandesignstudio.com/">
+                                <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance') }}
                             </x-jet-dropdown-link>
+                            <x-jet-dropdown-link href="https://catering.pahlawandesignstudio.com/">
+                             <i class="fas fa-utensils mr-2"></i>{{ __('Catering') }}
+                         </x-jet-dropdown-link>
 
                            
                         </x-slot>
@@ -448,11 +446,14 @@
 
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
-                <x-jet-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
-                     <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance App') }}
+                 <x-jet-responsive-nav-link href="https://pahlawandesignstudio.com/">
+                     <i class="fas fa-briefcase mr-2"></i>{{ __('Homepage') }}
                 </x-jet-responsive-nav-link>
-                   <x-jet-responsive-nav-link href="http://localhost/cateringme/setcookie?id={{Session::getId()}}" :active="request()->routeIs('profile.show')">
-                   <i class="fas fa-utensils mr-2"></i>{{ __('Catering App') }}
+                <x-jet-responsive-nav-link href="https://attendance.pahlawandesignstudio.com/">
+                     <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance') }}
+                </x-jet-responsive-nav-link>
+                   <x-jet-responsive-nav-link href="https://catering.pahlawandesignstudio.com/">
+                   <i class="fas fa-utensils mr-2"></i>{{ __('Catering') }}
                 </x-jet-responsive-nav-link>
            
             </div>
