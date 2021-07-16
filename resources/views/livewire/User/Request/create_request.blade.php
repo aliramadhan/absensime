@@ -22,7 +22,7 @@
                                 @foreach($leaves as $leave)
                                     <option>{{$leave->name}}</option>
                                 @endforeach
-                                <option>Activation Record</option>
+                                <option>Record Activation</option>
                                 <option>Sick</option>
                                 <option>Overtime</option>
                                 <option>Remote</option>
@@ -80,11 +80,21 @@
                             @error('newShift') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if($type != 'Change Shift' && $type != 'Mandatory')
+                        @if($type != 'Change Shift' && $type != 'Mandatory' && $type != 'Remote')
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                             <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+
+                        @elseif($type== 'Remote')
+                        <div class="mb-4 px-2">
+                            <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Where? </label>
+                            <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
+                                <option hidden>Choose here</option>                             
+                                <option>Malang</option>
+                                <option>Luar Malang</option>                                
+                            </select>
                         </div>
                         @endif
                         @if($type == 'Overtime')
