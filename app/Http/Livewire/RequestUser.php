@@ -103,6 +103,7 @@ class RequestUser extends Component
         if ($this->is_cancel_order == null) {
             $this->is_cancel_order = 0;
         }
+        /*
         if ($cekLeave != null) {
             if ($this->user->leave_count < 1 && $cekLeave->is_annual == 1 && !in_array($this->type, ['Overtime','Sick','Remote','Excused'])) {
                 $this->closeModal();
@@ -113,7 +114,7 @@ class RequestUser extends Component
                 $this->is_cancel_order = null;
                 return session()->flash('failure', "Can't request annual leave, your remaining annual leave is zero.");
             }
-        }
+        }*/
         //cek if request not duplicate
         $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
         if ($this->type == 'Mandatory') {

@@ -108,6 +108,8 @@ class RequestDatatableUser extends LivewireDatatable
 	            	}
 			        return '-';
 	            })->label('is Cancel order?'),
+	        	Column::name('status')
+	                ->label('Status')->filterable(['Waiting', 'Accept', 'Decline']),  
 	            DateColumn::name('created_at')
 	                ->label('Request at')
 	                ->format('d F Y H:i'),
