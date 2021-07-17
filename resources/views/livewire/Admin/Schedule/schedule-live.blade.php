@@ -49,7 +49,33 @@
                 exportable
              >
         </div>
+
+        <div class="flex flex-col row-span-1 text-right pointer px-4 capitalize  bg-white py-4 bg-gray-100 rounded-xl border mt-4">
+
+          <h4 class=" text-gray-700 font-bold tracking-wide text-xl leading-snug text-left mb-4" >         
+            <i class="fas fa-question-circle text-blue-500"></i> Legend         
+         </h4>
+         <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
+
+          <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+            <span class="font-bold">No Record</span> : Absence 
+        </h4>
+        <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+            <span class="font-bold">No sign in</span> : Haven't started recording yet 
+        </h4>
+        <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+            <span class="font-bold">Done</span> : Recording on this date finished
+        </h4>
+        <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+            <span class="font-bold">Working</span> : Recording in progress
+        </h4>
+      
+
+    </div>     
+</div>
+
     </div>
+
 </div>
 
 

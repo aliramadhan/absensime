@@ -179,7 +179,7 @@ tbody th {
               @elseif($remote > 0)
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > 0 && $wfo > 0)
-                <td class="border font-semibold border-gray-200 ">V(r) & V</td>@php $totalWFH++; $totalWFO++; @endphp
+                <td class="border font-semibold border-gray-200 text-sm">V(r) & V</td>@php $totalWFH++; $totalWFO++; @endphp
               @elseif($wfh > 0)
                 <td class="border font-semibold border-gray-200 ">V(r)</td>@php $totalWFH++; @endphp
               @elseif($wfo > 0)
@@ -211,9 +211,9 @@ tbody th {
     </table>
 </div>
 <div class="flex flex-col row-span-1 text-right pointer px-4 capitalize  bg-white py-4 bg-gray-100 rounded-xl border mt-4">
-  <h4 class=" text-gray-900 font-semibold text-xl leading-snug text-left mb-4" >         
-   Legend         
- </h4>
+  <h4 class=" text-gray-700 font-bold tracking-wide text-xl leading-snug text-left mb-4" >         
+    <i class="fas fa-question-circle text-blue-500"></i> Legend         
+  </h4>
  <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
 
   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
