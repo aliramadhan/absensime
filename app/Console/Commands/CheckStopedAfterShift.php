@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Shift;
 use App\Mail\SendNotifUserNonActived;
 use App\Mail\NotifStopedAfterShift;
+use App\Mail\NotifLateAfterTimeIn;
 use Illuminate\Support\Facades\Mail;
 
 class CheckStopedAfterShift extends Command
@@ -56,7 +57,7 @@ class CheckStopedAfterShift extends Command
                 $time_limit = $time_in->diffInSeconds($time_out);
                 if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) == 30)) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
-                    $this->info("Sending email to: {$user->name}!");
+                    $this->info("Sending after shift notification email to: {$user->name}!");
                 }
                 /*elseif(($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null) && ($time_out->diffInMinutes($now) == 10){
                     $workhour = 0;
@@ -94,6 +95,11 @@ class CheckStopedAfterShift extends Command
                 }
             }
             elseif ($now->greaterThan($time_in)) {
+                $timeSet = $time_in->diffInMinutes($now);
+                if($timeSet == 60){
+                    Mail::to($user->email)->send(new NotifLateAfterTimeIn());
+                    $this->info("Sending late notification email to: {$user->name}!");
+                }
                 //send email if 1 hour not yet started
             }
             else{
