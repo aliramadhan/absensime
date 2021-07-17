@@ -472,7 +472,7 @@ class DashboardUser extends Component
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type != 'Remote' && $cekLeave == null) {
+        elseif ($isSchedule == null && $this->type != 'Overtime' && $cekLeave == null) {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
