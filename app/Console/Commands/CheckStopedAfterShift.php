@@ -96,7 +96,7 @@ class CheckStopedAfterShift extends Command
             }
             elseif ($now->greaterThan($time_in)) {
                 $timeSet = $time_in->diffInMinutes($now);
-                if($timeSet == 60){
+                if($timeSet == 60 && $schedule->status == 'Not sign in'){
                     Mail::to($user->email)->send(new NotifLateAfterTimeIn());
                     $this->info("Sending late notification email to: {$user->name}!");
                 }

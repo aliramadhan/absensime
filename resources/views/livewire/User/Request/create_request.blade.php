@@ -22,7 +22,7 @@
                                 @foreach($leaves as $leave)
                                     <option>{{$leave->name}}</option>
                                 @endforeach
-                                <option>Record Activation</option>
+                                <option>Activation Record</option>
                                 <option>Sick</option>
                                 <option>Overtime</option>
                                 <option>Remote</option>
