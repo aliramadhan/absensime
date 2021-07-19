@@ -501,6 +501,7 @@ class DashboardUser extends Component
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                         $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
                         if ($isSchedule == null) {
+                            session()->flash('failure', "Can't submit request, no schedule found at ".$startDate->format('d F Y').".");
                             continue;
                         }
                         else{
@@ -539,6 +540,7 @@ class DashboardUser extends Component
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                         $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
                         if ($isSchedule == null) {
+                            session()->flash('failure', "Can't submit request, no schedule found at ".$startDate->format('d F Y').".");
                             continue;
                         }
                         else{
