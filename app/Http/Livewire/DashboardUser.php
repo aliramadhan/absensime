@@ -17,7 +17,7 @@ use App\Mail\RequestNotificationMail;
 
 class DashboardUser extends Component
 {
-    public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note;
+    public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note, $prevSchedule;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
@@ -66,6 +66,7 @@ class DashboardUser extends Component
         else{
             $this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
         }
+        $this->prevSchedule = Schedule::where('employee_id',$this->user->id)->where('date',Carbon::now()->subDay()->format('Y-m-d'))->first();
         if ($this->schedule != null) {
             $this->shift = $this->schedule->shift;
             $this->time_in = $time_in = Carbon::parse($this->shift->time_in);
@@ -387,7 +388,7 @@ class DashboardUser extends Component
             $this->date = Carbon::now();
             $this->is_cancel_order = 0;
         }
-        elseif($this->type == 'Sick' || $this->type == 'Remote' || $cekLeave != null){
+        elseif($this->type == 'Sick' || $this->type == 'Permission' || $this->type == 'Remote' || $cekLeave != null){
             $this->validate([
                 'type' => 'required|string',
                 'desc' => 'required',
@@ -457,7 +458,7 @@ class DashboardUser extends Component
         if ($this->type == 'Mandatory') {
             $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->setUser)->first();
         }
-        if ($this->type == 'Sick' || $this->type == 'Remote' || $cekLeave != null) {
+        if ($this->type == 'Sick' || $this->type == 'Permission' || $this->type == 'Remote' || $cekLeave != null) {
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
                 if ($issetRequest != null) {
@@ -495,7 +496,7 @@ class DashboardUser extends Component
             }
             else{
                 //create request sick
-                if ($this->type == 'Sick') {
+                if ($this->type == 'Sick' || $this->type == 'Permission') {
                     $startDate = Carbon::parse($this->startRequestDate);
                     $stopDate = Carbon::parse($this->stopRequestDate);
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 

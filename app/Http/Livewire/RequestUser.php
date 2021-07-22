@@ -54,7 +54,7 @@ class RequestUser extends Component
             $this->date = Carbon::now();
             $this->is_cancel_order = 0;
         }
-        elseif($this->type == 'Sick' || $this->type == 'Remote' || $cekLeave != null){
+        elseif($this->type == 'Sick' || $this->type == 'Permission' || $this->type == 'Remote' || $cekLeave != null){
             $this->validate([
                 'type' => 'required|string',
                 'desc' => 'required',
@@ -126,7 +126,7 @@ class RequestUser extends Component
             $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->setUser)->first();
         }
 
-        if ($this->type == 'Sick' || $this->type == 'Remote' || $cekLeave != null) {
+        if ($this->type == 'Sick' || $this->type == 'Permission' || $this->type == 'Remote' || $cekLeave != null) {
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
                 if ($issetRequest != null) {
@@ -142,7 +142,7 @@ class RequestUser extends Component
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $this->type != 'Overtime' && $this->type != 'Sick' && $this->type != 'Remote' && $cekLeave == null) {
+        elseif ($isSchedule == null && $this->type != 'Overtime' && $cekLeave == null) {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
@@ -164,7 +164,7 @@ class RequestUser extends Component
             }
             else{
                 //create request sick
-                if ($this->type == 'Sick') {
+                if ($this->type == 'Sick' || $this->type == 'Permission') {
                     $startDate = Carbon::parse($this->startRequestDate);
                     $stopDate = Carbon::parse($this->stopRequestDate);
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 

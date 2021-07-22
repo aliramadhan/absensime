@@ -512,8 +512,10 @@
              <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full">
               
              
-              @if(auth()->user()->is_active != 1)
-               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Your account can't start record for several reason</button>   
+              @if(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->position_stop == null))
+               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason</button>
+              @elseif(auth()->user()->is_active != 1) 
+               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</button>  
               @elseif($schedule != null && ($schedule->status == 'Working'))
               <div class="grid grid-cols-2 items-center gap-4">
                 <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>

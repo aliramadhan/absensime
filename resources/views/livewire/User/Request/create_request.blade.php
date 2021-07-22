@@ -24,6 +24,7 @@
                                 @endforeach
                                 <option>Activation Record</option>
                                 <option>Sick</option>
+                                <option>Permission</option>
                                 <option>Overtime</option>
                                 <option>Remote</option>
                                 <option>Change Shift</option>
@@ -47,7 +48,7 @@
                             </div>
                         @endif
                         @if($type != 'Activation Record')
-                            @if($type  == 'Sick' || $leaves->contains('name',$type) || $type == 'Remote')
+                            @if($type  == 'Sick' || $type  == 'Permission' || $leaves->contains('name',$type) || $type == 'Remote')
                             <div class="mb-4 flex md:flex-row flex-col">
                             <div class="px-2 flex-auto md:mb-0 mb-4">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
