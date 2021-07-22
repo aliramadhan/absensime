@@ -22,10 +22,11 @@ class LastSeenUserActivity
     {
         if (Auth::check()) {
             $expireTime = Carbon::now()->addMinute(1); // keep online for 1 min
-            Cache::put('Attendance_online'.Auth::user()->id, true, $expireTime);
+            Cache::put('Attendance_online'.Auth::user()->id, Carbon::now(), $expireTime);
             //latest url visit
             $expireTime = Carbon::now()->addHour(12); // keep online for 1 min
-            Cache::put('latest_url_'.Auth::user()->id,  request()->getHost(), $expireTime);
+            Cache::forever('latest_url_'.Auth::user()->id,  request()->getHost());
+            Cache::forever('Attendance_latest_online_'.Auth::user()->id, Carbon::now());
 
 
             //Last Seen
