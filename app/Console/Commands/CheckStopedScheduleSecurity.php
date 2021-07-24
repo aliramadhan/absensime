@@ -43,7 +43,7 @@ class CheckStopedScheduleSecurity extends Command
     public function handle()
     {
         $now = Carbon::now();
-        $schedules = Schedule::whereBetween('date',[Carbon::now()->subDay()->format('Y-m-d'),$now->format('Y-m-d')])->get();
+        $schedules = Schedule::whereDate('date',Carbon::now()->subDay())->get();
         $data = [];
         foreach ($schedules as $schedule) {
             $user = User::find($schedule->employee_id);
