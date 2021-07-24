@@ -6,7 +6,13 @@
 <body>
 	<label><b>Notification</b></label><br>
 	<p>
-		Anda terlambat melebihi 1 jam, harap segera memulai recording anda di <a href="attendance.pahlawandesignstudio.com">sini.</a>
+		Hi, 
+		Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. 
+		Ayo segera catat jam masuk. klik tautan <a href="attendance.pahlawandesignstudio.com">ini </a>
+
+		Apakah hari ini kamu berhalangan masuk kerja?  
+		Jangan lupa submit form ya :) 
+		Apapun yang terjadi, semoga kamu bisa melewatinya. Semangat …
 	</p>
     <p>Thank you</p>
 </body>
