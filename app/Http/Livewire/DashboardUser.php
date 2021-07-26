@@ -17,7 +17,7 @@ use App\Mail\RequestNotificationMail;
 
 class DashboardUser extends Component
 {
-    public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note, $prevSchedule;
+    public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note, $prevSchedule, $checkAutoStop;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
@@ -248,6 +248,7 @@ class DashboardUser extends Component
         $this->task = null;
         $this->type_pause = null;
         $this->task_desc = null;
+        $this->checkAutoStop = null;
     }
     public function showPause()
     {
@@ -283,6 +284,11 @@ class DashboardUser extends Component
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
         ]);
+        if ($this->checkAutoStop) {
+            $this->detailSchedule->update([
+                'is_stop_shift' => 1
+            ]);
+        }
         $timer = $this->schedule->timer;
         $workhour = $this->schedule->workhour + $timer;
         $this->schedule->update([

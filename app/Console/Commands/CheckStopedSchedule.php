@@ -87,12 +87,14 @@ class CheckStopedSchedule extends Command
                 }
             }
         }
-                
-        Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
-        Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));
-        Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
-        Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
-        $this->info('mail Sended.');
+        if (count($data) > 0) {
+            # code...
+            Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
+            Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));
+            Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
+            Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
+            $this->info('mail Sended.');
+        }
 
     }
 }
