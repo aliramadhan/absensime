@@ -25,6 +25,7 @@ class CreateHistorySchedulesTable extends Migration
             $table->string('task_desc')->nullable();
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->boolean('is_stop_shift')->default(0);
             $table->timestamps();
         });
     }

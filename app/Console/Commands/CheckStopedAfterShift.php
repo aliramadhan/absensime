@@ -53,11 +53,38 @@ class CheckStopedAfterShift extends Command
             $shift = Shift::find($schedule->shift_id);
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
+            $this->info($schedule->details->sortByDesc('id')->first());
             if ($now->greaterThan($time_out)) {
                 $time_limit = $time_in->diffInSeconds($time_out);
                 if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) == 30)) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending after shift notification email to: {$user->name}!");
+                }
+                elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
+                    $detail = $schedule->details->sortByDesc('id')->first();
+                    if ($detail->is_stop_shift) {
+                        $user->is_active = 0;
+                        $user->save();
+                        $data [] = $user->name;
+
+                        //update task and stop schedule
+                        $detailSchedule = $schedule->details->sortByDesc('id')->first();
+                        $detailSchedule->update([
+                            'stoped_at' => $now,
+                        ]);
+                        $workhour = 0;
+                        foreach ($schedule->details->where('status','Work') as $detail) {
+                            $started_at = Carbon::parse($detail->started_at);
+                            $stoped_at = Carbon::parse($detail->stoped_at);
+                            $workhour += $started_at->diffInSeconds($stoped_at);
+                        }
+                        $schedule->update([
+                            'stoped_at' => $now,
+                            'workhour' => $workhour,
+                            'timer' => 0,
+                            'status' => 'Done',
+                        ]);
+                    }
                 }
                 /*elseif(($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null) && ($time_out->diffInMinutes($now) == 10){
                     $workhour = 0;

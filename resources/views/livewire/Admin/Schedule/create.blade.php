@@ -35,7 +35,7 @@
                             <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="forShift" wire:model="shift_id">
                                 <option hidden>Choose Shift here</option>
                                 @foreach($shifts as $shift)
-                                    <option value="{{$shift->id}}">{{$shift->name}}</option>
+                                    <option value="{{$shift->id}}">{{$shift->name}} ( {{Carbon\Carbon::parse($shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($shift->time_out)->format('H:i')}} )</option>
                                 @endforeach
                             </select>
                             @error('shift_id') <span class="text-red-500">{{ $message }}</span>@enderror

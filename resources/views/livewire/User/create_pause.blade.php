@@ -16,12 +16,13 @@
                         <div class="mb-4">
                             <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">Type</label>
                             <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTask" wire:model="type_pause">
+                                <option hidden>Choose one</option>
                                 @if($schedule->status == 'Overtime')
                                     <option value="Break">Break</option>
                                     <option>New Task</option>                               
                                 @else      
-                                    <option>Permission</option> 
-                                    <option value="Break">Break</option>
+                                    <option value="Break">Permission with Substitute</option>
+                                    <option value="Permission">Permission without Substitute</option> 
                                     <option>New Task</option>                                 
                                 @endif
                             </select>
@@ -33,10 +34,15 @@
                             @error('task') <span class="text-red-500">{{ $message }}</span>@enderror
                                                 
                         </div>
-                         @if($type_pause == 'Break')      
-                         <label class="mt-1 text-gray-600 font-semibold">
-                            (This type must <span class="text-orange-500">replace</span> the elapsed hours)</label>
-                            @endif
+                        @if($type_pause == 'Break')      
+                            <label class="mt-1 text-gray-600 font-semibold">
+                                (This type must <span class="text-orange-500">replace</span> the elapsed hours)
+                            </label>
+                        @elseif($type_pause == 'Permission')
+                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">automatically stop recording when end of shift</label>
+                            <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="checkAutoStop" placeholder="fill in here...">
+                            @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
+                        @endif
 
                         @if($type_pause == 'New Task')
                         <div class="mb-4">

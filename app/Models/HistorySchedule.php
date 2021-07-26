@@ -21,6 +21,7 @@ class HistorySchedule extends Model
         'task_desc',
         'latitude',
         'longitude',
+        'is_stop_shift',
     ];
     public function schedule()
     {
