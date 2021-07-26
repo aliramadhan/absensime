@@ -78,8 +78,8 @@ tbody th {
 <button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export Schedule</button>
 </div>
 
-<div class="scroll overflow-auto cursor-pointer relative" style="max-height: 24em;">
-    <table class="table-fixed border flex-initial relative">
+<div class="scroll overflow-auto cursor-pointer relative" style="max-height: 32em;">
+    <table class="table-fixed  flex-initial relative">
       <thead>
        <tr>
 
@@ -148,7 +148,7 @@ tbody th {
                   @elseif($schedule != null && $schedule->status != 'Not sign in')
                   <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm'>{{$schedule->shift_name}}</td>
                   @else
-                  <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-200 border border-gray-400 font-semibold tracking-wide text-center text-sm '>{{$schedule->shift_name}}</td>
+                  <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-50 border border-gray-400 font-semibold tracking-wide text-center text-sm '>{{$schedule->shift_name}}</td>
                   @endif
                 @endif
                 @endfor
