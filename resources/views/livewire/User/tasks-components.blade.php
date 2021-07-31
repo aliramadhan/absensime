@@ -14,15 +14,20 @@
     		}
 	    }
 	@endphp
+	<div class="flex items-center w-full space-x-2 mb-4">
+	<i class="fas fa-book bg-orange-500 px-2 py-1 rounded-md text-white text-base "></i>
+	<div class="flex-auto">
 	<div class="flex justify-between items-center justify-end">
-		<h1 class="text-3xl font-semibold">Task</h1>
+		<h1 class="text-2xl font-semibold">Journal</h1>
 		<h1 class="text-xl ">{{$taskCount}}</h1>
 	</div>
 	
 	<div class="relative">
-		<div class="overflow-hidden h-2 mb-4 text-xs flex rounded bg-yellow-200">  							
-			<div style="width: 80%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500"></div>  							
+		<div class="overflow-hidden h-2  text-xs flex rounded bg-yellow-200">  							
+			<div style="width: 80%" class="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-orange-500"></div> <!-- isi count li sing width 80% iku gawe jurnal sing di isi  (select count()) --> 							
 		</div>
+	</div>
+	</div>
 	</div>
 	<div class="flex-col flex gap-4">
 		@foreach($listSchedules as $listSchedule)

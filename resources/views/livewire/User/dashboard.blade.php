@@ -408,7 +408,7 @@
 
                     </div>
 
-                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4">                      
+                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4 truncate">                      
                       <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
@@ -499,7 +499,7 @@
                       $time = $hours."h ".$minutes."m";
                   @endphp
                  <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
-                  <span class=" xl:inline-block inline-block  -top-4 bg-white relative  xl:px-2 text-lg xl:font-medium lg:text-base ">Tracking Progress</span>
+                  <span class=" xl:inline-block md:hidden  -top-4 bg-white relative  xl:px-2 text-lg xl:font-medium lg:text-base ">Tracking Progress</span>
                   <span class="xl:hidden hidden md:inline-block md:px-2 -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
                   <div class="md:px-5 px-12 pb-2 -mt-6 flex flex-col items-center text-center ">
                     <h2 class="text-2xl font-semibold text-orange-500 mt-3 ">{{$time}}</h2>
@@ -525,12 +525,12 @@
 
               <button @if($tasking) wire:click="showResume()" @else wire:click="resumeOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="fas fa-history"></i> Resume</button>
               <label class="flex items-center mt-3 w-auto">
-                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md" wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Writing assignments ?</span>
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md" wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal? </span>
               </label>
               @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1 )
               <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Start Record</button>             
               <label class="flex items-center mt-3 w-auto">
-                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Do you want to write a journal?    </span>
+                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal?    </span>
               </label>
               @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1)
               <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Not ready to Record</button>             
@@ -772,10 +772,10 @@
                           $hours = intval($total_minutes/60);
                           $timeMonthly = $hours."h ".$minutes."m";
                         @endphp
-                      <div class="flex flex-col px-4 py-3 text-center w-36 h-36 items-center hover:bg-gray-200 duration-200 cursor-pointer rounded-bl-3xl rounded-tr-3xl justify-between border-2 border-gray-400 " >
+                      <div class="flex flex-col px-4 py-3 text-center w-28 h-28 md:w-36 md:h-36 items-center hover:bg-gray-200 duration-200 cursor-pointer rounded-bl-3xl rounded-tr-3xl justify-between border-2 border-gray-400 " >
                         <div class=" flex-col flex mb-2 ">
-                          <label class="font-bold leading-none text-3xl text-gray-700">{{Carbon\Carbon::parse($scheduleUser->date)->format('d')}}</label>
-                          <label class="text-sm font-base text-white leading-none bg-orange-500 px-2 py-1 rounded-md">{{Carbon\Carbon::parse($scheduleUser->date)->format('l')}}</label>
+                          <label class="font-bold leading-none text-xl md:text-3xl text-gray-700">{{Carbon\Carbon::parse($scheduleUser->date)->format('d')}}</label>
+                          <label class="text-xs md:text-sm font-base text-white leading-none bg-orange-500 px-2 py-1 rounded-md">{{Carbon\Carbon::parse($scheduleUser->date)->format('l')}}</label>
                         </div>
                         @if($scheduleUser->status == 'Working' || $scheduleUser->status == 'Done')
                       

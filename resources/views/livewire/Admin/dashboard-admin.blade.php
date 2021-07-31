@@ -17,7 +17,6 @@
               {{ session('message') }}
           </div>
       @endif
-
     
   </div>
   </div>
@@ -190,7 +189,7 @@
                       @endif
                     </p>
                   </div>
-                  <p class="text-2xl leading-tight font-semibold text-center text-gray-800">{{number_format($count_notsignin,1)}}</p>
+                  <p class="text-2xl leading-tight font-semibold text-center text-gray-800">{{number_format($count_notsignin)}}</p>
                   <p class="text-base text-center leading-tight text-gray-500">Not Sign in</p>
                 </div>
                 <div class="relative">
@@ -251,9 +250,9 @@
 
             </div>
             <div class="overflow-y-auto px-2 py-3 text-center flex flex-col hidden lg:block items-center bg-white rounded-lg shadow">
-            <label class="text-xl text-center font-semibold tracking-wide text-gray-700">Head of Division</label>
+            <label class="text-xl text-center font-semibold tracking-wide text-gray-700 border-b mb-3">Head of Division</label>
             @foreach($users->where('roles','Manager') as $user)
-            <div class="flex justify-between space-x-2 items-center text-sm my-2"> 
+            <div class="flex justify-between space-x-2 items-center text-sm my-2 px-2"> 
               <label class="truncate font-semibold text-center">{{$user->division}}</label>
               <span class="border flex-auto h-0.5 bg-gray-900 "></span>
               <label class="truncate text-center">{{$user->name}}</label>
