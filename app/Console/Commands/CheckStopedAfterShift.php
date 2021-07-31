@@ -129,6 +129,33 @@ class CheckStopedAfterShift extends Command
                     $user->is_active = 0;
                     $user->save();
                 }
+                elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
+                    $paused_at = Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
+                    $timeSet = $paused_at->diffInHours($now);
+                    if ($timeSet == 4) {
+                        $user->is_active = 0;
+                        $user->save();
+                        $data [] = $user->name;
+
+                        //update task and stop schedule
+                        $detailSchedule = $schedule->details->sortByDesc('id')->first();
+                        $detailSchedule->update([
+                            'stoped_at' => $now,
+                        ]);
+                        $workhour = 0;
+                        foreach ($schedule->details->where('status','Work') as $detail) {
+                            $started_at = Carbon::parse($detail->started_at);
+                            $stoped_at = Carbon::parse($detail->stoped_at);
+                            $workhour += $started_at->diffInSeconds($stoped_at);
+                        }
+                        $schedule->update([
+                            'stoped_at' => $now,
+                            'workhour' => $workhour,
+                            'timer' => 0,
+                            'status' => 'Done',
+                        ]);
+                    }
+                }
                 //send email if 1 hour not yet started
             }
             else{

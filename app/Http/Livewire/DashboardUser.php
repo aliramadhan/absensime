@@ -21,7 +21,7 @@ class DashboardUser extends Component
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
-    public $type, $desc,$date,$time_overtime, $tasking = false,$stopRequestDate, $startRequestDate, $time_out, $time_in;
+    public $type, $desc,$date,$time_overtime, $tasking = 0,$stopRequestDate, $startRequestDate, $time_out, $time_in;
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude'
@@ -475,7 +475,7 @@ class DashboardUser extends Component
 
             }
         }
-        if ($issetRequest != null) {
+        if ($issetRequest != null && $this->type != 'Activation Record') {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");

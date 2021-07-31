@@ -81,7 +81,19 @@
                             @error('newShift') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if($type != 'Change Shift' && $type != 'Mandatory' && $type != 'Remote')
+                        @if($type == 'Activation Record')
+                        <div class="mb-4 px-2">
+                            <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
+                            <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
+                                <option hidden>Choose here</option>                             
+                                <option>Forget to stop in the previous shift</option>
+                                <option>late from the assigned shift</option>                                
+                                <option>reach the  tolerance limit of 1 hour late</option>                                
+                                <option>Forget to entry</option>                                
+                            </select>
+                            @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        @elseif($type != 'Change Shift' && $type != 'Mandatory' && $type != 'Remote')
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                             <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
