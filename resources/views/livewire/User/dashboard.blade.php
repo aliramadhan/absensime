@@ -408,8 +408,8 @@
 
                     </div>
 
-                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4 truncate">                      
-                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3">
+                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4 ">                      
+                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3 truncate">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
@@ -518,6 +518,8 @@
                <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</button>
               @elseif(auth()->user()->is_active != 1 && ($now->gt($time_in)) && $time_in->diffInMinutes($now) < 60)
                <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</button>  
+              @elseif(auth()->user()->is_active != 1 && ($schedule != null && $detailSchedule->status == 'Rest' && Carbon\Carbon::parse($detailSchedule->started_at)->diffInHours($now) >= 4))
+               <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</button>  
               @elseif(auth()->user()->is_active != 1)
                <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</button>  
               @elseif($schedule != null && ($schedule->status == 'Working'))
