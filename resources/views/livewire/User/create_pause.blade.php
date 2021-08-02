@@ -35,8 +35,8 @@
                                                 
                         </div>
                         @if($type_pause == 'Break')      
-                            <label class="mt-1 text-gray-600 font-semibold">
-                                (This type must <span class="text-orange-500">replace</span> the elapsed hours)
+                            <label class="mt-1 text-gray-500 font-base italic font-semibold">
+                                *Izin meninggalkan pekerjaan maks 4 jam.
                             </label>
                         @elseif($type_pause == 'Permission')
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">automatically stop recording when end of shift</label>

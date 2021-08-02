@@ -39,20 +39,26 @@
             </svg>
           </div>
           <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left grid gap-2">
-            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-              Stop recording
+            <div>
+            <h3 class="text-lg leading-none font-medium text-gray-900" id="modal-title">
+              Stop Recording & Journal Recapitulation 
             </h3>
-           
-            <div class="mt-2">
-              <ul>
+             <label class="font-semibold tracking-wide text-sm text-gray-600">You Have {{$detailsSchedule->count()}} empty journal</label>
+             </div>
+            <div >
+            
+              <div class="text-sm overflow-y-auto max-h-72 my-2 bg-gray-100 p-2 rounded-lg"> @php $a=1; @endphp
                 @forelse($detailsSchedule as $item)
-                  <label>{{Carbon\Carbon::parse($item->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($item->stoped_at)->format('H:i')}}</label>
-                  <input type="text" >
+                  <div class="flex space-x-4 mb-2 items-center ">
+                  <label class="w-1">{{$a++}}.</label>
+                  <label class="flex-shrink-0 w-18">{{Carbon\Carbon::parse($item->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($item->stoped_at)->format('H:i')}}</label>
+                  <input type="text" class="rounded-lg  py-1 px-2 w-9/12 text-sm border-gray-400" required placeholder="Fill your task/journal..">
+                </div>
                 @empty
 
                 @endforelse
-              </ul>
-              <p class="text-sm text-gray-500">
+             </div>
+              <p class="text-sm text-gray-500 border-t">
                 Are you sure you want to stop your record workhour? This action cannot be undone.
               </p>
             </div>
