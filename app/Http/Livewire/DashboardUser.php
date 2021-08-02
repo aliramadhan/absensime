@@ -17,7 +17,7 @@ use App\Mail\RequestNotificationMail;
 
 class DashboardUser extends Component
 {
-    public $user, $now, $schedule, $schedules, $detailSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note, $prevSchedule, $checkAutoStop;
+    public $user, $now, $schedule, $schedules, $detailSchedule, $detailsSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note, $prevSchedule, $checkAutoStop;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
@@ -26,6 +26,11 @@ class DashboardUser extends Component
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude',
         'updateJurnal'
+    ];
+
+    protected $rules = [
+        'detailsSchedule.*.task' => 'required|string|min:6',
+        'detailsSchedule.*.id_task' => 'required',
     ];
 
     public function setLatitudeLongitude($latitude, $longitude) 
@@ -49,7 +54,6 @@ class DashboardUser extends Component
             'task' => $value
         ]);
     }
-
     public function render()
     {
         $this->user = auth()->user();
@@ -267,6 +271,24 @@ class DashboardUser extends Component
     }
     public function pauseOn()
     {
+        if ($this->type_pause == 'New Task') {
+            $this->validate([
+                'type_pause' => 'required',
+                'task' => 'required'
+            ],[
+                'type_pause.required' => 'Type is required.',
+                'task.required' => 'Task is required.',
+            ]);
+        }
+        else{
+            $this->validate([
+                'type_pause' => 'required',
+                'task' => 'required'
+            ],[
+                'type_pause.required' => 'Type is required.',
+                'task.required' => 'Reason is required.',
+            ]);
+        }
         if ($this->detailSchedule == null) {
             $this->detailSchedule = $this->schedule->details->where('status','Work')->SortByDesc('id')->first();
         }
@@ -368,6 +390,15 @@ class DashboardUser extends Component
         if ($workhour > $time_limit) {
             $workhour = $time_limit;
         }*/
+        if (count($this->detailsSchedule) > 0) {
+            $i = 1;
+            foreach ($this->schedule->details->where('status','!=','Rest') as $detail) {
+                $detail->update([
+                    'task' => $this->detailsSchedule[$i]['task']
+                ]);
+                $i++;
+            }
+        }
         $this->schedule->update([
             'stoped_at' => $this->now,
             'workhour' => $workhour,
