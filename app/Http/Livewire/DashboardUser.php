@@ -488,7 +488,6 @@ class DashboardUser extends Component
                 }
             }
         }
-        return dd($this->typeRequest);
         //create activation
         $request = Request::create([
             'employee_id' => $this->user->id,
