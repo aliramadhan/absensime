@@ -52,7 +52,7 @@
                   <div class="flex space-x-4 mb-2 items-center ">
                   <label class="w-1">{{$a++}}.</label>
                   <label class="flex-shrink-0 w-18">{{Carbon\Carbon::parse($item->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($item->stoped_at)->format('H:i')}}</label>
-                  <input type="text" class="rounded-lg  py-1 px-2 w-9/12 text-sm border-gray-400" required placeholder="Fill your task/journal..">
+                  <input type="text" class="rounded-lg  py-1 px-2 w-9/12 text-sm border-gray-400"  placeholder="Fill your task/journal.." required>
                 </div>
                 @empty
 

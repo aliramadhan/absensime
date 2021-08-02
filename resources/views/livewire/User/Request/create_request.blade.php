@@ -94,7 +94,8 @@
                             </select>
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
-                        @elseif($type != 'Change Shift' && $type != 'Mandatory' && $type != 'Remote' )
+
+                        @elseif($type != 'Change Shift' && $type != 'Mandatory' && $type != 'Remote' && $type != '' )
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                             <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
@@ -118,7 +119,7 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if(($type != 'Overtime' && $type != 'Change Shift' && $type != 'Mandatory')&&($type != 'Activation Record')&&($type != 'Excused'))
+                        @if(($type != 'Overtime' && $type != 'Change Shift' && $type != 'Mandatory')&&($type != 'Activation Record')&&($type != 'Excused')&&($type != ''))
                         <div class="mb-4 px-2 flex items-center gap-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Cancel your <span class="text-orange-500">catering</span> order ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">

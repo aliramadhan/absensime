@@ -408,7 +408,7 @@
 
                     </div>
 
-                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4 ">                      
+                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4 lg:w-9/12 xl:w-auto">                      
                       <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3 truncate">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
@@ -489,7 +489,7 @@
               </div>
 
               @else
-                <div class="pt-3 block md:w-4/12 mt-2 text-gray-700 w-auto">
+                <div class="pt-3 block md:w-4/12 md:mt-0 mt-2 text-gray-700 w-auto">
                   @php
                       $timeInt = $schedule->workhour;
                       $seconds = intval($timeInt%60);
@@ -513,15 +513,26 @@
               
              
               @if(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->position_stop == null))
-               <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</button>
+               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 -left-10 text-sm">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
+               </button>     
               @elseif(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->status == 'No Record'))
-               <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</button>
+               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 -left-10 text-sm">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</div>
+               </button>    
               @elseif(auth()->user()->is_active != 1 && ($now->gt($time_in)) && $time_in->diffInMinutes($now) < 60)
-               <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</button>  
+              <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 -left-10 text-sm">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+               </button>                
               @elseif(auth()->user()->is_active != 1 && ($schedule != null && $detailSchedule->status == 'Rest' && Carbon\Carbon::parse($detailSchedule->started_at)->diffInHours($now) >= 4))
-               <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</button>  
+                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 -left-10 text-sm">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+               </button>                  
               @elseif(auth()->user()->is_active != 1)
-               <button  class="bg-gradient-to-r from-blue-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-base font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</button>  
+               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 -left-10 text-sm">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+               </button>    
+              
               @elseif($schedule != null && ($schedule->status == 'Working'))
               <div class="grid grid-cols-2 items-center gap-4">
                 <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
@@ -544,7 +555,8 @@
                 Ready to start at : {{Carbon\Carbon::parse($schedule->shift->time_in)->subMinute(10)->format('H:i')}} 
               </label>
               @elseif($schedule != null && ($schedule->status == 'Done'))
-               <button  class="bg-gradient-to-r from-green-400 to-purple-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> Today's recording is complete</button>     
+               <button  class="relative bg-gradient-to-r from-blue-400 to-blue-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-user-check"></i> Recording Complete                
+               </button>     
               @elseif($schedule != null && $schedule->status != 'Done' && $schedule->status != 'Rest' && $schedule->status != 'Working' && $schedule->status != 'Not sign in')
 
                 <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Today is {{$schedule->status}}</button>    
@@ -625,8 +637,9 @@
                            {{ Carbon\Carbon::parse($schedule->started_at)->format('H:i, d F Y') }}@endif</span></h2>@endif
                           </div>
                           <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-white leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg">
-                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFH</label><label class="text-gray-50">{{$wfh}}</label></div>
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFO</label><label class="text-gray-50">{{$wfo}}</label></div>
+                            <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFH</label><label class="text-gray-50">{{$wfh}}</label></div>
+                            
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>BT</label><label class="text-right flex-auto text-gray-50">{{$business_travel}}</label></div>
                           </div>
                         </div>
@@ -639,8 +652,9 @@
                          <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Productive</h2>
                        </div>
                       <div class="hidden md:block flex flex-col md:text-xs xl:text-sm  rounded-xl px-3 py-2 text-white  leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg" style="">
-                        <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-50">{{$wfh}}</span></h2>
                         <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-50">{{$wfo}}</span></h2>
+                        <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-50">{{$wfh}}</span></h2>
+                        
                         <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-gray-50">{{$business_travel}}</span></h2>
                       </div>
                      </div>
