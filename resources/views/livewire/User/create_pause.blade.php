@@ -26,7 +26,7 @@
                                     <option>New Task</option>                                 
                                 @endif
                             </select>
-                            @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('type_pause') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
                             <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">@if($type_pause == 'New Task')Task @else Reason @endif</label>

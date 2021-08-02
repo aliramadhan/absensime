@@ -47,12 +47,12 @@
              </div>
             <div >
             
-              <div class="text-sm overflow-y-auto max-h-72 my-2 bg-gray-100 p-2 rounded-lg"> @php $a=1; @endphp
-                @forelse($detailsSchedule as $item)
+               <div class="text-sm overflow-y-auto max-h-72 my-2 bg-gray-100 p-2 rounded-lg">
+                @forelse($detailsSchedule as $details)
                   <div class="flex space-x-4 mb-2 items-center ">
-                  <label class="w-1">{{$a++}}.</label>
-                  <label class="flex-shrink-0 w-18">{{Carbon\Carbon::parse($item->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($item->stoped_at)->format('H:i')}}</label>
-                  <input type="text" class="rounded-lg  py-1 px-2 w-9/12 text-sm border-gray-400"  placeholder="Fill your task/journal.." required>
+                  <label class="w-1">{{$loop->iteration}}.</label>
+                  <label class="flex-shrink-0 w-18">{{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
+                  <input type="text" class="rounded-lg  py-1 px-2 w-9/12 text-sm border-gray-400" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->iteration }}.task">
                 </div>
                 @empty
 
