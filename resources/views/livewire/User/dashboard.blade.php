@@ -433,7 +433,7 @@
 
                          <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
-                    <div class="flex justify-between items-center flex-col md:flex-row">
+                    <div class="flex justify-between items-center flex-col md:flex-row whitespace-nowrap">
               @if($isModal == 'Pause')
                   @include('livewire.User.create_pause')
               @elseif($isModal == 'Working')
@@ -514,23 +514,23 @@
              
               @if(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->position_stop == null))
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 left-0 md:-left-10 text-sm">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>     
               @elseif(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->status == 'No Record'))
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 left-0 md:-left-10 text-sm">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>    
               @elseif(auth()->user()->is_active != 1 && ($now->gt($time_in)) && $time_in->diffInMinutes($now) < 60)
               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 left-0 md:-left-10 text-sm">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
                </button>                
               @elseif(auth()->user()->is_active != 1 && ($schedule != null && $detailSchedule->status == 'Rest' && Carbon\Carbon::parse($detailSchedule->started_at)->diffInHours($now) >= 4))
                 <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 left-0 md:-left-10 text-sm">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
                </button>                  
               @elseif(auth()->user()->is_active != 1)
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-32  p-3  shadow-xl border-2 left-0 md:-left-10 text-sm">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
                </button>    
               
               @elseif($schedule != null && ($schedule->status == 'Working'))
@@ -555,8 +555,8 @@
                 Ready to start at : {{Carbon\Carbon::parse($schedule->shift->time_in)->subMinute(10)->format('H:i')}} 
               </label>
               @elseif($schedule != null && ($schedule->status == 'Done'))
-               <button  class="relative bg-gradient-to-r from-blue-400 to-blue-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-user-check"></i> Recording Complete     
-                         
+               <button  class="relative bg-gradient-to-r from-blue-400 to-blue-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6 z-20  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-user-check"></i> Recording Complete     
+                       
                </button>     
               @elseif($schedule != null && $schedule->status != 'Done' && $schedule->status != 'Rest' && $schedule->status != 'Working' && $schedule->status != 'Not sign in')
 
