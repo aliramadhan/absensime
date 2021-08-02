@@ -390,7 +390,12 @@ class DashboardUser extends Component
         if ($workhour > $time_limit) {
             $workhour = $time_limit;
         }*/
-        if (count($this->detailsSchedule) > 0) {
+        if ($this->schedule->details->where('status','!=','Rest')->count() != count($this->detailsSchedule)) {
+            $this->closeModal();
+            $this->resetFields();
+            return session()->flash('failure', "Jurnal harus diisi semua.");
+        }
+        else{
             $i = 1;
             foreach ($this->schedule->details->where('status','!=','Rest') as $detail) {
                 $detail->update([
