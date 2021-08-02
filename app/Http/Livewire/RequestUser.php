@@ -15,7 +15,7 @@ use App\Mail\RequestNotificationMail;
 
 class RequestUser extends Component
 {
-	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser;
+	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser;
 
     public function render()
     {
@@ -116,9 +116,9 @@ class RequestUser extends Component
             }
         }*/
         //cek if request not duplicate
-        $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
+        $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
         if ($this->type == 'Mandatory') {
-            $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->setUser)->first();
+            $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->setUser)->where('status','Waiting')->first();
         }
         //cek if user has schedule
         $isSchedule = Schedule::whereDate('date',$this->date)->where('employee_id',$this->user->id)->first();
@@ -128,13 +128,12 @@ class RequestUser extends Component
 
         if ($this->type == 'Sick' || $this->type == 'Permission' || $this->type == 'Remote' || $cekLeave != null) {
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
-                $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
+                $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
                 if ($issetRequest != null) {
                     $this->closeModal();
                     $this->resetFields();
                     return session()->flash('failure', "Can't submit request, duplicate request.");
                 }
-
             }
         }
         if ($issetRequest != null) {
@@ -158,6 +157,7 @@ class RequestUser extends Component
                     'date' => $this->date,
                     'time' => $this->time_overtime,
                     'is_cancel_order' => $this->is_cancel_order,
+                    'is_check_half' => $this->is_check_half,
                     'status' => 'Accept'
                 ]);
                 $this->user->update(['is_active' => 1]);

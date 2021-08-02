@@ -17,11 +17,13 @@ use App\Mail\RequestNotificationMail;
 
 class DashboardUser extends Component
 {
-    public $user, $now, $schedule, $schedules, $detailSchedule, $detailsSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $note, $prevSchedule, $checkAutoStop;
+    public $user, $now, $schedule, $schedules, $detailSchedule, $detailsSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $is_check_half = 0, $note, $prevSchedule, $checkAutoStop;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
     public $type, $desc,$date,$time_overtime, $tasking = 0,$stopRequestDate, $startRequestDate, $time_out, $time_in;
+    //for activation with request
+    public $typeRequest, $dateTo, $dateFrom, $descRequest;
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude',
@@ -425,6 +427,82 @@ class DashboardUser extends Component
         ]);
         $this->closeModal();
     }
+    public function createActivationWithRequest()
+    {
+        //validate for activation        
+        $this->validate([
+            'desc' => 'required',
+        ]);
+        $this->date = Carbon::now();
+        $this->is_cancel_order = 0;
+        //validate for request after activation
+        $this->validate([
+            'typeRequest' => 'required',
+            'dateTo' => 'required|date|after_or_equal:dateFrom',
+            'dateFrom' => 'required|date|before_or_equal:dateTo',
+            'descRequest' => 'required',
+        ]);
+        //cek if ada request belum acc pada hari dan type request yang sama atau have schedule
+        $startDate = Carbon::parse($this->dateFrom);
+        $stopDate = Carbon::parse($this->dateTo);
+        $limitDays = $startDate->diffInDays($stopDate);
+        for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
+            $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->typeRequest)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
+            $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
+            if ($isSchedule == null) {
+                $this->closeModal();
+                $this->resetFields();
+                return session()->flash('failure', "Can't submit request, no schedule found.");
+            }
+            if ($issetRequest != null) {
+                $this->closeModal();
+                $this->resetFields();
+                return session()->flash('failure', "Can't submit request, duplicate request.");
+            }
+            //create request after activation
+            if ($isSchedule != null && $issetRequest == null) {
+                $request = Request::create([
+                    'employee_id' => $this->user->id,
+                    'employee_name' => $this->user->name,
+                    'type' => $this->typeRequest,
+                    'desc' => $this->descRequest,
+                    'date' => $startDate,
+                    'is_cancel_order' => $this->is_cancel_order,
+                    'status' => 'Waiting'
+                ]);
+
+                //send mail to manager if manager founded
+                $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+                if($manager != null){
+                    $date = $this->dateFrom .' -> '.$this->dateTo;
+                    $data = array('name' => $this->user->name, 'type' => $this->typeRequest, 'date' => $date, 'desc' => $this->descRequest,'user_mail' => $this->user->email);
+                    Mail::to($manager->email)->send(new RequestNotificationMail($data));
+                }
+
+                //send mail to admin
+                $admins = User::where('role','Admin')->get();
+                foreach ($admins as $admin) {
+                    $date = $this->dateFrom .' -> '.$this->dateTo;
+                    $data = array('name' => $this->user->name, 'type' => $this->typeRequest, 'date' => $date, 'desc' => $this->descRequest,'user_mail' => $this->user->email);
+                    Mail::to($admin->email)->send(new RequestNotificationMail($data));
+                }
+            }
+        }
+        return dd($this->typeRequest);
+        //create activation
+        $request = Request::create([
+            'employee_id' => $this->user->id,
+            'employee_name' => $this->user->name,
+            'type' => $this->type,
+            'desc' => $this->desc,
+            'date' => $this->date,
+            'time' => $this->time_overtime,
+            'is_cancel_order' => $this->is_cancel_order,
+            'is_check_half' => $this->is_check_half,
+            'status' => 'Accept'
+        ]);
+        $this->user->update(['is_active' => 1]);
+    }
     public function createRequest()
     {
         $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
@@ -497,9 +575,9 @@ class DashboardUser extends Component
             }
         }*/
         //cek if request not duplicate
-        $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
+        $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
         if ($this->type == 'Mandatory') {
-            $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->setUser)->first();
+            $issetRequest = Request::whereDate('date',$this->date)->where('type',$this->type)->where('employee_id',$this->setUser)->where('status','Waiting')->first();
         }
 
         //cek if user has schedule
@@ -509,13 +587,12 @@ class DashboardUser extends Component
         }
         if ($this->type == 'Sick' || $this->type == 'Permission' || $this->type == 'Remote' || $cekLeave != null) {
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
-                $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->first();
+                $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
                 if ($issetRequest != null) {
                     $this->closeModal();
                     $this->resetFields();
                     return session()->flash('failure', "Can't submit request, duplicate request.");
                 }
-
             }
         }
         if ($issetRequest != null && $this->type != 'Activation Record') {
@@ -539,6 +616,7 @@ class DashboardUser extends Component
                     'date' => $this->date,
                     'time' => $this->time_overtime,
                     'is_cancel_order' => $this->is_cancel_order,
+                    'is_check_half' => $this->is_check_half,
                     'status' => 'Accept'
                 ]);
                 $this->user->update(['is_active' => 1]);

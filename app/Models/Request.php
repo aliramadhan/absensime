@@ -17,6 +17,7 @@ class Request extends Model
         'desc',
         'status',
         'is_cancel_order',
+        'is_check_half',
         'change_catering',
     ];
 }

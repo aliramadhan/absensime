@@ -138,12 +138,46 @@
                             @error('newCatering') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
+                        @if($desc == 'Late from the assigned shift' || $desc == 'Reach the tolerance limit of 1 hour late')
+                            <div class="mb-4 px-2 flex items-center gap-2">
+                                <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">checkbox permission setengah hari</label>
+                                <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_check_half" placeholder="fill in here...">
+                                @error('is_check_half') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                        @endif
+                        @if($desc == 'Forget to entry')
+                            <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="typeRequest">
+                                <option hidden>Choose here</option>
+                                @foreach($leaves as $leave)
+                                    <option>{{$leave->name}}</option>
+                                @endforeach
+                                <option>Sick</option>
+                                <option>Permission</option>
+                            </select>
+                            @error('typeRequest') <span class="text-red-500">{{ $message }}</span>@enderror
+
+                            <div class="px-2 flex-auto md:mb-0 mb-4">
+                                <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="dateFrom">
+                                @error('dateFrom') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                            <div class="flex-auto px-2">
+                                <label for="formStopRequestDate" class="block text-gray-500 text-sm  mb-2">To</label>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate"wire:model="dateTo">
+                                @error('dateTo') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                            <div class="mb-4 px-2">
+                                <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
+                                <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" placeholder="Fill in here" wire:model="descRequest">
+                                @error('descRequest') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                        @endif
                     </div>
                 </div>
     
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                            <button wire:click.prevent="createRequest()" wire:click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                            <button @if($type == 'Activation Record' && $desc == 'Forget to entry') wire:click.prevent="createActivationWithRequest()" @else wire:click.prevent="createRequest()" @endif wire:click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                             Send
                             </button>
                     </span>

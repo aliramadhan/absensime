@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 use App\Models\Schedule;
+use App\Models\Request;
 use App\Models\User;
 use App\Models\Shift;
 use App\Mail\SendNotifUserNonActived;
@@ -54,12 +55,14 @@ class CheckStopedAfterShift extends Command
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
             $this->info($schedule->details->sortByDesc('id')->first());
+            //notif ketika lewat shift
             if ($now->greaterThan($time_out)) {
                 $time_limit = $time_in->diffInSeconds($time_out);
                 if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) == 30)) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending after shift notification email to: {$user->name}!");
                 }
+                //auto stop ketika pause is_stopshift bernilai true
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
                     $detail = $schedule->details->sortByDesc('id')->first();
                     if ($detail->is_stop_shift) {
@@ -123,16 +126,28 @@ class CheckStopedAfterShift extends Command
             }
             elseif ($now->greaterThan($time_in)) {
                 $timeSet = $time_in->diffInMinutes($now);
-                if($timeSet >= 60 && $schedule->status == 'Not sign in'){
+                //send email if 1 hour not yet started
+                if($timeSet == 1 && $schedule->status == 'Not sign in'){
+                    Mail::to($user->email)->send(new NotifLateAfterTimeIn());
+                    $this->info("Sending late notification email to: {$user->name}!");
+                    $user->is_active = 0;
+                    $user->save();
+                }
+                elseif($timeSet == 60 && $schedule->status == 'Not sign in'){
                     Mail::to($user->email)->send(new NotifLateAfterTimeIn());
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
                 }
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
+                    $isRequestChecked = Request::where('employee_id',$user->id)->whereDate('date',$now)->where('type','Activation Record')->orderBy('id','desc')->first();
+                    $selisihRequestChecked = 0;
+                    if ($isRequestChecked != null && $isRequestChecked->is_checked_half) {
+                        $selisihRequestChecked = Carbon::parse($isRequestChecked->created_at)->diffInMinutes($time_in);
+                    }
                     $paused_at = Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
                     $timeSet = $paused_at->diffInHours($now);
-                    if ($timeSet == 4) {
+                    if ($timeSet == 4 || ($timeSet + $selisihRequestChecked) == 4) {
                         $user->is_active = 0;
                         $user->save();
                         $data [] = $user->name;
@@ -156,7 +171,6 @@ class CheckStopedAfterShift extends Command
                         ]);
                     }
                 }
-                //send email if 1 hour not yet started
             }
             else{
                 //$this->info("belum lewat shift");
