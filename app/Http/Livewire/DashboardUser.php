@@ -24,9 +24,9 @@ class DashboardUser extends Component
     public $type, $desc,$date,$time_overtime, $tasking = 0,$stopRequestDate, $startRequestDate, $time_out, $time_in;
 
     protected $listeners = [
-        'set:latitude-longitude' => 'setLatitudeLongitude'
+        'set:latitude-longitude' => 'setLatitudeLongitude',
+        'updateJurnal'
     ];
-    protected $listeners = ['updateJurnal'];
 
     public function setLatitudeLongitude($latitude, $longitude) 
     {
