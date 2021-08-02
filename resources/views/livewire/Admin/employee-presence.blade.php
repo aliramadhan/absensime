@@ -185,11 +185,11 @@ tbody th {
               @elseif($wfo > 0)
                 <td class="border font-semibold border-gray-200 ">V</td>@php $totalWFO++; @endphp
               @elseif($travel > 0)
-                <td class="border font-semibold border-gray-200 ">V(r)</td>
+                <td class="border font-semibold border-gray-200 text-blue-700">V(r)</td>
               @elseif($schedule->status == 'No Record')
                 <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
               @elseif(in_array($schedule->status,$leaves))
-                <td class="bg-yellow-500 text-white font-semibold">CUTI</td>
+                <td class="bg-yellow-500 text-white font-semibold">L</td>
               @else
                 <td class="bg-yellow-500 text-white font-semibold">{{$schedule->status}}</td>
               @endif  
@@ -201,7 +201,7 @@ tbody th {
             <th class="border border-gray-200 w-32">{{$schedules->WhereIn('status',$leaves)->count()}}</th>
             <th class="border border-gray-200 w-32">{{$totalRemote}}</th>
             <th class="border border-gray-200 w-32">{{$schedules->where('status','Sick')->count()}}</th>
-            <th class="border border-gray-200 w-32">I</th>
+            <th class="border border-gray-200 w-32">P</th>
             <th class="border border-gray-200 w-32">{{$schedules->where('status','No Record')->count()}}</th>
             <th class="border border-gray-200 w-32 bg-gray-700 text-white" >{{$totalA->count()}}</th>
         </tr>
@@ -214,31 +214,40 @@ tbody th {
   <h4 class=" text-gray-700 font-bold tracking-wide text-xl leading-snug text-left mb-4" >         
     <i class="fas fa-question-circle text-blue-500"></i> Legend         
   </h4>
- <div class="grid md:grid-cols-3 grid-cols-1 gap-2">
+ <div class="grid md:grid-cols-2 grid-cols-1 gap-2">
 
   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    <span class="font-bold">A</span> : Absence 
+    <span class="font-bold text-red-700">A</span> : Hadir sehari penuh lupa isi 
   </h4>
   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    <span class="font-bold">Cuti</span> : Leave 
+    <span class="font-bold">L</span> : Tidak hadir karena cuti  
   </h4>
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
     <span class="font-bold">T</span> : Late
   </h4>
    <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    <span class="font-bold">I</span> : Permission 
+    <span class="font-bold">P</span> : Tidak hadir karena izin sehari penuh
   </h4>
     <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold">R</span> : Remote (allowance)
+    <span class="font-bold text-blue-700">R</span> : Hadir sehari penuh remote benefit
   </h4>
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold">S</span> : Sick
+    <span class="font-bold">S</span> : Tidak hadir karena sakit/cuti haid
   </h4>
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold">V</span> : Attend
+    <span class="font-bold">V</span> : Hadir sehari penuh kerja dari kantor  
+  </h4>
+   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    <span class="font-bold text-blue-700">V</span> : Hadir sehari penuh terlambat (masih toleransi) tapi sudah diganti  
+  </h4>
+   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    <span class="font-bold text-red-700">V</span> : Hadir sehari penuh terlambat (lewat toleransi) tapi sudah diganti    
   </h4>
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold">V(r)</span> : Remote (covid)
+    <span class="font-bold">V(r)</span> : Hadir sehari penuh kerja dari rumah 
+  </h4>
+   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    <span class="font-bold text-red-700">?</span> : Hadir kurang sehari tidak sesuai dengan laporan
   </h4>
 
 </div>     
