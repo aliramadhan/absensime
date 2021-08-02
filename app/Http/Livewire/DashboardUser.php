@@ -26,6 +26,7 @@ class DashboardUser extends Component
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude'
     ];
+    protected $listeners = ['updateJurnal'];
 
     public function setLatitudeLongitude($latitude, $longitude) 
     {
@@ -41,6 +42,12 @@ class DashboardUser extends Component
         $hours = intval($total_minutes/60);
         $time = $hours."h ".$minutes."m";
         return $time;
+    }
+    public function updateJurnal(HistorySchedule $detail, $value)
+    {
+        $detail->update([
+            'task' => $value
+        ]);
     }
 
     public function render()

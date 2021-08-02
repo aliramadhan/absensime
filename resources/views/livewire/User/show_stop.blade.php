@@ -26,6 +26,9 @@
         From: "opacity-100 translate-y-0 sm:scale-100"
         To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     -->
+    @php
+      $detailsSchedule = $schedule->details->where('task',null)->sortBy('id');
+    @endphp
     <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
       <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div class="sm:flex sm:items-start">
@@ -41,11 +44,19 @@
             </h3>
            
             <div class="mt-2">
+              <ul>
+                @forelse($detailsSchedule as $item)
+                  <label>{{Carbon\Carbon::parse($item->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($item->stoped_at)->format('H:i')}}</label>
+                  <input type="text" >
+                @empty
+
+                @endforelse
+              </ul>
               <p class="text-sm text-gray-500">
                 Are you sure you want to stop your record workhour? This action cannot be undone.
               </p>
             </div>
-             @if($now < Carbon\Carbon::parse($shift->time_out))
+            @if($now < Carbon\Carbon::parse($shift->time_out))
             <label class="text-red-500 text-sm font-semibold">Warning : Stopped recording before your shift is over</label>
             <input type="text" wire:model="note" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" placeholder="Fill in your reason.." required>
             @endif
