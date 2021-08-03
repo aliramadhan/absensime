@@ -140,32 +140,36 @@
                         @endif
                         @if($desc == 'Late from the assigned shift' || $desc == 'Reach the tolerance limit of 1 hour late')
                             <div class="mb-4 px-2 flex items-center gap-2">
-                                <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">checkbox permission setengah hari</label>
+                                <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Permission setengah hari?</label>
                                 <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_check_half" placeholder="fill in here...">
                                 @error('is_check_half') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                         @endif
                         @if($desc == 'Forget to entry')
+                        <div class="mb-4 px-2">
+                              <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Because </label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="typeRequest">
                                 <option hidden>Choose here</option>
                                 @foreach($leaves as $leave)
-                                    <option>{{$leave->name}}</option>
+                                <option>{{$leave->name}}</option>
                                 @endforeach
                                 <option>Sick</option>
                                 <option>Permission</option>
                             </select>
+                        </div>
                             @error('typeRequest') <span class="text-red-500">{{ $message }}</span>@enderror
-
-                            <div class="px-2 flex-auto md:mb-0 mb-4">
+                            <div class="flex mb-4 space-x-2">
+                            <div class="px-2 flex-auto md:mb-0 w-6/12">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
                                 <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="dateFrom">
                                 @error('dateFrom') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
-                            <div class="flex-auto px-2">
+                            <div class="flex-auto px-2 w-6/12">
                                 <label for="formStopRequestDate" class="block text-gray-500 text-sm  mb-2">To</label>
                                 <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate"wire:model="dateTo">
                                 @error('dateTo') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
+                             </div>
                             <div class="mb-4 px-2">
                                 <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                                 <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" placeholder="Fill in here" wire:model="descRequest">
