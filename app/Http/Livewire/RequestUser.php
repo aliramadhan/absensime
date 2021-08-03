@@ -42,6 +42,90 @@ class RequestUser extends Component
         $this->time_overtime = null;
         $this->is_cancel_order = null;
     }
+    public function createActivationWithRequest()
+    {
+        //validate for activation        
+        $this->validate([
+            'desc' => 'required',
+        ]);
+        $this->date = Carbon::now();
+        $this->is_cancel_order = 0;
+        //validate for request after activation
+        $this->validate([
+            'typeRequest' => 'required',
+            'dateTo' => 'required|date|after_or_equal:dateFrom',
+            'dateFrom' => 'required|date|before_or_equal:dateTo',
+            'descRequest' => 'required',
+        ]);
+        //cek if ada request belum acc pada hari dan type request yang sama atau have schedule
+        $startDate = Carbon::parse($this->dateFrom);
+        $stopDate = Carbon::parse($this->dateTo);
+        $limitDays = $startDate->diffInDays($stopDate);
+        for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
+            $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->typeRequest)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
+            $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
+            if ($isSchedule == null) {
+                $this->closeModal();
+                $this->resetFields();
+                return session()->flash('failure', "Can't submit request, no schedule found.");
+            }
+            if ($issetRequest != null) {
+                $this->closeModal();
+                $this->resetFields();
+                return session()->flash('failure', "Can't submit request, duplicate request.");
+            }
+            //create request after activation
+            if ($isSchedule != null && $issetRequest == null) {
+                $request = Request::create([
+                    'employee_id' => $this->user->id,
+                    'employee_name' => $this->user->name,
+                    'type' => $this->typeRequest,
+                    'desc' => $this->descRequest,
+                    'date' => $startDate,
+                    'is_cancel_order' => $this->is_cancel_order,
+                    'status' => 'Waiting'
+                ]);
+
+                //send mail to manager if manager founded
+                $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+                if($manager != null){
+                    $date = $this->dateFrom .' -> '.$this->dateTo;
+                    $data = array('name' => $this->user->name, 'type' => $this->typeRequest, 'date' => $date, 'desc' => $this->descRequest,'user_mail' => $this->user->email);
+                    Mail::to($manager->email)->send(new RequestNotificationMail($data));
+                }
+
+                //send mail to admin
+                $admins = User::where('role','Admin')->get();
+                foreach ($admins as $admin) {
+                    $date = $this->dateFrom .' -> '.$this->dateTo;
+                    $data = array('name' => $this->user->name, 'type' => $this->typeRequest, 'date' => $date, 'desc' => $this->descRequest,'user_mail' => $this->user->email);
+                    Mail::to($admin->email)->send(new RequestNotificationMail($data));
+                }
+            }
+        }
+        //create activation
+        $request = Request::create([
+            'employee_id' => $this->user->id,
+            'employee_name' => $this->user->name,
+            'type' => $this->type,
+            'desc' => $this->desc,
+            'date' => $this->date,
+            'time' => $this->time_overtime,
+            'is_cancel_order' => $this->is_cancel_order,
+            'is_check_half' => $this->is_check_half,
+            'status' => 'Accept'
+        ]);
+        $this->user->update(['is_active' => 1]);
+
+        $this->closeModal();
+        $this->type = $this->typeRequest = null;
+        $this->desc = $this->typeRequest  = null;
+        $this->date = $this->dateTo = $this->dateFrom= null;
+        $this->time_overtime = null;
+        $this->is_cancel_order = null;
+        $this->emit('refreshLivewireDatatable');
+        session()->flash('message', 'Request successfully added.');
+    }
     public function createRequest()
     {
         $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
