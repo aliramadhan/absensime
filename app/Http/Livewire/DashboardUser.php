@@ -84,7 +84,7 @@ class DashboardUser extends Component
             $this->shift = $this->schedule->shift;
             $this->time_in = $time_in = Carbon::parse($this->shift->time_in);
             $this->time_out = $time_out = Carbon::parse($this->shift->time_out);
-            if ($time_out < $time_in) {
+            if ($this->shift->is_night) {
                 $this->limit_workhour = $time_in->diffInSeconds(Carbon::parse($time_out)->addDay());
             }
             else{

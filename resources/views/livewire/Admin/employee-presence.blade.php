@@ -158,6 +158,14 @@ tbody th {
               @php
               $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
               $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
+              $shift = $schedule->shift;
+              $time_in = Carbon\Carbon::parse($shift->time_in);
+              $time_out = Carbon\Carbon::parse($shift->time_out);
+              $time_limit = $time_in->diffInSeconds($time_out);
+              if($shift->is_night){
+                $time_limit = $time_in->diffInSeconds(Carbon::parse($time_out)->addDay());
+              }
+              $started_at = Carbon\Carbon::parse($schedule->started_at);
               if($schedule != null){
                   $detailSchedule = App\Models\HistorySchedule::where('schedule_id',$schedule->id)->where('status','Work')->get();
                   $wfo = $detailSchedule->where('location','WFO')->count();
@@ -174,8 +182,12 @@ tbody th {
                 @else
                   <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
                 @endif
+              @elseif($schedule->status_depart == 'Late' && ($started_at->gt($time_in) && $time_in->diffInMinutes($started_at) < 60) && ($schedule->workhour + $schedule->timer) >= $time_limit)
+                <td class="border font-semibold border-gray-200 bg-blue-400 text-blue-900">V</td>
+              @elseif($schedule->status_depart == 'Late' && ($started_at->gt($time_in) && $time_in->diffInMinutes($started_at) >= 60) && ($schedule->workhour + $schedule->timer) >= $time_limit)
+                <td class="border font-semibold border-gray-200 bg-red-400 text-red-900">V</td>
               @elseif($schedule->status_depart == 'Late')
-                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">T</td>
+                <td class="border font-semibold border-gray-200 bg-red-400 text-red-900">T</td>
               @elseif($remote > 0)
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > 0 && $wfo > 0)
