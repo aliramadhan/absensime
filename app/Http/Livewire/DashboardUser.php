@@ -501,6 +501,15 @@ class DashboardUser extends Component
             'status' => 'Accept'
         ]);
         $this->user->update(['is_active' => 1]);
+
+        $this->closeModal();
+        $this->type = $this->typeRequest = null;
+        $this->desc = $this->typeRequest  = null;
+        $this->date = $this->dateTo = $this->dateFrom= null;
+        $this->time_overtime = null;
+        $this->is_cancel_order = null;
+        $this->emit('refreshLivewireDatatable');
+        session()->flash('message', 'Request successfully added.');
     }
     public function createRequest()
     {
