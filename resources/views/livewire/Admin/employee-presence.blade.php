@@ -163,11 +163,11 @@ tbody th {
                 $time_in = Carbon\Carbon::parse($shift->time_in);
                 $time_out = Carbon\Carbon::parse($shift->time_out);
                 $time_limit = $time_in->diffInSeconds($time_out);
+                $started_at = Carbon\Carbon::parse($schedule->started_at);
               }
               if($schedule != null && $shift->is_night){
-                $time_limit = $time_in->diffInSeconds(Carbon::parse($time_out)->addDay());
+                $time_limit = $time_in->diffInSeconds(Carbon\Carbon::parse($time_out)->addDay());
               }
-              $started_at = Carbon\Carbon::parse($schedule->started_at);
               if($schedule != null){
                   $detailSchedule = App\Models\HistorySchedule::where('schedule_id',$schedule->id)->where('status','Work')->get();
                   $wfo = $detailSchedule->where('location','WFO')->count();
