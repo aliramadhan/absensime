@@ -158,11 +158,13 @@ tbody th {
               @php
               $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
               $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
-              $shift = $schedule->shift;
-              $time_in = Carbon\Carbon::parse($shift->time_in);
-              $time_out = Carbon\Carbon::parse($shift->time_out);
-              $time_limit = $time_in->diffInSeconds($time_out);
-              if($shift->is_night){
+              if($schedule != null){
+                $shift = $schedule->shift;
+                $time_in = Carbon\Carbon::parse($shift->time_in);
+                $time_out = Carbon\Carbon::parse($shift->time_out);
+                $time_limit = $time_in->diffInSeconds($time_out);
+              }
+              if($schedule != null && $shift->is_night){
                 $time_limit = $time_in->diffInSeconds(Carbon::parse($time_out)->addDay());
               }
               $started_at = Carbon\Carbon::parse($schedule->started_at);
