@@ -175,7 +175,7 @@
                         @endphp
 
                         @if($scheduleDatePicker != null)
-                        <div class="absolute bg-white border border-gray-100 px-3 py-1 -mt-16 shadow-lg rounded-lg w-max flex-col z-20 text-left hover-target font-semibold bg-gray-700 text-white">{{$scheduleDatePicker->shift_name}}</div>
+                        <div class="absolute bg-white border border-gray-100 px-3 py-1 -mt-16 shadow-lg rounded-lg w-max flex-col z-20 text-left hover-target font-semibold bg-gray-700 text-white">Shift {{$scheduleDatePicker->shift_name}}</div>
                         @else 
                         <div class="absolute bg-white border border-gray-100 px-3 py-1 -mt-16 shadow-lg rounded-lg w-max flex-col z-20 text-left hover-target font-semibold bg-red-600 text-white">Day off </div>
                         @endif
@@ -428,7 +428,7 @@
                                   </select>
                             @endif
                         </label>
-                          @error('location') <span class="text-red-500 text-xl font-semibold shadow-md"><i class="fas fa-times-circle"></i></span>@enderror
+                          @error('location') <span class="text-red-500 text-xl font-semibold "><i class="fas fa-times-circle"></i></span>@enderror
 
                          <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
