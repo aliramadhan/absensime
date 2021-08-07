@@ -104,6 +104,9 @@
                                     <x-jet-dropdown-link  href="{{ route('admin.employee_presence.report') }}">
                                         {{ __('Attendance Report') }}
                                     </x-jet-dropdown-link>
+                                    <x-jet-dropdown-link  href="{{ route('admin.overtime.report') }}">
+                                        {{ __('Overtime Report') }}
+                                    </x-jet-dropdown-link>
                                     <x-jet-dropdown-link  href="{{ route('admin.schedule_today') }}">
                                         {{ __('Attend Detail Record ') }}
                                     </x-jet-dropdown-link>                                    
