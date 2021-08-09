@@ -165,38 +165,9 @@ tbody th {
  <div class="grid md:grid-cols-2 grid-cols-1 gap-2">
 
   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    <span class="font-bold text-red-700">A</span> : Hadir sehari penuh lupa isi 
+    <span class="font-bold ">Format</span> : the overtime format in the table above uses Minutes
   </h4>
-  <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    <span class="font-bold">L</span> : Tidak hadir karena cuti  
-  </h4>
-  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold">T</span> : Late
-  </h4>
-   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
-    <span class="font-bold">P</span> : Tidak hadir karena izin sehari penuh
-  </h4>
-    <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold text-blue-700">R</span> : Hadir sehari penuh remote benefit
-  </h4>
-  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold">S</span> : Tidak hadir karena sakit/cuti haid
-  </h4>
-  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold">V</span> : Hadir sehari penuh kerja dari kantor  
-  </h4>
-   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold text-blue-700">V</span> : Hadir sehari penuh terlambat (masih toleransi) tapi sudah diganti  
-  </h4>
-   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold text-red-700">V</span> : Hadir sehari penuh terlambat (lewat toleransi) tapi sudah diganti    
-  </h4>
-  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold">V(r)</span> : Hadir sehari penuh kerja dari rumah 
-  </h4>
-   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
-    <span class="font-bold text-red-700">?</span> : Hadir kurang sehari tidak sesuai dengan laporan
-  </h4>
+  
 
 </div>     
 </div>
