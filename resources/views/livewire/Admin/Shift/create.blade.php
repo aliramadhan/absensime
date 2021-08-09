@@ -11,7 +11,7 @@
                 <div class=" py-4 px-6 sm:flex border-b flex ">
                 <h1 class=" font-semibold text-2xl text-gray-600">Add Shift</h1>                 
                 </div>
-                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="bg-white px-4 pt-5 pb-4 p-6 sm:pb-4">
                     <div class="">
                         <div class="mb-4">
                             <label for="formNameShift" class="block text-gray-500 text-sm font-semibold mb-2">Shift Name:</label>
