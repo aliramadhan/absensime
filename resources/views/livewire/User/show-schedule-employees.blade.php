@@ -123,28 +123,28 @@ tbody th {
                     <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div>
                   </td>
                   @elseif($schedule != null && $schedule->status == 'Done')
-                  <td class='hover:bg-blue-500 px-1 py-2 text-center bg-gray-200 border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
+                  <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
                   @elseif($schedule != null && $schedule->status == 'No Record')
-                  <td class='hover:bg-red-500 px-1 py-2 text-center bg-gray-200 border border-white bg-red-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
-                  @elseif($schedule != null && $schedule->status != 'Not sign in')
+                  <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
+                  @elseif($schedule != null && $schedule->status != 'Not sign in' && $schedule->status !='Working')
                   <td class='hover:bg-yellow-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300 '>{{$schedule->shift_name}}
                     <div class="hover-target absolute duration-300 top-0 bg-yellow-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div></td>
                   @else
-                  <td class='hover:bg-blue-500 px-1 py-2 text-center bg-gray-200 border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
+                  <td class='hover:bg-blue-500 px-1 py-2 text-center border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
                   @endif
                 @else
                   @if($schedule == null)
                   <td class='px-1 py-2 text-center border border-gray-300 text-xs w-48'>
                       <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label>
                   </td>
-                  @elseif($schedule != null && in_array($schedule->status,$leaves))
+                  @elseif($schedule != null && in_array($schedule->status,$leaves) )
                   <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300 '>{{$schedule->shift_name}}
                   <div class="hover-target absolute duration-300 top-0 bg-yellow-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div>
                   </td>
                   @elseif($schedule != null && $schedule->status == 'Done')
-                  <td class='hover:bg-blue-500 px-1 py-2 text-center bg-gray-200 border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
+                  <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
                   @elseif($schedule != null && $schedule->status == 'No Record')
-                  <td class='hover:bg-red-500 px-1 py-2 text-center bg-gray-200 border border-white bg-red-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
+                  <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
                   @elseif($schedule != null && $schedule->status != 'Not sign in')
                   <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm'>{{$schedule->shift_name}}</td>
                   @else
@@ -168,7 +168,7 @@ tbody th {
         <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
         <span class="relative inline-flex rounded-full h-3 w-3" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></span>
     </span>
-    Day Off
+    Day Off 
 </h4>
 <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
   <span class="flex h-3 w-3 mr-2">
@@ -183,6 +183,20 @@ Today / Day Active
     <span class="relative inline-flex rounded-full h-3 w-3 bg-yellow-500"></span>
 </span>
 Permission / Leave
+</h4>
+<h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+  <span class="flex h-3 w-3 mr-2">
+    <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-300 opacity-75"></span>
+    <span class="relative inline-flex rounded-full h-3 w-3 bg-green-400"></span>
+</span>
+Present
+</h4>
+<h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+  <span class="flex h-3 w-3 mr-2">
+    <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-200 opacity-75"></span>
+    <span class="relative inline-flex rounded-full h-3 w-6 bg-red-300"></span>
+</span>
+Absent
 </h4>
 @foreach($shifts as $shift)
 <h4 class="font-medium text-md flex items-center text-gray-700">           
