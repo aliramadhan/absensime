@@ -26,7 +26,7 @@
     
     /* width */
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 6px !important;
 
     }
 
@@ -46,7 +46,7 @@
       background: #74b9ff; 
     }
     .scroll::-webkit-scrollbar{
-    height: 8px;
+    height: 5px;
 }
   </style>
   <style type="text/css">

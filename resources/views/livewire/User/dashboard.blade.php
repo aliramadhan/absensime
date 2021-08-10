@@ -407,7 +407,7 @@
 
                     </div>
 
-                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4 lg:w-9/12 xl:w-auto overflow-hidden">                      
+                    <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
                       <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3 truncate">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
@@ -432,7 +432,7 @@
 
                          <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
-                    <div class="flex justify-between items-center flex-col md:flex-row whitespace-nowrap">
+                    <div class="flex justify-between items-center flex-col md:flex-row">
               @if($isModal == 'Pause')
                   @include('livewire.User.create_pause')
               @elseif($isModal == 'Working')
@@ -513,24 +513,24 @@
              
               @if(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->position_stop == null))
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-16 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>     
               @elseif(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->status == 'No Record'))
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-16 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>    
               @elseif(auth()->user()->is_active != 1 && ($now->gt($time_in)) && $time_in->diffInMinutes($now) < 60)
               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-16 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
                </button>                
               @elseif(auth()->user()->is_active != 1 && ($schedule != null && $detailSchedule->status == 'Rest' && Carbon\Carbon::parse($detailSchedule->started_at)->diffInHours($now) >= 4))
                 <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-16 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
                </button>                  
               @elseif(auth()->user()->is_active != 1)
-               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 -top-20 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
-               </button>    
+              <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 md:-bottom-8 bottom-16 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+              </button>  
               
               @elseif($schedule != null && ($schedule->status == 'Working'))
               <div class="grid grid-cols-2 items-center gap-4">
@@ -632,8 +632,8 @@
                           <div class="flex flex-col">
                           <h2 class="text-3xl leading-none ">Detail</h2>
                           @if($schedule != null)
-                          <h2 class="md:text-sm xl:text-lg text-gray-500 font-base">Start Tracking at <span class="text-gray-700 md:text-base text-xs">
-                            @if($schedule->started_at != null)<span class="md:hidden block mt-1"></span> 
+                          <h2 class="md:text-sm xl:text-lg text-gray-500 font-base md:mt-0 mt-1">Start Tracking at <span class="text-gray-600">
+                            @if($schedule->started_at != null)<span class="md:hidden block "></span> 
                            {{ Carbon\Carbon::parse($schedule->started_at)->format('H:i, d F Y') }}@endif</span></h2>@endif
                           </div>
                           <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-white leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg">
