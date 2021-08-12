@@ -121,11 +121,13 @@ tbody th {
             <th class="text-gray-700 bg-gray-700 w-2"></th>
             <th class="text-white px-2 z-10 w-32">V </th>
             <th class="text-white px-2 z-10 w-32">V(r)</th>
-            <th class="text-white px-2 z-10 w-32">CUTI</th>
+            <th class="text-white px-2 z-10 w-32">L</th>
             <th class="text-white px-2 z-10 w-32">R</th>
             <th class="text-white px-2 z-10 w-32">S</th>
-            <th class="text-white px-2 z-10 w-32">I</th>
+            <th class="text-white px-2 z-10 w-32">P</th>
+            <th class="text-white px-2 z-10 w-32">T</th>
             <th class="text-white px-2 z-10 w-32">A</th>
+            <th class="text-white px-2 z-10 w-32">?</th>
             <th class="text-white px-2 z-10 w-32 bg-blue-800">Total</th>
         </tr>
         
@@ -153,7 +155,7 @@ tbody th {
         <tr class="text-center">
             <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-20  "><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
              <th  class="p-2  truncate text-white bg-gray-900 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0 z-10  "><div class="truncate md:w-full w-28">@if($manager != null) {{$manager->name}} @endif </div></th>
-            
+            @php $no_use=0; @endphp
             @for($i = 1; $i <= $now->daysInMonth; $i++)
               @php
               $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
@@ -192,6 +194,7 @@ tbody th {
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">T</td>
               @elseif($schedule->status == 'Done' && ($schedule->workhour + $schedule->timer) < $time_limit)
                 <td class="border font-semibold border-gray-200 bg-red-400 text-red-900">?</td>
+                @php $no_use++; @endphp
               @elseif($remote > 0)
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > 0 && $wfo > 0)
@@ -204,6 +207,8 @@ tbody th {
                 <td class="border font-semibold border-gray-200 text-blue-700">V(r)</td>
               @elseif($schedule->status == 'No Record')
                 <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
+              @elseif($schedule->status == 'Permission')
+                <td class="border font-semibold border-gray-200 ">P</td>
               @elseif(in_array($schedule->status,$leaves))
                 <td class="bg-yellow-500 text-white font-semibold">L</td>
               @else
@@ -211,14 +216,16 @@ tbody th {
               @endif  
 
             @endfor
- <th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
+            <th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
             <th class="border border-gray-200 w-32">{{$totalWFO}}</th>
             <th class="border border-gray-200 w-32">{{$totalWFH}}</th>
             <th class="border border-gray-200 w-32">{{$schedules->WhereIn('status',$leaves)->count()}}</th>
             <th class="border border-gray-200 w-32">{{$totalRemote}}</th>
-            <th class="border border-gray-200 w-32">{{$schedules->where('status','Sick')->count()}}</th>
-            <th class="border border-gray-200 w-32">P</th>
+            <th class="border border-gray-200 w-32">{{$schedules->where('status','Sick')->count()}}</th> 
+            <th class="border border-gray-200 w-32">{{$schedules->where('status','Permission')->count()}}</th> 
+            <th class="border border-gray-200 w-32">{{$schedules->where('status_depart','Late')->count()}}</th>          
             <th class="border border-gray-200 w-32">{{$schedules->where('status','No Record')->count()}}</th>
+            <th class="border border-gray-200 w-32">{{$no_use}}</th> 
             <th class="border border-gray-200 w-32 bg-gray-700 text-white" >{{$totalA->count()}}</th>
         </tr>
         @endforeach  
