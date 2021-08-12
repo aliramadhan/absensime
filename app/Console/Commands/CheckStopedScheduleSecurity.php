@@ -50,7 +50,7 @@ class CheckStopedScheduleSecurity extends Command
             $shift = $schedule->shift;
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
-            if ($time_in > $time_out) {
+            if ($shift->is_night) {
                 if ($schedule->status == 'Not sign in') {
                     $user->is_active = 0;
                     $user->save();
