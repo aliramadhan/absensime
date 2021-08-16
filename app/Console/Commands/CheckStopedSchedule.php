@@ -23,7 +23,7 @@ class CheckStopedSchedule extends Command
      *
      * @var string
      */
-    protected $description = "Check if employee not stoping schedule before end of shift.";
+    protected $description = "CheckStopedSchedule if employee not stoping schedule before end of shift.";
 
     /**
      * Create a new command instance.
@@ -50,7 +50,7 @@ class CheckStopedSchedule extends Command
             $shift = $schedule->shift;
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
-            if ($shift->is_night) {
+            if($shift->is_night) {
                 //do something
             }
             else{
