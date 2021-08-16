@@ -52,12 +52,12 @@
                             <div class="mb-4 flex md:flex-row flex-col">
                             <div class="px-2 flex-auto md:mb-0 mb-4">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
-                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" @if($type != 'Sick') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else @endif>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
                                 @error('startRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                             <div class="flex-auto px-2">
                                 <label for="formStopRequestDate" class="block text-gray-500 text-sm  mb-2">To</label>
-                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate" @if($type != 'Sick') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else  @endif>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate">
                                 @error('stopRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                             </div>
