@@ -54,11 +54,12 @@ class CheckStopedAfterShift extends Command
             $shift = Shift::find($schedule->shift_id);
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
-            $this->info($schedule->details->sortByDesc('id')->first());
+            $this->info($schedule->workhour + $schedule->timer);
             //notif ketika lewat shift
             if ($now->greaterThan($time_out)) {
                 $time_limit = $time_in->diffInSeconds($time_out);
-                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) == 30)) {
+                $this->info($time_limit);
+                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) % 10 == 0)) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending after shift notification email to: {$user->name}!");
                 }
@@ -68,6 +69,11 @@ class CheckStopedAfterShift extends Command
                     if ($detail->is_stop_shift) {
                         $user->is_active = 0;
                         $user->save();
+                        $history_lock = HistoryLock::create([
+                            'employee_id' => $user->id,
+                            'date' => $schedule->date,
+                            'reason' => 'Paused until the end of shift.',
+                        ]);
                         $data [] = $user->name;
 
                         //update task and stop schedule
@@ -132,12 +138,22 @@ class CheckStopedAfterShift extends Command
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
+                    $history_lock = HistoryLock::create([
+                        'employee_id' => $user->id,
+                        'date' => $schedule->date,
+                        'reason' => 'Late to record.',
+                    ]);
                 }
                 elseif($timeSet <= 60 && $schedule->status == 'Not sign in'){
                     Mail::to($user->email)->send(new NotifLateAfterTimeIn());
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
+                    $history_lock = HistoryLock::create([
+                        'employee_id' => $user->id,
+                        'date' => $schedule->date,
+                        'reason' => 'Late to recording',
+                    ]);
                 }
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
                     $isRequestChecked = Request::where('employee_id',$user->id)->whereDate('date',$now)->where('type','Activation Record')->orderBy('id','desc')->first();
@@ -150,6 +166,11 @@ class CheckStopedAfterShift extends Command
                     if ($timeSet == 4 || ($timeSet + $selisihRequestChecked) == 4) {
                         $user->is_active = 0;
                         $user->save();
+                        $history_lock = HistoryLock::create([
+                            'employee_id' => $user->id,
+                            'date' => $schedule->date,
+                            'reason' => 'Paused more than 4 hours.',
+                        ]);
                         $data [] = $user->name;
 
                         //update task and stop schedule

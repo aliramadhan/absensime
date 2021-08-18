@@ -57,6 +57,11 @@ class CheckStopedSchedule extends Command
                 if ($schedule->status == 'Not sign in') {
                     $user->is_active = 0;
                     $user->save();
+                    $history_lock = HistoryLock::create([
+                        'employee_id' => $user->id,
+                        'date' => $schedule->date,
+                        'reason' => 'Forget to sto recording',
+                    ]);
                     $data [] = $user->name;
                     $schedule->update([
                         'status' => 'No Record',
@@ -65,6 +70,11 @@ class CheckStopedSchedule extends Command
                 elseif ($schedule->status != 'Done') {
                     $user->is_active = 0;
                     $user->save();
+                    $history_lock = HistoryLock::create([
+                        'employee_id' => $user->id,
+                        'date' => $schedule->date,
+                        'reason' => 'Forget to sto recording',
+                    ]);
                     $data [] = $user->name;
 
                     //update task and stop schedule

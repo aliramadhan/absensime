@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Carbon\Carbon;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Models\HistoryLock;
 use App\Mail\SendNotifUserNonActived;
 use Illuminate\Support\Facades\Mail;
 
@@ -58,11 +59,21 @@ class CheckStopedScheduleSecurity extends Command
                     $schedule->update([
                         'status' => 'No Record',
                     ]);
+                    $history_lock = HistoryLock::create([
+                        'employee_id' => $user->id,
+                        'date' => $schedule->date,
+                        'reason' => 'Forget to sto recording',
+                    ]);
                 }
                 elseif ($schedule->status != 'Done') {
                     $user->is_active = 0;
                     $user->save();
                     $data [] = $user->name;
+                    $history_lock = HistoryLock::create([
+                        'employee_id' => $user->id,
+                        'date' => $schedule->date,
+                        'reason' => 'Forget to sto recording',
+                    ]);
                     //update task and stop schedule
                     $detailSchedule = $schedule->details->sortByDesc('id')->first();
                     $detailSchedule->update([
