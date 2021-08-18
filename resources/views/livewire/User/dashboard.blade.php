@@ -364,7 +364,8 @@
                            <div class="bg-cover bg-no-repeat bg-center w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
                          <label class="border-r pr-2"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
-                            <label class="leading-none text-base">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d F')}} @else {{$now->format('d F')}} @endif</label>
+                            <label class="leading-none text-base hidden md:block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d F')}} @else {{$now->format('d F')}} @endif</label>
+                             <label class="leading-none text-base  md:hidden block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d M')}} @else {{$now->format('d M')}} @endif</label>
                             <label class="text-blue-500 xl:text-lg text-base md:text-base leading-none ">@if($schedule != null) {{Carbon\Carbon::parse($schedule->date)->format('Y')}} @else {{$now->format('Y')}} @endif</label>
                           </div>
                         </div>
@@ -430,7 +431,7 @@
                         </label>
                           @error('location') <span class="text-red-500 text-xl font-semibold "><i class="fas fa-times-circle"></i></span>@enderror
 
-                         <h2 class="text-gray-700 text-center mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
+                         <h2 class="text-gray-700 text-left mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
                     <div class="flex justify-between items-center flex-col md:flex-row">
               @if($isModal == 'Pause')
@@ -521,19 +522,16 @@
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
                 <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>    
-              @elseif(auth()->user()->is_active != 1 && ($now->gt($time_in)) && $time_in->diffInMinutes($now) < 60)
-              <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
-               </button>                
+                         
               @elseif(auth()->user()->is_active != 1 && ($schedule != null && $schedule->started_at != null))
                 @if($detailSchedule->status == 'Rest' && Carbon\Carbon::parse($detailSchedule->started_at)->diffInHours($now) >= 4))
                 <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-16 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
                </button>               
                @endif   
               @elseif(auth()->user()->is_active != 1)
               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
-                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 md:-bottom-8 bottom-16 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
+                <div class="absolute weekly-target bg-white rounded-lg text-gray-700 md:-bottom-8 bottom-0 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
               </button>  
               
               @elseif($schedule != null && ($schedule->status == 'Working'))
