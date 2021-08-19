@@ -33,12 +33,14 @@
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
                         @if($isModal == 'Working')
-                            <button wire:click.prevent="startOn()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-6 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 items-center" onclick="showPosition()">
-                            <i class="far fa-clock mr-2 -ml-2"></i> Start
+                            <button wire:click.prevent="startOn()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-6 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5 items-center" onclick="showPosition()" wire:loading.class="disabled" wire:target="StartLoad" wire:loading.class="opacity-50 cursor-not-allowed" wire:loading.attr="disabled">
+                            <i class="far fa-clock mr-2 -ml-2" wire:loading.remove wire:target="StartLoad"></i> 
+                            <i class="fas fa-circle-notch mr-2 -ml-2 animate-spin" wire:loading wire:target="StartLoad"></i> Start
                             </button>
                         @elseif($isModal == 'Resume')
-                            <button wire:click.prevent="resumeOn()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-6 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5 items-center">
-                            <i class="fas fa-history mr-2 -ml-2"></i> Resume
+                            <button wire:click.prevent="resumeOn()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-6 py-2 bg-green-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-green-500 focus:outline-none focus:border-green-700 focus:shadow-outline-green transition ease-in-out duration-150 sm:text-sm sm:leading-5 items-center"  wire:loading.class="disabled" wire:target="ResumeLoad" wire:loading.class="opacity-50 cursor-not-allowed" wire:loading.attr="disabled">
+                            <i class="fas fa-history mr-2 -ml-2" wire:loading.remove wire:target="ResumeLoad"></i>
+                             <i class="fas fa-circle-notch mr-2 -ml-2 animate-spin" wire:loading wire:target="ResumeLoad"></i>  Resume
                             </button>
                         @endif
                     </span>

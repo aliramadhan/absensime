@@ -409,7 +409,7 @@
                     </div>
 
                     <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
-                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-center pb-3 truncate">
+                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
@@ -431,7 +431,7 @@
                         </label>
                           @error('location') <span class="text-red-500 text-xl font-semibold "><i class="fas fa-times-circle"></i></span>@enderror
 
-                         <h2 class="text-gray-700 text-left mr-2 truncate w-11/12"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
+                         <h2 class="text-gray-700 text-left mr-2 truncate w-11/12 bg-gray-100 border rounded-md px-2 py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
                     <div class="flex justify-between items-center flex-col md:flex-row">
               @if($isModal == 'Pause')
@@ -541,12 +541,16 @@
                </div>
               @elseif($schedule != null && $schedule->status == 'Pause')
 
-              <button @if($tasking) wire:click="showResume()" @else wire:click="resumeOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full"><i class="fas fa-history"></i> Resume</button>
+              <button @if($tasking) wire:click="showResume()" @else wire:click="resumeOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">
+                <i class="fas fa-history"  wire:loading.remove  wire:target="resumeOn"></i>
+                <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="resumeOn"></i> Resume Record</button>
               <label class="flex items-center mt-3 w-auto">
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md" wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal? </span>
               </label>
               @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1 )
-              <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Start Record</button>             
+              <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none ">
+                <i class="far fa-clock" wire:loading.remove wire:target="startOn"></i>
+                <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="startOn"></i> Start Record</button>             
               <label class="flex items-center mt-3 w-auto">
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal?    </span>
               </label>
@@ -567,7 +571,7 @@
               @endif              
             
             
-              <div wire:loading wire:target="showPause,showStop,showResume,showStart,showOvertime" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
+              <div wire:loading wire:target="showPause,showStop,showResume,showStart,showOvertime,starton" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
                  <section class="h-full w-full border-box  transition-all duration-500 flex bg-gray-500 opacity-75"    >   
                   <div class="text-6xl text-white m-auto text-center">        
                    <i class="fas fa-circle-notch animate-spin"></i>
