@@ -60,7 +60,7 @@ class CheckStopedSchedule extends Command
                     $history_lock = HistoryLock::create([
                         'employee_id' => $user->id,
                         'date' => $schedule->date,
-                        'reason' => 'Forget to sto recording',
+                        'reason' => 'Forget to stop in the previous shift',
                     ]);
                     $data [] = $user->name;
                     $schedule->update([
@@ -73,7 +73,7 @@ class CheckStopedSchedule extends Command
                     $history_lock = HistoryLock::create([
                         'employee_id' => $user->id,
                         'date' => $schedule->date,
-                        'reason' => 'Forget to sto recording',
+                        'reason' => 'Forget to stop in the previous shift',
                     ]);
                     $data [] = $user->name;
 

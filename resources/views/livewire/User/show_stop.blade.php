@@ -28,6 +28,9 @@
     -->
     @php
       $detailsSchedule = $schedule->details->where('task',null)->sortBy('id');
+      if($prevSchedule != null){
+        $detailsSchedule->merge($prevSchedule->details->where('task',null)->sortBy('id'));
+      }
     @endphp
     <div class="w-full overflow-hidden inline-block align-bottom bg-white rounded-lg text-left  shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
       <div class="bg-white px-4 pt-5 pb-2 sm:p-6 sm:pb-4">

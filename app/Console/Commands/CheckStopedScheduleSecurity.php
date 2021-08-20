@@ -62,7 +62,7 @@ class CheckStopedScheduleSecurity extends Command
                     $history_lock = HistoryLock::create([
                         'employee_id' => $user->id,
                         'date' => $schedule->date,
-                        'reason' => 'Forget to sto recording',
+                        'reason' => 'Forget to stop in the previous shift',
                     ]);
                 }
                 elseif ($schedule->status != 'Done') {
@@ -72,7 +72,7 @@ class CheckStopedScheduleSecurity extends Command
                     $history_lock = HistoryLock::create([
                         'employee_id' => $user->id,
                         'date' => $schedule->date,
-                        'reason' => 'Forget to sto recording',
+                        'reason' => 'Forget to stop in the previous shift',
                     ]);
                     //update task and stop schedule
                     $detailSchedule = $schedule->details->sortByDesc('id')->first();

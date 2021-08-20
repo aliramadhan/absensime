@@ -392,7 +392,7 @@ class DashboardUser extends Component
         if ($workhour > $time_limit) {
             $workhour = $time_limit;
         }*/
-        if ($this->schedule->details->where('status','!=','Rest')->count() != count($this->detailsSchedule)) {
+        if ($this->schedule->details->where('status','!=','Rest')->count() < count($this->detailsSchedule)) {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Jurnal harus diisi semua.");
@@ -404,6 +404,14 @@ class DashboardUser extends Component
                     'task' => $this->detailsSchedule[$i]['task']
                 ]);
                 $i++;
+            }
+            if ($this->prevSchedule != null) {
+                foreach ($this->prevSchedule->details->where('status','!=','Rest') as $detail) {
+                    $detail->update([
+                        'task' => $this->detailsSchedule[$i]['task']
+                    ]);
+                    $i++;
+                }
             }
         }
         $this->schedule->update([

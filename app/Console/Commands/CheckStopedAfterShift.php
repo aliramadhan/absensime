@@ -72,7 +72,7 @@ class CheckStopedAfterShift extends Command
                         $history_lock = HistoryLock::create([
                             'employee_id' => $user->id,
                             'date' => $schedule->date,
-                            'reason' => 'Paused until the end of shift.',
+                            'reason' => 'Forget to stop in the previous shift',
                         ]);
                         $data [] = $user->name;
 
@@ -141,7 +141,7 @@ class CheckStopedAfterShift extends Command
                     $history_lock = HistoryLock::create([
                         'employee_id' => $user->id,
                         'date' => $schedule->date,
-                        'reason' => 'Late to record.',
+                        'reason' => 'Late from the assigned shift',
                     ]);
                 }
                 elseif($timeSet <= 60 && $schedule->status == 'Not sign in'){
@@ -152,7 +152,7 @@ class CheckStopedAfterShift extends Command
                     $history_lock = HistoryLock::create([
                         'employee_id' => $user->id,
                         'date' => $schedule->date,
-                        'reason' => 'Late to recording',
+                        'reason' => 'Reach the tolerance limit of 1 hour late',
                     ]);
                 }
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
@@ -169,7 +169,7 @@ class CheckStopedAfterShift extends Command
                         $history_lock = HistoryLock::create([
                             'employee_id' => $user->id,
                             'date' => $schedule->date,
-                            'reason' => 'Paused more than 4 hours.',
+                            'reason' => 'Permission to leave work for more than 4 hours',
                         ]);
                         $data [] = $user->name;
 
