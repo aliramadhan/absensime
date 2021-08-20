@@ -87,6 +87,7 @@
       </div>
       <div class="bg-gray-50 px-4 py-3 sm:px-6 items-center flex sm:flex-row-reverse space-x-2">
         <button wire:click="stopOn()" type="button" class="w-6/12 inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-sm font-medium text-white hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 sm:ml-3 sm:w-auto sm:text-sm tracking-wider">
+          <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="stopOn"></i>
           Stop
         </button>
         <button wire:click="closeModal()" type="button" class="w-6/12 inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">

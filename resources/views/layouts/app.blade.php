@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
    <link rel="shortcut icon" href="{{ asset('image/favicon.png') }}">
-    <title>{{ config('app.name', 'Attendence App') }}</title>
+    <title>Attendance - 24Slides Indonesia</title>
   <title> @if (isset($title)){{ $title }} @endif</title>
 
   <!-- Fonts -->
