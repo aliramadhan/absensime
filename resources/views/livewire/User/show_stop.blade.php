@@ -27,10 +27,8 @@
         To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     -->
     @php
-      $detailsSchedule = $schedule->details->where('task',null)->sortBy('id');
-      if($prevSchedule != null){
-        $detailsSchedule->merge($prevSchedule->details->where('task',null)->sortBy('id'));
-      }
+      $indexSchedule = App\Models\Schedule::where('employee_id',$user->id)->pluck('id');
+      $detailsSchedule = App\Models\HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
     @endphp
     <div class="w-full overflow-hidden inline-block align-bottom bg-white rounded-lg text-left  shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
       <div class="bg-white px-4 pt-5 pb-2 sm:p-6 sm:pb-4">
@@ -56,12 +54,13 @@
                   <div class="flex space-x-4 items-center ">
                   <label class="w-1">{{$loop->iteration}}.</label>
                   <label class="flex-shrink-0 w-18">{{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
-                  <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-9/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->iteration }}.task">
+                  <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-9/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
                 </div>
                 
                 @empty
 
                 @endforelse
+                @error('detailsSchedule.*') <span class="text-red-500">{{ $message }}</span>@enderror
              </div>
             
 

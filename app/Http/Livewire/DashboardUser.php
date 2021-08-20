@@ -377,11 +377,6 @@ class DashboardUser extends Component
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
         $this->position = $position[0]['formatted_address'];
         $this->currentPosition = $position[3]['address_components'][0]->long_name.', '.$position[3]['address_components'][1]->long_name;
-        //update task and stop schedule
-        $this->now = Carbon::now();
-        $this->detailSchedule->update([
-            'stoped_at' => $this->now,
-        ]);
         $time_out = Carbon::parse($this->shift->time_out);
         $time_in = Carbon::parse($this->shift->time_in);
         $time_limit = $time_in->diffInSeconds($time_out);
@@ -392,12 +387,41 @@ class DashboardUser extends Component
         if ($workhour > $time_limit) {
             $workhour = $time_limit;
         }*/
-        if ($this->schedule->details->where('status','!=','Rest')->count() < count($this->detailsSchedule)) {
+        //cek if jurnal terisi semua
+        $this->validate([
+            'detailsSchedule.*.task' => 'required',
+        ],[
+            'required' => 'Jurnal wajib diisi semua.'
+        ]);
+
+        $indexSchedule = Schedule::where('employee_id',$this->user->id)->pluck('id');
+        $detailsSchedule = HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
+        if ($detailsSchedule->count() > count($this->detailsSchedule)) {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Jurnal harus diisi semua.");
         }
         else{
+            $i = 0;
+            foreach ($detailsSchedule as $detail) {
+                $detail->update([
+                    'task' => $this->detailsSchedule[$i]['task']
+                ]);
+                $i++;
+            }
+        }
+        /*
+        $detailsSchedule = $this->schedule->details->where('task',null)->sortBy('id');
+        if($this->prevSchedule->count() > 0){
+            $detailsSchedule = $detailsSchedule->merge($this->prevSchedule->details->where('task',null)->sortBy('id'));
+        }
+        if ($detailsSchedule->count() > count($this->detailsSchedule)) {
+            $this->closeModal();
+            $this->resetFields();
+            return session()->flash('failure', "Jurnal harus diisi semua.");
+        }
+        else{
+            return dd($this->detailsSchedule);
             $i = 1;
             foreach ($this->schedule->details->where('status','!=','Rest') as $detail) {
                 $detail->update([
@@ -413,7 +437,12 @@ class DashboardUser extends Component
                     $i++;
                 }
             }
-        }
+        }*/
+        //update task and stop schedule
+        $this->now = Carbon::now();
+        $this->detailSchedule->update([
+            'stoped_at' => $this->now,
+        ]);
         $this->schedule->update([
             'stoped_at' => $this->now,
             'workhour' => $workhour,
