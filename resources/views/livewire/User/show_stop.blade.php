@@ -53,20 +53,15 @@
                 @forelse($detailsSchedule as $details)
                   <div class="flex space-x-4 items-center ">
                   <label class="w-1">{{$loop->iteration}}.</label>
-                  <label class="flex-shrink-0 w-18">{{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
+                  <label class="flex-shrink-0 w-18">{{Carbon\Carbon::parse($details->started_at)->format('d F H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
                   <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-9/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
                 </div>
-                
                 @empty
 
                 @endforelse
                 @error('detailsSchedule.*') <span class="text-red-500">{{ $message }}</span>@enderror
              </div>
-            
-
-           
             </div>
-
             @if($now < Carbon\Carbon::parse($shift->time_out))  
             <div class="flex-col space-y-1 text-left">      
             <div class="flex space-x-2 text-gray-700 items-center pr-4 ">

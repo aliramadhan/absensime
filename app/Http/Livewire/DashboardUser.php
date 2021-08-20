@@ -645,7 +645,7 @@ class DashboardUser extends Component
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $this->type != 'Overtime' && $cekLeave == null) {
+        elseif ($isSchedule == null && $cekLeave == null && $this->type == 'Activation Record') {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
@@ -713,7 +713,7 @@ class DashboardUser extends Component
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                         $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
                         if ($isSchedule == null) {
-                            session()->flash('failure', "Can't submit request, no schedule found at ".$startDate->format('d F Y').".");
+                            return session()->flash('failure', "Can't submit request, no schedule found at ".$startDate->format('d F Y').".");
                             continue;
                         }
                         else{
