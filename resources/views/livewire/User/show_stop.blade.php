@@ -52,21 +52,16 @@
                <div class="text-sm my-2  px-2 flex-col space-y-1">
                 @forelse($detailsSchedule as $details)
                   <div class="flex space-x-4 items-center ">
-                  <label class="w-1">{{$loop->iteration}}.</label>
-                  <label class="flex-shrink-0 w-4/12">{{Carbon\Carbon::parse($details->started_at)->format('D')}}, {{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
+                  <label class="w-1">{{$loop->iteration}}.</label><label class="flex-shrink-0 w-4/12">{{Carbon\Carbon::parse($details->started_at)->format('D')}}, {{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
                   <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-8/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
+              
                 </div>
-                
                 @empty
 
                 @endforelse
                 @error('detailsSchedule.*') <span class="text-red-500">{{ $message }}</span>@enderror
              </div>
-            
-
-           
             </div>
-
             @if($now < Carbon\Carbon::parse($shift->time_out))  
             <div class="flex-col space-y-1 text-left">      
               <label class="text-red-600 tracking-wide text-xs md:text-sm "><label class="font-semibold">Warning</label>: Stopped recording before <br class="sm:hidden inline-block">  shift over</label>
