@@ -560,7 +560,7 @@
                 Ready to start at : {{Carbon\Carbon::parse($schedule->shift->time_in)->subMinute(10)->format('H:i')}} 
               </label>
               @elseif($schedule != null && ($schedule->status == 'Done'))
-               <button  class="relative bg-gradient-to-r from-blue-400 to-blue-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6 z-20  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-user-check"></i> Recording Complete     
+               <button  class="relative bg-gradient-to-r from-blue-400 to-blue-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6 text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-user-check"></i> Recording Complete     
                        
                </button>     
               @elseif($schedule != null && $schedule->status != 'Done' && $schedule->status != 'Rest' && $schedule->status != 'Working' && $schedule->status != 'Not sign in')

@@ -53,8 +53,8 @@
                 @forelse($detailsSchedule as $details)
                   <div class="flex space-x-4 items-center ">
                   <label class="w-1">{{$loop->iteration}}.</label>
-                  <label class="flex-shrink-0 w-18">{{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
-                  <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-9/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
+                  <label class="flex-shrink-0 w-4/12">{{Carbon\Carbon::parse($details->started_at)->format('D')}}, {{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
+                  <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-8/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
                 </div>
                 
                 @empty
@@ -69,11 +69,13 @@
 
             @if($now < Carbon\Carbon::parse($shift->time_out))  
             <div class="flex-col space-y-1 text-left">      
+              <label class="text-red-600 tracking-wide text-xs md:text-sm "><label class="font-semibold">Warning</label>: Stopped recording before <br class="sm:hidden inline-block">  shift over</label>
             <div class="flex space-x-2 text-gray-700 items-center pr-4 ">
+
               <label class="font-base text-xs md:text-sm tracking-wide font-semibold">Reason</label>
             <input type="text" wire:model="note" class="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white tracking-wide" placeholder="Fill your reason.." required>
             </div>
-             <label class="text-red-600 tracking-wide text-xs md:text-sm "><label class="font-semibold">Warning</label>: Stopped recording before <br class="sm:hidden inline-block">  shift over</label>
+             
              </div>   
             @endif
             <div class="border md:shadow-md rounded-lg text-white px-1 md:px-2 py-2">
