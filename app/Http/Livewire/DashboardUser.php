@@ -9,6 +9,7 @@ use App\Models\Request;
 use App\Models\HistorySchedule;
 use App\Models\ListLeave;
 use App\Models\Shift;
+use App\Models\HistoryLock;
 use Carbon\Carbon;
 use Geocoder;
 use DB;
@@ -23,7 +24,7 @@ class DashboardUser extends Component
     //for Request
     public $type, $desc,$date,$time_overtime, $tasking = 0,$stopRequestDate, $startRequestDate, $time_out, $time_in;
     //for activation with request
-    public $typeRequest, $dateTo, $dateFrom, $descRequest;
+    public $typeRequest, $dateTo, $dateFrom, $descRequest, $historyLock;
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude',
@@ -150,6 +151,8 @@ class DashboardUser extends Component
             $this->remote = $this->intToTime($remote);
             $this->business_travel = $this->intToTime($business_travel);
         }
+        //set history lock
+        $this->historyLock = HistoryLock::where('employee_id',$this->user->id)->where('is_requested',0)->orderBy('id','asc')->get();
         //set weekly target
         $startWeek = Carbon::now()->startOfWeek();
         $endWeek = Carbon::now()->endOfWeek();
@@ -537,7 +540,13 @@ class DashboardUser extends Component
             'is_check_half' => $this->is_check_half,
             'status' => 'Accept'
         ]);
-        $this->user->update(['is_active' => 1]);
+        $this->historyLock->first()->update([
+            'request_id' => $request->id,
+            'is_requested' => 1
+        ]);
+        if ($this->historyLock->count() < 1) {
+            $this->user->update(['is_active' => 1]);
+        }
 
         $this->closeModal();
         $this->type = $this->typeRequest = null;
@@ -645,7 +654,7 @@ class DashboardUser extends Component
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $cekLeave == null && $this->type == 'Activation Record') {
+        elseif ($isSchedule == null && $cekLeave == null && $this->type != 'Activation Record') {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
@@ -664,7 +673,14 @@ class DashboardUser extends Component
                     'is_check_half' => $this->is_check_half,
                     'status' => 'Accept'
                 ]);
-                $this->user->update(['is_active' => 1]);
+                $this->historyLock->first()->update([
+                    'request_id' => $request->id,
+                    'is_requested' => 1
+                ]);
+                if ($this->historyLock->count() < 1) {
+                    return dd($this->historyLock);
+                    $this->user->update(['is_active' => 1]);
+                }
             }
             else{
                 //create request sick

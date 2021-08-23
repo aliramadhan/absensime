@@ -9,7 +9,7 @@
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form>
              <div class=" py-4 px-6 sm:flex border-b flex ">
-                <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span></h1>                 
+                <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span>{{$historyLock->count()}}</h1>                 
             </div>
                 <div class="bg-white px-4 md:pb-4 sm:p-6 pb-0 font-semibold">
 
@@ -22,7 +22,9 @@
                                 @foreach($leaves as $leave)
                                     <option>{{$leave->name}}</option>
                                 @endforeach
+                                @if($historyLock->count() > 0)
                                 <option>Activation Record</option>
+                                @endif
                                 <option>Sick</option>
                                 <option>Permission</option>
                                 <option>Overtime</option>
