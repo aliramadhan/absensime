@@ -28,7 +28,7 @@
 	<div class="flex-auto">
 	<div class="flex justify-between items-center justify-end">
 		<h1 class="text-2xl font-semibold">Journal</h1>
-		<h1 class="text-xl ">{{$taskCount}}</h1>
+		<h1 class="text-lg ">{{$taskSkip}}/{{$taskCount}}</h1>
 	
 	</div>
 	
@@ -50,7 +50,7 @@
 				</div>
 				<p class="leading-tight ">{{$task->first()->task_desc}}</p>
 				
-					@if($task->first()->stoped_at == null)
+					@if($task->first()->stoped_at == null && $schedule->status != 'Done')
 						<h1 class="text-right font-semibold text-gray-700 mb-1">
 						<i class="fas fa-spinner animate-spin"></i>  On Progress
 						</h1>
