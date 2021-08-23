@@ -39,8 +39,10 @@
                                 *Izin meninggalkan pekerjaan maks 4 jam.
                             </label>
                         @elseif($type_pause == 'Permission')
-                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">automatically stop recording when end of shift</label>
+                            <div class="flex space-x-2">
+                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm font-semibold ">Automatically stop recording when end of shift?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="checkAutoStop" placeholder="fill in here...">
+                            </div>
                             @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
                         @endif
 

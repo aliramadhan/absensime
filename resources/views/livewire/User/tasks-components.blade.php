@@ -9,17 +9,17 @@
     	foreach($listSchedules as $listSchedule){
     		if($listSchedule->details->count() > 0){
     			foreach($listSchedule->details->where('status','Work')->where('task','!=',null)->sortByDesc('created_at')->groupBy('task') as $task){
-    				$taskCount++;
+    				$taskCount++;    				
     			}
     			foreach($listSchedule->details->where('status','Work')->where('task','==',null)->sortByDesc('created_at')->groupBy('task') as $task){
-    				$taskSkip++;
+    				$taskSkip++;$taskCount++;
     			}
     		}
 	    }
-	    if($taskCount==0){
+	    if($taskCount<=0){
 	    	$persen=100;
 	    }else{
-	    	$persen = $taskSkip/$taskCount*100;
+	    	$persen = ($taskCount-$taskSkip)/$taskCount*100;
 	    }
 	   
 	@endphp
@@ -28,7 +28,7 @@
 	<div class="flex-auto">
 	<div class="flex justify-between items-center justify-end">
 		<h1 class="text-2xl font-semibold">Journal</h1>
-		<h1 class="text-lg ">{{$taskSkip}}/{{$taskCount}}</h1>
+		<h1 class="text-lg ">{{$taskCount-$taskSkip}} / <span class="font-semibold">{{$taskCount}}</span></h1>
 	
 	</div>
 	

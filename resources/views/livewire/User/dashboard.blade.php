@@ -339,7 +339,7 @@
             <div class="overflow-hidden sm:rounded-lg col-span-6 grid md:gap-10 md:space-y-0 space-y-4">
                 
                 <div class="overflow-hidden sm:rounded-lg h-60 grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 items-center leading-tight h-full ">
-                 <div class=" bg-gradient-to-r from-purple-300 to-blue-400 w-full h-full py-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-lg">   
+                 <div class=" bg-gradient-to-r from-purple-300 to-blue-400 w-full h-full py-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-md">   
                     <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-6 items-center rounded-full mx-auto relative weekly-trigger cursor-pointer" style="background-image: url({{ Auth::user()->profile_photo_url }});">
                     @if($schedule != null)
                     @php
@@ -357,10 +357,10 @@
                   
                 </div>
                 <div class="flex-auto col-span-4 xl:col-span-6 h-full md:py-6 pt-8 md:pt-0">
-                    <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl shadow-lg static ">
+                    <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl  static ">
                     <div class="border-b-2 row-span-1 px-4 flex justify-between items-center relative "> 
 
-                        <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-2 md:-ml-2">
+                        <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-4 md:-ml-2">
                            <div class="bg-cover bg-no-repeat bg-center w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
                          <label class="border-r pr-2"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
@@ -431,7 +431,7 @@
                         </label>
                           @error('location') <span class="text-red-500 text-xl font-semibold "><i class="fas fa-times-circle"></i></span>@enderror
 
-                         <h2 class="text-gray-700 text-left mr-2 truncate w-11/12 bg-gray-100 border rounded-md px-2 py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
+                         <h2 class="text-gray-700 text-left mr-2 truncate w-full md:w-11/12  border rounded-xl px-3  py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
                          </div>
                     <div class="flex justify-between items-center flex-col md:flex-row">
               @if($isModal == 'Pause')
@@ -482,7 +482,7 @@
                   <span class="md:hidden xl:inline-block -top-4 bg-white relative  xl:px-2 md:text-lg text-base px-3 xl:font-medium lg:text-base ">Tracking Progress</span>
                     <span class="xl:hidden hidden md:inline-block md:px-2  -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
                   <div class="px-5 pb-2 md:-mt-4 -mt-6 flex flex-col items-center text-center ">
-                    <h2 class="text-2xl font-semibold text-orange-500 mt-3">{{$time}}</h2>
+                    <h2 class="text-2xl font-semibold text-orange-500 mt-2 mb-1 tracking-wide">{{$time}}</h2>
                     <h2 class="text-base ">Status: <span class="font-semibold text-gray-800">{{$schedule->status}}</span></h2>
                   </div>
                 </h2>
@@ -536,8 +536,8 @@
               
               @elseif($schedule != null && ($schedule->status == 'Working'))
               <div class="grid grid-cols-2 items-center gap-4">
-                <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
-                <button wire:click="showStop()" class=" bg-red-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-stop-circle"></i><br> Stop</button>
+                <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
+                <button wire:click="showStop()" class=" bg-red-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-stop-circle"></i><br> Stop</button>
                </div>
               @elseif($schedule != null && $schedule->status == 'Pause')
 
@@ -632,13 +632,13 @@
               @endif
             </div>
                     
-                    <div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg shadow-lg border md:border-4 border-white">
+                    <div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg duration-300 hover:shadow-lg border md:border-4 border-white">
                       <div class="grid md:grid-cols-6 items-center gap-2">
                         <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2 ">
                           <div class="flex flex-col">
                           <h2 class="text-3xl leading-none ">Detail</h2>
                           @if($schedule != null)
-                          <h2 class="md:text-sm xl:text-lg text-gray-500 font-base md:mt-0 mt-1">Start Tracking at <span class="text-gray-600">
+                          <h2 class="md:text-sm xl:text-base text-gray-500 font-base md:mt-0 mt-1">Start Tracking at <span class="text-gray-600">
                             @if($schedule->started_at != null)<span class="md:hidden block "></span> 
                            {{ Carbon\Carbon::parse($schedule->started_at)->format('H:i, d F Y') }}@endif</span></h2>@endif
                           </div>
@@ -649,11 +649,11 @@
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>BT</label><label class="text-right flex-auto text-gray-50">{{$business_travel}}</label></div>
                           </div>
                         </div>
-                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow-lg py-2 px-2 border-2 rounded-lg border-red-300">
+                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow hover:shadow-lg duration-300 py-2 px-2 border-2 rounded-lg border-red-300">
                          <h2 class="text-base leading-none">{{$unproductive}}</h2>
                          <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Unproductive</h2>
                        </div>
-                          <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow-lg py-2 px-2 border-2 rounded-lg border-green-300">
+                          <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow hover:shadow-lg duration-300 py-2 px-2 border-2 rounded-lg border-green-300">
                          <h2 class="text-base leading-none">{{$time}}</h2>
                          <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Productive</h2>
                        </div>
@@ -752,7 +752,7 @@
                     $hours = intval($total_minutes/60);
                     $time_weekly = $hours."h ".$minutes."m";
                   @endphp
-                    <div class="bg-white overflow-hidden rounded-lg p-4 flex flex-col border md:w-full w-11/12 mx-auto md:mx-0">
+                    <div class="bg-white overflow-hidden rounded-lg p-4 flex flex-col border md:w-full w-11/12 mx-auto md:mx-0 duration-300 hover:shadow-lg">
                       <div class="grid md:grid-cols-6  grid-rows-2 items-center gap-2">
                         <div class="col-span-3 flex flex-col text-2xl text-gray-800 leading-none font-semibold">
                           <h2 class="text-3xl leading-none">Recent</h2>
@@ -810,8 +810,12 @@
                          <div class="text-blue-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
                           <i class="fas fa-check-circle mr-1"></i>Attend
                         </div>
-                        @else
+                        @elseif($scheduleUser->status == 'Not sign in')
                         <div class="text-red-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
+                          <i class="fas fa-times-circle mr-1"></i>{{$scheduleUser->status}}
+                        </div>
+                        @else
+                        <div class="text-orange-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
                           <i class="fas fa-times-circle mr-1"></i>{{$scheduleUser->status}}
                         </div>
                         @endif
