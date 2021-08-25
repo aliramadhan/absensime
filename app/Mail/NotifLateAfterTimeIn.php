@@ -10,15 +10,16 @@ use Illuminate\Queue\SerializesModels;
 class NotifLateAfterTimeIn extends Mailable
 {
     use Queueable, SerializesModels;
+    public $time;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct($time)
     {
-        //
+        $this->time = $time;
     }
 
     /**

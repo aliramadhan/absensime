@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use App\Models\Schedule;
 use App\Models\Request;
 use App\Models\User;
+use App\Models\HistoryLock;
 use App\Models\Shift;
 use App\Mail\SendNotifUserNonActived;
 use App\Mail\NotifStopedAfterShift;
@@ -134,7 +135,7 @@ class CheckStopedAfterShift extends Command
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
                 if($timeSet == 1 && $schedule->status == 'Not sign in'){
-                    Mail::to($user->email)->send(new NotifLateAfterTimeIn());
+                    Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
@@ -144,8 +145,8 @@ class CheckStopedAfterShift extends Command
                         'reason' => 'Late from the assigned shift',
                     ]);
                 }
-                elseif($timeSet <= 60 && $schedule->status == 'Not sign in'){
-                    Mail::to($user->email)->send(new NotifLateAfterTimeIn());
+                elseif($timeSet == 60 && $schedule->status == 'Not sign in'){
+                    Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
