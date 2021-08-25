@@ -59,7 +59,7 @@ class CheckStopedAfterShift extends Command
             //notif ketika lewat shift
             if ($now->greaterThan($time_out)) {
                 $time_limit = $time_in->diffInSeconds($time_out);
-                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) % 10 == 0)) {
+                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) == 1)) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending after shift notification email to: {$user->name}!");
                 }
@@ -134,7 +134,7 @@ class CheckStopedAfterShift extends Command
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
                 if($timeSet < 60 && $schedule->status == 'Not sign in' && $historyLock->count() < 1 && $historyLock->where('reason','Late from the assigned shift')->first() == null){
-                    //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
+                    Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
@@ -145,7 +145,7 @@ class CheckStopedAfterShift extends Command
                     ]);
                 }
                 elseif($timeSet >= 60 && $schedule->status == 'Not sign in' && $historyLock->count() < 1 && $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() == null){
-                    //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
+                    Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();

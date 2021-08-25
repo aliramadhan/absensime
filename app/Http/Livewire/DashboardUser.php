@@ -397,7 +397,7 @@ class DashboardUser extends Component
             'required' => 'Jurnal wajib diisi semua.'
         ]);
 
-        $indexSchedule = Schedule::where('employee_id',$this->user->id)->pluck('id');
+        $indexSchedule = Schedule::where('employee_id',$this->user->id)->whereDate('date','>=',Carbon::now()->subWeek())->pluck('id');
         $detailsSchedule = HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
         if ($detailsSchedule->count() > count($this->detailsSchedule)) {
             $this->closeModal();
