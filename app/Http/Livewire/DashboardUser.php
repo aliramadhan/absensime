@@ -544,7 +544,7 @@ class DashboardUser extends Component
             'request_id' => $request->id,
             'is_requested' => 1
         ]);
-        if ($this->historyLock->where('is_requested',0)->count() < 1) {
+        if ($this->historyLock->count() < 1) {
             $this->user->update(['is_active' => 1]);
         }
 

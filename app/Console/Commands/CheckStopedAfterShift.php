@@ -55,11 +55,10 @@ class CheckStopedAfterShift extends Command
             $shift = Shift::find($schedule->shift_id);
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
-            $this->info($schedule->workhour + $schedule->timer);
+            $historyLock = HistoryLock::where('employee_id',$user->id)->whereDate('created_at',$now)->get();
             //notif ketika lewat shift
             if ($now->greaterThan($time_out)) {
                 $time_limit = $time_in->diffInSeconds($time_out);
-                $this->info($time_limit);
                 if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) % 10 == 0)) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending after shift notification email to: {$user->name}!");
@@ -134,8 +133,8 @@ class CheckStopedAfterShift extends Command
             elseif ($now->greaterThan($time_in)) {
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
-                if($timeSet == 1 && $schedule->status == 'Not sign in'){
-                    Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
+                if($timeSet < 60 && $schedule->status == 'Not sign in' && $historyLock->count() < 1 && $historyLock->where('reason','Late from the assigned shift')->first() == null){
+                    //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
@@ -145,8 +144,8 @@ class CheckStopedAfterShift extends Command
                         'reason' => 'Late from the assigned shift',
                     ]);
                 }
-                elseif($timeSet == 60 && $schedule->status == 'Not sign in'){
-                    Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
+                elseif($timeSet >= 60 && $schedule->status == 'Not sign in' && $historyLock->count() < 1 && $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() == null){
+                    //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
