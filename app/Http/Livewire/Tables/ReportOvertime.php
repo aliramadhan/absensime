@@ -6,7 +6,7 @@ use Livewire\Component;
 use Carbon\Carbon;
 use App\Models\Request;
 use App\Models\User;
-use App\Exports\EmployeeOvertime;
+use App\Exports\ExportOvertime;
 use Excel;
 
 class ReportOvertime extends Component
@@ -27,6 +27,6 @@ class ReportOvertime extends Component
     public function exportSchedule($now)
     {
     	$filename = 'EmployeeOvertime_'.$this->now->format('F Y').'.xlsx';
-        return Excel::download(new EmployeeOvertime($now), $filename);
+        return Excel::download(new ExportOvertime($now), $filename);
     }
 }

@@ -140,7 +140,7 @@ class RequestUser extends Component
         $cekLeave = ListLeave::where('name','like','%'.$this->type.'%')->first();
         //MEMBUAT VALIDASI
         $now = Carbon::now();
-        if($this->type == 'Activation Record'){
+        if($this->type == 'Record Activation'){
             $this->validate([
                 'desc' => 'required',
             ]);
@@ -241,7 +241,7 @@ class RequestUser extends Component
         }
         else{
             //create activated record
-            if ($this->type == 'Activation Record') {
+            if ($this->type == 'Record Activation') {
                 $request = Request::create([
                     'employee_id' => $this->user->id,
                     'employee_name' => $this->user->name,

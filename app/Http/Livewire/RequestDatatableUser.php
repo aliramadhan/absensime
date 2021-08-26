@@ -113,6 +113,13 @@ class RequestDatatableUser extends LivewireDatatable
 	            DateColumn::name('created_at')
 	                ->label('Request at')
 	                ->format('d F Y H:i'),
+	            Column::callback(['id'], function ($id) {
+	            	$request = Request::find($id);
+	            	$this->time_overtime = $request->time_overtime;
+	            	if ($request->status == 'Waiting') {
+		                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request]);
+	            	}
+	            })->label('Action')
 	        ];
     	}
     	else{

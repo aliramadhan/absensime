@@ -23,7 +23,7 @@
                                     <option>{{$leave->name}}</option>
                                 @endforeach
                                 @if($historyLock->count() > 0)
-                                <option>Activation Record</option>
+                                <option>Record Activation</option>
                                 @endif
                                 <option>Sick</option>
                                 <option>Permission</option>
@@ -49,7 +49,7 @@
                                 @error('setUser') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                         @endif
-                        @if($type != 'Activation Record')
+                        @if($type != 'Record Activation')
                             @if($type  == 'Sick' || $type  == 'Permission' || $leaves->contains('name',$type) || $type == 'Remote')
                             <div class="mb-4 flex md:flex-row flex-col">
                             <div class="px-2 flex-auto md:mb-0 mb-4">
@@ -83,7 +83,7 @@
                             @error('newShift') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if($type == 'Activation Record')
+                        @if($type == 'Record Activation')
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
@@ -121,7 +121,7 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if(($type != 'Overtime' && $type != 'Change Shift' && $type != 'Mandatory')&&($type != 'Activation Record')&&($type != 'Excused')&&($type != ''))
+                        @if(($type != 'Overtime' && $type != 'Change Shift' && $type != 'Mandatory')&&($type != 'Record Activation')&&($type != 'Excused')&&($type != ''))
                         <div class="mb-4 px-2 flex items-center gap-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Cancel your <span class="text-orange-500">catering</span> order ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
@@ -183,7 +183,7 @@
     
                 <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                     <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
-                            <button @if($type == 'Activation Record' && $desc == 'Forget to entry') wire:click.prevent="createActivationWithRequest()" @else wire:click.prevent="createRequest()" @endif wire:click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+                            <button @if($type == 'Record Activation' && $desc == 'Forget to entry') wire:click.prevent="createActivationWithRequest()" @else wire:click.prevent="createRequest()" @endif wire:click="closeModal()" type="button" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-blue-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-blue-500 focus:outline-none focus:border-blue-700 focus:shadow-outline-blue transition ease-in-out duration-150 sm:text-sm sm:leading-5">
                             Send
                             </button>
                     </span>
