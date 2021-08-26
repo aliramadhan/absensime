@@ -23,7 +23,7 @@
                                     <option>{{$leave->name}}</option>
                                 @endforeach
                                 @if($historyLock->count() > 0)
-                                <option>Activation Record</option>
+                                <option value="Activation Record">Record Activation</option>
                                 @endif
                                 <option>Sick</option>
                                 <option>Permission</option>
