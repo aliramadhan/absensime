@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\ListLeave;
 use App\Models\Schedule;
 use App\Models\Shift;
+use App\Models\HistoryLock;
 use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\Mail;
@@ -15,7 +16,7 @@ use App\Mail\RequestNotificationMail;
 
 class RequestUser extends Component
 {
-	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser;
+	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser, $historyLock;
 
     public function render()
     {
@@ -24,6 +25,8 @@ class RequestUser extends Component
     	$this->user = auth()->user();
         $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->shifts = Shift::all();
+        //set history lock
+        $this->historyLock = HistoryLock::where('employee_id',$this->user->id)->where('is_requested',0)->orderBy('id','asc')->get();
         return view('livewire.User.Request.request-user');
     }
     public function showCreate()
@@ -115,7 +118,13 @@ class RequestUser extends Component
             'is_check_half' => $this->is_check_half,
             'status' => 'Accept'
         ]);
-        $this->user->update(['is_active' => 1]);
+        $this->historyLock->first()->update([
+            'request_id' => $request->id,
+            'is_requested' => 1
+        ]);
+        if ($this->historyLock->count() < 1) {
+            $this->user->update(['is_active' => 1]);
+        }
 
         $this->closeModal();
         $this->type = $this->typeRequest = null;
@@ -244,7 +253,13 @@ class RequestUser extends Component
                     'is_check_half' => $this->is_check_half,
                     'status' => 'Accept'
                 ]);
-                $this->user->update(['is_active' => 1]);
+                $this->historyLock->first()->update([
+                    'request_id' => $request->id,
+                    'is_requested' => 1
+                ]);
+                if ($this->historyLock->count() < 1) {
+                    $this->user->update(['is_active' => 1]);
+                }
             }
             else{
                 //create request sick

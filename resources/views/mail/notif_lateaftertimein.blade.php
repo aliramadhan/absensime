@@ -7,7 +7,11 @@
 	<label><b>Notification</b></label><br>
 	<p>
 		Hi, 
+		@if($time < 60)
+		Kamu terlambat masuk. 
+		@else
 		Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. 
+		@endif
 		Ayo segera catat jam masuk. klik tautan <a href="attendance.pahlawandesignstudio.com">ini </a>
 
 		Apakah hari ini kamu berhalangan masuk kerja?  
