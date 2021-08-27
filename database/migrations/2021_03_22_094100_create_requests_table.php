@@ -22,6 +22,7 @@ class CreateRequestsTable extends Migration
             $table->text('desc');
             $table->integer('time')->nullable();
             $table->boolean('is_cancel_order')->default(0);
+            $table->boolean('is_check_half')->default(0);
             $table->string('change_catering')->nullable();
             $table->enum('status',['Waiting','Decline','Accept'])->default('Waiting');
             $table->timestamps();
