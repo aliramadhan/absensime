@@ -1,6 +1,6 @@
 <x-slot name="header">
     <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-        {{ __('Attendance Report') }}
+        {{ __('Overtime Report') }}
     </h2>
 </x-slot>
 
