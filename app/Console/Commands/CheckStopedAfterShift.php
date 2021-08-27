@@ -134,8 +134,8 @@ class CheckStopedAfterShift extends Command
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
                 if($timeSet < 60 && $schedule->status == 'Not sign in' && $historyLock->count() < 1 && $historyLock->where('reason','Late from the assigned shift')->first() == null){
-                    Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
-                    $this->info("Sending late notification email to: {$user->name}!");
+                    //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
+                    //$this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
                     $history_lock = HistoryLock::create([
@@ -144,7 +144,7 @@ class CheckStopedAfterShift extends Command
                         'reason' => 'Late from the assigned shift',
                     ]);
                 }
-                elseif($timeSet >= 60 && $schedule->status == 'Not sign in' && $historyLock->count() < 1 && $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() == null){
+                elseif($timeSet >= 60 && $schedule->status == 'Not sign in' && $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() == null){
                     Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
