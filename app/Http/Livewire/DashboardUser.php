@@ -28,7 +28,8 @@ class DashboardUser extends Component
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude',
-        'updateJurnal'
+        'updateJurnal',
+        'refreshWeb' => '$refresh'
     ];
 
     protected $rules = [
@@ -555,6 +556,7 @@ class DashboardUser extends Component
         $this->time_overtime = null;
         $this->is_cancel_order = null;
         $this->emit('refreshLivewireDatatable');
+        $this->emit('refreshWeb');
         session()->flash('message', 'Request successfully added.');
     }
     public function createRequest()
@@ -897,6 +899,7 @@ class DashboardUser extends Component
             $this->time_overtime = null;
             $this->is_cancel_order = null;
             $this->emit('refreshLivewireDatatable');
+            $this->emit('refreshWeb');
             session()->flash('message', 'Request successfully added.');
         }
     }
