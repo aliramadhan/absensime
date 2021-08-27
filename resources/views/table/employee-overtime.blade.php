@@ -19,6 +19,7 @@
         @endfor
         <th class="text-gray-700 bg-gray-700 w-2"></th>
         <th class="text-white px-2 z-10 w-32">Total</th>
+        <th class="text-white px-2 z-10 w-32">Total</th>
     </tr>
     
       
@@ -41,12 +42,21 @@
             $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
             $request = App\Models\Request::whereDate('date',$date)->where('type','Overtime')->where('employee_id',$user->id)->where('status','Accept')->get();
             $overtime = 0;
+            $created_at = Carbon\Carbon::parse($request->created_at);
+            $updated_at = Carbon\Carbon::parse($request->updated_at);
             foreach($request as $item){
               $overtime += $item->time;
             }
             $user->overtime += $overtime;
           @endphp
-          <td>{{$overtime}}</td>
+          <td>
+            @if($created_at < $date)
+              Sebelum tanggal
+            @elseif($created_at != $updated_at)
+              Tanggal diupdate
+            @endif
+            {{$overtime}}
+          </td>
 
         @endfor
       <th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
