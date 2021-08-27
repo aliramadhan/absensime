@@ -30,7 +30,7 @@
                                 <option>Overtime</option>
                                 <option>Remote</option>
                                 <option>Change Shift</option>
-                                <option>Excused</option>
+                                
                                 @if($user->roles == 'Manager')
                                     <option>Mandatory</option>
                                 @endif
