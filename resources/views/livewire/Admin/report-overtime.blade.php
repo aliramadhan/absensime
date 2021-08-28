@@ -141,13 +141,26 @@ tbody th {
               @php
               	$date = Carbon\Carbon::parse($now->format('Y-m-').$i);
               	$request = App\Models\Request::whereDate('date',$date)->where('type','Overtime')->where('employee_id',$user->id)->where('status','Accept')->get();
+                if($request->count() > 0){
+                  $created_at = Carbon\Carbon::parse($request->first()->created_at);
+                  $updated_at = Carbon\Carbon::parse($request->first()->updated_at);
+                }
               	$overtime = 0;
               	foreach($request as $item){
               		$overtime += $item->time;
               	}
- 	        	$user->overtime += $overtime;
+        	      $user->overtime += $overtime;
               @endphp
-              <td>{{$overtime}}</td>
+              <td>
+                @if($request->count() > 0)
+                  @if($created_at < $date)
+                    Sebelum tanggal
+                  @elseif($created_at != $updated_at)
+                    Tanggal diupdate
+                  @endif
+                @endif
+                {{$overtime}}
+              </td>
 
             @endfor
  			<th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
