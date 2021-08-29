@@ -19,7 +19,7 @@
         @endfor
         <th class="text-gray-700 bg-gray-700 w-2"></th>
         <th class="text-white px-2 z-10 w-32">Total</th>
-        <th class="text-white px-2 z-10 w-32">Total</th>
+        <th class="text-white px-2 z-10 w-32"></th>
     </tr>
     
       
@@ -52,15 +52,24 @@
             $user->overtime += $overtime;
           @endphp
           <td>
-            @if($request->count() > 0)
-              @if($created_at < $date)
-                Sebelum tanggal
-              @elseif($created_at != $updated_at)
-                Tanggal diupdate
-              @endif
-            @endif
-            {{$overtime}}
-          </td>
+                 
+                {{$overtime}}
+                 <label class="text-xs font-semibold">
+                @if($request->count() > 0)
+
+                  @if($created_at != $updated_at)
+                  (E)
+                  @endif
+                  @if($created_at > $date)
+                  +
+                  @elseif($created_at == $date)
+
+                  @else
+                  -
+                  @endif                  
+                @endif
+                </label>
+              </td>
 
         @endfor
       <th class="border border-gray-200 text-gray-700 bg-gray-700 w-2"></th>
