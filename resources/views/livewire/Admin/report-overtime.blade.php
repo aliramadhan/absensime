@@ -118,8 +118,8 @@ tbody th {
 
             @endif
             @endfor
-            <th class="text-gray-700 bg-gray-700 w-2"></th>
-            <th class="text-white px-2 z-10 w-32 bg-blue-800">Total</th>
+            <th class="text-gray-700 bg-gray-700 " rowspan="2"></th>
+        
         </tr>
         
           
@@ -151,15 +151,24 @@ tbody th {
               	}
         	      $user->overtime += $overtime;
               @endphp
-              <td>
-                @if($request->count() > 0)
-                  @if($created_at < $date)
-                    Sebelum tanggal
-                  @elseif($created_at != $updated_at)
-                    Tanggal diupdate
-                  @endif
-                @endif
+                 <td>
+                 
                 {{$overtime}}
+                 <label class="text-xs font-semibold">
+                @if($request->count() > 0)
+
+                  @if($created_at != $updated_at)
+                  (E)
+                  @endif
+                  @if($created_at > $date)
+                  +
+                  @elseif($created_at == $date)
+
+                  @else
+                  -
+                  @endif                  
+                @endif
+                </label>
               </td>
 
             @endfor
@@ -180,6 +189,16 @@ tbody th {
   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
     <span class="font-bold ">Format</span> : the overtime format in the table above uses Minutes
   </h4>
+    <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+    <span class="font-bold ">E</span> : Agreement is edited by manager/admin
+  </h4>
+   <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+    <span class="font-bold ">+</span> : Request after overtime 
+  </h4>
+  <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">   
+    <span class="font-bold ">-</span> : Request before overtime
+  </h4>
+ 
   
 
 </div>     
