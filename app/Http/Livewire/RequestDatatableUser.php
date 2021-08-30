@@ -188,7 +188,11 @@ class RequestDatatableUser extends LivewireDatatable
 				$index = strpos($string, $prefix) + strlen($prefix);
 				$result = substr($string, $index);
 				$pieces = explode(" ", $result);
-				$shift = Shift::where('name',$pieces[0].' '.$pieces[1])->first();
+				$shift = Shift::where(function ($query) use ($pieces) {
+					for ($i=0; $i < count($pieces); $i++) { 
+						$query->orwhere('name', 'like',  '%' . $pieces[$i] .'%');
+					}
+				})->first();
 	    		//cancel catering
 	    		if ($request->is_cancel_order == 1) {
 					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
