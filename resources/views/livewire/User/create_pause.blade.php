@@ -15,7 +15,7 @@
                     <div class="">
                         <div class="mb-4">
                             <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">Type</label>
-                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTask" wire:model="type_pause">
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline mb-1" id="formTask" wire:model="type_pause">
                                 <option hidden>Choose one</option>
                                 @if($schedule->status == 'Overtime')
                                     <option value="Break">Break</option>
@@ -28,12 +28,14 @@
                             </select>
                             @error('type_pause') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
+                        @if ($type_pause =='Break' OR $type_pause =='New Task' OR $type_pause =='Permission')
                         <div class="mb-4">
                             <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">@if($type_pause == 'New Task')Task @else Reason @endif</label>
                             <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTask" wire:model="task" required>
                             @error('task') <span class="text-red-500">{{ $message }}</span>@enderror
                                                 
                         </div>
+                        @endif
                         @if($type_pause == 'Break')      
                             <label class="mt-1 text-gray-500 font-base italic font-semibold">
                                 *Izin meninggalkan pekerjaan maks 4 jam.

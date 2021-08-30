@@ -794,7 +794,7 @@
 
                       </div>
                       </div>
-                      <div class="scroll hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3 overflow-x-auto cursor-pointer">
+                      <div class="scroll hide-scroll flex flex-row grid grid-flow-col auto-cols-max items-start font-semibold md:mt-0 mt-4 gap-3 overflow-x-auto cursor-pointer" id="flavoursContainer">
                         @foreach($schedules as $scheduleUser)
                         @php
                           $seconds = intval(($scheduleUser->workhour + $scheduleUser->timer)%60);
@@ -836,6 +836,17 @@
     </div>
 
     <script type="text/javascript">
+
+      const flavoursContainer = document.getElementById('flavoursContainer');
+      const flavoursScrollWidth = flavoursContainer.scrollWidth;
+
+      window.addEventListener('load', () => {
+        self.setInterval(() => {
+          if (flavoursContainer.scrollLeft !== flavoursScrollWidth) {
+            flavoursContainer.scrollTo(flavoursContainer.scrollLeft + 1, 0);
+          }
+        }, 15);
+      });
         class ProgressRing extends HTMLElement {
           constructor() {
             super();

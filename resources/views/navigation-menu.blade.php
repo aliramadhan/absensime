@@ -279,7 +279,7 @@
                                 <i class="fas fa-tv mr-2"></i>{{ __('Homepage') }}
                             </x-jet-dropdown-link>
                             <x-jet-dropdown-link href="https://attendance.pahlawandesignstudio.com/">
-                                <i class="fas fa-briefcase mr-2 font-semibold"></i>{{ __('Attendance') }}
+                                <i class="fas fa-briefcase mr-2 "></i>{{ __('Attendance') }}
                             </x-jet-dropdown-link>
                             <x-jet-dropdown-link href="https://catering.pahlawandesignstudio.com/">
                              <i class="fas fa-utensils mr-2"></i>{{ __('Catering') }}
