@@ -9,16 +9,19 @@
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form>
              <div class=" py-4 px-6 sm:flex border-b flex ">
-                <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span></h1>                 
+                <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span></h1>               
             </div>
-                <div class="bg-white px-4 md:pb-4 sm:p-6 pb-0 font-semibold">
+             <div class=" py-4 px-6 sm:flex border-b flex ">
+                <h2 class=" font-semibold text-2xl text-gray-600"> You've {{$historyLock->count()}} Locks History</h2>
+                <div class="bg-white px-4 md:pb-4 sm:p-6 pb-0 font-semibold">        
+            </div>  
 
                     <div class="mt-2 md:mt-0"> 
                        
                         @if($type == 'Record Activation')
                         <div class="mb-4 px-2">
                             <label for="formType" class="block text-gray-500 text-sm  mb-2">Lock Reason</label>
-                                <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" @if($historyLock->count() > 0) value="{{$historyLock->first()->reason}}" readonly @endif>
+                                <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" @if($historyLock->where('is_requested',0)->count() > 0) value="{{$historyLock->first()->reason}}" readonly @endif>
                         </div>
                         @endif
                         <div class="mb-4 px-2">
@@ -92,6 +95,9 @@
                         @if($type == 'Record Activation')
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
+                            @if($historyLock->where('is_requested',0)->count() > 0 && $historyLock->first()->reason == 'Reach the tolerance limit of 1 hour late')
+                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
+                            @else
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
                                 <option hidden>Choose here</option>                             
                                 <option>Forget to stop in the previous shift</option>
@@ -100,6 +106,7 @@
                                 <option>Forget to entry</option>         
                                 <option>Permission to leave work for more than 4 hours</option>                         
                             </select>
+                            @endif
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 

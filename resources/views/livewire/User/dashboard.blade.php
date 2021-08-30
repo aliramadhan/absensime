@@ -462,6 +462,38 @@
                   @endphp
                   @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 600))
                     @include('livewire.User.show-confirm-stop')
+                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 600))
+                    @php
+                      $offUser = App\Models\User::find($user->id);
+                      if($offUser != null){
+                        $offUser->update([
+                        'is_active' => 0
+                        ]);
+                      }
+                      $history_lock = App\Models\HistoryLock::create([
+                          'employee_id' => $user->id,
+                          'date' => $schedule->date,
+                          'reason' => 'Forget to stop in the previous shift',
+                      ]);
+
+                      //update task and stop schedule
+                      $detailSchedule = $schedule->details->sortByDesc('id')->first();
+                      $detailSchedule->update([
+                          'stoped_at' => $now,
+                      ]);
+                      $workhour = 0;
+                      foreach ($schedule->details->where('status','Work') as $detail) {
+                          $started_at = Carbon\Carbon::parse($detail->started_at);
+                          $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
+                          $workhour += $started_at->diffInSeconds($stoped_at);
+                      }
+                      $schedule->update([
+                          'stoped_at' => $now,
+                          'workhour' => $workhour,
+                          'timer' => 0,
+                          'status' => 'Done',
+                      ]);
+                    @endphp
                   @endif
                 @endif
                 @php
@@ -530,7 +562,7 @@
                </button>               
                @endif   
               @elseif(auth()->user()->is_active != 1 && $schedule != null)
-              @if(Carbon\Carbon::parse($schedule->shift->time_in)->diffInHours($now) > 1)
+              @if(Carbon\Carbon::parse($schedule->shift->time_in)->diffInMinutes($now) >= 60)
               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
                 <div class="absolute weekly-target bg-white rounded-lg text-gray-700 md:-bottom-8 bottom-0 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
               </button>  
