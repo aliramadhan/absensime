@@ -9,12 +9,18 @@
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form>
              <div class=" py-4 px-6 sm:flex border-b flex ">
-                <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span>{{$historyLock->count()}}</h1>                 
+                <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span></h1>                 
             </div>
                 <div class="bg-white px-4 md:pb-4 sm:p-6 pb-0 font-semibold">
 
                     <div class="mt-2 md:mt-0"> 
                        
+                        @if($type == 'Record Activation')
+                        <div class="mb-4 px-2">
+                            <label for="formType" class="block text-gray-500 text-sm  mb-2">Lock Reason</label>
+                                <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" @if($historyLock->count() > 0) value="{{$historyLock->first()->reason}}" readonly @endif>
+                        </div>
+                        @endif
                         <div class="mb-4 px-2">
                             <label for="formType" class="block text-gray-500 text-sm  mb-2">Request Type</label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="type">

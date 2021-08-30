@@ -28,8 +28,7 @@ class DashboardUser extends Component
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude',
-        'updateJurnal',
-        'refreshWeb' => '$refresh'
+        'updateJurnal'
     ];
 
     protected $rules = [
@@ -541,12 +540,10 @@ class DashboardUser extends Component
             'is_check_half' => $this->is_check_half,
             'status' => 'Accept'
         ]);
-        if ($this->historyLock->first() != null) {
-            $this->historyLock->first()->update([
-                'request_id' => $request->id,
-                'is_requested' => 1
-            ]);
-        }
+        $this->historyLock->first()->update([
+            'request_id' => $request->id,
+            'is_requested' => 1
+        ]);
         if ($this->historyLock->where('is_requested',0)->count() < 1) {
             $this->user->update(['is_active' => 1]);
         }
@@ -558,7 +555,6 @@ class DashboardUser extends Component
         $this->time_overtime = null;
         $this->is_cancel_order = null;
         $this->emit('refreshLivewireDatatable');
-        $this->emit('refreshWeb');
         session()->flash('message', 'Request successfully added.');
     }
     public function createRequest()
@@ -677,12 +673,10 @@ class DashboardUser extends Component
                     'is_check_half' => $this->is_check_half,
                     'status' => 'Accept'
                 ]);
-                if ($this->historyLock->first() != null) {
-                    $this->historyLock->first()->update([
-                        'request_id' => $request->id,
-                        'is_requested' => 1
-                    ]);
-                }
+                $this->historyLock->first()->update([
+                    'request_id' => $request->id,
+                    'is_requested' => 1
+                ]);
                 if ($this->historyLock->where('is_requested',0)->count() < 1) {
                     $this->user->update(['is_active' => 1]);
                 }
@@ -902,7 +896,6 @@ class DashboardUser extends Component
             $this->time_overtime = null;
             $this->is_cancel_order = null;
             $this->emit('refreshLivewireDatatable');
-            $this->emit('refreshWeb');
             session()->flash('message', 'Request successfully added.');
         }
     }
