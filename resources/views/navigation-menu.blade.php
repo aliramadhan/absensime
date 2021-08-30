@@ -29,7 +29,7 @@
                     </x-jet-nav-link>
                  
                     <x-jet-nav-link href="{{ route('admin.schedule') }}" :active="request()->routeIs('admin.schedule')">
-                        {{ __('Schedule') }}
+                        {{ __('Track Record') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('admin.request') }}" :active="request()->routeIs('admin.request')">
                         {{ __('Request') }}
@@ -132,7 +132,7 @@
                         {{ __('Request') }}
                     </x-jet-nav-link>
                      <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
-                        {{ __('History Schedule') }}
+                        {{ __('Track Record') }}
                     </x-jet-nav-link>   
                      <x-jet-nav-link href="{{ route('manager.show.schedule') }}" :active="request()->routeIs('manager.show.schedule')">
                         {{ __('Show Schedule') }}
@@ -276,10 +276,10 @@
                                 {{ __('Change Application') }}
                             </div>
                             <x-jet-dropdown-link href="https://pahlawandesignstudio.com/">                                
-                                <i class="fas fa-laptop-house mr-2"></i>{{ __('Homepage') }}
+                                <i class="fas fa-tv mr-2"></i>{{ __('Homepage') }}
                             </x-jet-dropdown-link>
                             <x-jet-dropdown-link href="https://attendance.pahlawandesignstudio.com/">
-                                <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance') }}
+                                <i class="fas fa-briefcase mr-2 font-semibold"></i>{{ __('Attendance') }}
                             </x-jet-dropdown-link>
                             <x-jet-dropdown-link href="https://catering.pahlawandesignstudio.com/">
                              <i class="fas fa-utensils mr-2"></i>{{ __('Catering') }}
@@ -357,7 +357,7 @@
                     <x-jet-responsive-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
                         {{ __('History') }}
                     </x-jet-responsive-nav-link>
-                    <x-jet-responsive-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
+                    <x-jet-responsive-nav-link href="{{ route('manager.show.schedule') }}" :active="request()->routeIs('manager.show.schedule')">
                         {{ __('Schedule') }}
                     </x-jet-responsive-nav-link>
                
@@ -450,10 +450,10 @@
             <div class="mt-3 space-y-1">
                 <!-- Account Management -->
                  <x-jet-responsive-nav-link href="https://pahlawandesignstudio.com/">
-                     <i class="fas fa-briefcase mr-2"></i>{{ __('Homepage') }}
+                     <i class="fas fa-tv mr-2"></i>{{ __('Homepage') }}
                 </x-jet-responsive-nav-link>
                 <x-jet-responsive-nav-link href="https://attendance.pahlawandesignstudio.com/">
-                     <i class="fas fa-briefcase mr-2"></i>{{ __('Attendance') }}
+                     <i class="fas fa-briefcase mr-2 font-semibold"></i>{{ __('Attendance') }}
                 </x-jet-responsive-nav-link>
                    <x-jet-responsive-nav-link href="https://catering.pahlawandesignstudio.com/">
                    <i class="fas fa-utensils mr-2"></i>{{ __('Catering') }}
