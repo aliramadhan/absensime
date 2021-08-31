@@ -103,12 +103,12 @@
                                 <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc">
                             @else
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
-                                <option hidden>Choose here</option>                             
-                                <option>Forget to stop in the previous shift</option>
-                                <option>Late from the assigned shift</option>                                
-                                <option>Reach the tolerance limit of 1 hour late</option>                                
-                                <option>Forget to entry</option>         
-                                <option>Permission to leave work for more than 4 hours</option>                         
+                                                    
+                                <option @if($historyLock->first()->reason=='Forget to stop in the previous shift') selected @endif>Forget to stop in the previous shift</option>
+                                <option @if($historyLock->first()->reason=='Late from the assigned shift') selected @endif>Late from the assigned shift</option>                                
+                                <option @if($historyLock->first()->reason=='Reach the tolerance limit of 1 hour late') selected @endif>Reach the tolerance limit of 1 hour late</option>                                
+                                <option @if($historyLock->first()->reason=='Forget to entry') selected @endif>Forget to entry</option>         
+                                <option @if($historyLock->first()->reason=='Permission to leave work for more than 4 hours') selected @endif>Permission to leave work for more than 4 hours</option>                         
                             </select>
                             @endif
                           
