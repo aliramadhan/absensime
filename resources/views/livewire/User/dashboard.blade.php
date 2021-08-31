@@ -821,7 +821,7 @@
                           <h2 class="text-lg text-blue-500 font-base font-semibold leading-none">
                             {{$user->target_weekly}}
                           </h2>
-                          <h2 class="text-white bg-blue-500 py-1 rounded-lg w-full md:text-base text-xs">Weekly Target</h2>
+                          <h2 class="text-white bg-blue-500 py-1 rounded-lg w-full md:text-base text-xs">Weekly Target {{$startWeek->format('d')}} {{$endWeek->format('d')}}</h2>
                         </div>                    
 
                       </div>
@@ -834,10 +834,17 @@
                           $minutes = $total_minutes%60;
                           $hours = intval($total_minutes/60);
                           $timeMonthly = $hours."h ".$minutes."m";
+                          $cekactive = Carbon\Carbon::parse($scheduleUser->date)->format('d');
+                          if($endWeek->format('d')<$startWeek->format('d')){
+                            $passing = 1;  
+                          }else{
+                            $passing =0;
+                            }
                         @endphp
-                      <div class="flex flex-col px-4 py-3 text-center w-28 h-28 md:w-36 md:h-36 items-center hover:bg-gray-200 duration-200 cursor-pointer rounded-bl-3xl rounded-tr-3xl justify-between border-2 border-gray-400 " >
+                         
+                      <div class="flex flex-col px-4 py-3 text-center w-28 h-28 md:w-36 md:h-36 items-center hover:bg-gray-200 duration-200 cursor-pointer rounded-bl-3xl rounded-tr-3xl justify-between border-2  @if(($cekactive>=$startWeek->format('d') && $cekactive<=$endWeek->format('d'))OR($passing==1 && $cekactive>=$startWeek->format('d'))) border-gray-800 @else border-gray-400 @endif " >
                         <div class=" flex-col flex mb-2 ">
-                          <label class="font-bold leading-none text-xl md:text-3xl text-gray-700">{{Carbon\Carbon::parse($scheduleUser->date)->format('d')}}</label>
+                          <label class="font-bold leading-none text-xl md:text-3xl text-gray-700">{{$cekactive}}</label>
                           <label class="text-xs md:text-sm font-base text-white leading-none bg-orange-500 px-2 py-1 rounded-md">{{Carbon\Carbon::parse($scheduleUser->date)->format('l')}}</label>
                         </div>
                         @if($scheduleUser->status == 'Working' || $scheduleUser->status == 'Done')
