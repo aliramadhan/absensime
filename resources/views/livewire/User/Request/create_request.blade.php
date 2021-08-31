@@ -110,7 +110,7 @@
                         @if($historyLock->where('is_requested',0)->first() != null && $historyLock->where('is_requested',0)->first()->reason == 'Reach the tolerance limit of 1 hour late')
                         <div class="mb-4 px-2">
                             <label for="formType" class="block text-gray-500 text-sm  mb-2">Lock Reason</label>
-                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc">
+                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc">
                         </div>
                         @endif
 
