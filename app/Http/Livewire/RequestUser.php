@@ -242,6 +242,9 @@ class RequestUser extends Component
         else{
             //create activated record
             if ($this->type == 'Record Activation') {
+                if ($this->historyLock->first() != null && $this->historyLock->first()->reason == 'Reach the tolerance limit of 1 hour late') {
+                    $this->desc = 'Reach the tolerance limit of 1 hour late - '.$this->desc;
+                }
                 $request = Request::create([
                     'employee_id' => $this->user->id,
                     'employee_name' => $this->user->name,
