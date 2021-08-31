@@ -555,7 +555,7 @@ class DashboardUser extends Component
         $this->time_overtime = null;
         $this->is_cancel_order = null;
         $this->emit('refreshLivewireDatatable');
-        session()->flash('message', 'Request successfully added.');
+        session()->flash('success', 'Request successfully added.');
     }
     public function createRequest()
     {
@@ -892,6 +892,7 @@ class DashboardUser extends Component
                 }
             }
 
+            session()->flash('success', 'Request successfully added.');
             $this->closeModal();
             $this->type = null;
             $this->desc = null;
@@ -899,7 +900,6 @@ class DashboardUser extends Component
             $this->time_overtime = null;
             $this->is_cancel_order = null;
             $this->emit('refreshLivewireDatatable');
-            session()->flash('message', 'Request successfully added.');
         }
     }
 }

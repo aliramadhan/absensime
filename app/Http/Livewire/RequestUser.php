@@ -133,7 +133,7 @@ class RequestUser extends Component
         $this->time_overtime = null;
         $this->is_cancel_order = null;
         $this->emit('refreshLivewireDatatable');
-        session()->flash('message', 'Request successfully added.');
+        session()->flash('success', 'Request successfully added.');
     }
     public function createRequest()
     {
@@ -229,12 +229,13 @@ class RequestUser extends Component
                 }
             }
         }
-        if ($issetRequest != null) {
+        
+        if ($issetRequest != null && $this->type != 'Record Activation') {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, duplicate request.");
         }
-        elseif ($isSchedule == null && $this->type != 'Overtime' && $cekLeave == null) {
+        elseif ($isSchedule == null && $cekLeave == null && $this->type != 'Record Activation') {
             $this->closeModal();
             $this->resetFields();
             return session()->flash('failure', "Can't submit request, no schedule found.");
@@ -260,7 +261,7 @@ class RequestUser extends Component
                     'request_id' => $request->id,
                     'is_requested' => 1
                 ]);
-                if ($this->historyLock->count() < 1) {
+                if ($this->historyLock->where('is_requested',0)->count() < 1) {
                     $this->user->update(['is_active' => 1]);
                 }
             }
@@ -479,7 +480,7 @@ class RequestUser extends Component
             $this->time_overtime = null;
             $this->is_cancel_order = null;
             $this->emit('refreshLivewireDatatable');
-            session()->flash('message', 'Request successfully added.');
+            session()->flash('success', 'Request successfully added.');
         }
     }
 }
