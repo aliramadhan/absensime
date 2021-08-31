@@ -9,21 +9,19 @@
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form>
              <div class=" py-4 px-6 sm:flex border-b flex ">
-                <h1 class=" font-semibold text-2xl text-gray-600">Request Form <span class="text-orange-500">{{$type}}</span></h1>               
+                <h1 class=" font-semibold text-2xl text-gray-600 flex items-start">Request Form <span class="text-orange-500 ml-2">{{$type}}</span>
+                    @if($type=='Record Activation')
+                    <span class="bg-gray-700 text-white px-1 rounded-md text-sm shadow-md ml-1">{{$historyLock->count()}} </span>
+                    @endif
+                </h1>               
             </div>
-             <div class=" py-4 px-6 sm:flex border-b flex ">
-                <h2 class=" font-semibold text-2xl text-gray-600"> You've {{$historyLock->count()}} Locks History</h2>
-                <div class="bg-white px-4 md:pb-4 sm:p-6 pb-0 font-semibold">        
-            </div>  
+            <div class="bg-white px-4 md:pb-4 sm:p-6 pb-0 font-semibold">
+              
+              
 
                     <div class="mt-2 md:mt-0"> 
                        
-                        @if($type == 'Record Activation')
-                        <div class="mb-4 px-2">
-                            <label for="formType" class="block text-gray-500 text-sm  mb-2">Lock Reason</label>
-                                <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" @if($historyLock->where('is_requested',0)->count() > 0) value="{{$historyLock->first()->reason}}" readonly @endif>
-                        </div>
-                        @endif
+                       
                         <div class="mb-4 px-2">
                             <label for="formType" class="block text-gray-500 text-sm  mb-2">Request Type</label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="type">
@@ -46,6 +44,7 @@
                             </select>
                             @error('type') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
+                       
                         @if($type == 'Mandatory')
                             <div class="mb-4 px-2">
                                 <label for="formSetUser" class="block text-gray-500 text-sm  mb-2">Select Employee </label>
@@ -95,9 +94,7 @@
                         @if($type == 'Record Activation')
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
-                            @if($historyLock->where('is_requested',0)->count() > 0 && $historyLock->first()->reason == 'Reach the tolerance limit of 1 hour late')
-                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
-                            @else
+                            
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
                                 <option hidden>Choose here</option>                             
                                 <option>Forget to stop in the previous shift</option>
@@ -106,14 +103,30 @@
                                 <option>Forget to entry</option>         
                                 <option>Permission to leave work for more than 4 hours</option>                         
                             </select>
-                            @endif
+                          
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
+
+                         @if($desc == 'Reach the tolerance limit of 1 hour late')
+                        <div class="mb-4 px-2">
+                            <label for="formType" class="block text-gray-500 text-sm  mb-2">Lock Reason</label>
+                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc">
+                        </div>
+                        @endif
+
+                         @if($desc == 'Late from the assigned shift' || $desc == 'Reach the tolerance limit of 1 hour late')
+                            <div class="mb-4 px-2 flex items-center gap-2">
+                                <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Permission setengah hari?</label>
+                                <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_check_half" placeholder="fill in here......">
+                                @error('is_check_half') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                        @endif
+
 
                         @elseif($type != 'Change Shift' && $type != 'Mandatory' && $type != 'Remote' && $type != '' )
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
-                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here">
+                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here...">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
 
@@ -137,7 +150,7 @@
                         @if(($type != 'Overtime' && $type != 'Change Shift' && $type != 'Mandatory')&&($type != 'Record Activation')&&($type != 'Excused')&&($type != ''))
                         <div class="mb-4 px-2 flex items-center gap-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Cancel your <span class="text-orange-500">catering</span> order ?</label>
-                            <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here...">
+                            <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
                             @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @elseif($type == 'Change Shift' || $type == 'Mandatory')
@@ -153,13 +166,7 @@
                             @error('newCatering') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if($desc == 'Late from the assigned shift' || $desc == 'Reach the tolerance limit of 1 hour late')
-                            <div class="mb-4 px-2 flex items-center gap-2">
-                                <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Permission setengah hari?</label>
-                                <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_check_half" placeholder="fill in here...">
-                                @error('is_check_half') <span class="text-red-500">{{ $message }}</span>@enderror
-                            </div>
-                        @endif
+                       
                         @if($desc == 'Forget to entry')
                         <div class="mb-4 px-2">
                               <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Because </label>
@@ -187,7 +194,7 @@
                              </div>
                             <div class="mb-4 px-2">
                                 <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
-                                <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" placeholder="Fill in here" wire:model="descRequest">
+                                <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" placeholder="Fill in here..." wire:model="descRequest">
                                 @error('descRequest') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                         @endif
