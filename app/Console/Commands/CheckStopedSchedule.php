@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Carbon\Carbon;
 use App\Models\Schedule;
+use App\Models\HistoryLock;
 use App\Models\User;
 use App\Mail\SendNotifUserNonActived;
 use Illuminate\Support\Facades\Mail;
