@@ -11,7 +11,7 @@
              <div class=" py-4 px-6 sm:flex border-b flex ">
                 <h1 class=" font-semibold text-2xl text-gray-600 flex items-start">Request Form <span class="text-orange-500 ml-2">{{$type}}</span>
                     @if($type=='Record Activation')
-                    <span class="bg-gray-700 text-white px-1 rounded-md text-sm shadow-md ml-1">{{$historyLock->count()}} </span>
+                    <span class="bg-gray-600 text-white px-1 rounded-md text-sm shadow-md ml-1">{{$historyLock->count()}} </span>
                     @endif
                 </h1>               
             </div>
@@ -93,7 +93,9 @@
                         @endif
                         @if($type == 'Record Activation')
                         <div class="mb-4 px-2">
-                            <h2>cause locked <span>{{$historyLock->first()->reason}}</span></h2>
+                           <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Cause locked</label>
+                           <input type="text" value="{{$historyLock->first()->reason}}" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                            
                         </div>
                         <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
