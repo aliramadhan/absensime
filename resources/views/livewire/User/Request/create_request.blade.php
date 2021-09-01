@@ -103,7 +103,7 @@
                                 <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc">
                             @else
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
-                                                    
+                                <option hidden> choose one</option>      
                                 <option @if($historyLock->first()->reason=='Forget to stop in the previous shift') selected @endif>Forget to stop in the previous shift</option>
                                 <option @if($historyLock->first()->reason=='Late from the assigned shift') selected @endif>Late from the assigned shift</option>                                
                                 <option @if($historyLock->first()->reason=='Reach the tolerance limit of 1 hour late') selected @endif>Reach the tolerance limit of 1 hour late</option>                                
@@ -195,7 +195,7 @@
                             </div>
                              </div>
                             <div class="mb-4 px-2">
-                                <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
+                                <label for="formDesc" class="block text-gray-500 text-sm  mb-2">@if($desc == 'Forget to entry') Additional @endif Reason </label>
                                 <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" placeholder="Fill in here..." wire:model="descRequest">
                                 @error('descRequest') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>

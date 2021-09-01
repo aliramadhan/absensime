@@ -29,7 +29,7 @@
                     </x-jet-nav-link>
                  
                     <x-jet-nav-link href="{{ route('admin.schedule') }}" :active="request()->routeIs('admin.schedule')">
-                        {{ __('Track Record') }}
+                        {{ __('Schedule') }}
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('admin.request') }}" :active="request()->routeIs('admin.request')">
                         {{ __('Request') }}
@@ -146,7 +146,7 @@
                         {{ __('Request') }}
                     </x-jet-nav-link>
                      <x-jet-nav-link href="{{ route('user.history.schedule') }}" :active="request()->routeIs('user.history.schedule')">
-                        {{ __('History Schedule') }}
+                        {{ __('Track Record') }}
                     </x-jet-nav-link>
                      <x-jet-nav-link href="{{ route('user.show.schedule') }}" :active="request()->routeIs('user.show.schedule')">
                         {{ __('Show Schedule') }}
@@ -463,3 +463,25 @@
         </div>
     </div>
 </nav>
+
+<script type="text/javascript">
+
+  var ifConnected = window.navigator.onLine;
+    if (ifConnected) {
+      document.getElementById("checkOnline").innerHTML = "";
+      document.getElementById("checkOnline").style.color = "green";
+    } else {
+      document.getElementById("checkOnline").innerHTML = "";
+      document.getElementById("checkOnline").style.color = "red";
+    }
+setInterval(function(){ 
+  var ifConnected = window.navigator.onLine;
+    if (ifConnected) {
+      document.getElementById("checkOnline").innerHTML = "";
+      document.getElementById("checkOnline").style.color = "green";
+    } else {
+      document.getElementById("checkOnline").innerHTML = "";
+      document.getElementById("checkOnline").style.color = "red";
+    }
+ }, 1000);
+</script>
