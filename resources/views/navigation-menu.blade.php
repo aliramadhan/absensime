@@ -211,8 +211,9 @@
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                                <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+                                <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out relative">
                                     <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                                    <span id="checkOnline" class="absolute -top-1 -right-1"></span>
                                 </button>
                             @else
                                 <span class="inline-flex rounded-md">
@@ -229,8 +230,9 @@
 
                         <x-slot name="content">
                             <!-- Account Management -->
-                            <div class="block px-4 py-2 text-xs text-gray-400">
-                                {{ __('Manage Account') }}
+                            <div class="block px-4 py-2 text-xs text-gray-700 border-b">
+                                {{ __('Manage Account') }}<br>
+                               <label class="text-gray-400"> Status : <span id="checkOnlineWord" class="font-semibold tracking-wide"></span></label>
                             </div>
 
                             <x-jet-dropdown-link href="{{ route('profile.show') }}">
@@ -292,7 +294,12 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-mr-2 flex items-center sm:hidden">
+           
+           
+            <div class="-mr-2 flex items-center sm:hidden space-x-2">
+               <div class="flex items-center sm:hidden text-xs border rounded-md px-3 shadow h-8 text-gray-500 font-semibold space-x-1">
+                   Status: <span id="checkOnlineWord2" class="ml-1"> </span>
+               </div>
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -344,7 +351,7 @@
                      <x-jet-responsive-nav-link href="{{ route('user.history.schedule') }}" :active="request()->routeIs('user.history.schedule')">
                         {{ __('History Schedule') }}
                     </x-jet-responsive-nav-link>
-                     <x-jet-responsive-nav-link href="{{ route('user.show.schedule') }}" :active="request()->routeIs('user.dashboard')">
+                     <x-jet-responsive-nav-link href="{{ route('user.show.schedule') }}" :active="request()->routeIs('user.schedule')">
                         {{ __('Schedule') }}
                     </x-jet-responsive-nav-link>
                     @elseif(auth()->user()->roles == 'Manager')
@@ -371,8 +378,9 @@
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
                 @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-                    <div class="flex-shrink-0 mr-3">
-                        <img class="h-10 w-10 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                    <div class="flex-shrink-0 mr-3 relative">
+                        <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                        
                     </div>
                 @endif
 
@@ -468,20 +476,24 @@
 
   var ifConnected = window.navigator.onLine;
     if (ifConnected) {
-      document.getElementById("checkOnline").innerHTML = "";
-      document.getElementById("checkOnline").style.color = "green";
+       document.getElementById("checkOnlineWord").innerHTML = " Online";
+       document.getElementById("checkOnlineWord2").innerHTML = " Online";
+      document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white -top-1 right-0";
     } else {
-      document.getElementById("checkOnline").innerHTML = "";
-      document.getElementById("checkOnline").style.color = "red";
+      document.getElementById("checkOnlineWord").innerHTML = "Offline";
+       document.getElementById("checkOnlineWord2").innerHTML = "Offline";
+       document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-red-500 rounded-full border-2 border-white -top-1 right-0";
     }
 setInterval(function(){ 
   var ifConnected = window.navigator.onLine;
     if (ifConnected) {
-      document.getElementById("checkOnline").innerHTML = "";
-      document.getElementById("checkOnline").style.color = "green";
+      document.getElementById("checkOnlineWord").innerHTML = " Online";
+      document.getElementById("checkOnlineWord2").innerHTML = " Online";
+      document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white -top-1 right-0";
     } else {
-      document.getElementById("checkOnline").innerHTML = "";
-      document.getElementById("checkOnline").style.color = "red";
+      document.getElementById("checkOnlineWord").innerHTML = " Offline";
+       document.getElementById("checkOnlineWord2").innerHTML = " Offline";
+       document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-red-500 rounded-full border-2 border-white -top-1 right-0";
     }
  }, 1000);
 </script>
