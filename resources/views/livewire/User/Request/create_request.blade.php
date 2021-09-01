@@ -93,11 +93,11 @@
                         @endif
                         @if($type == 'Record Activation')
                         <div class="mb-4 px-2">
-                           <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Cause locked</label>
-                           <input type="text" value="{{$historyLock->first()->reason}}" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" readonly>
+                           <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Reason</label>
+                           <input type="text" value="{{$historyLock->first()->reason}}" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" readonly id="formDesc" wire:model="desc">
                             
                         </div>
-                        <div class="mb-4 px-2">
+                       <!--  <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                             @if($historyLock->where('is_requested',0)->first() != null && $historyLock->where('is_requested',0)->first()->reason == 'Reach the tolerance limit of 1 hour late')
                                 <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc">
@@ -113,7 +113,7 @@
                             @endif
                           
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
-                        </div>
+                        </div> -->
 
 
                          @if($desc == 'Late from the assigned shift' || $desc == 'Reach the tolerance limit of 1 hour late')
