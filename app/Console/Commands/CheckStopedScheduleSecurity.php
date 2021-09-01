@@ -62,7 +62,7 @@ class CheckStopedScheduleSecurity extends Command
                     $history_lock = HistoryLock::create([
                         'employee_id' => $user->id,
                         'date' => $schedule->date,
-                        'reason' => 'Forget to stop in the previous shift',
+                        'reason' => 'Forget to entry',
                     ]);
                 }
                 elseif ($schedule->status != 'Done') {

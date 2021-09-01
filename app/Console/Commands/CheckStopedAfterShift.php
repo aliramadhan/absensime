@@ -9,6 +9,7 @@ use App\Models\Request;
 use App\Models\User;
 use App\Models\HistoryLock;
 use App\Models\Shift;
+use App\Models\ListLeave;
 use App\Mail\SendNotifUserNonActived;
 use App\Mail\NotifStopedAfterShift;
 use App\Mail\NotifLateAfterTimeIn;
@@ -56,10 +57,12 @@ class CheckStopedAfterShift extends Command
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
             $historyLock = HistoryLock::where('employee_id',$user->id)->whereDate('created_at',$now)->get();
+            $cekLeave = ListLeave::where('name','like','%'.$schedule->status.'%')->first();
             //notif ketika lewat shift
+
             if ($now->greaterThan($time_out)) {
                 $time_limit = $time_in->diffInSeconds($time_out);
-                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($time_out->diffInMinutes($now) == 1)) {
+                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status != 'Sick' || $schedule->status != 'Permission' || $cekLeave == null) && ($time_out->diffInMinutes($now) == 1)) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending after shift notification email to: {$user->name}!");
                 }
@@ -133,7 +136,7 @@ class CheckStopedAfterShift extends Command
             elseif ($now->greaterThan($time_in)) {
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
-                if($timeSet < 60 && $schedule->status == 'Not sign in' && $historyLock->count() < 1 && $historyLock->where('reason','Late from the assigned shift')->first() == null){
+                if($timeSet < 60 && ($schedule->status == 'Not sign in') && $historyLock->count() < 1 && $historyLock->where('reason','Late from the assigned shift')->first() == null){
                     //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     //$this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;

@@ -94,7 +94,7 @@
                         @if($type == 'Record Activation')
                         <div class="mb-4 px-2">
                            <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Reason</label>
-                           <input type="text" value="{{$historyLock->first()->reason}}" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" readonly id="formDesc" wire:model="desc">
+                           <input type="text" value="{{$historyLock->first()->reason}} - @if($historyLock->first()->reason == 'Forget to entry') {{Carbon\Carbon::parse($historyLock->first()->date)->format('d F Y')}} @endif" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" readonly id="formDesc" wire:model="desc">
                             
                         </div>
                        <!--  <div class="mb-4 px-2">

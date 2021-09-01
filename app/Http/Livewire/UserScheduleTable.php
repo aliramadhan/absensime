@@ -39,8 +39,6 @@ class UserScheduleTable extends LivewireDatatable
 		        $time = $hours."h ".$minutes."m";
 		        return $time;
             })->label('WorkHour'),
-            Column::name('status')
-                ->label('Status'),
             Column::callback(['status'], function($status){
                 $listleave = ListLeave::where('id','!=',null)->pluck('name');
                 if (in_array($status, $listleave->toArray())) {
