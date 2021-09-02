@@ -56,13 +56,14 @@ class CheckStopedAfterShift extends Command
             $shift = Shift::find($schedule->shift_id);
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
+            $time_limit = $time_in->diffInSeconds($time_out);
             $historyLock = HistoryLock::where('employee_id',$user->id)->whereDate('created_at',$now)->get();
             $cekLeave = ListLeave::where('name','like','%'.$schedule->status.'%')->first();
             //notif ketika lewat shift
 
             if ($now->greaterThan($time_out)) {
-                $time_limit = $time_in->diffInSeconds($time_out);
-                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status != 'Sick' || $schedule->status != 'Permission' || $cekLeave == null) && ($time_out->diffInMinutes($now) == 1)) {
+                $this->info($schedule->workhour + $schedule->timer - $time_limit);
+                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status != 'Sick' || $schedule->status != 'Permission' || $cekLeave == null) && ($schedule->workhour + $schedule->timer) - $time_limit <= 10) {
                     Mail::to($user->email)->send(new NotifStopedAfterShift());
                     $this->info("Sending after shift notification email to: {$user->name}!");
                 }
@@ -132,7 +133,7 @@ class CheckStopedAfterShift extends Command
                 else{
                     //$this->info("not Sending email.");
                 }
-            }
+            }/*
             elseif ($now->greaterThan($time_in)) {
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
@@ -195,7 +196,7 @@ class CheckStopedAfterShift extends Command
                         ]);
                     }
                 }
-            }
+            }*/
             else{
                 //$this->info("belum lewat shift");
             }
