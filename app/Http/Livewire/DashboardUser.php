@@ -28,7 +28,8 @@ class DashboardUser extends Component
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude',
-        'updateJurnal'
+        'updateJurnal',
+        'RefreshComponents' => '$refresh',
     ];
 
     protected $rules = [
@@ -556,6 +557,19 @@ class DashboardUser extends Component
         $this->is_cancel_order = null;
         $this->emit('refreshLivewireDatatable');
         session()->flash('success', 'Request successfully added.');
+        $this->emit('RefreshComponents');
+    }
+    public function updateDescRequest()
+    {
+        if ($this->type == 'Record Activation') {
+            $this->desc = $this->historyLock->first()->reason;
+            if($this->desc == 'Forget to entry'){
+                $this->desc .= " - ".Carbon::parse($this->historyLock->first()->date)->format('d M Y');
+            }
+        }
+        else{
+            $this->desc = "";
+        }
     }
     public function createRequest()
     {
@@ -900,6 +914,7 @@ class DashboardUser extends Component
             $this->time_overtime = null;
             $this->is_cancel_order = null;
             $this->emit('refreshLivewireDatatable');
+            $this->emit('RefreshComponents');
         }
     }
 }

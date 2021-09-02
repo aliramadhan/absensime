@@ -45,6 +45,16 @@ class RequestUser extends Component
         $this->time_overtime = null;
         $this->is_cancel_order = null;
     }
+    
+    public function updateDescRequest()
+    {
+        if ($this->type == 'Record Activation') {
+            $this->desc = $this->historyLock->first()->reason;
+        }
+        else{
+            $this->desc = "";
+        }
+    }
     public function createActivationWithRequest()
     {
         //validate for activation        
