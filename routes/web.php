@@ -39,17 +39,9 @@ Route::get('setcookie', function(){
   	Session::start();
 	return redirect()->route('dashboard');
 });
+Route::get('error/gps-not-activated', [AdminController::class, 'errorGPSNotActivated'])->name('error.gps_not_activated');
 
-Route::get('/cek_mail', function(){
-	$data = [];
-	$data [] = 'Rudi';
-	$data [] = 'Yudi';
-	$data [] = 'Budi';
-	$data [] = 'Eudi';
-    Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
-});
-
-Route::get('/', function () {
+te::get('/', function () {
 	if (!Auth::check()) {
 		return redirect()->route('login');
 	}

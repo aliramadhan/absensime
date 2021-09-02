@@ -170,4 +170,8 @@ class AdminController extends Controller
 
         return redirect()->back()->with(['success' => $message]);
     }
+    public function errorGPSNotActivated()
+    {
+        return view('errors.gps_not_activated');
+    }
 }

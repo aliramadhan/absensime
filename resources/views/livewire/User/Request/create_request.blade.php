@@ -167,6 +167,7 @@
                                 @endforeach
                                 <option>Sick</option>
                                 <option>Permission</option>
+                                <option>Absent</option>
                             </select>
                         </div>
                             @error('typeRequest') <span class="text-red-500">{{ $message }}</span>@enderror
