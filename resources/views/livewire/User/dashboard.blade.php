@@ -460,9 +460,44 @@
                         $workhourDetail += $started_atDetail->diffInSeconds($stoped_atDetail);
                     }
                   @endphp
-                  @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 600))
+                  @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 600) && $user->position != 'Project Manager')
                     @include('livewire.User.show-confirm-stop')
-                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 600))
+                  elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 15000) && $user->position == 'Project Manager')
+                    @include('livewire.User.show-confirm-stop')
+                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 600) && $user->position != 'Project Manager')
+                    @php
+                      $offUser = App\Models\User::find($user->id);
+                      if($offUser != null){
+                        $offUser->update([
+                        'is_active' => 0
+                        ]);
+                      }
+                      $history_lock = App\Models\HistoryLock::create([
+                          'employee_id' => $user->id,
+                          'date' => $schedule->date,
+                          'reason' => 'Forget to stop in the previous shift',
+                      ]);
+
+                      //update task and stop schedule
+                      $detailSchedule = $schedule->details->sortByDesc('id')->first();
+                      $detailSchedule->update([
+                          'stoped_at' => $now,
+                      ]);
+                      $workhour = 0;
+                      foreach ($schedule->details->where('status','Work') as $detail) {
+                          $started_at = Carbon\Carbon::parse($detail->started_at);
+                          $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
+                          $workhour += $started_at->diffInSeconds($stoped_at);
+                      }
+                      $schedule->update([
+                          'stoped_at' => $now,
+                          'workhour' => $workhour,
+                          'timer' => 0,
+                          'status' => 'Done',
+                      ]);
+                    @endphp
+                  @endif
+                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 15000) && $user->position == 'Project Manager')
                     @php
                       $offUser = App\Models\User::find($user->id);
                       if($offUser != null){
