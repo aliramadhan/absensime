@@ -98,6 +98,10 @@
                            <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" readonly id="formDesc">
                         </div>-->
                         <div class="mb-4 px-2">
+                           <input type="text" value="{{$historyLock->first()->reason}} - @if($historyLock->first()->reason == 'Forget to entry') {{Carbon\Carbon::parse($historyLock->first()->date)->format('d F Y')}} @endif" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" readonly>
+                            
+                        </div>
+                       <!--  <div class="mb-4 px-2">
                             <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
                             @if($historyLock->where('is_requested',0)->first() != null && $historyLock->where('is_requested',0)->first()->reason == 'Reach the tolerance limit of 1 hour late')
                                 <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc">
@@ -169,23 +173,24 @@
                         </div>
                         @endif
                        
-                        @if($desc == 'Forget to entry')
+                        @if($historyLock->first()->reason == 'Forget to entry')
                         <div class="mb-4 px-2">
                               <label for="formNewShift" class="block text-gray-500 text-sm  mb-2">Because </label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="typeRequest">
                                 <option hidden>Choose here</option>
+                                 <option>Absent</option>
                                 @foreach($leaves as $leave)
                                 <option>{{$leave->name}}</option>
                                 @endforeach
-                                <option>Sick</option>
                                 <option>Permission</option>
+                                <option>Sick</option>                                
                             </select>
                         </div>
                             @error('typeRequest') <span class="text-red-500">{{ $message }}</span>@enderror
                             <div class="flex mb-4 space-x-2">
                             <div class="px-2 flex-auto md:mb-0 w-6/12">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
-                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="dateFrom">
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="dateFrom" value="{{Carbon\Carbon::parse($historyLock->first()->date)->format('d f y')}}">
                                 @error('dateFrom') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                             <div class="flex-auto px-2 w-6/12">
@@ -195,7 +200,7 @@
                             </div>
                              </div>
                             <div class="mb-4 px-2">
-                                <label for="formDesc" class="block text-gray-500 text-sm  mb-2">@if($desc == 'Forget to entry') Additional @endif Reason </label>
+                                <label for="formDesc" class="block text-gray-500 text-sm  mb-2">@if($historyLock->first()->reason == 'Forget to entry') Additional @endif Reason </label>
                                 <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" placeholder="Fill in here..." wire:model="descRequest">
                                 @error('descRequest') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>

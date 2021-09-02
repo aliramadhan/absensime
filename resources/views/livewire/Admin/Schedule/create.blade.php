@@ -12,7 +12,7 @@
                <div class=" py-4 px-6 sm:flex border-b flex ">
                 <h1 class=" font-semibold text-2xl text-gray-600">Add Schedule</h1>                 
                 </div>
-                <div class="bg-white px-4 pt-5 pb-4 p-6 sm:pb-4">
+                <div class="bg-white md:px-6 px-4 pt-5 pb-4 p-6 sm:pb-4">
                     <div class="">
                         <div class="mb-4">
                             <label for="forEmployee" class="block text-gray-500 text-sm font-bold mb-2">Employee:</label>
