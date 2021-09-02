@@ -41,7 +41,7 @@ Route::get('setcookie', function(){
 });
 Route::get('error/gps-not-activated', [AdminController::class, 'errorGPSNotActivated'])->name('error.gps_not_activated');
 
-te::get('/', function () {
+Route::get('/', function () {
 	if (!Auth::check()) {
 		return redirect()->route('login');
 	}
