@@ -217,6 +217,9 @@ class DashboardUser extends Component
             'location.not_in' => 'Please, Choose Tracking Option before start record.',
         ]);
         //set position
+        if ($this->latitude == null || $this->longitude == null) {
+            return redirect()->route('error.gps_not_activated');
+        }
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
         $this->position = $position[0]['formatted_address'];
         $this->currentPosition = $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name;
@@ -342,6 +345,9 @@ class DashboardUser extends Component
     public function resumeOn()
     {
         $this->detailSchedule =$this->schedule->details->SortByDesc('id')->first();
+        if ($this->latitude == null || $this->longitude == null) {
+            return redirect()->route('error.gps_not_activated');
+        }
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
         $this->validate([
             'location' => 'required|string|not_in:none',
@@ -378,6 +384,9 @@ class DashboardUser extends Component
     public function stopOn()
     {
         //set position
+        if ($this->latitude == null || $this->longitude == null) {
+            return redirect()->route('error.gps_not_activated');
+        }
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
         $this->position = $position[0]['formatted_address'];
         $this->currentPosition = $position[3]['address_components'][0]->long_name.', '.$position[3]['address_components'][1]->long_name;
