@@ -213,7 +213,8 @@
                             @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
                                 <button class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out relative">
                                     <img class="h-8 w-8 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
-                                    <span id="checkOnline" class="absolute -top-1 -right-1"></span>
+                                    <span class="absolute w-3 h-3 bg-white rounded-full border-2 border-white -top-1 right-0"></span>
+                                    <span id="checkOnline"></span>
                                 </button>
                             @else
                                 <span class="inline-flex rounded-md">
@@ -478,22 +479,22 @@
     if (ifConnected) {
        document.getElementById("checkOnlineWord").innerHTML = " Online";
        document.getElementById("checkOnlineWord2").innerHTML = " Online";
-      document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white -top-1 right-0";
+      document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white -top-1 right-0 animate-pulse";
     } else {
       document.getElementById("checkOnlineWord").innerHTML = "Offline";
        document.getElementById("checkOnlineWord2").innerHTML = "Offline";
-       document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-red-500 rounded-full border-2 border-white -top-1 right-0";
+       document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-red-500 rounded-full border-2 border-white -top-1 right-0 animate-pulse";
     }
 setInterval(function(){ 
   var ifConnected = window.navigator.onLine;
     if (ifConnected) {
       document.getElementById("checkOnlineWord").innerHTML = " Online";
       document.getElementById("checkOnlineWord2").innerHTML = " Online";
-      document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white -top-1 right-0";
+      document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-green-500 rounded-full border-2 border-white -top-1 right-0 animate-pulse";
     } else {
       document.getElementById("checkOnlineWord").innerHTML = " Offline";
        document.getElementById("checkOnlineWord2").innerHTML = " Offline";
-       document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-red-500 rounded-full border-2 border-white -top-1 right-0";
+       document.getElementById("checkOnline").classList = "absolute w-3 h-3 bg-red-500 rounded-full border-2 border-white -top-1 right-0 animate-pulse";
     }
  }, 1000);
 </script>
