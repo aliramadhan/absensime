@@ -85,7 +85,7 @@
 
   </div>
     <div class="md:py-12 py-0">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto sm:px-0 md:px-4 lg:px-8">
             <div class="lg:grid lg:grid-cols-8 flex-col flex flex-col-reverse gap-4">
 
             <div class="lg:flex lg:flex-col md:grid md:grid-cols-2  sm:rounded-lg col-span-2 lg:space-y-4 flex flex-col-reverse hide-scroll lg:space-x-0 md:space-x-2">
@@ -447,8 +447,7 @@
               @elseif($isModal == 'Stop')
                   @include('livewire.User.show_stop')
               @endif
-              
-              @if($schedule != null && $schedule->started_at != null)
+                        @if($schedule != null && $schedule->started_at != null)
                 <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
               <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
@@ -463,7 +462,7 @@
                   @endphp
                   @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800) && $user->position != 'Project Manager')
                     @include('livewire.User.show-confirm-stop')
-                  elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && $user->position == 'Project Manager')
+                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && $user->position == 'Project Manager')
                     @include('livewire.User.show-confirm-stop')
                   @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && $user->position != 'Project Manager')
                     @php
@@ -532,8 +531,7 @@
                     @endphp
                   @endif
                 @endif
-
-                @if($schedule != Null)
+                @if($schedule != null)
                 @php
                   $start = Carbon\Carbon::parse($schedule->started_at);
                   if($schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
@@ -548,6 +546,7 @@
                   $hours = intval($total_minutes/60);
                   $time = $hours."h ".$minutes."m";
                 @endphp
+                  <div class="pt-3 block  md:mt-0 mt-2 text-gray-700 w-auto">
                 <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
                   <span class="md:hidden xl:inline-block -top-4 bg-white relative  xl:px-2 md:text-lg text-base px-3 xl:font-medium lg:text-base ">Tracking Progress</span>
                     <span class="xl:hidden hidden md:inline-block md:px-2  -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
@@ -557,11 +556,9 @@
                   </div>
                 </h2>
               </div>
-
+            
               @else
-                <div class="pt-3 block md:w-4/12 md:mt-0 mt-2 text-gray-700 w-auto">
-                  @if($schedule->workhour  ?? 'None')
-                  @else
+                <div class="pt-3 block  md:mt-0 mt-2 text-gray-700 w-auto">
                   @php
                       $timeInt = $schedule->workhour;
                       $seconds = intval($timeInt%60);
@@ -570,18 +567,20 @@
                       $hours = intval($total_minutes/60);
                       $time = $hours."h ".$minutes."m";
                   @endphp
-                  @endif
                  <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
                   <span class=" xl:inline-block md:hidden  -top-4 bg-white relative  xl:px-2 text-lg xl:font-medium lg:text-base ">Tracking Progress</span>
                   <span class="xl:hidden hidden md:inline-block md:px-2 -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
                   <div class="md:px-5 px-12 pb-2 -mt-6 flex flex-col items-center text-center ">
                     <h2 class="text-2xl font-semibold text-orange-500 mt-3 ">{{$time}}</h2>
-                    <h2 class="text-base ">Status: <span class="font-semibold text-gray-800">{{$schedule->status  ?? 'None'}}</span></h2>
+                    <h2 class="text-base ">Status: <span class="font-semibold text-gray-800">{{$schedule->status}}</span></h2>
                   </div>
                 </h2>
               </div>
+             </div>
               @endif
+           
             @endif
+               </div>
              <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full">
               
               @if($schedule != null && $user->is_active != 1 && $schedule->status == 'Done')
@@ -895,7 +894,7 @@
                         @if($scheduleUser->status == 'Working' || $scheduleUser->status == 'Done')
                       
                         <div class="text-gray-700 text-xs ">{{$timeMonthly}}</div>
-                        <!-- <div class="mb-6 text-xs">{{$scheduleUser->details->first()->note}}</div> -->
+                        
                          <div class="text-blue-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
                           <i class="fas fa-check-circle mr-1"></i>Attend
                         </div>
