@@ -30,6 +30,7 @@
       $indexSchedule = App\Models\Schedule::where('employee_id',$user->id)->pluck('id');
       $detailsSchedule = App\Models\HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
     @endphp
+
     <div class="w-full overflow-hidden inline-block align-bottom bg-white rounded-lg text-left  shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
       <div class="bg-white px-4 pt-5 pb-2 sm:p-6 sm:pb-4">
         <div class="sm:flex sm:items-start ">
@@ -52,8 +53,10 @@
                <div class="text-sm my-2  px-2 flex-col space-y-1">
                 @forelse($detailsSchedule as $details)
                   <div class="flex space-x-4 items-center ">
-                  <label class="w-1">{{$loop->iteration}}.</label><label class="flex-shrink-0 w-4/12">{{Carbon\Carbon::parse($details->started_at)->format('D')}}, {{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
-                  <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-8/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
+                    <div class="w-6/12 flex space-x-2">
+                  <label class="font-semibold">{{$loop->iteration}}.</label><label class="">{{Carbon\Carbon::parse($details->started_at)->format('d D')}}, {{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
+                  </div>
+                  <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-6/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
               
                 </div>
                 @empty
@@ -68,7 +71,7 @@
             <div class="flex space-x-2 text-gray-700 items-center pr-4 ">
 
               <label class="font-base text-xs md:text-sm tracking-wide font-semibold">Reason</label>
-            <input type="text" wire:model="note" class="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white tracking-wide" placeholder="Fill your reason.." required>
+            <input type="text" wire:model="note"  class="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white tracking-wide" placeholder="Fill your reason.." required>
             </div>
              
              </div>   

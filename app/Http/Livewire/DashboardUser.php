@@ -409,6 +409,7 @@ class DashboardUser extends Component
 
         $indexSchedule = Schedule::where('employee_id',$this->user->id)->whereDate('date','>=',Carbon::now()->subWeek())->pluck('id');
         $detailsSchedule = HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
+         
         if ($detailsSchedule->count() > count($this->detailsSchedule)) {
             $this->closeModal();
             $this->resetFields();
@@ -423,6 +424,7 @@ class DashboardUser extends Component
                 $i++;
             }
         }
+
         /*
         $detailsSchedule = $this->schedule->details->where('task',null)->sortBy('id');
         if($this->prevSchedule->count() > 0){
@@ -468,6 +470,7 @@ class DashboardUser extends Component
         ]);
         $this->closeModal();
         session()->flash('success', 'Record stoped.');
+      
     }
     public function continueOn()
     {
