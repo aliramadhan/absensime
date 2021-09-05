@@ -58,11 +58,19 @@ class CheckStopedSchedule extends Command
                 if ($schedule->status == 'Not sign in') {
                     $user->is_active = 0;
                     $user->save();
-                    $history_lock = HistoryLock::create([
-                        'employee_id' => $user->id,
-                        'date' => $schedule->date,
-                        'reason' => 'Forget to entry',
-                    ]);
+                    if($historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() != null){
+                        $changeHistoryLock = $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first();
+                        $changeHistoryLock->update([
+                            'reason' => 'Forget to entry',
+                        ]);
+                    }
+                    else{
+                        $history_lock = HistoryLock::create([
+                            'employee_id' => $user->id,
+                            'date' => $schedule->date,
+                            'reason' => 'Forget to entry',
+                        ]);
+                    }
                     $data [] = $user->name;
                     $schedule->update([
                         'status' => 'No Record',
