@@ -63,6 +63,7 @@
 
                 @endforelse
                 @error('detailsSchedule.*') <span class="text-red-500">{{ $message }}</span>@enderror
+                @error('detailsSchedule') <span class="text-red-500">{{ $message }}</span>@enderror
              </div>
             </div>
             @if($now < Carbon\Carbon::parse($shift->time_out))  

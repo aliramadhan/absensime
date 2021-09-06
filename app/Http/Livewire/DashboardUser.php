@@ -402,6 +402,7 @@ class DashboardUser extends Component
         }*/
         //cek if jurnal terisi semua
         $this->validate([
+            'detailsSchedule' => 'required',
             'detailsSchedule.*.task' => 'required',
         ],[
             'required' => 'Jurnal wajib diisi semua.'
