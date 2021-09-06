@@ -376,9 +376,14 @@
                             $weekStop = Carbon\Carbon::now()->endOfWeek();
                             $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
                         @endphp
-                        <div class="my-auto flex-row">
-                            <h2 class="font-semibold text-gray-800 text-sm md:text-base"><i class="far fa-calendar-alt text-orange-500"></i> Shift {{$schedule->shift->name}}</h2>
-                            <h4 class="text-sm md:text-base">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
+                        <div class="my-auto flex-row">                          
+                            @if($schedule != null)
+                             <h2 class="font-semibold text-gray-800 text-sm md:text-base "><i class="far fa-calendar-alt text-orange-500"></i> Shift {{$schedule->shift->name}}  @if($user->position == 'Project Manager') <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
+                            <h4 class="text-sm md:text-base ">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
+                            
+                            @else
+                           <h2 class="font-semibold text-gray-800 text-sm md:text-base ">No Schedule</h2>
+                            @endif
                         </div>
                         @endif
                         <a href="#" class=""><i class="fas fa-chevron-right text-xl text-blue-500 hover:text-blue-700"></i>
@@ -399,7 +404,7 @@
                           </div>
                           @else
                           <div class="gap-2 flex mx-auto items-center ">
-                            <h2 class="font-semibold text-sm md:text-base "> No Schedule Today</h2>                          
+                            <h2 class="font-semibold text-sm md:text-base tracking-wide"> No Schedule Today</h2>                          
                           </div>
                          
                           @endif
@@ -556,7 +561,7 @@
                   </div>
                 </h2>
               </div>
-            
+             
               @else
                 <div class="pt-3 block  md:mt-0 mt-2 text-gray-700 w-auto">
                   @php
@@ -576,11 +581,11 @@
                   </div>
                 </h2>
               </div>
-             </div>
+                
               @endif
-           
+            </div>
             @endif
-               </div>
+              
              <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full">
               
               @if($schedule != null && $user->is_active != 1 && $schedule->status == 'Done')
