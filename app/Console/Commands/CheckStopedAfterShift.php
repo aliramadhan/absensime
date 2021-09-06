@@ -14,6 +14,7 @@ use App\Mail\SendNotifUserNonActived;
 use App\Mail\NotifStopedAfterShift;
 use App\Mail\NotifLateAfterTimeIn;
 use Illuminate\Support\Facades\Mail;
+use Cache;
 
 class CheckStopedAfterShift extends Command
 {
@@ -63,9 +64,17 @@ class CheckStopedAfterShift extends Command
 
             if ($now->greaterThan($time_out)) {
                 $this->info($schedule->workhour + $schedule->timer - $time_limit);
-                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status != 'Sick' || $schedule->status != 'Permission' || $cekLeave == null) && ($schedule->workhour + $schedule->timer) - $time_limit <= 10) {
-                    Mail::to($user->email)->send(new NotifStopedAfterShift());
-                    $this->info("Sending after shift notification email to: {$user->name}!");
+                if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status != 'Sick' || $schedule->status != 'Permission' || $cekLeave == null)) {
+                    //check if notif has been sent
+                    if(Cache::has('sent_notif_stop_' .$user->id)){
+                        //do nothing
+                    }
+                    else{
+                        $expireTime = Carbon::now()->addHours(8);
+                        Cache::put('sent_notif_stop_'.$user->id, Carbon::now(), $expireTime);
+                        Mail::to($user->email)->send(new NotifStopedAfterShift());
+                        $this->info("Sending after shift notification email to: {$user->name}!");
+                    }
                 }
                 //auto stop ketika pause is_stopshift bernilai true
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
@@ -133,7 +142,7 @@ class CheckStopedAfterShift extends Command
                 else{
                     //$this->info("not Sending email.");
                 }
-            }/*
+            }
             elseif ($now->greaterThan($time_in)) {
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
@@ -153,11 +162,19 @@ class CheckStopedAfterShift extends Command
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
-                    $history_lock = HistoryLock::create([
-                        'employee_id' => $user->id,
-                        'date' => $schedule->date,
-                        'reason' => 'Reach the tolerance limit of 1 hour late',
-                    ]);
+                    if($historyLock->where('reason','Late from the assigned shift')->first() != null){
+                        $changeHistoryLock = $historyLock->where('reason','Late from the assigned shift')->first();
+                        $changeHistoryLock->update([
+                            'reason' => 'Reach the tolerance limit of 1 hour late',
+                        ]);
+                    }
+                    else{
+                        $history_lock = HistoryLock::create([
+                            'employee_id' => $user->id,
+                            'date' => $schedule->date,
+                            'reason' => 'Reach the tolerance limit of 1 hour late',
+                        ]);
+                    }
                 }
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
                     $isRequestChecked = Request::where('employee_id',$user->id)->whereDate('date',$now)->where('type','Activation Record')->orderBy('id','desc')->first();
@@ -196,7 +213,7 @@ class CheckStopedAfterShift extends Command
                         ]);
                     }
                 }
-            }*/
+            }
             else{
                 //$this->info("belum lewat shift");
             }
