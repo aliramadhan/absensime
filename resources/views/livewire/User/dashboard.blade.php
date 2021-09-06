@@ -324,7 +324,7 @@
                   <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
                 </div>
               </div>
-            <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg">
+            <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg sm:mt-4">
               <div class="overflow-hidden md:col-span-1 col-span-2 md:block lg:hidden hidden mb-2">
                 <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
                   <label class=" text-gray-700">Annual Leave Quota</label>
