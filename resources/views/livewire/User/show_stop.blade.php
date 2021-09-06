@@ -27,7 +27,7 @@
         To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     -->
     @php
-      $indexSchedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date','>=',Carbon\Carbon::now()->subWeek(5))->pluck('id');
+      $indexSchedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date','>=',Carbon\Carbon::now()->subWeek(1))->pluck('id');
       $detailsSchedule = App\Models\HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
     @endphp
 

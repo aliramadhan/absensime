@@ -465,11 +465,11 @@
                         $workhourDetail += $started_atDetail->diffInSeconds($stoped_atDetail);
                     }
                   @endphp
-                  @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800) && $user->position != 'Project Manager')
+                  @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800)  && ($user->position != 'Project Manager' && $user->position != 'Junior PM'))
                     @include('livewire.User.show-confirm-stop')
-                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && $user->position == 'Project Manager')
+                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && ($user->position == 'Project Manager' || $user->position == 'Junior PM'))
                     @include('livewire.User.show-confirm-stop')
-                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && $user->position != 'Project Manager')
+                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && ($user->position != 'Project Manager' && $user->position != 'Junior PM'))
                     @php
                       $offUser = App\Models\User::find($user->id);
                       if($offUser != null){
@@ -501,7 +501,7 @@
                           'status' => 'Done',
                       ]);
                     @endphp
-                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && $user->position == 'Project Manager')
+                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && ($user->position == 'Project Manager' || $user->position == 'Junior PM'))
                     @php
                       $offUser = App\Models\User::find($user->id);
                       if($offUser != null){
