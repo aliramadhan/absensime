@@ -408,13 +408,11 @@ class DashboardUser extends Component
             'required' => 'Jurnal wajib diisi semua.'
         ]);
 
-        $indexSchedule = Schedule::where('employee_id',$this->user->id)->whereDate('date','>=',Carbon::now()->subWeek())->pluck('id');
+
+        $indexSchedule = Schedule::where('employee_id',$this->user->id)->whereDate('date','>=',Carbon::now()->subWeek(5))->pluck('id');
         $detailsSchedule = HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
-         
         if ($detailsSchedule->count() > count($this->detailsSchedule)) {
-            $this->closeModal();
-            $this->resetFields();
-            return session()->flash('failure', "Jurnal harus diisi semua.");
+            return session()->flash('errorJurnal', "Jurnal harus diisi semua.");
         }
         else{
             $i = 0;

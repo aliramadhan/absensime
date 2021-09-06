@@ -27,7 +27,7 @@
         To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     -->
     @php
-      $indexSchedule = App\Models\Schedule::where('employee_id',$user->id)->pluck('id');
+      $indexSchedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date','>=',Carbon\Carbon::now()->subWeek(5))->pluck('id');
       $detailsSchedule = App\Models\HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
     @endphp
 
@@ -54,7 +54,7 @@
                 @forelse($detailsSchedule as $details)
                   <div class="flex space-x-4 items-center ">
                     <div class="w-6/12 flex space-x-2">
-                  <label class="font-semibold">{{$loop->iteration}}.</label><label class="">{{Carbon\Carbon::parse($details->started_at)->format('d D')}}, {{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
+                  <label class="font-semibold">{{$loop->iteration}}.</label><label class="">{{Carbon\Carbon::parse($details->started_at)->format('d F')}}, {{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
                   </div>
                   <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-6/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
               
@@ -64,6 +64,7 @@
                 @endforelse
                 @error('detailsSchedule.*') <span class="text-red-500">{{ $message }}</span>@enderror
                 @error('detailsSchedule') <span class="text-red-500">{{ $message }}</span>@enderror
+                @if (session()->has('errorJurnal')) <span class="text-red-500">{{ session('errorJurnal') }} @endif
              </div>
             </div>
             @if($now < Carbon\Carbon::parse($shift->time_out))  
