@@ -409,7 +409,7 @@ class DashboardUser extends Component
         ]);
 
 
-        $indexSchedule = Schedule::where('employee_id',$this->user->id)->whereDate('date','>=',Carbon::now()->subWeek(5))->pluck('id');
+        $indexSchedule = Schedule::where('employee_id',$this->user->id)->whereDate('date','>=',Carbon::now()->subWeek(1))->pluck('id');
         $detailsSchedule = HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
         if ($detailsSchedule->count() > count($this->detailsSchedule)) {
             return session()->flash('errorJurnal', "Jurnal harus diisi semua.");
