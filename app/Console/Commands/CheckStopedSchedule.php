@@ -48,6 +48,7 @@ class CheckStopedSchedule extends Command
         $data = [];
         foreach ($schedules as $schedule) {
             $user = User::find($schedule->employee_id);
+            $historyLock = HistoryLock::where('employee_id',$user->id)->where('is_requested',0)->orderBy('id','asc')->get();
             $shift = $schedule->shift;
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
