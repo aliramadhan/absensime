@@ -418,7 +418,7 @@ class DashboardUser extends Component
         */
         $indexSchedule = Schedule::where('employee_id',$this->user->id)->whereDate('date','>=',Carbon::now()->subWeek(1))->pluck('id');
         $detailsSchedule = HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
-        if (count($this->detailsSchedule) > 0) {
+        if ($this->detailsSchedule != null) {
             $i = 0;
             foreach ($detailsSchedule as $detail) {
                 $detail->update([
@@ -618,6 +618,13 @@ class DashboardUser extends Component
             ]);
             $this->is_cancel_order = 0;
         }
+        elseif($this->type == 'Absent'){
+            $this->validate([
+                'type' => 'required|string',
+                'date' => 'required|date|before:now',
+                'desc' => 'required',
+            ]);
+        }
         else{
             $this->validate([
                 'type' => 'required|string',
@@ -656,21 +663,21 @@ class DashboardUser extends Component
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
                 if ($issetRequest != null) {
+                    return session()->flash('failure', "Can't submit request, duplicate request.");
                     $this->closeModal();
                     $this->resetFields();
-                    return session()->flash('failure', "Can't submit request, duplicate request.");
                 }
             }
         }
         if ($issetRequest != null && $this->type != 'Record Activation') {
+            return session()->flash('failure', "Can't submit request, duplicate request.");
             $this->closeModal();
             $this->resetFields();
-            return session()->flash('failure', "Can't submit request, duplicate request.");
         }
         elseif ($isSchedule == null && $cekLeave == null && $this->type != 'Record Activation') {
+            return session()->flash('failure', "Can't submit request, no schedule found.");
             $this->closeModal();
             $this->resetFields();
-            return session()->flash('failure', "Can't submit request, no schedule found.");
         }
         else{
             //create activated record
