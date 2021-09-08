@@ -456,7 +456,6 @@
                 <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
               <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
-                <!--
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @php
                     $workhourDetail = 0;
@@ -470,72 +469,7 @@
                     @include('livewire.User.show-confirm-stop')
                   @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && ($user->position == 'Project Manager' || $user->position == 'Junior PM'))
                     @include('livewire.User.show-confirm-stop')
-                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && ($user->position != 'Project Manager' && $user->position != 'Junior PM'))
-                    @php
-                      $offUser = App\Models\User::find($user->id);
-                      if($offUser != null){
-                        $offUser->update([
-                        'is_active' => 0
-                        ]);
-                      }
-                      $history_lock = App\Models\HistoryLock::create([
-                          'employee_id' => $user->id,
-                          'date' => $schedule->date,
-                          'reason' => 'Forget to stop in the previous shift',
-                      ]);
-
-                      //update task and stop schedule
-                      $detailSchedule = $schedule->details->sortByDesc('id')->first();
-                      $detailSchedule->update([
-                          'stoped_at' => $now,
-                      ]);
-                      $workhour = 0;
-                      foreach ($schedule->details->where('status','Work') as $detail) {
-                          $started_at = Carbon\Carbon::parse($detail->started_at);
-                          $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
-                          $workhour += $started_at->diffInSeconds($stoped_at);
-                      }
-                      $schedule->update([
-                          'stoped_at' => $now,
-                          'workhour' => $workhour,
-                          'timer' => 0,
-                          'status' => 'Done',
-                      ]);
-                    @endphp
-                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && ($user->position == 'Project Manager' || $user->position == 'Junior PM'))
-                    @php
-                      $offUser = App\Models\User::find($user->id);
-                      if($offUser != null){
-                        $offUser->update([
-                        'is_active' => 0
-                        ]);
-                      }
-                      $history_lock = App\Models\HistoryLock::create([
-                          'employee_id' => $user->id,
-                          'date' => $schedule->date,
-                          'reason' => 'Forget to stop in the previous shift',
-                      ]);
-
-                      //update task and stop schedule
-                      $detailSchedule = $schedule->details->sortByDesc('id')->first();
-                      $detailSchedule->update([
-                          'stoped_at' => $now,
-                      ]);
-                      $workhour = 0;
-                      foreach ($schedule->details->where('status','Work') as $detail) {
-                          $started_at = Carbon\Carbon::parse($detail->started_at);
-                          $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
-                          $workhour += $started_at->diffInSeconds($stoped_at);
-                      }
-                      $schedule->update([
-                          'stoped_at' => $now,
-                          'workhour' => $workhour,
-                          'timer' => 0,
-                          'status' => 'Done',
-                      ]);
-                    @endphp
                   @endif
-                @endif -->
                 @if($schedule != null)
                 @php
                   $start = Carbon\Carbon::parse($schedule->started_at);
