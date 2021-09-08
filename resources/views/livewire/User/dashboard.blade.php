@@ -469,7 +469,8 @@
                     @include('livewire.User.show-confirm-stop')
                   @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && $user->position == 'Project Manager')
                     @include('livewire.User.show-confirm-stop')
-           @endif         
+  @endif
+                @endif
                 @if($schedule != null)
                 @php
                   $start = Carbon\Carbon::parse($schedule->started_at);
