@@ -682,9 +682,7 @@ class DashboardUser extends Component
         else{
             //create activated record
             if ($this->type == 'Record Activation') {
-                if ($this->historyLock->first() != null && $this->historyLock->first()->reason == 'Reach the tolerance limit of 1 hour late') {
-                    $this->desc = 'Reach the tolerance limit of 1 hour late - '.$this->desc;
-                }
+                
                 $request = Request::create([
                     'employee_id' => $this->user->id,
                     'employee_name' => $this->user->name,
@@ -696,13 +694,7 @@ class DashboardUser extends Component
                     'is_check_half' => $this->is_check_half,
                     'status' => 'Accept'
                 ]);
-                $this->historyLock->first()->update([
-                    'request_id' => $request->id,
-                    'is_requested' => 1
-                ]);
-                if ($this->historyLock->where('is_requested',0)->count() < 1) {
-                    $this->user->update(['is_active' => 1]);
-                }
+                $this->user->update(['is_active' => 1]);
             }
             else{
                 //create request sick
