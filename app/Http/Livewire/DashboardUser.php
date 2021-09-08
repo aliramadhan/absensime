@@ -216,6 +216,7 @@ class DashboardUser extends Component
             'location.required' => 'Please, Choose Tracking Option before start record.',
             'location.not_in' => 'Please, Choose Tracking Option before start record.',
         ]);
+        /*
         //set position
         if ($this->latitude == null || $this->longitude == null) {
             return redirect()->route('error.gps_not_activated');
@@ -223,6 +224,7 @@ class DashboardUser extends Component
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
         $this->position = $position[0]['formatted_address'];
         $this->currentPosition = $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name;
+        */
         //Update schedule and create task
         $this->now = Carbon::now();
         $shift = $this->schedule->shift;
@@ -345,10 +347,12 @@ class DashboardUser extends Component
     public function resumeOn()
     {
         $this->detailSchedule =$this->schedule->details->SortByDesc('id')->first();
+        /*
         if ($this->latitude == null || $this->longitude == null) {
             return redirect()->route('error.gps_not_activated');
         }
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
+        */
         $this->validate([
             'location' => 'required|string|not_in:none',
         ],[
@@ -357,7 +361,7 @@ class DashboardUser extends Component
         //update detail pause and stop it
         $this->schedule->update([
             'status' => 'Working',
-            'current_position' => $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name,
+            //'current_position' => $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name,
 
         ]);
         $this->detailSchedule->update([
@@ -374,7 +378,7 @@ class DashboardUser extends Component
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
             'location' => $this->location,
-            'position' => $position[0]['formatted_address']
+            //'position' => $position[0]['formatted_address']
         ]);
 
         $this->closeModal();
@@ -384,12 +388,13 @@ class DashboardUser extends Component
     public function stopOn()
     {
         //set position
-        if ($this->latitude == null || $this->longitude == null) {
+        /*if ($this->latitude == null || $this->longitude == null) {
             return redirect()->route('error.gps_not_activated');
         }
         $position = Geocoder::getAllAddressesForCoordinates($this->latitude, $this->longitude);
         $this->position = $position[0]['formatted_address'];
         $this->currentPosition = $position[3]['address_components'][0]->long_name.', '.$position[3]['address_components'][1]->long_name;
+        */
         $time_out = Carbon::parse($this->shift->time_out);
         $time_in = Carbon::parse($this->shift->time_in);
         $time_limit = $time_in->diffInSeconds($time_out);
@@ -400,7 +405,9 @@ class DashboardUser extends Component
         if ($workhour > $time_limit) {
             $workhour = $time_limit;
         }*/
+
         //cek if jurnal terisi semua
+        /*
         $this->validate([
             'detailsSchedule' => 'required',
             'detailsSchedule.*.task' => 'required',
@@ -408,9 +415,19 @@ class DashboardUser extends Component
             'required' => 'Jurnal wajib diisi semua.'
         ]);
 
-
+        */
         $indexSchedule = Schedule::where('employee_id',$this->user->id)->whereDate('date','>=',Carbon::now()->subWeek(1))->pluck('id');
         $detailsSchedule = HistorySchedule::whereIn('schedule_id',$indexSchedule)->where('task',null)->get();
+        if (count($this->detailsSchedule) > 0) {
+            $i = 0;
+            foreach ($detailsSchedule as $detail) {
+                $detail->update([
+                    'task' => $this->detailsSchedule[$i]['task']
+                ]);
+                $i++;
+            }
+        }
+        /*
         if ($detailsSchedule->count() > count($this->detailsSchedule)) {
             return session()->flash('errorJurnal', "Jurnal harus diisi semua.");
         }
@@ -421,35 +438,6 @@ class DashboardUser extends Component
                     'task' => $this->detailsSchedule[$i]['task']
                 ]);
                 $i++;
-            }
-        }
-
-        /*
-        $detailsSchedule = $this->schedule->details->where('task',null)->sortBy('id');
-        if($this->prevSchedule->count() > 0){
-            $detailsSchedule = $detailsSchedule->merge($this->prevSchedule->details->where('task',null)->sortBy('id'));
-        }
-        if ($detailsSchedule->count() > count($this->detailsSchedule)) {
-            $this->closeModal();
-            $this->resetFields();
-            return session()->flash('failure', "Jurnal harus diisi semua.");
-        }
-        else{
-            return dd($this->detailsSchedule);
-            $i = 1;
-            foreach ($this->schedule->details->where('status','!=','Rest') as $detail) {
-                $detail->update([
-                    'task' => $this->detailsSchedule[$i]['task']
-                ]);
-                $i++;
-            }
-            if ($this->prevSchedule != null) {
-                foreach ($this->prevSchedule->details->where('status','!=','Rest') as $detail) {
-                    $detail->update([
-                        'task' => $this->detailsSchedule[$i]['task']
-                    ]);
-                    $i++;
-                }
             }
         }*/
         //update task and stop schedule

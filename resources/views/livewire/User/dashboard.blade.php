@@ -1003,6 +1003,7 @@ window.customElements.define('progress-ring', ProgressRing);
     </script>
 <script>
     function showPosition() {
+      /*
         if(navigator.geolocation) {
             //navigator.geolocation.getCurrentPosition(getLocation);
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -1018,7 +1019,7 @@ window.customElements.define('progress-ring', ProgressRing);
             });
         } else {
             alert("Sorry, your browser does not support HTML5 geolocation.");
-        }
+        }*/
     }
 
     const slider = document.querySelector(".scroll");
