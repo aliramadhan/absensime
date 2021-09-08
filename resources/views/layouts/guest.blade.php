@@ -63,7 +63,20 @@
        </div>   
 <div style="display:none;" id="myDiv" class="animate-bottom contents">
     <div class="text-gray-900 antialiased">
-        {{ $slot }}
+        @php
+    $user_agent = $_SERVER['HTTP_USER_AGENT']; 
+    @endphp
+    @if(stripos( $user_agent, 'Chrome') !== false)
+
+  
+   
+      {{ $slot }}
+   
+
+
+    @elseif(stripos( $user_agent, 'Safari') !== false)    
+    Sorry Attendance app doesn't support on Safari Browser now
+   @endif
     </div>
 </div>
 </body>

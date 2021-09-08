@@ -398,8 +398,8 @@
                           $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
                           @endphp
                           <div class="space-x-2 flex mx-auto items-center ">
-                            <h2 class="font-semibold text-sm md:text-base tracking-wide"><i class="far fa-calendar-alt"></i>  Shift {{$schedule->shift->name}}</h2>
-                            <h4 class="text-sm md:text-base tracking-wider">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
+                            <h2 class="font-semibold text-sm md:text-base tracking-wide"><i class="far fa-calendar-alt"></i>  Shift {{$schedule->shift->name}} </h2>
+                            <h4 class="text-sm md:text-base tracking-wider">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}} @if($user->position == 'Project Manager') <span >(+4 h) </span> @endif</h4>
                            
                           </div>
                           @else
@@ -436,7 +436,7 @@
                         </label>
                           @error('location') <span class="text-red-500 text-xl font-semibold "><i class="fas fa-times-circle"></i></span>@enderror
 
-                         <h2 class="text-gray-700 text-left mr-2 truncate w-full md:w-11/12  border rounded-xl px-3  py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2>
+                       <!--   <h2 class="text-gray-700 text-left mr-2 truncate w-full md:w-11/12  border rounded-xl px-3  py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2> -->
                          </div>
                     <div class="flex justify-between items-center flex-col md:flex-row">
               @if($isModal == 'Pause')
@@ -455,7 +455,7 @@
                         @if($schedule != null && $schedule->started_at != null)
                 <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
-              <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+              <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @php
                     $workhourDetail = 0;
@@ -488,7 +488,7 @@
                 @endphp
                   <div class="pt-3 block  md:mt-0 mt-2 text-gray-700 w-auto">
                 <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
-                  <span class="md:hidden xl:inline-block -top-4 bg-white relative  xl:px-2 md:text-lg text-base px-3 xl:font-medium lg:text-base ">Tracking ProgressRing</span>
+                  <span class="md:hidden xl:inline-block -top-4 bg-white relative  xl:px-2 md:text-lg text-base px-3 xl:font-medium lg:text-base ">Tracking Progress</span>
                     <span class="xl:hidden hidden md:inline-block md:px-2  -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
                   <div class="px-5 pb-2 md:-mt-4 -mt-6 flex flex-col items-center text-center ">
                     <h2 class="text-2xl font-semibold text-orange-500 mt-2 mb-1 tracking-wide">{{$time}}</h2>
@@ -806,7 +806,7 @@
                           <h2 class="text-lg text-blue-500 font-base font-semibold leading-none">
                             {{$user->target_weekly}}
                           </h2>
-                          <h2 class="text-white bg-blue-500 py-1 rounded-lg w-full md:text-base text-xs">Weekly Target {{$startWeek->format('d')}} {{$endWeek->format('d')}}</h2>
+                          <h2 class="text-white bg-blue-500 py-1 rounded-lg w-full md:text-base text-xs">Weekly Target</h2>
                         </div>                    
 
                       </div>
