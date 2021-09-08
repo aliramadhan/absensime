@@ -180,15 +180,33 @@
     @endif
 
     <!-- Page Content -->
+   @php
+    $user_agent = $_SERVER['HTTP_USER_AGENT']; 
+    @endphp
+    @if(stripos( $user_agent, 'Chrome') !== false)
+     
+  
     <main>
       {{ $slot }}
     </main>
+
+
+    
+  
+
+    
+    @elseif(stripos( $user_agent, 'Safari') !== false)
+    
+     echo "Sorry Attendance app doesn't support on Safari Browser now";
+   @endif
+  
   </div>
   <footer class="text-gray-600 body-font z-0">
       <div class="container lg:px-5 md:px-4 px-2 py-8 mx-auto flex items-center flex-col md:flex-row">
         <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
          <img class="mb-1 logo-login h-10" src="{{ asset('/image/logo2.png')}}" alt="24Slides-logo" height="38px">
           <span class="ml-3 text-xl">Indonesia</span>
+
         </a>
         <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4">© 2021 24Slides —
           <a href="#" class="text-gray-600 ml-1" rel="ADN Dev" target="_blank">ADN</a>

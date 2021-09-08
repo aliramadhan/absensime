@@ -456,7 +456,6 @@
                 <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
               <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="pt-3 block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
-                <!--
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @php
                     $workhourDetail = 0;
@@ -466,11 +465,11 @@
                         $workhourDetail += $started_atDetail->diffInSeconds($stoped_atDetail);
                     }
                   @endphp
-                  @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800)  && ($user->position != 'Project Manager' && $user->position != 'Junior PM'))
+                  @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800) && $user->position != 'Project Manager')
                     @include('livewire.User.show-confirm-stop')
-                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && ($user->position == 'Project Manager' || $user->position == 'Junior PM'))
+                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && $user->position == 'Project Manager')
                     @include('livewire.User.show-confirm-stop')
-                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && ($user->position != 'Project Manager' && $user->position != 'Junior PM'))
+                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && $user->position != 'Project Manager')
                     @php
                       $offUser = App\Models\User::find($user->id);
                       if($offUser != null){
@@ -502,7 +501,7 @@
                           'status' => 'Done',
                       ]);
                     @endphp
-                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && ($user->position == 'Project Manager' || $user->position == 'Junior PM'))
+                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && $user->position == 'Project Manager')
                     @php
                       $offUser = App\Models\User::find($user->id);
                       if($offUser != null){
@@ -535,7 +534,7 @@
                       ]);
                     @endphp
                   @endif
-                @endif -->
+                @endif
                 @if($schedule != null)
                 @php
                   $start = Carbon\Carbon::parse($schedule->started_at);
