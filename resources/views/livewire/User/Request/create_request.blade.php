@@ -77,7 +77,7 @@
                             @else
                             <div class="mb-4 px-2">
                                 <label for="formDate" class="block text-gray-500 text-sm  mb-2">Date </label>
-                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $now->lte(Carbon\Carbon::parse('today 8am'))) min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
+                                <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $now->lte(Carbon\Carbon::parse('today 8am'))) min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
                                 @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
                             @endif
@@ -140,7 +140,7 @@
                             @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @endif
-                        @if(($type != 'Overtime' && $type != 'Change Shift' && $type != 'Mandatory')&&($type != 'Record Activation')&&($type != 'Excused')&&($type != ''))
+                        @if(($type != 'Overtime' && $type != 'Absent' && $type != 'Change Shift' && $type != 'Mandatory')&&($type != 'Record Activation')&&($type != 'Excused')&&($type != ''))
                         <div class="mb-4 px-2 flex items-center gap-2">
                             <label for="formIsCancelOrder" class="block text-gray-500 text-sm  ">Cancel your <span class="text-orange-500">catering</span> order ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
