@@ -20,4 +20,18 @@
 	</p>
     <p>Thank you</p>
 </body>
+<script type="text/javascript"> 
+    var notify;
+   
+    // jika notifikasi di izinkan
+    if(Notification.permission == 'granted'){
+      notify = new Notification("Attendance Notification",{
+        // judul notifikasi
+        body : "Kamu terlambat masuk",
+        // icon notifikasi
+        icon : "{{ asset('image/logo.png') }}"
+      });
+    }
+
+</script>
 </html>

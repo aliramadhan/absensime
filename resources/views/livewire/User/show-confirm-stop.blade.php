@@ -26,10 +26,25 @@
         To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     -->
 
+
+<script type="text/javascript"> 
+    var notify;
+   
+    // jika notifikasi di izinkan
+    if(Notification.permission == 'granted'){
+      notify = new Notification("Attendance Notification",{
+        // judul notifikasi
+        body : "Please Stop Your Record",
+        // icon notifikasi
+        icon : "{{ asset('image/logo.png') }}"
+      });
+    }
+
+</script>
     <audio  autoplay >
       <source src="{{ asset('audio/sound.mp3') }}" type="audio/mp3" />
     </audio>
-    
+
     <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
       <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <div class="sm:flex sm:items-start">
