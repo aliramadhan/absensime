@@ -76,4 +76,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Schedule::class,'employee_id');
     }
+    public function routeNotificationForSlack($notification)
+    {
+        return env('SLACK_HOOK');
+    }
 }

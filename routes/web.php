@@ -23,6 +23,7 @@ use App\Http\Livewire\Tables\ReportOvertime;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\SendNotifUserNonActived;
+use App\Notifications\NotifWithSlack;
 use Illuminate\Support\Facades\Mail;
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,11 @@ use Illuminate\Support\Facades\Mail;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/cek_mail', function(){
+	$message = "Hey <@US6MYKCRL>, thanks for submitting your report!";
+	Notification::route('slack', env('SLACK_HOOK'))
+      ->notify(new NotifWithSlack($message));
+});
 Route::get('setcookie', function(){
   	Session::setId($_GET['id']);
   	Session::start();
