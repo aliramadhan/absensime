@@ -48,7 +48,6 @@ class CheckStopedSchedule extends Command
         $data = [];
         foreach ($schedules as $schedule) {
             $user = User::find($schedule->employee_id);
-            $historyLock = HistoryLock::where('employee_id',$user->id)->where('is_requested',0)->orderBy('id','asc')->get();
             $shift = $schedule->shift;
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
@@ -59,19 +58,6 @@ class CheckStopedSchedule extends Command
                 if ($schedule->status == 'Not sign in') {
                     $user->is_active = 0;
                     $user->save();
-                    if($historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() != null){
-                        $changeHistoryLock = $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first();
-                        $changeHistoryLock->update([
-                            'reason' => 'Forget to entry',
-                        ]);
-                    }
-                    else{
-                        $history_lock = HistoryLock::create([
-                            'employee_id' => $user->id,
-                            'date' => $schedule->date,
-                            'reason' => 'Forget to entry',
-                        ]);
-                    }
                     $data [] = $user->name;
                     $schedule->update([
                         'status' => 'No Record',
@@ -80,11 +66,6 @@ class CheckStopedSchedule extends Command
                 elseif ($schedule->status != 'Done') {
                     $user->is_active = 0;
                     $user->save();
-                    $history_lock = HistoryLock::create([
-                        'employee_id' => $user->id,
-                        'date' => $schedule->date,
-                        'reason' => 'Forget to stop in the previous shift',
-                    ]);
                     $data [] = $user->name;
 
                     //update task and stop schedule

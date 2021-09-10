@@ -59,21 +59,11 @@ class CheckStopedScheduleSecurity extends Command
                     $schedule->update([
                         'status' => 'No Record',
                     ]);
-                    $history_lock = HistoryLock::create([
-                        'employee_id' => $user->id,
-                        'date' => $schedule->date,
-                        'reason' => 'Forget to entry',
-                    ]);
                 }
                 elseif ($schedule->status != 'Done') {
                     $user->is_active = 0;
                     $user->save();
                     $data [] = $user->name;
-                    $history_lock = HistoryLock::create([
-                        'employee_id' => $user->id,
-                        'date' => $schedule->date,
-                        'reason' => 'Forget to stop in the previous shift',
-                    ]);
                     //update task and stop schedule
                     $detailSchedule = $schedule->details->sortByDesc('id')->first();
                     $detailSchedule->update([

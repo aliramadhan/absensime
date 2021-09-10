@@ -11,16 +11,17 @@ use Illuminate\Notifications\Messages\SlackMessage;
 class NotifWithSlack extends Notification
 {
     use Queueable;
-    public $message;
+    public $message, $user;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($message, $user)
     {
         $this->message = $message;
+        $this->user = $user;
     }
 
     /**
@@ -62,10 +63,15 @@ class NotifWithSlack extends Notification
     }
     public function toSlack($notifiable)
     {
-        
+        if ($this->user == null) {
+            return (new SlackMessage)
+                //->from('Ghost', ':ghost:')
+                //->to('@UQDR1NZ9D')
+                ->content($this->message);
+        }
         return (new SlackMessage)
                 //->from('Ghost', ':ghost:')
-                //->to('#siuyan')
+                ->to('@UQDR1NZ9D')
                 ->content($this->message);
     }
 }
