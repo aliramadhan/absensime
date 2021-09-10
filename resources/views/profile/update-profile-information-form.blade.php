@@ -80,6 +80,12 @@
             <x-jet-input-error for="roles" class="mt-2" />
         </div> -->
 
+        <!-- Name -->
+        <div class="col-span-6 sm:col-span-4">
+            <x-jet-label for="slack_id" value="{{ __('ID Slack') }}" />
+            <x-jet-input id="slack_id" type="text" class="mt-1 block w-full" wire:model.defer="state.slack_id" autocomplete="slack_id" />
+            <x-jet-input-error for="slack_id" class="mt-2" />
+        </div>
         <!-- Number Phone -->
         <div class="col-span-6 sm:col-span-4">
             <x-jet-label for="number_phone" value="{{ __('Number Phone') }}" />
