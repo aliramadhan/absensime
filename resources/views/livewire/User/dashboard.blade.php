@@ -984,15 +984,8 @@ window.customElements.define('progress-ring', ProgressRing);
     window.onload = showPosition;
 
 
-  // mengambil element berdasarkan id
  
 
 </script>
 
-
-<script type="text/javascript">
-  
-
-
-</script>
 </div>
