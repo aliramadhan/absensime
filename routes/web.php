@@ -38,7 +38,7 @@ use Illuminate\Support\Facades\Mail;
 Route::get('/cek_mail', function(){
 	$message = "Hello cutie, this is Direct Message using bot!";
 	Notification::route('slack', env('SLACK_HOOK'))
-      ->notify(new NotifWithSlack($message, null));
+      ->notify(new NotifWithSlack($message, 'U02DX6PEELW'));
 });
 Route::get('setcookie', function(){
   	Session::setId($_GET['id']);

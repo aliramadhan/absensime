@@ -63,15 +63,9 @@ class NotifWithSlack extends Notification
     }
     public function toSlack($notifiable)
     {
-        if ($this->user == null) {
-            return (new SlackMessage)
-                //->from('Ghost', ':ghost:')
-                //->to('@UQDR1NZ9D')
-                ->content($this->message);
-        }
         return (new SlackMessage)
-                //->from('Ghost', ':ghost:')
-                ->to('@UQDR1NZ9D')
-                ->content($this->message);
+            //->from('Ghost', ':ghost:')
+            ->to('@'.$this->user)
+            ->content($this->message);
     }
 }

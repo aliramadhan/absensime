@@ -24,7 +24,6 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             'photo' => ['nullable', 'image', 'max:1024'],
             'number_phone' => ['required', 'string', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
-            'slack_id' => ['string', 'max:255'],
         ])->validateWithBag('updateProfileInformation');
 
         if (isset($input['photo'])) {
