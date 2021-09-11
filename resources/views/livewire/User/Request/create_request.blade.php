@@ -29,11 +29,9 @@
                                 @foreach($leaves as $leave)
                                     <option>{{$leave->name}}</option>
                                 @endforeach
-                                <!--
-                                @if($historyLock->count() > 0)
+                                @if($user->is_active == 0)
                                 <option>Record Activation</option>
                                 @endif
-                                -->
                                 <option>Absent</option>
                                 <option>Sick</option>
                                 <option>Permission</option>
