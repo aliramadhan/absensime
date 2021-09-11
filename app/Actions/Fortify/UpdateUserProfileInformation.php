@@ -39,6 +39,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'email' => $input['email'],
                 'number_phone' => $input['number_phone'],
                 'address' => $input['address'],
+                'slack_id' => $input['slack_id'],
             ])->save();
         }          
     }

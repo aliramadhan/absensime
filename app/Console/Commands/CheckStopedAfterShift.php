@@ -74,9 +74,11 @@ class CheckStopedAfterShift extends Command
                     else{
                         $expireTime = Carbon::now()->addHours(8);
                         Cache::put('sent_notif_stop_'.$user->id, Carbon::now(), $expireTime);
-                        $message = "Hey <@US6MYKCRL>, Your recording has exceeded shift, please stop recording";
-                        Notification::route('slack', env('SLACK_HOOK'))
-                            ->notify(new NotifWithSlack($message));
+                        if ($user->slack_id != null) {
+                            $message = "Hey <@".$user->slack_id.">, Your recording has exceeded shift, please stop recording";
+                            Notification::route('slack', env('SLACK_HOOK'))
+                              ->notify(new NotifWithSlack($message, $user->slack_id));
+                        }
                         //Mail::to($user->email)->send(new NotifStopedAfterShift());
                         $this->info("Sending after shift notification email to: {$user->name}!");
                     }
@@ -87,11 +89,6 @@ class CheckStopedAfterShift extends Command
                     if ($detail->is_stop_shift) {
                         $user->is_active = 0;
                         $user->save();
-                        $history_lock = HistoryLock::create([
-                            'employee_id' => $user->id,
-                            'date' => $schedule->date,
-                            'reason' => 'Forget to stop in the previous shift',
-                        ]);
                         $data [] = $user->name;
 
                         //update task and stop schedule
@@ -113,7 +110,7 @@ class CheckStopedAfterShift extends Command
                         ]);
                     }
                 }
-                /*elseif(($schedule->status != 'Done' && $schedule->status != 'Overtime' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null) && ($time_out->diffInMinutes($now) == 10){
+                /*elseif(($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null) && ($time_out->diffInMinutes($now) == 10){
                     $workhour = 0;
                     foreach ($schedule->details->where('status','Work') as $detail) {
                         $started_at = Carbon::parse($detail->started_at);
@@ -154,32 +151,24 @@ class CheckStopedAfterShift extends Command
                 if($timeSet < 60 && ($schedule->status == 'Not sign in') && $historyLock->count() < 1 && $historyLock->where('reason','Late from the assigned shift')->first() == null){
                     //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     //$this->info("Sending late notification email to: {$user->name}!");
+                    if ($user->slack_id != null) {
+                        $message = "Hey <@".$user->slack_id.">, Kamu terlambat masuk. Ayo segera catat jam masuk. klik tautan <a href='attendance.pahlawandesignstudio.com'>ini </a>.";
+                        Notification::route('slack', env('SLACK_HOOK'))
+                          ->notify(new NotifWithSlack($message, $user->slack_id));
+                    }
                     $user->is_active = 0;
                     $user->save();
-                    $history_lock = HistoryLock::create([
-                        'employee_id' => $user->id,
-                        'date' => $schedule->date,
-                        'reason' => 'Late from the assigned shift',
-                    ]);
                 }
                 elseif($timeSet >= 60 && $schedule->status == 'Not sign in' && $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() == null){
-                    Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
+                    if ($user->slack_id != null) {
+                        $message = "Hey <@".$user->slack_id.">, Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. Ayo segera catat jam masuk. klik tautan <a href='attendance.pahlawandesignstudio.com'>ini </a>.";
+                        Notification::route('slack', env('SLACK_HOOK'))
+                          ->notify(new NotifWithSlack($message, $user->slack_id));
+                    }
+                    //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     $this->info("Sending late notification email to: {$user->name}!");
                     $user->is_active = 0;
                     $user->save();
-                    if($historyLock->where('reason','Late from the assigned shift')->first() != null){
-                        $changeHistoryLock = $historyLock->where('reason','Late from the assigned shift')->first();
-                        $changeHistoryLock->update([
-                            'reason' => 'Reach the tolerance limit of 1 hour late',
-                        ]);
-                    }
-                    else{
-                        $history_lock = HistoryLock::create([
-                            'employee_id' => $user->id,
-                            'date' => $schedule->date,
-                            'reason' => 'Reach the tolerance limit of 1 hour late',
-                        ]);
-                    }
                 }
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
                     $isRequestChecked = Request::where('employee_id',$user->id)->whereDate('date',$now)->where('type','Activation Record')->orderBy('id','desc')->first();
@@ -192,11 +181,6 @@ class CheckStopedAfterShift extends Command
                     if ($timeSet == 4 || ($timeSet + $selisihRequestChecked) == 4) {
                         $user->is_active = 0;
                         $user->save();
-                        $history_lock = HistoryLock::create([
-                            'employee_id' => $user->id,
-                            'date' => $schedule->date,
-                            'reason' => 'Permission to leave work for more than 4 hours',
-                        ]);
                         $data [] = $user->name;
 
                         //update task and stop schedule
