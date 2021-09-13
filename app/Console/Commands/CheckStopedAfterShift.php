@@ -86,7 +86,6 @@ class CheckStopedAfterShift extends Command
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
                     $detail = $schedule->details->sortByDesc('id')->first();
                     if ($detail->is_stop_shift) {
-
                         //update task and stop schedule
                         $detailSchedule = $schedule->details->sortByDesc('id')->first();
                         $detailSchedule->update([
@@ -105,6 +104,14 @@ class CheckStopedAfterShift extends Command
                             'status' => 'Done',
                         ]);
                     }
+                }
+                elseif ($schedule->status == 'Not sign in') {
+                    $schedule->update([
+                        'status' => 'No Record',
+                    ]);
+                    $message = "Hey <@".$user->slack_id.">, Kamu hari ini tidak melakukan recording. Kamu dapat melakukan perubahan pencatatan besok silakan klik tautan attendance.pahlawandesignstudio.com.";
+                        Notification::route('slack', env('SLACK_HOOK'))
+                            ->notify(new NotifWithSlack($message, $user->slack_id));
                 }
                 /*elseif(($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null) && ($time_out->diffInMinutes($now) == 10){
                     $workhour = 0;
