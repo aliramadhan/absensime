@@ -65,16 +65,15 @@ class CheckStopedAfterShift extends Command
             //notif ketika lewat shift
 
             if ($now->greaterThan($time_out)) {
-                $this->info($schedule->workhour + $schedule->timer - $time_limit);
                 if (($schedule->workhour + $schedule->timer) >= $time_limit && ($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status != 'Sick' || $schedule->status != 'Permission' || $cekLeave == null)) {
                     //check if notif has been sent
                     if(Cache::has('sent_notif_stop_' .$user->id)){
                         //do nothing
                     }
                     else{
-                        $expireTime = Carbon::now()->addHours(8);
-                        Cache::put('sent_notif_stop_'.$user->id, Carbon::now(), $expireTime);
                         if ($user->slack_id != null) {
+                            $expireTime = Carbon::now()->addHours(8);
+                            Cache::put('sent_notif_stop_'.$user->id, Carbon::now(), $expireTime);
                             $message = "Hey <@".$user->slack_id.">, Your recording has exceeded shift, please stop recording";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
@@ -87,9 +86,6 @@ class CheckStopedAfterShift extends Command
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
                     $detail = $schedule->details->sortByDesc('id')->first();
                     if ($detail->is_stop_shift) {
-                        $user->is_active = 0;
-                        $user->save();
-                        $data [] = $user->name;
 
                         //update task and stop schedule
                         $detailSchedule = $schedule->details->sortByDesc('id')->first();
@@ -148,42 +144,38 @@ class CheckStopedAfterShift extends Command
             elseif ($now->greaterThan($time_in)) {
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
-                if($timeSet < 60 && ($schedule->status == 'Not sign in') && $historyLock->count() < 1 && $historyLock->where('reason','Late from the assigned shift')->first() == null){
+                if($timeSet < 60 && ($schedule->status == 'Not sign in')){
                     //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     //$this->info("Sending late notification email to: {$user->name}!");
                     if(Cache::has('sent_notif_late_' .$user->id)){
                         //do nothing
                     }
                     else{
-                        $expireTime = Carbon::now()->addHours(8);
-                        Cache::put('sent_notif_late_'.$user->id, Carbon::now(), $expireTime);
                         if ($user->slack_id != null) {
+                            $expireTime = Carbon::now()->addHours(8);
+                            Cache::put('sent_notif_late_'.$user->id, Carbon::now(), $expireTime);
                             $message = "Hey <@".$user->slack_id.">, Kamu terlambat masuk. Ayo segera catat jam masuk. klik tautan <a href='attendance.pahlawandesignstudio.com'>ini </a>.";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
                         }
-                        $user->is_active = 0;
-                        $user->save();
                     }
                     
                 }
-                elseif($timeSet >= 60 && $schedule->status == 'Not sign in' && $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() == null){
+                elseif($timeSet >= 60 && $schedule->status == 'Not sign in'){
 
                     if(Cache::has('sent_notif_late1_' .$user->id)){
                         //do nothing
                     }
                     else{
-                        $expireTime = Carbon::now()->addHours(8);
-                        Cache::put('sent_notif_late1_'.$user->id, Carbon::now(), $expireTime);
                         if ($user->slack_id != null) {
+                            $expireTime = Carbon::now()->addHours(8);
+                            Cache::put('sent_notif_late1_'.$user->id, Carbon::now(), $expireTime);
                             $message = "Hey <@".$user->slack_id.">, Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. Ayo segera catat jam masuk. klik tautan <a href='attendance.pahlawandesignstudio.com'>ini </a>.";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
                         }
                         //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                         $this->info("Sending late notification email to: {$user->name}!");
-                        $user->is_active = 0;
-                        $user->save();
                     }
                 }
                 elseif($schedule->status == 'Pause' && $schedule->details->sortByDesc('id')->first() != null){
@@ -195,10 +187,6 @@ class CheckStopedAfterShift extends Command
                     $paused_at = Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
                     $timeSet = $paused_at->diffInHours($now);
                     if ($timeSet == 4 || ($timeSet + $selisihRequestChecked) == 4) {
-                        $user->is_active = 0;
-                        $user->save();
-                        $data [] = $user->name;
-
                         //update task and stop schedule
                         $detailSchedule = $schedule->details->sortByDesc('id')->first();
                         $detailSchedule->update([

@@ -56,18 +56,11 @@ class CheckStopedSchedule extends Command
             }
             else{
                 if ($schedule->status == 'Not sign in') {
-                    $user->is_active = 0;
-                    $user->save();
-                    $data [] = $user->name;
                     $schedule->update([
                         'status' => 'No Record',
                     ]);
                 }
                 elseif ($schedule->status != 'Done') {
-                    $user->is_active = 0;
-                    $user->save();
-                    $data [] = $user->name;
-
                     //update task and stop schedule
                     $detailSchedule = $schedule->details->sortByDesc('id')->first();
                     $detailSchedule->update([
