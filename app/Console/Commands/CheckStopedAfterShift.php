@@ -109,7 +109,7 @@ class CheckStopedAfterShift extends Command
                     $schedule->update([
                         'status' => 'No Record',
                     ]);
-                    $message = "Hey <@".$user->slack_id.">, Kamu hari ini tidak melakukan recording. Kamu dapat melakukan perubahan pencatatan besok silakan klik tautan attendance.pahlawandesignstudio.com.";
+                    $message = "Hey <@".$user->slack_id.">, Kamu hari ini tidak melakukan recording. Kamu dapat melakukan perubahan pencatatan besok silakan klik tautan <https://attendance.pahlawandesignstudio.com/|*ini*>.";
                         Notification::route('slack', env('SLACK_HOOK'))
                             ->notify(new NotifWithSlack($message, $user->slack_id));
                 }
@@ -159,7 +159,7 @@ class CheckStopedAfterShift extends Command
                     }
                     else{
                         if ($user->slack_id != null) {
-                            $message = "Hey <@".$user->slack_id.">, Kamu terlambat masuk. Ayo segera catat jam masuk. klik tautan <a href='attendance.pahlawandesignstudio.com'>ini </a>.";
+                            $message = "Hey <@".$user->slack_id.">, Kamu terlambat masuk. Ayo segera catat jam masuk. klik tautan <https://attendance.pahlawandesignstudio.com/|*ini*>.";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
                             $expireTime = Carbon::now()->addHours(2);
@@ -175,7 +175,7 @@ class CheckStopedAfterShift extends Command
                     }
                     else{
                         if ($user->slack_id != null) {
-                            $message = "Hey <@".$user->slack_id.">, Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. Ayo segera catat jam masuk. klik tautan <a href='attendance.pahlawandesignstudio.com'>ini </a>.";
+                            $message = "Hey <@".$user->slack_id.">, Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. Ayo segera catat jam masuk. klik tautan <https://attendance.pahlawandesignstudio.com/|*ini*>.";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
                             $expireTime = Carbon::now()->addHours(2);
