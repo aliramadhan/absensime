@@ -121,9 +121,10 @@
 
 </style>
 </head>
+
 <body class="antialiased">
   
- 
+  
     @if (session()->has('success'))
     <div class="flex absolute bottom-10 z-20" x-data="{ show: true }" x-show="show" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => show = false, 20)">
       <div class="m-auto">
@@ -187,8 +188,61 @@
 
   
     <main>
+     
+       <script type="text/javascript">       
+       
+       function notifyMe() {
+      // Let's check if the browser supports notifications
+         
+       
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notification");
+      }
+
+      // Let's check whether notification permissions have already been granted
+      else if (Notification.permission === "granted") {
+        // If it's okay let's create a notification
+             notify = new Notification("Attendance Notification",{
+            // judul notifikasi
+            body : "Windows Notification is active now",
+            // icon notifikasi
+            icon : "{{ asset('image/logo.png') }}"
+          });
+           
+      }
+
+      // Otherwise, we need to ask the user for permission
+      else if (Notification.permission !== "denied") {
+        Notification.requestPermission().then(function (permission) {
+          // If the user accepts, let's create a notification
+          if (permission === "granted") {
+                 notify = new Notification("Attendance Notification",{
+            // judul notifikasi
+            body : "Windows Notification is active now",
+            // icon notifikasi
+            icon : "{{ asset('image/logo.png') }}"
+          });
+          }
+        });
+
+      }
+    }
+    setInterval(function(){
+        if (Notification.permission === "granted" ){
+        document.getElementById("Notificationbtn").className = 'hidden';
+      }
+       }, 1000);
+  </script>
+  <div x-data="{ notify: true }">
+  <div class="hidden" id="Notificationbtn"  x-show="notify" x-transition>
+    <label>Now we have added a new feature, If you want to enable windows notification please allow our permission</label>
+    <button onclick="notifyMe()" class="rounded-lg px-4 text-sm border font-semibold border-gray-400 hover:text-white tracking-wide hover:bg-gray-600  py-2 duration-300">Notify me!</button>
+    <button @click="notify = !notify" class="absolute -top-3 right-20 rounded-full bg-gray-900 text-white h-6 w-6 hover:bg-white hover:text-gray-900 hover:border duration-300 flex focus:rounded-full focus:outline-none" ><i class="fas fa-times m-auto"></i></button>
+      </div>
+  </div>
       {{ $slot }}
     </main>
+  
 
 
     @elseif(stripos( $user_agent, 'Safari') !== false)    
@@ -214,5 +268,16 @@
   @stack('modals')
 
   @livewireScripts
+ <script >
+        window.onload = function checkBtnNotif() {
+
+           if(Notification.permission === 'denied' || Notification.permission === 'default') {
+            document.getElementById("Notificationbtn").className = 'shadow-md md:fixed w-full bottom-0 bg-white border-t hidden md:block text-center py-4 z-20 flex flex-row space-x-3 hidden';
+          } else {
+            document.getElementById("Notificationbtn").className = 'hidden';
+          }
+
+        }
+      </script>
 </body>
 </html>

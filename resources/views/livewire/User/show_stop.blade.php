@@ -46,7 +46,7 @@
               <h3 class="text-base md:text-lg leading-none font-medium text-gray-900" >
                 Stop Recording & Journaling <label class="hidden sm:inline-block">Recapitulation</label>
               </h3>
-             <label class=" tracking-wide text-xs md:text-sm text-gray-800">You Have <label class="font-semibold">{{$detailsSchedule->count()}}</label> empty journal</label>       
+             <label class=" tracking-wide text-xs md:text-sm text-gray-800">You Have <label class="font-semibold">{{$detailsSchedule->count()}}</label> empty journal, it optional to fill</label>       
             </div>
 
             <div class="overflow-y-auto max-h-72 pr-2 flex-auto border-b">     
@@ -55,9 +55,9 @@
                 @forelse($detailsSchedule as $details)
                   <div class="flex space-x-4 items-center ">
                     <div class="w-6/12 flex space-x-2">
-                  <label class="font-semibold">{{$loop->iteration}}.</label><label class="">{{Carbon\Carbon::parse($details->started_at)->format('d F')}}, {{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
+                  <label class="font-semibold">{{$loop->iteration}}.</label><label class="">{{Carbon\Carbon::parse($details->started_at)->format('H:i')}} - {{Carbon\Carbon::parse($details->stoped_at)->format('H:i')}}</label>
                   </div>
-                  <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-6/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
+                  <input type="text" class="rounded-lg tracking-wide py-2 px-3 w-10/12 text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white" required placeholder="Fill your task/journal.." wire:model="detailsSchedule.{{ $loop->index }}.task">
               
                 </div>
                 @empty

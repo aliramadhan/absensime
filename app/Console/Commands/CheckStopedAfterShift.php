@@ -161,7 +161,7 @@ class CheckStopedAfterShift extends Command
                 }
                 elseif($timeSet >= 60 && $schedule->status == 'Not sign in' && $historyLock->where('reason','Reach the tolerance limit of 1 hour late')->first() == null){
                     if ($user->slack_id != null) {
-                        $message = "Hey <@".$user->slack_id.">, Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. Ayo segera catat jam masuk. klik tautan <a href='attendance.pahlawandesignstudio.com'>ini </a>.";
+                        $message = "Hey <@".$user->slack_id.">, Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. Ayo segera catat jam masuk. klik tautan attendance.pahlawandesignstudio.com";
                         Notification::route('slack', env('SLACK_HOOK'))
                           ->notify(new NotifWithSlack($message, $user->slack_id));
                     }
