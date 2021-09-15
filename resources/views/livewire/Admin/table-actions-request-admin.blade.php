@@ -88,7 +88,7 @@
     </div>
   </div>
 
-<!--Modal edit -->
+<!--Modal overtime -->
   <div class="hidden overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center" id="edit{{$id}}">
   <!--<div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center z-20" id="edit{{$id}}">-->
     <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
