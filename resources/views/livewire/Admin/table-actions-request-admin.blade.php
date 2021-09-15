@@ -40,7 +40,7 @@
                   </div>
                   <div class="text-center py-6 text-2xl text-gray-700">Are you sure ?</div>
                   <div class="text-center font-light text-gray-700 mb-8">
-                      Do you really want to decline request {{$request->type}} from {{$request->employee_name}} at {{Carbon\Carbon::parse($request->date)->format('d F Y')}} ?<br> This process cannot be undone.
+                      Do you really want to decline request {{$request->type}} from {{$request->employee_name}} at {{Carbon\Carbon::parse($request->date)->format('d F Y')}} ?<br>@if($order == null) Cancel order request doesn't work because {{$request->employee_name}} did't have a catering schedule @endif<br> This process cannot be undone.
                   </div>
                   <div class="flex justify-center">
                       <button class="modal-close bg-gray-300 text-gray-900 rounded hover:bg-gray-200 px-6 py-2 focus:outline-none mx-1" onclick="toggleModal('decline{{$id}}')">Cancel</button>
@@ -75,7 +75,7 @@
                   </div>
                   <div class="text-center py-6 text-2xl text-gray-700">Are you sure ?</div>
                   <div class="text-center font-light text-gray-700 mb-8">
-                      Do you really want to accept request {{$request->type}} from {{$request->employee_name}} at {{Carbon\Carbon::parse($request->date)->format('d F Y')}} ?<br> This process cannot be undone.
+                      Do you really want to accept request {{$request->type}} from {{$request->employee_name}} at {{Carbon\Carbon::parse($request->date)->format('d F Y')}} ?<br>@if($order == null) Cancel order request doesn't work because {{$request->employee_name}} did't have a catering schedule @endif<br> This process cannot be undone.
                   </div>
                   <div class="flex justify-center">
                       <button class="modal-close bg-gray-300 text-gray-900 rounded hover:bg-gray-200 px-6 py-2 focus:outline-none mx-1" onclick="toggleModal('accept{{$id}}')">Cancel</button>
