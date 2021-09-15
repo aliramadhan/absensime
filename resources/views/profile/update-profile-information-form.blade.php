@@ -84,7 +84,7 @@
         <div class="col-span-6 sm:col-span-4" x-data="{ show_id: false }">
             <div class="flex space-x-1"  ><x-jet-label for="slack_id" value="{{ __('Slack Member ID ') }}" /><label class="font-semibold text-sm text-gray-600 hover:text-gray-800"@click="show_id=! show_id" x-text=" show_id ? '(Hide)' : '(Click here to get it)' "></label></div>
             <x-jet-input id="slack_id" type="text" class="mt-1 block w-full" wire:model.defer="state.slack_id" autocomplete="slack_id" />
-            <div x-show="show_id" class="text-sm">Click your Profile > View Profile > More > copy Member ID</div>
+            <div x-show="show_id" class="text-sm">Open Slack app > Click your Profile > View Profile > More > copy Member ID</div>
             <x-jet-input-error for="slack_id" class="mt-2" />
         </div>
         <!-- Number Phone -->
