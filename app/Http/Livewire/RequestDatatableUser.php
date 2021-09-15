@@ -75,9 +75,11 @@ class RequestDatatableUser extends LivewireDatatable
 	                ->format('d F Y H:i'),
 	            Column::callback(['id'], function ($id) {
 	            	$request = Request::find($id);
+    				$user = User::find($request->employee_id);
 	            	$this->time_overtime = $request->time_overtime;
+					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
 	            	if ($request->status == 'Waiting') {
-		                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request]);
+		                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request, 'order' => $order]);
 	            	}
 	            })->label('Action')
 	        ];
@@ -115,11 +117,13 @@ class RequestDatatableUser extends LivewireDatatable
 	                ->format('d F Y H:i'),
 	            Column::callback(['id'], function ($id) {
 	            	$request = Request::find($id);
+    				$user = User::find($request->employee_id);
 	            	$this->time_overtime = $request->time_overtime;
+					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
 	            	if ($request->status == 'Waiting') {
-		                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request]);
+		                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request, 'order' => $order]);
 	            	}
-	            })->label('Action')
+	            })->label('Actions')
 	        ];
     	}
     	else{
@@ -195,14 +199,17 @@ class RequestDatatableUser extends LivewireDatatable
 				})->first();
 	    		//cancel catering
 	    		if ($request->is_cancel_order == 1) {
-					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
-					$orderDate = Carbon::parse($order->order_date);
-					if ($order != null && !$orderDate->isSameDay($dateRequest)) {
-						$order->delete();
+					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+					if ($order != null) {
+						$orderDate = Carbon::parse($order->order_date);
+						if (!$orderDate->isSameDay($dateRequest)) {
+							$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
+							$order->delete();
+						}
 					}
 	    		}
 	    		elseif($request->is_cancel_order == 0 && $request->change_catering !=null){
-					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
+					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
 					if ($order != null) {
 		    			$order->update([
 		    				'shift' => $request->change_catering
@@ -222,10 +229,14 @@ class RequestDatatableUser extends LivewireDatatable
     		}
     		//cancel catering
     		if ($request->is_cancel_order == 1) {
-				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
-				$orderDate = Carbon::parse($order->order_date);
-				if ($order != null && !$orderDate->isSameDay($dateRequest)) {
-					$order->delete();
+				$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
+				if ($order != null) {
+					$orderDate = Carbon::parse($order->order_date);
+					if (!$orderDate->isSameDay($dateRequest)) {
+						$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->limit(1);
+
+						$order->delete();
+					}
 				}
     		}
     		$request->status = $action;

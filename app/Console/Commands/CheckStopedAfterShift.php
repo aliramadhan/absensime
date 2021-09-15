@@ -193,8 +193,10 @@ class CheckStopedAfterShift extends Command
                         $selisihRequestChecked = Carbon::parse($isRequestChecked->created_at)->diffInMinutes($time_in);
                     }
                     $paused_at = Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
-                    $timeSet = $paused_at->diffInHours($now);
-                    if ($timeSet == 4 || ($timeSet + $selisihRequestChecked) == 4) {
+                    $timeSet = $paused_at->diffInHours($now); #for auto stop
+                    $timeSet1 = $paused_at->diffInMinutes($now); #for notif
+
+                    if ($timeSet >= 4 || ($timeSet + $selisihRequestChecked) >= 4) {
                         //update task and stop schedule
                         $detailSchedule = $schedule->details->sortByDesc('id')->first();
                         $detailSchedule->update([
@@ -212,6 +214,22 @@ class CheckStopedAfterShift extends Command
                             'timer' => 0,
                             'status' => 'Done',
                         ]);
+                    }
+                    elseif($timeSet1 >= 210){
+                        if(Cache::has('sent_notif_maxpause_' .$user->id)){
+                            //do nothing
+                        }
+                        else{
+                            if ($user->slack_id != null) {
+                                $message = "Hey <@".$user->slack_id.">, Kamu sudah melebihi batas 4 jam toleransi. Ayo segera catat jam masuk. klik tautan <https://attendance.pahlawandesignstudio.com/|*ini*>.";
+                                Notification::route('slack', env('SLACK_HOOK'))
+                                  ->notify(new NotifWithSlack($message, $user->slack_id));
+                                $expireTime = Carbon::now()->addHours(1);
+                                Cache::put('sent_notif_maxpause_'.$user->id, Carbon::now(), $expireTime);
+                                $this->info("Sending late notification email to: {$user->name}!");
+                            }
+                        
+                        }
                     }
                 }
             }

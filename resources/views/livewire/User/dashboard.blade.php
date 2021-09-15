@@ -469,7 +469,47 @@
                     @include('livewire.User.show-confirm-stop')
                   @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && $user->position == 'Project Manager')
                     @include('livewire.User.show-confirm-stop')
-  @endif
+                  @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && $user->position != 'Project Manager')
+                    @php
+                      //update task and stop schedule
+                      $detailSchedule = $schedule->details->sortByDesc('id')->first();
+                      $detailSchedule->update([
+                          'stoped_at' => $now,
+                      ]);
+                      $workhour = 0;
+                      foreach ($schedule->details->where('status','Work') as $detail) {
+                          $started_at = Carbon\Carbon::parse($detail->started_at);
+                          $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
+                          $workhour += $started_at->diffInSeconds($stoped_at);
+                      }
+                      $schedule->update([
+                          'stoped_at' => $now,
+                          'workhour' => $workhour,
+                          'timer' => 0,
+                          'status' => 'Done',
+                      ]);
+                    @endphp
+                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && $user->position == 'Project Manager')
+                    @php
+                      //update task and stop schedule
+                      $detailSchedule = $schedule->details->sortByDesc('id')->first();
+                      $detailSchedule->update([
+                          'stoped_at' => $now,
+                      ]);
+                      $workhour = 0;
+                      foreach ($schedule->details->where('status','Work') as $detail) {
+                          $started_at = Carbon\Carbon::parse($detail->started_at);
+                          $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
+                          $workhour += $started_at->diffInSeconds($stoped_at);
+                      }
+                      $schedule->update([
+                          'stoped_at' => $now,
+                          'workhour' => $workhour,
+                          'timer' => 0,
+                          'status' => 'Done',
+                      ]);
+                    @endphp
+                  @endif
                 @endif
                 @if($schedule != null)
                 @php
