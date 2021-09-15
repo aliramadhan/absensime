@@ -19,6 +19,7 @@ class CreateRequestsTable extends Migration
             $table->string('employee_name')->nullable();
             $table->date('date');
             $table->string('type');
+            $table->text('format')->nullable();
             $table->text('desc');
             $table->integer('time')->nullable();
             $table->boolean('is_cancel_order')->default(0);

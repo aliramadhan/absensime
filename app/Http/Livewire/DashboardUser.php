@@ -22,7 +22,7 @@ class DashboardUser extends Component
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
-    public $type, $desc,$date,$time_overtime, $tasking = 0,$stopRequestDate, $startRequestDate, $time_out, $time_in, $started_at, $stoped_at;
+    public $type, $desc,$date,$time_overtime, $tasking = 0,$stopRequestDate, $startRequestDate, $time_out, $time_in, $started_at, $stoped_at,$format,$locationRe;
     //for activation with request
     public $typeRequest, $dateTo, $dateFrom, $descRequest, $historyLock;
 
@@ -618,11 +618,14 @@ class DashboardUser extends Component
             ]);
             $this->is_cancel_order = 0;
         }
-        elseif($this->type == 'Absent'){
+        elseif($this->type == 'Present'){
             $this->validate([
                 'type' => 'required|string',
                 'date' => 'required|date|before:now',
+                'locationRe' => 'required',
                 'desc' => 'required',
+                'started_at' => 'required|date_format:H:i',
+                'stoped_at' => 'required|date_format:H:i|after:started_at',
             ]);
         }
         else{
@@ -873,6 +876,33 @@ class DashboardUser extends Component
                         'shift_name' => $shift->name
                     ]);
 
+                }
+                elseif($this->type == 'Present'){
+                    //send mail to manager if manager founded
+                    $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+                    if($manager != null){
+                        $date = Carbon::parse($this->date);
+                        $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
+                        Mail::to($manager->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    //send mail to admin
+                    $admins = User::where('role','Admin')->get();
+                    foreach ($admins as $admin) {
+                        $date = Carbon::parse($this->date);
+                        $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
+                        Mail::to($admin->email)->send(new RequestNotificationMail($data));
+                    }
+                    $format = $this->type.'#'.$this->locationRe.'#'.$this->started_at.'#'.$this->stoped_at;
+                    $request = Request::create([
+                        'employee_id' => $this->user->id,
+                        'employee_name' => $this->user->name,
+                        'type' => $this->type,
+                        'format' => $format,
+                        'desc' => $this->desc,
+                        'date' => $this->date,
+                        'is_cancel_order' => $this->is_cancel_order,
+                    ]);
                 }
                 //create request overtime
                 else{

@@ -116,13 +116,28 @@
                         @elseif($type == 'Present')
 
                         <div class="mb-4 px-2">
-                            <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Started at </label>
-                            <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc"  placeholder="Fill in here..." wire:model="started_at">
-                            @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                            <label for="formLocation" class="block text-gray-500 text-sm  mb-2">Working at </label>
+                            <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="locationRe">
+                                <option hidden>Choose one</option>
+                                <option value="WFO">Work From Office</option>
+                                <option value="WFH">Work From Home</option>
+                                <option value="Business Travel">Business Travel</option>
+                            </select>
+                            @error('locationRe') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4 px-2">
-                            <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Stoped at </label>
-                            <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" placeholder="Fill in here..." wire:model="stoped_at">
+                            <label for="formStartedAt" class="block text-gray-500 text-sm  mb-2">Started at </label>
+                            <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." wire:model="started_at">
+                            @error('started_at') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4 px-2">
+                            <label for="formStopedAt" class="block text-gray-500 text-sm  mb-2">Stoped at </label>
+                            <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopedAt" placeholder="Fill in here..." wire:model="stoped_at">
+                            @error('stoped_at') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4 px-2">
+                            <label for="formDesc" class="block text-gray-500 text-sm  mb-2">Reason </label>
+                                <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc">
                             @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         @elseif($type != 'Change Shift' && $type != 'Mandatory' && $type != 'Remote' && $type != '' )

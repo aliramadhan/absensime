@@ -14,6 +14,7 @@ class Request extends Model
         'date',
         'type',
         'time',
+        'format',
         'desc',
         'status',
         'is_cancel_order',
