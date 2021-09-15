@@ -186,6 +186,9 @@ class RequestDatatableUser extends LivewireDatatable
     				'status_depart' => 'Present'
     			]);
     		}
+    		elseif($request->type == 'Present'){
+    			
+    		}
     		elseif($request->type == 'Change Shift'){
 				$string = $request->desc;
 				$prefix = "to ";
