@@ -193,20 +193,20 @@ tbody th {
               @elseif($schedule->status_depart == 'Late')
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">T</td>
               @elseif($schedule->status == 'Done' && $schedule->details->count() < 1)
-                <td class="border font-semibold border-gray-200 ">*V(r)</td>
+                <td class="border font-semibold border-gray-200 ">*V(R)</td>
               @elseif($schedule->status == 'Done' && ($schedule->workhour + $schedule->timer) < $time_limit)
                 <td class="border font-semibold border-gray-200 bg-red-400 text-red-900">?</td>
                 @php $no_use++; @endphp
               @elseif($remote > 0)
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > 0 && $wfo > 0)
-                <td class="border font-semibold border-gray-200 text-sm">V(r) & V</td>@php $totalWFH++; $totalWFO++; @endphp
+                <td class="border font-semibold border-gray-200 text-sm">V(R) & V</td>@php $totalWFH++; $totalWFO++; @endphp
               @elseif($wfh > 0)
-                <td class="border font-semibold border-gray-200 ">V(r)</td>@php $totalWFH++; @endphp
+                <td class="border font-semibold border-gray-200 ">V(R)</td>@php $totalWFH++; @endphp
               @elseif($wfo > 0)
                 <td class="border font-semibold border-gray-200 ">V</td>@php $totalWFO++; @endphp
               @elseif($travel > 0)
-                <td class="border font-semibold border-gray-200 text-blue-700">V(r)</td>
+                <td class="border font-semibold border-gray-200 text-blue-700">V(R)</td>
               @elseif($schedule->status == 'No Record')
                 <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
               @elseif($schedule->status == 'Permission')
@@ -271,7 +271,7 @@ tbody th {
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
     <span class="font-bold">V(r)</span> : Hadir sehari penuh kerja dari rumah 
   </h4>
-   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+  <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
     <span class="font-bold text-red-700">?</span> : Hadir kurang sehari tidak sesuai dengan laporan
   </h4>
 
