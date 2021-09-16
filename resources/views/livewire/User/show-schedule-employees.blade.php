@@ -129,6 +129,10 @@ tbody th {
                   @elseif($schedule != null && $schedule->status != 'Not sign in' && $schedule->status !='Working' && $schedule->status !='Pause')
                   <td class='hover:bg-yellow-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300 '>{{$schedule->shift_name}}
                     <div class="hover-target absolute duration-300 top-0 bg-yellow-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div></td>
+                  @elseif($schedule != null && $schedule->status == 'Pause')
+                  <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 hover-trigger relative'>Pause
+                    <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->shift_name}}</div>
+                  </td>
                   @else
                   <td class='hover:bg-blue-500 px-1 py-2 text-center border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
                   @endif
