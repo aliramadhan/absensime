@@ -122,6 +122,7 @@
                                 <option value="WFO">Work From Office</option>
                                 <option value="WFH">Work From Home</option>
                                 <option value="Business Travel">Business Travel</option>
+                                <option>Remote</option>
                             </select>
                             @error('locationRe') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
