@@ -49,7 +49,7 @@
              <label class=" tracking-wide text-xs md:text-sm text-gray-800">You Have <label class="font-semibold">{{$detailsSchedule->count()}}</label> empty journal, it optional to fill</label>       
             </div>
 
-            <div class="overflow-y-auto max-h-72 pr-2 flex-auto border-b">     
+           <!--  <div class="overflow-y-auto max-h-72 pr-2 flex-auto border-b">     
              
                <div class="text-sm my-2  px-2 flex-col space-y-1">
                 @forelse($detailsSchedule as $details)
@@ -67,7 +67,7 @@
                 @error('detailsSchedule') <span class="text-red-500">{{ $message }}</span>@enderror
                 @if (session()->has('errorJurnal')) <span class="text-red-500">{{ session('errorJurnal') }} @endif
              </div>
-            </div>
+            </div> -->
             @if($now < Carbon\Carbon::parse($shift->time_out))  
             <div class="flex-col space-y-1 text-left">      
               <label class="text-red-600 tracking-wide text-xs md:text-sm "><label class="font-semibold">Warning</label>: Stopped recording before <br class="sm:hidden inline-block">  shift over</label>

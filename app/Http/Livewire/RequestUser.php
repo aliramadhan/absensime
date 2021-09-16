@@ -184,14 +184,14 @@ class RequestUser extends Component
             ]);
             $this->is_cancel_order = 0;
         }
-        elseif($this->type == 'Absent'){
+        elseif($this->type == 'Absent2'){
             $this->validate([
                 'type' => 'required|string',
                 'date' => 'required|date|before:now',
                 'desc' => 'required',
             ]);
         }
-        elseif($this->type == 'Present'){
+        elseif($this->type == 'Absent'){
             $this->validate([
                 'type' => 'required|string',
                 'date' => 'required|date|before:now',
@@ -450,7 +450,7 @@ class RequestUser extends Component
                     ]);
 
                 }
-                elseif($this->type == 'Present'){
+                elseif($this->type == 'Absent'){
                     //send mail to manager if manager founded
                     $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
                     if($manager != null){
