@@ -67,15 +67,17 @@
     $user_agent = $_SERVER['HTTP_USER_AGENT']; 
     @endphp
     @if(stripos( $user_agent, 'Chrome') !== false)
-
-  
    
-      {{ $slot }}
-   
+      {{ $slot }}  
 
 
     @elseif(stripos( $user_agent, 'Safari') !== false)    
-    Sorry Attendance app doesn't support on Safari Browser now
+    <div class="p-4 flex justify-center flex flex-col h-screen space-y-4 text-center">
+        <label>
+            Sorry Attendance app doesn't support on Safari Browser now
+        </label>
+        <a href="https://pahlawandesignstudio.com" class="mx-auto bg-blue-500 px-5 py-2 rounded-lg text-white font-semibold tracking-wider w-max shadow-lg hover:bg-blue-700 duration-300 text-sm">Back to Homepage</a>
+    </div>
    @endif
     </div>
 </div>

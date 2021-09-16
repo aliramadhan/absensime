@@ -879,13 +879,17 @@
                          <div class="text-blue-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
                           <i class="fas fa-check-circle mr-1"></i>Attend
                         </div>
-                        @elseif($scheduleUser->status == 'Not sign in')
+                        @elseif($scheduleUser->status == 'Not sign in' || $scheduleUser->status == 'Absent')
                         <div class="text-red-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
                           <i class="fas fa-times-circle mr-1"></i>Absent
                         </div>
+                        @elseif($scheduleUser->status == 'Pause')
+                        <div class="text-purple-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
+                          <i class="fas fa-pause-circle mr-1"></i>{{$scheduleUser->status}}
+                        </div>
                         @else
-                        <div class="text-orange-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
-                          <i class="fas fa-times-circle mr-1"></i>{{$scheduleUser->status}}
+                        <div class="text-gray-700 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
+                          <i class="fas fa-house-user mr-1"></i></i>{{$scheduleUser->status}}
                         </div>
                         @endif
                       </div>
