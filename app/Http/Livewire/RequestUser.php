@@ -16,7 +16,7 @@ use App\Mail\RequestNotificationMail;
 
 class RequestUser extends Component
 {
-	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser, $historyLock;
+	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser, $historyLock, $started_at, $stoped_at,$format,$locationRe;
 
     public function render()
     {
@@ -189,6 +189,16 @@ class RequestUser extends Component
                 'type' => 'required|string',
                 'date' => 'required|date|before:now',
                 'desc' => 'required',
+            ]);
+        }
+        elseif($this->type == 'Present'){
+            $this->validate([
+                'type' => 'required|string',
+                'date' => 'required|date|before:now',
+                'locationRe' => 'required',
+                'desc' => 'required',
+                'started_at' => 'required|date_format:H:i',
+                'stoped_at' => 'required|date_format:H:i|after:started_at',
             ]);
         }
         else{
@@ -439,6 +449,33 @@ class RequestUser extends Component
                         'shift_name' => $shift->name
                     ]);
 
+                }
+                elseif($this->type == 'Present'){
+                    //send mail to manager if manager founded
+                    $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
+                    if($manager != null){
+                        $date = Carbon::parse($this->date);
+                        $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
+                        Mail::to($manager->email)->send(new RequestNotificationMail($data));
+                    }
+
+                    //send mail to admin
+                    $admins = User::where('role','Admin')->get();
+                    foreach ($admins as $admin) {
+                        $date = Carbon::parse($this->date);
+                        $data = array('name' => $this->user->name, 'type' => $this->type, 'date' => $date->format('d F Y'), 'desc' => $this->desc,'user_mail' => $this->user->email);
+                        Mail::to($admin->email)->send(new RequestNotificationMail($data));
+                    }
+                    $format = $this->type.'#'.$this->locationRe.'#'.$this->started_at.'#'.$this->stoped_at;
+                    $request = Request::create([
+                        'employee_id' => $this->user->id,
+                        'employee_name' => $this->user->name,
+                        'type' => $this->type,
+                        'format' => $format,
+                        'desc' => $this->desc,
+                        'date' => $this->date,
+                        'is_cancel_order' => $this->is_cancel_order,
+                    ]);
                 }
                 //create request overtime
                 else{
