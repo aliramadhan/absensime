@@ -81,7 +81,7 @@ class RequestDatatableUser extends LivewireDatatable
 	            	if ($request->status == 'Waiting') {
 		                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request, 'order' => $order]);
 	            	}
-	            })->label('Action')
+	            })->label('Action'),
 	        ];
     	}
     	elseif (auth()->user()->role == 'Admin') {
@@ -185,6 +185,29 @@ class RequestDatatableUser extends LivewireDatatable
     			$schedule->update([
     				'status_depart' => 'Present'
     			]);
+    		}
+    		elseif($request->type == 'Present'){
+    			$format = explode('#', $request->format);
+    			$started_at = Carbon::parse($format[2]);
+    			$stoped_at = Carbon::parse($format[3]);
+    			$time = $started_at->diffInMinutes($stoped_at);
+    			$schedule = Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
+    			#check late or not
+    			if ($started_at > Carbon::parse($schedule->shift->time_in)) {
+    				$status_depart = 'Late';
+    			}
+    			else{
+    				$status_depart = 'Present';
+    			}
+    			if ($schedule != null) {
+    				$schedule->update([
+    					'status' => 'Done',
+    					'status_depart' => $status_depart,
+    					'location' => $format[1],
+    					'started_at' => $started_at,
+    					'stoped_at' => $stoped_at
+    				]);
+    			}
     		}
     		elseif($request->type == 'Change Shift'){
 				$string = $request->desc;
