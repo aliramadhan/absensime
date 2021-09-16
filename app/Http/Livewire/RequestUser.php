@@ -188,13 +188,6 @@ class RequestUser extends Component
             $this->validate([
                 'type' => 'required|string',
                 'date' => 'required|date|before:now',
-                'desc' => 'required',
-            ]);
-        }
-        elseif($this->type == 'Present'){
-            $this->validate([
-                'type' => 'required|string',
-                'date' => 'required|date|before:now',
                 'locationRe' => 'required',
                 'desc' => 'required',
                 'started_at' => 'required|date_format:H:i',
@@ -450,7 +443,7 @@ class RequestUser extends Component
                     ]);
 
                 }
-                elseif($this->type == 'Present'){
+                elseif($this->type == 'Absent'){
                     //send mail to manager if manager founded
                     $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
                     if($manager != null){
