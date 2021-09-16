@@ -1,3 +1,4 @@
+<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
 <table class="table-fixed  flex-initial relative">
   <thead>
    <tr>

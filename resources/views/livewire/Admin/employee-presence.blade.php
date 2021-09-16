@@ -276,6 +276,9 @@ tbody th {
   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
     <span class="font-bold text-red-700">?</span> : Hadir kurang sehari tidak sesuai dengan laporan
   </h4>
+   <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    <span class="font-bold text-gray-700">*</span> : Recording via Absent request form
+  </h4>
 
 </div>     
 </div>
