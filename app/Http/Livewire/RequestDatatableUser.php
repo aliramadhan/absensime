@@ -186,7 +186,7 @@ class RequestDatatableUser extends LivewireDatatable
     				'status_depart' => 'Present'
     			]);
     		}
-    		elseif($request->type == 'Present'){
+    		elseif($request->type == 'Absent'){
     			$format = explode('#', $request->format);
     			$started_at = Carbon::parse($format[2]);
     			$stoped_at = Carbon::parse($format[3]);

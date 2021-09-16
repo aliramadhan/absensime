@@ -184,14 +184,7 @@ class RequestUser extends Component
             ]);
             $this->is_cancel_order = 0;
         }
-        elseif($this->type == 'Absent2'){
-            $this->validate([
-                'type' => 'required|string',
-                'date' => 'required|date|before:now',
-                'desc' => 'required',
-            ]);
-        }
-        elseif($this->type == 'Absent'){
+          elseif($this->type == 'Absent'){
             $this->validate([
                 'type' => 'required|string',
                 'date' => 'required|date|before:now',
