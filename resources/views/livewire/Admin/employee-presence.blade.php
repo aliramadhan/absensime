@@ -192,6 +192,8 @@ tbody th {
                 <td class="border font-semibold border-gray-200 bg-red-400 text-red-900">V</td>
               @elseif($schedule->status_depart == 'Late')
                 <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">T</td>
+              @elseif($schedule->status == 'Done' && $schedule->details->count() < 1)
+                <td class="border font-semibold border-gray-200 ">*V(r)</td>
               @elseif($schedule->status == 'Done' && ($schedule->workhour + $schedule->timer) < $time_limit)
                 <td class="border font-semibold border-gray-200 bg-red-400 text-red-900">?</td>
                 @php $no_use++; @endphp
