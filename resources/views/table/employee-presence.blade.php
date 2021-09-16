@@ -89,19 +89,19 @@
                 @if($date->day >= Carbon\Carbon::now()->day)
                   <td class="border border-gray-200 bg-gray-50">-</td>
                 @else
-                  <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
+                  <td class="border font-semibold border-gray-200 bg-red-500 text-white" style="background-color:#EF4444;color: white;">A</td>
                 @endif
               @elseif($schedule->status_depart == 'Late' && ($started_at->gt($time_in) && $time_in->diffInMinutes($started_at) < 60) && ($schedule->workhour + $schedule->timer) >= $time_limit)
-                <td class="border font-semibold border-gray-200 bg-blue-400 text-blue-900">V</td>
+                <td class="border font-semibold border-gray-200 bg-blue-400 text-blue-900" style="color: #6D4ED8;">V</td>
               @elseif($schedule->status_depart == 'Late' && ($started_at->gt($time_in) && $time_in->diffInMinutes($started_at) >= 60) && ($schedule->workhour + $schedule->timer) >= $time_limit)
-                <td class="border font-semibold border-gray-200 bg-red-400 text-red-900">V</td>
+                <td class="border font-semibold border-gray-200 bg-red-400 text-red-900"  style="color: #EF4444;">V</td>
               @elseif($schedule->status_depart == 'Late')
-                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">T</td>
+                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900" style="background-color:#34D399;color: white;">T</td>
               @elseif($schedule->status == 'Done' && ($schedule->workhour + $schedule->timer) < $time_limit)
                 <td class="border font-semibold border-gray-200 bg-red-400 text-red-900">?</td>
                 @php $no_use++; @endphp
               @elseif($remote > 0)
-                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900">Remote</td>@php $totalRemote++; @endphp
+                <td class="border font-semibold border-gray-200 bg-green-400 text-green-900" style="background-color: blue;color: white">Remote</td>@php $totalRemote++; @endphp
               @elseif($wfh > 0 && $wfo > 0)
                 <td >V(r) and V</td>@php $totalWFH++; $totalWFO++; @endphp
               @elseif($wfh > 0)
@@ -111,13 +111,13 @@
               @elseif($travel > 0)
                 <td class="border font-semibold border-gray-200 text-blue-700">V(r)</td>
               @elseif($schedule->status == 'No Record')
-                <td class="border font-semibold border-gray-200 bg-red-500 text-white">A</td>
+                <td class="border font-semibold border-gray-200 bg-red-500 text-white" style="background-color:#EF4444;color: white;">A</td>
               @elseif($schedule->status == 'Permission')
-                <td class="border font-semibold border-gray-200 ">P</td>
+                <td class="border font-semibold border-gray-200 " style="background-color:#FDB717; color: white;">P</td>
               @elseif(in_array($schedule->status,$leaves))
-                <td class="bg-yellow-500 text-white font-semibold">L</td>
+                <td class="bg-yellow-500 text-white font-semibold" style="background-color:#FDB717; color: white;">L</td>
               @else
-                <td class="bg-yellow-500 text-white font-semibold">{{$schedule->status}}</td>
+                <td class="bg-yellow-500 text-white font-semibold" style="background-color:#FDB717; color: white;">{{$schedule->status}}</td>
               @endif  
 
         @endfor
