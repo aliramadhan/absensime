@@ -22,6 +22,7 @@ class HistorySchedule extends Model
         'latitude',
         'longitude',
         'is_stop_shift',
+        'is_subtitute',
     ];
     public function schedule()
     {

@@ -315,6 +315,10 @@ class DashboardUser extends Component
         $this->detailSchedule->update(['stoped_at' => Carbon::now()]);
 
         //create pause detail
+        $is_subtitute = 0;
+        if($this->type_pause == 'Break'){
+            $is_subtitute = 1;
+        }
         $this->detailSchedule = HistorySchedule::create([
             'schedule_id' => $this->schedule->id,
             'started_at' => Carbon::now(),
@@ -323,6 +327,7 @@ class DashboardUser extends Component
             'task_desc' => $this->task_desc,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
+            'is_subtitute' => $is_subtitute,
         ]);
         if ($this->checkAutoStop) {
             $this->detailSchedule->update([
