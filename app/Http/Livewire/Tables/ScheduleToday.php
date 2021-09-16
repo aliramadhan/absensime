@@ -15,35 +15,35 @@ class ScheduleToday extends LivewireDatatable
 {
     public function builder()
     {
-    	$now = Carbon::now();
-  		return Schedule::orderBy('date','desc');
+        $now = Carbon::now();
+        return Schedule::orderBy('date','desc');
     }
 
     public function columns()
     {
-    	return [
-	    	Column::name('employee_name')
-	    		->label('Employee Name')
-	    		->filterable(),
-	    	DateColumn::name('date')
-	    		->label('Date')
-	    		->format('d F Y')
-	    		->filterable(),
+        return [
+            Column::name('employee_name')
+                ->label('Employee Name')
+                ->filterable(),
+            DateColumn::name('date')
+                ->label('Date')
+                ->format('d F Y')
+                ->filterable(),
             Column::name('shift_name')
                 ->label('Shift'),
             Column::name('status_depart')
                 ->label('Status Attendance'),
-	    	Column::name('status')
-	    		->label('Status')
-                ->filterable(['Working','Not sign in',' Rest','Done']),
+            Column::name('status')
+                ->label('Status')
+                ->filterable(['Working','Not sign in',' Pause','Done']),
             TimeColumn::name('started_at')
-            	->format('H:i:s'),
+                ->format('H:i:s'),
             TimeColumn::name('stoped_at')
-            	->format('H:i:s'),
+                ->format('H:i:s'),
             Column::callback(['workhour', 'timer'], function ($workhour, $timer) {
-        		$int = $workhour + $timer;
-        		$time = $int/60/60;
-		        return number_format($time,1);
+                $int = $workhour + $timer;
+                $time = $int/60/60;
+                return number_format($time,1);
             })->label('WorkHour'),
             Column::callback(['id','timer'], function ($id,$timer) {
                 $schedule = Schedule::find($id);
@@ -72,13 +72,23 @@ class ScheduleToday extends LivewireDatatable
                     return '-';
                 }
             })->label('Wasted Time'),
-            Column::name('note')
-                ->label('Reason'),
+            Column::callback(['id','timer','status'], function ($id,$timer,$status) {
+                $schedule = Schedule::find($id);
+                $rest = $schedule->details->where('status','Rest')->sortByDesc('id')->first();
+                if($rest != null && $schedule->status == 'Pause'){
+                    if($rest->is_subtitute){
+                        return 'with subtitute';
+                    }
+                    else{
+                        return 'without subtitute';
+                    }
+                }
+            })->label('Reason'),
             Column::name('position_start')
                 ->label('Position (start state)'),
-	    	Column::name('position_stop')
-	    		->label('Position (stop state)'),
+            Column::name('position_stop')
+                ->label('Position (stop state)'),
 
-    	];
+        ];
     }
 }
