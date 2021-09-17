@@ -184,6 +184,19 @@ class DashboardUser extends Component
     {
         $this->isModal = 'Overtime';
     }
+    public function lateOn()
+    {
+        $this->validate([
+            'note' => 'required'
+        ],[
+            'note.required' => 'Reason field is required.'
+        ]);
+        $this->schedule->update([
+            'note' => $this->note
+        ]);
+
+        $this->note = null;
+    }
     public function overtimeOn()
     {
         //update detail pause and stop it
