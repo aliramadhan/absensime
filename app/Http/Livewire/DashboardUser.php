@@ -184,6 +184,19 @@ class DashboardUser extends Component
     {
         $this->isModal = 'Overtime';
     }
+    public function lateOn()
+    {
+        $this->validate([
+            'note' => 'required'
+        ],[
+            'note.required' => 'Reason field is required.'
+        ]);
+        $this->schedule->update([
+            'note' => $this->note
+        ]);
+
+        $this->note = null;
+    }
     public function overtimeOn()
     {
         //update detail pause and stop it
@@ -406,6 +419,17 @@ class DashboardUser extends Component
         
         $timer = $this->schedule->timer;
         $workhour = $this->schedule->workhour + $timer;
+
+        #cek if workhour sesuai time limit
+        if ($this->shift->is_night == 0) {
+            if ($workhour < $time_limit) {
+                $this->validate([
+                    'note' => 'required'
+                ],[
+                    'note.required' => 'Reason field is required.'
+                ]);
+            }
+        }
         /*
         if ($workhour > $time_limit) {
             $workhour = $time_limit;

@@ -44,9 +44,8 @@
           <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left flex-col flex md:grid gap-2 w-full pb-2">
             <div id="modal-title" class="flex-auto text-left border-b pb-1">
               <h3 class="text-base md:text-lg leading-none font-medium text-gray-900" >
-                Stop Recording & Journaling <label class="hidden sm:inline-block">Recapitulation</label>
-              </h3>
-             <label class=" tracking-wide text-xs md:text-sm text-gray-800">You Have <label class="font-semibold">{{$detailsSchedule->count()}}</label> empty journal, it optional to fill</label>       
+                Stop Recording
+              </h3>     
             </div>
 
            <!--  <div class="overflow-y-auto max-h-72 pr-2 flex-auto border-b">     
@@ -74,7 +73,8 @@
             <div class="flex space-x-2 text-gray-700 items-center pr-4 ">
 
               <label class="font-base text-xs md:text-sm tracking-wide font-semibold">Reason</label>
-            <input type="text" wire:model="note"  class="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white tracking-wide" placeholder="Fill your reason.." required>
+              <input type="text" wire:model="note"  class="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white tracking-wide" placeholder="Fill your reason.." required>
+              @error('note') <span class="text-red-500">{{ $message }}</span>@enderror
             </div>
              
              </div>   
