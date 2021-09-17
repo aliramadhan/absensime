@@ -414,7 +414,7 @@
                     </div>
 
                     <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
-                      <div class="flex md:flex-row flex-col justify-between space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate">
+                      <div class="flex md:flex-row flex-col  space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate">
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
@@ -434,7 +434,7 @@
                                   </select>
                             @endif
                         </label>
-                          @error('location') <span class="text-red-500 text-xl font-semibold "><i class="fas fa-times-circle"></i></span>@enderror
+                          @error('location') <span class="text-red-500 text-base font-semibold ">Please fill in the tracking option</span>@enderror
 
                        <!--   <h2 class="text-gray-700 text-left mr-2 truncate w-full md:w-11/12  border rounded-xl px-3  py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2> -->
                          </div>

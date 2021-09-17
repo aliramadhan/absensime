@@ -184,7 +184,7 @@
      @php
     $user_agent = $_SERVER['HTTP_USER_AGENT']; 
     @endphp
-    @if(stripos( $user_agent, 'Chrome') !== false)
+    @if((stripos( $user_agent, 'Chrome') !== false) || (preg_match('/Firefox/i', $user_agent)))
 
   
     <main>
