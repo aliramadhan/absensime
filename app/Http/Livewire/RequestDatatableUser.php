@@ -120,9 +120,7 @@ class RequestDatatableUser extends LivewireDatatable
     				$user = User::find($request->employee_id);
 	            	$this->time_overtime = $request->time_overtime;
 					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
-	            	if ($request->status == 'Waiting') {
-		                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request, 'order' => $order]);
-	            	}
+	                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request, 'order' => $order]);
 	            })->label('Actions')
 	        ];
     	}
