@@ -29,6 +29,7 @@ class UsersActivated extends LivewireDatatable
             Column::name('division')
                 ->label('Division'),
             Column::name('leave_count')
+            /*
                 ->label('Remain Annual Leave')->editable(),
             Column::callback(['is_active'], function ($is_active) {
                 if ($is_active == 1) {
@@ -48,7 +49,7 @@ class UsersActivated extends LivewireDatatable
                 if ($user->is_active == 0) {
                     return view('livewire.Admin.table_actions.table-action-user-activated', ['id' => $id, 'user' => $user]);
                 }
-            })->label('Action')
+            })->label('Action')*/
         ];
     }
     public function activatedUser($user)
