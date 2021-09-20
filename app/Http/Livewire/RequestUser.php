@@ -444,6 +444,12 @@ class RequestUser extends Component
 
                 }
                 elseif($this->type == 'Absent'){
+                    //check if schedule previous is No Record
+                    if ($isSchedule->status != 'No Record') {
+                        return session()->flash('failure', "Can't submit request, schedule status must be 'No Record'.");
+                        $this->closeModal();
+                        $this->resetFields();
+                    }
                     //send mail to manager if manager founded
                     $manager = User::where('role','Manager')->where('division',$this->user->division)->first();
                     if($manager != null){

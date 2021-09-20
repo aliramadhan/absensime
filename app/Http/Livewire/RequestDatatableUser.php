@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use App\Models\Request;
 use App\Models\Schedule;
+use App\Models\HistorySchedule;
 use App\Models\User;
 use App\Models\ListLeave;
 use App\Models\Shift;
@@ -201,9 +202,16 @@ class RequestDatatableUser extends LivewireDatatable
     				$schedule->update([
     					'status' => 'Done',
     					'status_depart' => $status_depart,
-    					'location' => $format[1],
     					'started_at' => $started_at,
     					'stoped_at' => $stoped_at
+    				]);
+    				#create history schedule
+    				$detail = HistorySchedule::create([
+			            'schedule_id' => $schedule->id,
+			            'status' => 'Work',
+			            'started_at' => $started_at,
+    					'stoped_at' => $stoped_at,
+    					'location' => $format[1],
     				]);
     			}
     		}

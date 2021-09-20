@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Tables;
 
 use App\Models\Schedule;
+use App\Models\Request;
 use Illuminate\Support\Str;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -40,9 +41,14 @@ class ScheduleToday extends LivewireDatatable
                 ->format('H:i:s'),
             TimeColumn::name('stoped_at')
                 ->format('H:i:s'),
-            Column::callback(['workhour', 'timer'], function ($workhour, $timer) {
+            Column::callback(['id','workhour', 'timer'], function ($id,$workhour, $timer) {
+                $schedule = Schedule::find($id);
+                $isRequest = Request::where('date',$schedule->date)->where('type','Absent')->where('status','Accept')->first();
                 $int = $workhour + $timer;
                 $time = $int/60/60;
+                if ($isRequest != null) {
+                    return number_format($time,1).' (absent)';
+                }
                 return number_format($time,1);
             })->label('WorkHour'),
             Column::callback(['id','timer'], function ($id,$timer) {
