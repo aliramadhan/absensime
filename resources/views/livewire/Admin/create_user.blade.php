@@ -23,7 +23,7 @@
                             <input type="email" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formEmail" wire:model="email">
                             @error('email') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
-                        <div class="mb-4 flex-auto flex gap-4">
+                        <div class="mb-4 grid grid-cols-2 gap-4">
                             <div class="flex-auto">
                                 <label for="formRole" class="block text-gray-500 text-sm font-semibold mb-2">Role:</label>
                                 <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formRole" wire:model="role">
