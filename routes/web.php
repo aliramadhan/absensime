@@ -75,6 +75,7 @@ Route::group(['middleware' => ['auth:sanctum','role:Admin,Admin'], 'prefix' => '
 	Route::put('schedule/update/{id}', [AdminController::class, 'updateSchedule'])->name('schedule.update');
 	Route::delete('schedule/destroy/{id}', [AdminController::class, 'destroySchedule'])->name('schedule.destroy');
 	Route::get('report', ReportAdmin::class)->name('report');
+	Route::get('show-schedule', ShowSCheduleEmployees::class)->name('show.schedule');
 
 	//Route Request
 	Route::get('request', RequestAdmin::class)->name('request');

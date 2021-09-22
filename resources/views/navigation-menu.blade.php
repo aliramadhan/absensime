@@ -101,6 +101,9 @@
                                         {{ __('Report') }}
                                     </div>
     
+                                    <x-jet-dropdown-link  href="{{ route('admin.show.schedule') }}">
+                                        {{ __('Show Schedule') }}
+                                    </x-jet-dropdown-link>
                                     <x-jet-dropdown-link  href="{{ route('admin.employee_presence.report') }}">
                                         {{ __('Attendance Report') }}
                                     </x-jet-dropdown-link>
