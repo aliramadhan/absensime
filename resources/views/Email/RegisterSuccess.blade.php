@@ -47,8 +47,8 @@
     Now you can use this application by entering your following email and password<br><br>
     This your password:  <b>{{$data['password']}}</b> <br><br> 
     You can also change it on the profile view on the webpage.<br> Access your account here:
-    <a href="https://absensi.ragamlima.com/" style="
-    text-decoration: none;font-weight: 600;">absensi.ragamlima.com</a>  
+    <a href="https://attendance.pahlawandesignstudio.com/" style="
+    text-decoration: none;font-weight: 600;">attendance app</a>  
 
   </p>
   <br>

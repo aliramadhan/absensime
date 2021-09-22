@@ -60,6 +60,7 @@ class UserLive extends Component
                 'password' => $password
             ];
             Mail::to($user->email)->send(new RegisterSuccessfully($data));
+            return dd($password);
             session()->flash('success', 'New '.$this->role . ' added successfully.');
             $this->closeModal();
             $this->emit('refreshLivewireDatatable');
