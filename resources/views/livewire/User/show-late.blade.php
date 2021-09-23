@@ -9,7 +9,7 @@
         <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
             <form>
                 <div class=" py-4 px-6 sm:flex border-b flex ">
-                <h1 class=" font-semibold text-2xl text-gray-600">Why you'te late start record?</h1>                 
+                <h1 class=" font-semibold text-2xl text-gray-600">Why you're late start record?</h1>                 
                 </div>
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                     <div class="">
