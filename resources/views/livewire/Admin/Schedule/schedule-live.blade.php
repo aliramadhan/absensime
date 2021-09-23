@@ -1,7 +1,6 @@
-<div class="bg-white shadow">
-    @if (session()->has('success'))
+@if (session()->has('success'))
     
-      <div class="flex fixed bottom-10 z-20" x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 5000)">
+      <div class="flex fixed bottom-10 z-20 left-10" x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 5000)">
         <div class="m-auto">
           <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
             <div class="flex flex-row">
@@ -21,7 +20,7 @@
       @endif
 
       @if (session()->has('failure'))
-      <div class="flex fixed bottom-10 z-20" x-data="{ showNotif: true }" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 5000)">
+      <div class="flex fixed bottom-10 z-20 left-10" x-data="{ showNotif: true }" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 5000)">
         <div class="m-auto">
           <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
             <div class="flex flex-row">
@@ -37,6 +36,9 @@
         </div>
       </div>          
       @endif
+      
+<div class="bg-white shadow">
+    
     <div class="flex space-x-4 justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
          <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
             {{ __('Employee Schedule') }}
