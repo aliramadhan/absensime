@@ -138,10 +138,12 @@ class ScheduleLive extends Component
     $this->validate([
       'file' => 'required|mimes:xls,xlsx',
     ]);
+    $message = '';
     $data = Excel::toArray(new Schedule, $this->file)[0];
     for ($i=1; $i < count($data); $i++) { 
       $employee = User::where('code_number',$data[$i][0])->orWhere('name','like','%'.$data[$i][0].'%')->first();
       if ($employee == null) {
+        $message .= "User ".$data[$i][0].' tidak ditemukan.\n';
         continue;
       }
       for ($k=1; $k < count($data[0]); $k++) { 
@@ -158,9 +160,16 @@ class ScheduleLive extends Component
             'shift_id' => $shift->id,
             'shift_name' => $shift->name,
           ]);
+          if ($schedule) {
+            # code...
+          }
+          else{
+            $message .= 'Schedule '.$employee->name.' tanggal '.$date->format('l F Y').' gagal dimasukkan.\n';
+          }
       }
     }
     session()->flash('success', 'Import Schedule successfully.');
+    session()->flash('failure', $message);
     $this->closeModal();
     $this->resetFields();   
     $this->emit('refreshLivewireDatatable');
