@@ -119,7 +119,11 @@
             </svg>
           </div>
         </div>
+            @if(auth()->user()->roles == 'Admin')
+            <form action="{{route('admin.request.accept', $request->id)}}" method="POST">
+            @else
             <form action="{{route('manager.request.accept', $request->id)}}" method="POST">
+            @endif
             @csrf
             
                 <div class="bg-white px-4 pb-4 sm:p-6 sm:pb-4 font-semibold">

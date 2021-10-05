@@ -457,7 +457,7 @@
               @if($schedule->status == 'Working')
               <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
-                  @if($time_in->lessThan(Carbon\Carbon::parse($schedule->started_at)) && $now->diffInMinutes($time_in) > 60  && $schedule->note == null)
+                  @if($time_in->lessThan(Carbon\Carbon::parse($schedule->started_at)) && Carbon\Carbon::parse($schedule->started_at)->diffInMinutes($time_in) > 60  && $schedule->note == null)
                     @include('livewire.User.show-late')
                   @endif
                   @php

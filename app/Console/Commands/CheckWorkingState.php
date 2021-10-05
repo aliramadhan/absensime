@@ -10,21 +10,21 @@ use App\Models\User;
 use App\Mail\SendNotifUserNonActived;
 use Illuminate\Support\Facades\Mail;
 
-class CheckStopedSchedule extends Command
+class CheckWorkingState extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'check:stopedschedule';
+    protected $signature = 'check:workingstate';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "CheckStopedSchedule if employee not stoping schedule before end of shift.";
+    protected $description = "CheckWorkingState if schedule employee state is Working.";
 
     /**
      * Create a new command instance.
@@ -44,7 +44,8 @@ class CheckStopedSchedule extends Command
     public function handle()
     {
         $now = Carbon::now();
-        $schedules = Schedule::whereDate('date',$now)->get();
+        $schedules = Schedule::whereBetween('date',['2021-08-01','2021-10-01'])->get();
+        $this->info($schedules);
         $data = [];
         foreach ($schedules as $schedule) {
             $user = User::find($schedule->employee_id);
@@ -55,42 +56,31 @@ class CheckStopedSchedule extends Command
                 //do something
             }
             else{
-                if ($schedule->status == 'Not sign in') {
-                    $schedule->update([
-                        'status' => 'No Record',
-                    ]);
-                }
-                elseif ($schedule->status != 'Done') {
+                if ($schedule->status == 'Working') {
                     //update task and stop schedule
                     $detailSchedule = $schedule->details->sortByDesc('id')->first();
-                    $workhour = 0;
                     if($detailSchedule != null){
+                        $stoped = Carbon::parse($detailSchedule->started_at);
                         $detailSchedule->update([
-                            'stoped_at' => $now,
+                            'stoped_at' => $stoped->format('Y-m-d 23:59:59'),
                         ]);
+                        $workhour = 0;
                         foreach ($schedule->details->where('status','Work') as $detail) {
                             $started_at = Carbon::parse($detail->started_at);
                             $stoped_at = Carbon::parse($detail->stoped_at);
                             $workhour += $started_at->diffInSeconds($stoped_at);
                         }
                     }
+                    $stoped = Carbon::parse($schedule->started_at);
                     $schedule->update([
-                        'stoped_at' => $now,
+                        'stoped_at' => $stoped->format('Y-m-d 23:59:59'),
                         'workhour' => $workhour,
                         'timer' => 0,
                         'status' => 'Done',
                     ]);
                 }
             }
+            $this->info('success');
         }
-        if (count($data) > 0) {
-            # code...
-            Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
-            Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));
-            Mail::to('sigit@24slides.com')->send(new SendNotifUserNonActived($data));
-            Mail::to('tikakartika@24slides.com')->send(new SendNotifUserNonActived($data));
-            $this->info('mail Sended.');
-        }
-
     }
 }
