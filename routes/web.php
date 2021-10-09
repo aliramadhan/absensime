@@ -80,6 +80,7 @@ Route::group(['middleware' => ['auth:sanctum','role:Admin,Admin'], 'prefix' => '
 	//Route Request
 	Route::get('request', RequestAdmin::class)->name('request');
 	Route::delete('request/destroy/{id}', [AdminController::class, 'destroyRequest'])->name('request.destroy');
+	Route::post('request/accept/{id}', [AdminController::class, 'acceptRequestOvertime'])->name('request.accept');
 
 	//Route User
 	Route::get('users', UserLive::class)->name('users');
