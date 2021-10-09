@@ -37,6 +37,8 @@ class DashboardUser extends Component
         'detailsSchedule.*.id_task' => 'required',
     ];
 
+ 
+
     public function setLatitudeLongitude($latitude, $longitude) 
     {
        $this->latitude = $latitude;

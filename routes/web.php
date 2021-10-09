@@ -20,6 +20,7 @@ use App\Http\Livewire\ReportAllLate;
 use App\Http\Livewire\DivisionLive;
 use App\Http\Livewire\Tables\EmployeePresence;
 use App\Http\Livewire\Tables\ReportOvertime;
+use App\Http\Livewire\Guide;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\SendNotifUserNonActived;
@@ -110,10 +111,12 @@ Route::group(['middleware' => ['auth:sanctum','role:Employee,Employee'], 'prefix
 	Route::get('show-schedule', ShowSCheduleEmployees::class)->name('show.schedule');
 	Route::get('details-schedule', DetailsSchedule::class)->name('details.schedule');
 	Route::delete('request/destroy/{id}', [AdminController::class, 'destroyRequest'])->name('request.destroy');
+	route::get('guide', Guide::class)->name('guide');
 });
 
 Route::group(['middleware' => ['auth:sanctum','role:Manager,Employee'], 'prefix' => 'manager', 'as' => 'manager.'], function() {
 	Route::get('dashboard', DashboardUser::class)->name('dashboard');
+	route::get('guide', Guide::class)->name('guide');
 	Route::get('request', RequestUser::class)->name('request');
 	Route::get('show-schedule', ShowSCheduleEmployees::class)->name('show.schedule');
 	Route::post('request/accept/{id}', [AdminController::class, 'acceptRequestOvertime'])->name('request.accept');

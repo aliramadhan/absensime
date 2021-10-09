@@ -139,7 +139,10 @@
                     </x-jet-nav-link>   
                      <x-jet-nav-link href="{{ route('manager.show.schedule') }}" :active="request()->routeIs('manager.show.schedule')">
                         {{ __('Show Schedule') }}
-                    </x-jet-nav-link>    
+                    </x-jet-nav-link>                         
+                    <x-jet-nav-link href="{{ route('manager.guide') }}" :active="request()->routeIs('manager.guide')">
+                        {{ __('Guide') }}
+                    </x-jet-nav-link>   
                     @else
                     <x-jet-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
                         {{ __('Dashboard') }}
@@ -154,6 +157,9 @@
                      <x-jet-nav-link href="{{ route('user.show.schedule') }}" :active="request()->routeIs('user.show.schedule')">
                         {{ __('Show Schedule') }}
                     </x-jet-nav-link>
+                     <x-jet-nav-link href="{{ route('user.guide') }}" :active="request()->routeIs('user.guide')">
+                        {{ __('Guide') }}
+                    </x-jet-nav-link>   
                     @endif
                 </div>
             </div>
