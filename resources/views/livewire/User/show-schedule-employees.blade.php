@@ -75,7 +75,7 @@ tbody th {
   </span>
   <input type="search" id="myInputSearch" onkeyup="searching1()"  class="py-2 text-sm bg-gray-50 rounded-md pl-10 focus:outline-none focus:bg-white focus:shadow-xl focus:text-gray-900 focus:w-100 w-full duration-300 border-gray-400" placeholder="Search..." autocomplete="off">
 </div>
-<button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export Schedule</button>
+<button class="text-sm focus:outline-none font-semibold bg-blue-400 shadow-md duration-300 hover:bg-blue-700 cursor-pointer text-white  py-2 px-6 rounded-lg md:w-auto w-full" wire:click="exportSchedule()">Export <span class="hidden md:inline">Schedule</span></button>
 </div>
 
 <div class="scroll overflow-auto cursor-pointer relative" style="max-height: 32em;">
