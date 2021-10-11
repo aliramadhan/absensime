@@ -33,7 +33,10 @@
                     </x-jet-nav-link>
                     <x-jet-nav-link href="{{ route('admin.request') }}" :active="request()->routeIs('admin.request')">
                         {{ __('Request') }}
-                    </x-jet-nav-link>                              
+                    </x-jet-nav-link>                             
+                    <x-jet-nav-link href="{{ route('admin.guide') }}" :active="request()->routeIs('admin.guide')">
+                        {{ __('Guide') }}
+                    </x-jet-nav-link>                          
                     
 
                     <div class="hidden sm:flex sm:items-center sm:ml-6 hover:border-gray-300  focus:outline-none focus:text-gray-700 focus:border-gray-300  border-transparent 
