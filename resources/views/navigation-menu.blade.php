@@ -27,7 +27,6 @@
                     <x-jet-nav-link href="{{ route('admin.shift') }}" :active="request()->routeIs('admin.shift')">
                         {{ __('Shift') }}
                     </x-jet-nav-link>
-                 
                     <x-jet-nav-link href="{{ route('admin.schedule') }}" :active="request()->routeIs('admin.schedule')">
                         {{ __('Schedule') }}
                     </x-jet-nav-link>

@@ -57,7 +57,7 @@
          </div>
 
          <div wire:loading wire:target="create,closeModal,importSchedule,create,import,update,store" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
-             <section class="h-full w-full border-box  transition-all duration-500 flex bg-gray-500 opacity-75"    >   
+             <section class="h-full w-full border-box  transition-all duration-500 flex bg-gray-500 opacity-75">   
                 <div class="text-6xl text-white m-auto text-center">        
                    <i class="fas fa-circle-notch animate-spin"></i>
                </div>
