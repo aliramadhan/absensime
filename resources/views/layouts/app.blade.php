@@ -277,7 +277,7 @@
         window.onload = function checkBtnNotif() {
 
            if(Notification.permission === 'denied' || Notification.permission === 'default') {
-            document.getElementById("Notificationbtn").className = 'shadow-md md:fixed w-full bottom-0 bg-white border-t hidden md:block text-center py-4 z-20 flex flex-row space-x-3 hidden';
+            document.getElementById("Notificationbtn").className = 'shadow-md md:fixed w-full bottom-0 bg-white border-t hidden md:block text-center py-4 z-50 flex flex-row space-x-3 hidden';
           } else {
             document.getElementById("Notificationbtn").className = 'hidden';
           }
