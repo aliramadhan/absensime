@@ -16,7 +16,7 @@ use App\Mail\RequestNotificationMail;
 
 class RequestUser extends Component
 {
-	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser, $historyLock, $started_at, $stoped_at,$format,$locationRe;
+	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser, $historyLock, $started_at, $stoped_at,$format,$locationRe, $schedule;
 
     public function render()
     {
@@ -25,6 +25,7 @@ class RequestUser extends Component
     	$this->user = auth()->user();
         $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->shifts = Shift::all();
+        $this->schedule = Schedule::whereDate('date',$this->now)->where('employee_id',$this->user->id)->first();
         //set history lock
         $this->historyLock = HistoryLock::where('employee_id',$this->user->id)->where('is_requested',0)->orderBy('id','asc')->get();
         return view('livewire.User.Request.request-user');

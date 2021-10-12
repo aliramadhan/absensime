@@ -169,7 +169,9 @@ class ScheduleLive extends Component
       }
     }
     session()->flash('success', 'Import Schedule successfully.');
-    session()->flash('failure', $message);
+    if ($message != '') {
+      session()->flash('failure', $message);
+    }
     $this->closeModal();
     $this->resetFields();   
     $this->emit('refreshLivewireDatatable');
