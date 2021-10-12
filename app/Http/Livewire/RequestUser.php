@@ -25,7 +25,6 @@ class RequestUser extends Component
     	$this->user = auth()->user();
         $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->shifts = Shift::all();
-        $this->schedule = Schedule::whereDate('date',$this->now)->where('employee_id',$this->user->id)->first();
         //set history lock
         $this->historyLock = HistoryLock::where('employee_id',$this->user->id)->where('is_requested',0)->orderBy('id','asc')->get();
         return view('livewire.User.Request.request-user');
