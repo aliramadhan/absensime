@@ -146,40 +146,47 @@
                         </template>
                       </div>
 
-                      <div class="flex flex-wrap border-t border-l items-center ml-1 mb-1">
+                      <div class="flex flex-wrap border-t border-l items-center ml-1 mb-1 border-gray-300">
                         <template x-for="blankday in blankdays">
                           <div 
                           style="width: 14.1%;  height: 50px;"
-                          class="text-center border-r border-b px-4 pt-2" 
+                          class="text-center border-r border-b px-4 pt-2 border-gray-300" 
                           ></div>
                         </template> 
                         <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex"> 
-                          <div style="width: 14.1%; height: 50px" class="px-1 border-r border-b text-center flex items-center hover-trigger">
-                            <div
-                            @click="showEventModal(date)"
-                            x-text="date"
-                            class="inline-flex w-8 h-8 items-center justify-center cursor-pointer text-center leading-none rounded-full transition ease-in-out duration-300 p-2 hover-trigger mx-auto"
-                            :class="{'bg-blue-500 text-white': isToday(date) == true, 'hover-trigger text-gray-700 hover:bg-blue-200': isToday(date) == false }"
-                            x-on:mouseover="$wire.set('dateCheck', date)"
-                            ></div> 
+                          <div style="width: 14.1%; height: 50px" class="border-r border-b  border-gray-300 text-center flex items-center hover-trigger leading-none">
+                            <div class="relative flex flex-col  inline-flex w-full h-full  items-center justify-center cursor-pointer text-center leading-none  transition ease-in-out duration-300 hover-trigger m-auto "
+                            :class="{'bg-blue-400 text-white': isToday(date) == true, 'hover-trigger text-gray-700 hover:bg-blue-200': isToday(date) == false }"
+                            x-on:mouseover="$wire.set('dateCheck', date)">  
                             @php
                             $monthCheck += 1;
                             $dateText = '2021-'.$monthCheck.'-'.$dateCheck;
                             if($dateCheck != null){
-                            $datePicker = Carbon\Carbon::parse($dateText);
-                          }
-                          else{
-                          $datePicker = Carbon\Carbon::now();
-                        }
-                        $scheduleDatePicker = \App\Models\Schedule::whereDate('date',$datePicker)->where('employee_id',$user->id)->first();
-                        @endphp
+                              $datePicker = Carbon\Carbon::parse($dateText);
 
-                        @if($scheduleDatePicker != null)
-                        <div class="absolute bg-white border border-gray-100 px-3 py-1 -mt-16 shadow-lg rounded-lg w-max flex-col z-20 text-left hover-target font-semibold bg-gray-700 text-white">Shift {{$scheduleDatePicker->shift_name}}</div>
-                        @else 
-                        <div class="absolute bg-white border border-gray-100 px-3 py-1 -mt-16 shadow-lg rounded-lg w-max flex-col z-20 text-left hover-target font-semibold bg-red-600 text-white">Day off </div>
-                        @endif
+                            }
+                            else{
+                              $datePicker = Carbon\Carbon::now();
+                            }
+                            $scheduleDatePicker = \App\Models\Schedule::whereDate('date',$datePicker)->where('employee_id',$user->id)->first();
+                            @endphp
 
+                            @if($scheduleDatePicker != null)
+                            <div
+                            @click="showEventModal(date)" class=" text-lg font-semibold border-b border-dashed w-6 text-center"
+                            x-text="date" :class="{'bg-blue-400 text-white border-gray-50': isToday(date) == true, 'hover-trigger  text-gray-600 hover:bg-blue-200 border-gray-400': isToday(date) == false }"></div> 
+                            <label class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{' text-white': isToday(date) == true, 'hover-trigger  text-gray-500 ': isToday(date) == false }">{{$scheduleDatePicker->shift_name}}</label>
+                            </div>
+                            @else 
+
+                             <div
+                            @click="showEventModal(date)" class=" text-lg font-semibold border-b border-dashed w-6 text-center"
+                            x-text="date" :class="{'bg-blue-400 text-white border-gray-50': isToday(date) == true, 'hover-trigger  text-gray-600 hover:bg-blue-200 border-gray-400': isToday(date) == false }"></div> 
+                            <label class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{' text-white': isToday(date) == true, 'hover-trigger  text-red-500 ': isToday(date) == false }">Libur</label>
+                            </div>
+
+                             @endif
+                 
                       </div>
                     </template>
                   </div>
@@ -324,7 +331,7 @@
                   <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
                 </div>
               </div>
-            <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg sm:mt-4">
+            <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg md:mt-0 sm:mt-4">
               <div class="overflow-hidden md:col-span-1 col-span-2 md:block lg:hidden hidden mb-2">
                 <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
                   <label class=" text-gray-700">Annual Leave Quota</label>

@@ -19,7 +19,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-20 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-20 lg:flex">
                     @if(auth()->user()->roles == 'Admin')
                     <x-jet-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
@@ -39,7 +39,7 @@
                     </x-jet-nav-link>                          
                     
 
-                    <div class="hidden sm:flex sm:items-center sm:ml-6 hover:border-gray-300  focus:outline-none focus:text-gray-700 focus:border-gray-300  border-transparent 
+                    <div class="hidden lg:flex sm:items-center sm:ml-6 hover:border-gray-300  focus:outline-none focus:text-gray-700 focus:border-gray-300  border-transparent 
                         transition duration-150 ease-in-out  hover:text-gray-700">
                             <x-jet-dropdown align="right" width="48">
                                 <x-slot name="trigger">
@@ -167,7 +167,7 @@
                 </div>
             </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ml-6">
+            <div class="hidden lg:flex sm:items-center sm:ml-6">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ml-3 relative">
@@ -309,7 +309,7 @@
             <!-- Hamburger -->
            
            
-            <div class="-mr-2 flex items-center sm:hidden space-x-2">
+            <div class="-mr-2 flex items-center lg:hidden space-x-2">
                <div class="flex items-center sm:hidden text-xs border rounded-md px-3 shadow h-8 text-gray-500 font-semibold space-x-1">
                    Status: <span id="checkOnlineWord2" class="ml-1"> </span>
                </div>
@@ -324,7 +324,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden">
         <div class="pt-2 pb-3 space-y-1">
              @if(auth()->user()->roles == 'Admin')
                     <x-jet-responsive-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
