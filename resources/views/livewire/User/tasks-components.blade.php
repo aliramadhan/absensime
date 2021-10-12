@@ -3,8 +3,7 @@
 
     	$weekStart = Carbon\Carbon::now()->startOfWeek();
     	$weekStop = Carbon\Carbon::now()->endOfWeek();
-    	$listSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('date',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->orderBy('date','desc')->get();
-    	$idArray = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('date',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->pluck('id');
+    	$listSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('date',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->orderBy('date','desc')->with('details')->get();
     	$taskCount = 0;$taskSkip=0;
     	foreach($listSchedules as $listSchedule){
     		if($listSchedule->details->count() > 0){

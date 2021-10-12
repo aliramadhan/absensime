@@ -68,22 +68,21 @@ class DashboardUser extends Component
         $this->user = auth()->user();
         $this->now = Carbon::now();
         $this->shifts = Shift::all();
-        $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
-        $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->orderBy('date','asc')->get();
+        $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->orderBy('date','asc')->with('shift')->get();
         $request = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
         if ($request != null) {
             $this->cekRemote = 1;
             $this->location = 'Remote';
         }
         //check if have shift over 24
-        $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->subDay(2),Carbon::now()])->where('status','!=','Done')->where('status','!=','No Record')->orderBy('date','desc')->get();
+        $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->subDay(2),Carbon::now()])->where('status','!=','Done')->where('status','!=','No Record')->orderBy('date','desc')->with('shift')->get();
         if ($schedules->first() != null) {
             $this->schedule = $schedules->first();
         }
         else{
             $this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
         }
-        $this->prevSchedule = Schedule::where('employee_id',$this->user->id)->where('date',Carbon::now()->subDay()->format('Y-m-d'))->first();
+        //$this->prevSchedule = Schedule::where('employee_id',$this->user->id)->where('date',Carbon::now()->subDay()->format('Y-m-d'))->first();
         if ($this->schedule != null) {
             $this->shift = $this->schedule->shift;
             $this->time_in = $time_in = Carbon::parse($this->shift->time_in);
@@ -155,7 +154,7 @@ class DashboardUser extends Component
             $this->business_travel = $this->intToTime($business_travel);
         }
         //set history lock
-        $this->historyLock = HistoryLock::where('employee_id',$this->user->id)->where('is_requested',0)->orderBy('id','asc')->get();
+        //$this->historyLock = HistoryLock::where('employee_id',$this->user->id)->where('is_requested',0)->orderBy('id','asc')->get();
         //set weekly target
         $startWeek = Carbon::now()->startOfWeek();
         $endWeek = Carbon::now()->endOfWeek();
@@ -292,6 +291,8 @@ class DashboardUser extends Component
     }
     public function showCreateRequest()
     {
+
+        $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->isModal = 'Create Request';
     }
     public function pauseOn()

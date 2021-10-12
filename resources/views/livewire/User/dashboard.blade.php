@@ -156,36 +156,12 @@
                         <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex"> 
                           <div style="width: 14.1%; height: 50px" class="border-r border-b  border-gray-300 text-center flex items-center hover-trigger leading-none">
                             <div class="relative flex flex-col  inline-flex w-full h-full  items-center justify-center cursor-pointer text-center leading-none  transition ease-in-out duration-300 hover-trigger m-auto "
-                            :class="{'bg-blue-400 text-white': isToday(date) == true, 'hover-trigger text-gray-700 hover:bg-blue-200': isToday(date) == false }"
-                            x-on:mouseover="$wire.set('dateCheck', date)">  
-                            @php
-                            $monthCheck += 1;
-                            $dateText = '2021-'.$monthCheck.'-'.$dateCheck;
-                            if($dateCheck != null){
-                              $datePicker = Carbon\Carbon::parse($dateText);
-
-                            }
-                            else{
-                              $datePicker = Carbon\Carbon::now();
-                            }
-                            $scheduleDatePicker = \App\Models\Schedule::whereDate('date',$datePicker)->where('employee_id',$user->id)->first();
-                            @endphp
-
-                            @if($scheduleDatePicker != null)
+                            :class="{'bg-blue-400 text-white': isToday(date[0]) == true, 'hover-trigger text-gray-700 hover:bg-blue-200': isToday(date) == false }">
                             <div
                             @click="showEventModal(date)" class=" text-lg font-semibold border-b border-dashed w-6 text-center"
-                            x-text="date" :class="{'bg-blue-400 text-white border-gray-50': isToday(date) == true, 'hover-trigger  text-gray-600 hover:bg-blue-200 border-gray-400': isToday(date) == false }"></div> 
-                            <label class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{' text-white': isToday(date) == true, 'hover-trigger  text-gray-500 ': isToday(date) == false }">{{$scheduleDatePicker->shift_name}}</label>
+                            x-text="date[0]" :class="{'bg-blue-400 text-white border-gray-50': isToday(date) == true, 'hover-trigger  text-gray-600 hover:bg-blue-200 border-gray-400': isToday(date) == false }"></div> 
+                            <label x-text="date[1]" class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{'hover-trigger  text-gray-500 ': date[1] != 'libur', 'hover-trigger  text-red-500 ': date[1] == 'libur' }"></label>
                             </div>
-                            @else 
-
-                             <div
-                            @click="showEventModal(date)" class=" text-lg font-semibold border-b border-dashed w-6 text-center"
-                            x-text="date" :class="{'bg-blue-400 text-white border-gray-50': isToday(date) == true, 'hover-trigger  text-gray-600 hover:bg-blue-200 border-gray-400': isToday(date) == false }"></div> 
-                            <label class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{' text-white': isToday(date) == true, 'hover-trigger  text-red-500 ': isToday(date) == false }">Libur</label>
-                            </div>
-
-                             @endif
                  
                       </div>
                     </template>
@@ -205,6 +181,7 @@
                 month: '',
                 year: '',
                 no_of_days: [],
+                schedules: {!! json_encode(App\Models\Schedule::where('employee_id',$user->id)->get()->toArray()) !!},
                 blankdays: [],
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
 
@@ -299,8 +276,7 @@
           },
 
           getNoOfDays() {
-            let daysInMonth = new Date(this.year, this.month + 1, 0).getDate();
-
+            let daysInMonth = new Date(this.year, this.month + 1, 0);
             // find where to start calendar day of week
             let dayOfWeek = new Date(this.year, this.month).getDay();
             let blankdaysArray = [];
@@ -309,10 +285,30 @@
             }
 
             let daysArray = [];
-            for ( var i=1; i <= daysInMonth; i++) {
-              daysArray.push(i);
+            let dateString = '';
+            for ( var i=1; i <= daysInMonth.getDate(); i++) {
+              var month = daysInMonth.getMonth() + 1;
+              if (month < 10) {
+                month = '0'+month;
+              }
+              if (i < 10) {
+                dateString = daysInMonth.getFullYear() + '-' + month + '-0' + i;
+              }
+              else{
+                dateString = daysInMonth.getFullYear() + '-' + month + '-' + i;
+              }
+
+              var schedule = this.schedules.find(function(item){
+                return item.date == dateString
+              })
+              if (schedule != null) {
+                daysArray.push([i,schedule.shift_name]);
+              }
+              else{
+                daysArray.push([i,'libur']);
+              }
             }
-            
+
             this.blankdays = blankdaysArray;
             this.no_of_days = daysArray;
           }
@@ -402,7 +398,6 @@
                           @php
                           $weekStart = Carbon\Carbon::now()->startOfWeek();
                           $weekStop = Carbon\Carbon::now()->endOfWeek();
-                          $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
                           @endphp
                           <div class="space-x-2 flex mx-auto items-center ">
                             <h2 class="font-semibold text-sm md:text-base tracking-wide"><i class="far fa-calendar-alt"></i>  Shift {{$schedule->shift->name}} </h2>
@@ -579,6 +574,7 @@
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Recording Complete  
                 <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>  
+              <!--
               @elseif(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->position_stop == null))
              
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
@@ -589,7 +585,7 @@
                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
                 <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>    
-                         
+              -->         
               @elseif(auth()->user()->is_active != 1 && ($schedule != null && $schedule->started_at != null))
                 @if($detailSchedule->status == 'Rest' && Carbon\Carbon::parse($detailSchedule->started_at)->diffInHours($now) >= 4))
                 <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
@@ -668,12 +664,6 @@
                  
             <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @endif class="absolute">
               @if($schedule != null)
-                @php
-                  $request_remote= App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Remote')->where('status','Accept')->first();
-                @endphp
-                @if($request_remote != null)
-                  @php $location = 'Remote'; @endphp
-                @endif
                 @php
                 $start = Carbon\Carbon::parse($schedule->started_at);
                 if($schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
@@ -816,9 +806,10 @@
                   @php
                     $startWeek = Carbon\Carbon::now()->startOfWeek();
                     $endWeek = Carbon\Carbon::now()->endOfWeek();
-                    $weekly_work = \App\Models\Schedule::where('employee_id',$user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
-                    $seconds = intval($weekly_work->sum(\DB::raw('workhour + timer'))%60);
-                    $total_minutes = intval($weekly_work->sum(\DB::raw('workhour + timer'))/60);
+                    $weekly_work = $schedules->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
+                    $sumWeeklyHour = $weekly_work->sum(\DB::raw('workhour + timer'));
+                    $seconds = intval($sumWeeklyHour%60);
+                    $total_minutes = intval($sumWeeklyHour/60);
                     $minutes = $total_minutes%60;
                     $hours = intval($total_minutes/60);
                     $time_weekly = $hours."h ".$minutes."m";
