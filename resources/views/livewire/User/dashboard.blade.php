@@ -662,12 +662,8 @@
             <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @endif class="absolute">
               @if($schedule != null)
                 @php
-                  $request_late = App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Excused')->where('status','Accept')->first();
                   $request_remote= App\Models\Request::whereDate('date',$now)->where('employee_id',$user->id)->where('type','Remote')->where('status','Accept')->first();
                 @endphp
-                @if($request_late != null)
-                  @php $schedule->update(['status_depart' => 'Present']); @endphp
-                @endif
                 @if($request_remote != null)
                   @php $location = 'Remote'; @endphp
                 @endif
