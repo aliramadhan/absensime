@@ -141,7 +141,7 @@
                           <div style="width: 14.1%" class="px-2 py-2 ">
                             <div
                             x-text="day" 
-                            class="text-gray-600 text-sm uppercase tracking-wide font-bold text-center mb-10"></div>
+                            class=" text-sm uppercase tracking-wide font-bold text-center mb-10"></div>
                           </div>
                         </template>
                       </div>
@@ -154,13 +154,13 @@
                           ></div>
                         </template> 
                         <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex"> 
-                          <div style="width: 14.1%; height: 50px" class="border-r border-b  border-gray-300 text-center flex items-center hover-trigger leading-none">
-                            <div class="relative flex flex-col  inline-flex w-full h-full  items-center justify-center cursor-pointer text-center leading-none  transition ease-in-out duration-300 hover-trigger m-auto "
-                            :class="{'bg-blue-400 text-white': isToday(date[0]) == true, 'hover-trigger text-gray-700 hover:bg-blue-200': isToday(date) == false }">
+                          <div style="width: 14.1%; height: 50px" class="border-r border-b  border-gray-300 text-center flex items-center leading-none">
+                            <div class="relative flex flex-col  inline-flex w-full h-full  items-center justify-center cursor-pointer text-center leading-none  transition ease-in-out duration-300 m-auto  "
+                            :class="{'bg-blue-400 text-white border-white hover:bg-blue-500': isToday(date[0]) == true, 'hover:bg-gray-200 text-gray-600 ': isToday(date[0]) == false }">
                             <div
-                            @click="showEventModal(date)" class=" text-lg font-semibold border-b border-dashed w-6 text-center"
-                            x-text="date[0]" :class="{'bg-blue-400 text-white border-gray-50': isToday(date) == true, 'hover-trigger  text-gray-600 hover:bg-blue-200 border-gray-400': isToday(date) == false }"></div> 
-                            <label x-text="date[1]" class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{'hover-trigger  text-gray-500 ': date[1] != 'libur', 'hover-trigger  text-red-500 ': date[1] == 'libur' }"></label>
+                            @click="showEventModal(date)" class="text-lg font-semibold border-b border-dashed w-6 text-center " :class="isToday(date[0]) ? 'border-white':'border-gray-500'"
+                            x-text="date[0]"></div> 
+                            <label x-text="date[1]" class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{'text-white': date[1] == 'libur' && isToday(date[0]) == true,'text-red-500': date[1] == 'libur' && isToday(date[0]) != true}"></label>
                             </div>
                  
                       </div>
@@ -420,14 +420,14 @@
                         <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                             <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                             @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
-                            <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12" disabled wire:model="location" >
+                            <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12" disabled wire:model="location" >
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
                                 <option value="WFO">Work From Office</option>
                                 <option value="WFH">Work From Home</option>
                                 <option value="Business Travel">Business Travel</option>
                             </select>
                             @else
-                              <select class="form-select rounded-lg py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12  @error('location') border-red-500  @enderror" wire:model="location" >
+                              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12  @error('location') border-red-500  @enderror" wire:model="location" >
                                 <option hidden value="none">Choose One</option>
                                 @if($cekRemote)<option selected="true">Remote</option>@endif
                                 <option value="WFO">Work From Office</option>
