@@ -107,7 +107,7 @@ tbody th {
       <tr>
         <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0  z-20"><div class="truncate md:w-full w-28" x-text="user.name"></div></th>
         <template x-for="(date, dateIndex) in user.schedules" :key="dateIndex">
-          <td :class="{'px-1 py-2 text-center border border-gray-300 text-xs w-48' : date[1] == 'libur', 'hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300' : listLeaves.includes(date[1].status) , 'hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white' : date[1].status == 'Done', 'hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white' : date[1].status == 'No Record', 'hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm' : date[1].status == 'Not sign in', 'hover:bg-blue-300 px-1 py-2 text-center bg-gray-50 border border-gray-400 font-semibold tracking-wide text-center text-sm' : date[1].shift_name}">
+          <td :class="{ 'px-1 py-2 text-center z-10 shadow-md text-xs w-48 bg-blue-400' : date[1].date == now ,'px-1 py-2 text-center border border-gray-300 text-xs w-48' : date[1] == 'libur', 'hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300' : listLeaves.includes(date[1].status) , 'hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white' : date[1].status == 'Done', 'hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white' : date[1].status == 'No Record', 'hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm' : date[1].status == 'Not sign in', 'hover:bg-blue-300 px-1 py-2 text-center bg-gray-50 border border-gray-400 font-semibold tracking-wide text-center text-sm' : date[1].shift_name}">
             <template x-if="date[1] == 'libur'" class="text-center">
               <label class="hover:bg-red-300 duration-500 bg-red-500 text-white text-center py-0 px-2 rounded-full"></label>
             </template>
@@ -184,6 +184,7 @@ Absent
   function app(){
     return{
       no_of_days: [],
+      now: '',
       schedules: {!! json_encode($schedules) !!},
       users: {!! json_encode($users) !!},
       listLeaves: {!! json_encode($leaves) !!},
@@ -203,9 +204,11 @@ Absent
             }
             if (i < 10) {
               dateString = now.getFullYear() + '-' + month + '-0' + i;
+              this.now =  now.getFullYear() + '-' + month + '-0' + now.getDate();
             }
             else{
               dateString = now.getFullYear() + '-' + month + '-' + i;
+              this.now =  now.getFullYear() + '-' + month + '-' + now.getDate();
             }
 
             var schedule = this.schedules.find(function(item){
@@ -223,6 +226,7 @@ Absent
           }
         }
         console.log(this.users);
+        console.log(this.now);
       },
     }
   }
