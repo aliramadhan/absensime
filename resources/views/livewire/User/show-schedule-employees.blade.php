@@ -109,7 +109,12 @@ tbody th {
         <template x-for="(date, dateIndex) in user.schedules" :key="dateIndex">
           <td :class="{ 'px-1 py-2 text-center z-10 shadow-md text-xs w-48 bg-blue-400' : date[1].date == now ,'px-1 py-2 text-center border border-gray-300 text-xs w-48' : date[1] == 'libur', 'hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300' : listLeaves.includes(date[1].status) , 'hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white' : date[1].status == 'Done', 'hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white' : date[1].status == 'No Record', 'hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm' : date[1].status == 'Not sign in', 'hover:bg-blue-300 px-1 py-2 text-center bg-gray-50 border border-gray-400 font-semibold tracking-wide text-center text-sm' : date[1].shift_name}">
             <template x-if="date[1] == 'libur'" class="text-center">
-              <label class="hover:bg-red-300 duration-500 bg-red-500 text-white text-center py-0 px-2 rounded-full"></label>
+              <h4 class=" font-medium text-md leading-snug text-left flex items-center text-gray-700">
+                <span class="flex h-3 w-3 mr-2">
+                  <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></span>
+                </span>
+              </h4>
             </template>
             <template x-if="date[1] != 'libur'">
               <label x-text="date[1].shift_name"></label>
