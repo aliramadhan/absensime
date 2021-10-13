@@ -79,7 +79,7 @@ tbody th {
 </div>
 
 <div class="scroll overflow-auto cursor-pointer relative" style="max-height: 32em;">
-    <table class="table-fixed  flex-initial relative">
+    <table class="table-fixed  flex-initial relative" x-data="app()" x-init="[getNoOfDays()]">
       <thead>
        <tr>
 
@@ -102,63 +102,23 @@ tbody th {
             @endfor
         </tr>
     </thead>
-    <tbody class="border-gray-50 duration-300"  id="scheduleTable">
-        @foreach($users as $user)
-        <tr >
-            <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0  z-20"><div class="truncate md:w-full w-28">{{$user->name}} </div></th>
-            
-            @for($i = 1; $i <= $now->daysInMonth; $i++)
-                @php
-                $date = Carbon\Carbon::parse($now->format('Y-m-').$i);
-                $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
-                @endphp
-                @if($i==$mytimenow->format('d'))
-                  @if($schedule == null)
-                  <td class='px-1 py-2 text-center z-10 shadow-md text-xs w-48 bg-blue-400'>
-                      <label class="hover:bg-red-300 border-2 border-white duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label>
-                  </td>
-                  @elseif($schedule != null && in_array($schedule->status,$leaves))
-
-                  <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 hover-trigger relative'>{{$schedule->shift_name}}
-                    <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div>
-                  </td>
-                  @elseif($schedule != null && $schedule->status == 'Done')
-                  <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
-                  @elseif($schedule != null && $schedule->status == 'No Record')
-                  <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
-                  @elseif($schedule != null && $schedule->status != 'Not sign in' && $schedule->status !='Working' && $schedule->status !='Pause')
-                  <td class='hover:bg-yellow-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300 '>{{$schedule->shift_name}}
-                    <div class="hover-target absolute duration-300 top-0 bg-yellow-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div></td>
-                  @elseif($schedule != null && $schedule->status == 'Pause')
-                  <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 hover-trigger relative'>Paused
-                    <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-sm w-full h-full p-1 py-2">{{$schedule->shift_name}}</div>
-                  </td>
-                  @else
-                  <td class='hover:bg-blue-500 px-1 py-2 text-center border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
-                  @endif
-                @else
-                  @if($schedule == null)
-                  <td class='px-1 py-2 text-center border border-gray-300 text-xs w-48'>
-                      <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label>
-                  </td>
-                  @elseif($schedule != null && in_array($schedule->status,$leaves) )
-                  <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300 '>{{$schedule->shift_name}}
-                  <div class="hover-target absolute duration-300 top-0 bg-yellow-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div>
-                  </td>
-                  @elseif($schedule != null && $schedule->status == 'Done')
-                  <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>{{$schedule->shift_name}}</td>
-                  @elseif($schedule != null && $schedule->status == 'No Record')
-                  <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
-                  @elseif($schedule != null && $schedule->status != 'Not sign in')
-                  <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm'>{{$schedule->shift_name}}</td>
-                  @else
-                  <td class='hover:bg-blue-300 px-1 py-2 text-center bg-gray-50 border border-gray-400 font-semibold tracking-wide text-center text-sm '>{{$schedule->shift_name}}</td>
-                  @endif
-                @endif
-                @endfor
-            </tr>
-            @endforeach    
-        </tbody>
+    <tbody  class="border-gray-50 duration-300"  id="scheduleTable">
+      <template x-for="(user, userIndex) in users" :key="userIndex">
+      <tr>
+        <th  class="p-2  truncate text-white bg-gray-700 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0  z-20"><div class="truncate md:w-full w-28" x-text="user.name"></div></th>
+        <template x-for="(date, dateIndex) in user.schedules" :key="dateIndex">
+          <td :class="{'px-1 py-2 text-center border border-gray-300 text-xs w-48' : date[1] == 'libur', 'hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300' : listLeaves.includes(date[1].status) , 'hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white' : date[1].status == 'Done', 'hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white' : date[1].status == 'No Record', 'hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm' : date[1].status == 'Not sign in', 'hover:bg-blue-300 px-1 py-2 text-center bg-gray-50 border border-gray-400 font-semibold tracking-wide text-center text-sm' : date[1].shift_name}">
+            <template x-if="date[1] == 'libur'" class="text-center">
+              <label class="hover:bg-red-300 duration-500 bg-red-500 text-white text-center py-0 px-2 rounded-full"></label>
+            </template>
+            <template x-if="date[1] != 'libur'">
+              <label x-text="date[1].shift_name"></label>
+            </template>
+          </td>
+        </template>
+      </tr>
+      </template>
+    </tbody>
     </table>
 </div>
 <div class="flex flex-col row-span-1 text-right pointer px-4 capitalize  bg-white py-4 bg-gray-100 rounded-xl border mt-4">
@@ -221,6 +181,51 @@ Absent
 
 
 <script>
+  function app(){
+    return{
+      no_of_days: [],
+      schedules: {!! json_encode($schedules) !!},
+      users: {!! json_encode($users) !!},
+      listLeaves: {!! json_encode($leaves) !!},
+
+      getNoOfDays() {
+        let now = new Date();
+        let daysInMonth = new Date(now.getFullYear(), now.getMonth() +1, 0).getDate();
+        let dateString = '';
+
+        for(user of this.users){
+          user.schedules = [];
+          let daysArray = [];
+          for ( var i=1; i <= daysInMonth; i++) {
+            var month = now.getMonth() + 1;
+            if (month < 10) {
+              month = '0'+month;
+            }
+            if (i < 10) {
+              dateString = now.getFullYear() + '-' + month + '-0' + i;
+            }
+            else{
+              dateString = now.getFullYear() + '-' + month + '-' + i;
+            }
+
+            var schedule = this.schedules.find(function(item){
+              if (item.date == dateString && item.employee_id == user.id) {
+                return item;
+              }
+            });
+            if (schedule != null) {
+              daysArray.push([i,schedule]);
+            }
+            else{
+              daysArray.push([i,'libur']);
+            }
+            user.schedules = daysArray;
+          }
+        }
+        console.log(this.users);
+      },
+    }
+  }
     function searching1() {
         var input, filter, tbody, tr, th, i, txtValue;
         input = document.getElementById("myInputSearch");
