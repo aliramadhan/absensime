@@ -20,7 +20,7 @@ class ShowScheduleEmployees extends Component
     	$this->now = $now = Carbon::now();
         $this->shifts = Shift::all();
         $this->leaves = ListLeave::all()->pluck('name')->toArray();
-    	$schedules = Schedule::whereBetween('date',[$now->startOfMonth()->format('Y-m-d'),$now->endOfMonth()->format('Y-m-d')])->get();
+    	$this->schedules = Schedule::whereBetween('date',[$now->startOfMonth()->format('Y-m-d'),$now->endOfMonth()->format('Y-m-d')])->get();
         return view('livewire.User.show-schedule-employees');
     }
     public function exportSchedule()

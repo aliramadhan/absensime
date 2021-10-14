@@ -248,73 +248,73 @@
                 },
 
                 showEventModal(date) {
-            // open the modal
-            this.openEventModal = true;
-            this.event_date = new Date(this.year, this.month, date).toDateString();
-          },
+                  // open the modal
+                  this.openEventModal = true;
+                  this.event_date = new Date(this.year, this.month, date).toDateString();
+                },
 
-          addEvent() {
-            if (this.event_title == '') {
-              return;
+                addEvent() {
+                  if (this.event_title == '') {
+                    return;
+                  }
+
+                  this.events.push({
+                    event_date: this.event_date,
+                    event_title: this.event_title,
+                    event_theme: this.event_theme
+                  });
+
+                  console.log(this.events);
+
+                  // clear the form data
+                  this.event_title = '';
+                  this.event_date = '';
+                  this.event_theme = 'blue';
+
+                  //close the modal
+                  this.openEventModal = false;
+                },
+
+                getNoOfDays() {
+                  let daysInMonth = new Date(this.year, this.month + 1, 0);
+                  // find where to start calendar day of week
+                  let dayOfWeek = new Date(this.year, this.month).getDay();
+                  let blankdaysArray = [];
+                  for ( var i=1; i <= dayOfWeek; i++) {
+                    blankdaysArray.push(i);
+                  }
+
+                  let daysArray = [];
+                  let dateString = '';
+                  for ( var i=1; i <= daysInMonth.getDate(); i++) {
+                    var month = daysInMonth.getMonth() + 1;
+                    if (month < 10) {
+                      month = '0'+month;
+                    }
+                    if (i < 10) {
+                      dateString = daysInMonth.getFullYear() + '-' + month + '-0' + i;
+                    }
+                    else{
+                      dateString = daysInMonth.getFullYear() + '-' + month + '-' + i;
+                    }
+
+                    var schedule = this.schedules.find(function(item){
+                      return item.date == dateString
+                    })
+                    if (schedule != null) {
+                      daysArray.push([i,schedule.shift_name]);
+                    }
+                    else{
+                      daysArray.push([i,'libur']);
+                    }
+                  }
+
+                  this.blankdays = blankdaysArray;
+                  this.no_of_days = daysArray;
+                }
+              }
             }
-
-            this.events.push({
-              event_date: this.event_date,
-              event_title: this.event_title,
-              event_theme: this.event_theme
-            });
-
-            console.log(this.events);
-
-            // clear the form data
-            this.event_title = '';
-            this.event_date = '';
-            this.event_theme = 'blue';
-
-            //close the modal
-            this.openEventModal = false;
-          },
-
-          getNoOfDays() {
-            let daysInMonth = new Date(this.year, this.month + 1, 0);
-            // find where to start calendar day of week
-            let dayOfWeek = new Date(this.year, this.month).getDay();
-            let blankdaysArray = [];
-            for ( var i=1; i <= dayOfWeek; i++) {
-              blankdaysArray.push(i);
-            }
-
-            let daysArray = [];
-            let dateString = '';
-            for ( var i=1; i <= daysInMonth.getDate(); i++) {
-              var month = daysInMonth.getMonth() + 1;
-              if (month < 10) {
-                month = '0'+month;
-              }
-              if (i < 10) {
-                dateString = daysInMonth.getFullYear() + '-' + month + '-0' + i;
-              }
-              else{
-                dateString = daysInMonth.getFullYear() + '-' + month + '-' + i;
-              }
-
-              var schedule = this.schedules.find(function(item){
-                return item.date == dateString
-              })
-              if (schedule != null) {
-                daysArray.push([i,schedule.shift_name]);
-              }
-              else{
-                daysArray.push([i,'libur']);
-              }
-            }
-
-            this.blankdays = blankdaysArray;
-            this.no_of_days = daysArray;
-          }
-        }
-      }
-    </script>
+          </script>
   </div>
 
       
