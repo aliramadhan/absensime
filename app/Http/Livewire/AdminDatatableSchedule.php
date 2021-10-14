@@ -16,8 +16,12 @@ use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 class AdminDatatableSchedule extends LivewireDatatable
 {
     public $hideable = 'select', $isModal;
+    public $schedules, $users, $shifts;
     public function builder()
     {
+        $this->schedules = Schedule::all();
+        $this->users = User::all();
+        $this->shifts = Shift::all();
   		return Schedule::where('id','!=',null);
     }
 
@@ -37,9 +41,9 @@ class AdminDatatableSchedule extends LivewireDatatable
                 ->filterable(),
 
             Column::callback(['id'], function ($id) {
-            	$schedule = Schedule::find($id);
-            	$employee = User::find($schedule->employee_id);
-            	$shifts = Shift::all();
+            	$schedule = $this->schedules->where('id',$id)->first();
+            	$employee = $this->users->where('id',$schedule->employee_id)->first();
+            	$shifts = $this->shifts;
             	if($schedule->date > Carbon::now()->format('Y-m-d')){
 	                return view('livewire.Admin.table-actions-schedule-admin', [
 	                	'id' => $id,

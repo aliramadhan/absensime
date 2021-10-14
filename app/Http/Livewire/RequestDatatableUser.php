@@ -20,7 +20,7 @@ use Carbon\Carbon;
 
 class RequestDatatableUser extends LivewireDatatable
 {
-	public $hideable = 'select',$time_overtime;
+	public $hideable = 'select',$time_overtime, $users;
     public function builder()
     {
     	if (auth()->user()->roles == 'Manager') {
@@ -28,6 +28,7 @@ class RequestDatatableUser extends LivewireDatatable
         	return Request::whereIn('employee_id',$users)->where('type','!=','Activation Order')->orderBy('id','desc');
     	}
     	elseif (auth()->user()->role == 'Admin') {
+    		$this->users = User::all();
         	return Request::where('employee_id','!=',null)->where('type','!=','Activation Order')->orderBy('id','desc');
     	}
     	else{
@@ -47,7 +48,7 @@ class RequestDatatableUser extends LivewireDatatable
     	if (auth()->user()->roles == 'Manager') {
 	        return [
 	            Column::callback(['employee_id'], function ($employee_id) {
-	            	$user = User::find($employee_id);
+	            	$user = $this->users->where('id',$employee_id)->first();
 			        return $user->name;
 	            })->label('Employee')->filterable(),
 	            DateColumn::name('date')
@@ -76,7 +77,7 @@ class RequestDatatableUser extends LivewireDatatable
 	                ->format('d F Y H:i'),
 	            Column::callback(['id'], function ($id) {
 	            	$request = Request::find($id);
-    				$user = User::find($request->employee_id);
+    				$user = $this->users->where('id',$request->employee_id)->first();
 	            	$this->time_overtime = $request->time_overtime;
 					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
 	            	if ($request->status == 'Waiting') {
@@ -88,7 +89,7 @@ class RequestDatatableUser extends LivewireDatatable
     	elseif (auth()->user()->role == 'Admin') {
 	        return [
 	            Column::callback(['employee_id'], function ($employee_id) {
-	            	$user = User::find($employee_id);
+	            	$user = $this->users->where('id',$employee_id)->first();
 			        return $user->name;
 	            })->label('Employee'),
 	            DateColumn::name('date')
@@ -118,7 +119,7 @@ class RequestDatatableUser extends LivewireDatatable
 	                ->format('d F Y H:i'),
 	            Column::callback(['id'], function ($id) {
 	            	$request = Request::find($id);
-    				$user = User::find($request->employee_id);
+    				$user = $this->users->where('id',$request->employee_id)->first();
 	            	$this->time_overtime = $request->time_overtime;
 					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
 	                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request, 'order' => $order]);

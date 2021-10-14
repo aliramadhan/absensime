@@ -41,7 +41,6 @@ class ScheduleLive extends Component
   {
     $this->employees = User::where('role','Employee')->orWhere('role','Manager')->get();
     $this->shifts = Shift::orderBy('name','desc')->get();
-		$this->schedules = Schedule::orderBy('date','asc')->get();
     return view('livewire.Admin.Schedule.schedule-live');
   }
   public function closeModal()

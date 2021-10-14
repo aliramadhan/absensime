@@ -61,7 +61,7 @@ class ScheduleToday extends LivewireDatatable
                 }
             })->label('Work Type'),
             Column::callback(['id'], function ($id) {
-                $schedule = Schedule::find($id);
+                $schedule = Schedule::where('id',$id)->with('shift')->first();
                 $now = Carbon::now();
                 $shift = $schedule->shift;
                 if ($schedule->stoped_at != null) {

@@ -13,8 +13,10 @@ use App\Models\Division;
 
 class ListDivision extends LivewireDatatable
 {
+    public $divisions;
     public function builder()
     {
+        $this->divisions = Division::all();
         return Division::where('id','!=',null);
     }
 
@@ -26,7 +28,7 @@ class ListDivision extends LivewireDatatable
 	    	Column::name('desc')
 	    		->label('Description'),
             Column::callback(['id'], function ($id) {
-                $division = Division::find($id);
+                $division = $this->divisions->where('id',$id)->first();
                 return view('livewire.Admin.table_actions.table-action-list-division', ['id' => $id, 'division' => $division]);
             })->label('Action')
     	];
