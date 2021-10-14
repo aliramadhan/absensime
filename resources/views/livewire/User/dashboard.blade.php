@@ -389,8 +389,7 @@
                             @endif
                         </div>
                         @endif
-                        <a href="#" class=""><i class="fas fa-chevron-right text-xl text-blue-500 hover:text-blue-700"></i>
-                          </a>
+                       
                          </div>
 
                          <a href="#" class="flex items-center gap-4 md:hidden block w-screen left-0 absolute -mt-9 z-10 top-0 text-center bg-gradient-to-r from-purple-400 to-blue-500 border text-white py-2 hover:bg-gray-500">
