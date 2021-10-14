@@ -14,6 +14,10 @@
 
  }
 </style>
+
+
+
+
   <div class="bg-white shadow">
   <div class="flex justify-between items-center max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 gap-2">
       <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
@@ -65,10 +69,92 @@
         </div>
       </div>          
       @endif
-      <div class="flex gap-2">
+
+       <div class="flex gap-2" x-data="{ 'showModal': false }" @keydown.escape="showModal = false" x-cloak>
       <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button>
+          <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">New Modal</span></button>
+
+           <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showModal }">
+            <!--Dialog-->
+            <div class="bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
+
+                <!--Title-->
+                <div class="flex justify-between items-center px-5 border-b pb-2">
+                    <p class="text-2xl font-semibold text-gray-700">Request {{$type}}</p>
+                    <div class="cursor-pointer z-50" @click="showModal = false">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                            <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- content -->
+                <form>
+
+                <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
+                    <div class="">
+                        <div class="mb-4">
+                            <label for="forEmployee" class="block text-gray-500 text-sm font-bold mb-2">Request Type</label>
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="type" wire:change="updateDescRequest()">
+                                 <option hidden>Choose here</option>
+                                @foreach($leaves as $leave)
+                                    <option>{{$leave->name}}</option>
+                                @endforeach
+                                <!--@if($user->is_active == 0)
+                                <option>Record Activation</option>
+                                @endif-->
+                                <option>Absent</option>
+                                <option>Sick</option>
+                                <option>Permission</option>
+                                <option>Overtime</option>
+                                <option>Remote</option>
+                                <option>Change Shift</option>
+                                
+                                @if($user->roles == 'Manager')
+                                    <option>Mandatory</option>
+                                @endif
+
+                            </select>
+                            @error('employee_id') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="forDate" class="block text-gray-500 text-sm font-bold mb-2">Date:</label>
+                            <input type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="forDate" wire:model="date" min="{{Carbon\Carbon::now()->format('Y-m-d')}}">
+                            @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="mb-4">
+                            <label for="forShift" class="block text-gray-500 text-sm font-bold mb-2">Shift:</label>
+                            <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="forShift" wire:model="shift_id">
+                                <option hidden>Choose Shift here</option>
+                                @foreach($shifts as $shift)
+                                <option value="{{$shift->id}}">{{$shift->name}} ( {{Carbon\Carbon::parse($shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($shift->time_out)->format('H:i')}} )</option>
+                                @endforeach
+                            </select>
+                            @error('shift_id') <span class="text-red-500">{{ $message }}</span>@enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!--Footer-->
+                <div class="flex justify-end py-3 bg-gray-100 space-x-4 px-4  items-center">
+                    <button class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-indigo-400 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModal = false">Cancel</button>
+                    <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-indigo-400 font-semibold tracking-wider" @click="alert('Additional Action');">Save</button>
+                </div>
+                </form>
+
+            </div>
+            <!--/Dialog -->
+          </div><!-- /Overlay -->
     <!--   <button wire:click="showMandatory()" class="border-blue-500 border-2 hover:bg-blue-500 hover:text-white text-blue-500 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-envelope-open-text"></i><span class="hidden md:block">Mandatory</span></button> -->
       </div>
+      
+    </div>
+   
+        
+         
+      
+
+
 
       <div wire:loading wire:target="showCreateRequest,closeModal,showMandatory" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
        <section class="h-full w-full border-box  transition-all duration-500 flex bg-gray-500 opacity-75"    >   
