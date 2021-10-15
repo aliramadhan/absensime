@@ -33,9 +33,9 @@
       </h2>
       @if (session()->has('success'))
     
-      <div class="flex fixed bottom-10 " x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 10000)">
+      <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show="showNotif" x-transition:enter="transition ease-out duration-1000" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 10000)">
         <div class="m-auto">
-          <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
+          <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
             <div class="flex flex-row">
               <div class="px-2">
                 <svg width="24" height="24" viewBox="0 0 1792 1792" fill="#44C997" xmlns="http://www.w3.org/2000/svg">
@@ -58,9 +58,9 @@
         <span class="font-semibold"></span>
         <span class="block text-gray-500"></span>
       </div>
-      <div class="flex fixed bottom-10 " x-data="{ showNotif: true }" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 10000)">
+      <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-transition:enter="transition ease-out duration-1000" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 6000)">
         <div class="m-auto">
-          <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
+          <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
             <div class="flex flex-row">
               <div class="px-2">
                 <i class="fas fa-times-circle text-red-600"></i>
@@ -79,13 +79,13 @@
       <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button>
           <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">New Modal</span></button>
 
-           <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showModal }">
+           <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-20 flex items-center justify-center': showModal }">
             <!--Dialog-->
-            <div class="bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
+            <div class="bg-white mx-auto rounded shadow-lg pt-4 text-left w-11/12 md:w-6/12 lg:w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
 
                 <!--Title-->
                 <div class="flex justify-between items-center px-5 border-b pb-2">
-                    <p class="text-2xl font-semibold text-gray-700">Request <span class="text-orange-500 ml-2">{{$type}}</span></p>
+                    <p class="text-2xl font-semibold text-gray-700">Request <span class="text-orange-500 ">{{$type}}</span></p>
                     <div class="cursor-pointer z-50" @click="showModal = false">
                         <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
                             <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
@@ -94,12 +94,14 @@
                 </div>
 
                 <!-- content -->
-                <form>
-
-                <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
-                    <div class="">
+                <form>                  
+                <div class="bg-white px-6 pt-5 pb-4 max-w-8xl ">
+                  <div wire:loading wire:target="type" class=" p-4">
+                    <label class="text-xl text-gray-700 animate-pulse animate"> <i class="m-auto fas fa-circle-notch animate-spin "></i> Wait, loading the form.. </label>
+                  </div>
+                    <div class="" wire:loading.remove wire:target="type">
                         <div class="mb-4">
-                            <label for="forEmployee" class="block text-gray-500 text-sm font-bold mb-2">Request Type</label>
+                            <label for="forEmployee" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Request Type</label>
                             <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="type" wire:change="updateDescRequest()">
                                  <option hidden>Choose here</option>
                                 @foreach($leaves as $leave)
@@ -124,32 +126,32 @@
                         </div>
                         @if($type == 'Mandatory')
                           <div class="mb-4">
-                              <label for="formSetUser" class="block text-gray-500 text-sm font-bold mb-2">Select Employee </label>
+                              <label for="formSetUser" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Select Employee </label>
                               <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formSetUser" wire:model="setUser">
                                   <option hidden>Choose here</option>
                                   @foreach($users as $thisUser)
                                       <option value="{{$thisUser->id}}" >{{$thisUser->name}}</option>
                                   @endforeach
                               </select>
-                              @error('setUser') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('setUser') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4">
-                              <label for="formDate" class="block text-gray-500 text-sm font-bold mb-2">Date </label>
+                              <label for="formDate" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Date </label>
                               <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                              @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4">
-                              <label for="formNewShift" class="block text-gray-500 text-sm font-bold mb-2">New Shift </label>
+                              <label for="formNewShift" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">New Shift </label>
                               <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
                                   <option hidden>Choose here</option>
                                   @foreach($shifts as $listShift)
                                       <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
                                   @endforeach
                               </select>
-                              @error('newShift') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('newShift') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4">
-                              <label for="formNewShift" class="block text-gray-500 text-sm font-bold mb-2">Change Catering Shift </label>
+                              <label for="formNewShift" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Change Catering Shift </label>
                               <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newCatering">
                                   <option hidden>Choose here</option>
                                   <option>Do Nothing!</option>
@@ -157,46 +159,46 @@
                                   <option>Pagi</option>
                                   <option>Siang</option>
                               </select>
-                              @error('newCatering') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('newCatering') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                         @elseif($leaves->contains('name',$type) || $type == 'Sick' || $type == 'Permission')
-                          <div class="mb-4 flex md:flex-row flex-col">
+                          <div class="mb-4 flex md:flex-row flex-col space-x-2">
                               <div class="flex-auto">
-                                  <label for="formStartRequestDate" class="block text-gray-500 text-sm font-bold mb-2">From</label>
+                                  <label for="formStartRequestDate" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">From</label>
                                   <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
-                                  @error('startRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
+                                  @error('startRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                               </div>
                               <div class="flex-auto">
-                                  <label for="formStopRequestDate" class="block text-gray-500 text-sm font-bold mb-2">To</label>
+                                  <label for="formStopRequestDate" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">To</label>
                                   <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate">
-                                  @error('stopRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
+                                  @error('stopRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                               </div>
                           </div>
                           <div class="mb-4">
-                              <label for="formDesc" class="block text-gray-500 text-sm font-bold mb-2">Reason </label>
+                              <label for="formDesc" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Reason </label>
                               <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here...">
-                              @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4 flex items-center gap-2">
-                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm font-bold">Cancel your <span class="text-orange-500">catering</span> order ?</label>
+                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm font-semibold tracking-wide">Cancel your <span class="text-orange-500">catering</span> order ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
-                            @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('is_cancel_order') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                         @elseif($type == 'Remote')
-                          <div class="mb-4 flex md:flex-row flex-col">
+                          <div class="mb-4 grid grid-cols-2 gap-4">
                               <div class="flex-auto">
-                                  <label for="formStartRequestDate" class="block text-gray-500 text-sm font-bold mb-2">From</label>
+                                  <label for="formStartRequestDate" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">From</label>
                                   <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
-                                  @error('startRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
+                                  @error('startRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                               </div>
                               <div class="flex-auto">
-                                  <label for="formStopRequestDate" class="block text-gray-500 text-sm font-bold mb-2">To</label>
+                                  <label for="formStopRequestDate" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">To</label>
                                   <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate">
-                                  @error('stopRequestDate') <span class="text-red-500">{{ $message }}</span>@enderror
+                                  @error('stopRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                               </div>
                           </div>
                           <div class="mb-4">
-                              <label for="formNewShift" class="block text-gray-500 text-sm font-bold mb-2">Where? </label>
+                              <label for="formNewShift" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Where? </label>
                               <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
                                   <option hidden>Choose here</option>                             
                                   <option>Malang</option>
@@ -204,18 +206,18 @@
                               </select>
                           </div>
                           <div class="mb-4 flex items-center gap-2">
-                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm font-bold">Cancel your <span class="text-orange-500">catering</span> order ?</label>
+                            <label for="formIsCancelOrder" class="block text-gray-500 text-sm font-semibold tracking-wide">Cancel your <span class="text-orange-500">catering</span> order ?</label>
                             <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
-                            @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('is_cancel_order') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                         @elseif($type == 'Absent')
                           <div class="mb-4">
-                            <label for="formDate" class="block text-gray-500 text-sm font-bold mb-2">Date </label>
+                            <label for="formDate" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Date </label>
                             <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                            @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4">
-                              <label for="formLocation" class="block text-gray-500 text-sm font-bold mb-2">Working at (Tracking option)</label>
+                              <label for="formLocation" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Working at (Tracking option)</label>
                               <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="locationRe">
                                   <option hidden>Choose one</option>
                                   <option value="WFO">Work From Office</option>
@@ -223,59 +225,59 @@
                                   <option value="Business Travel">Business Travel</option>
                                   <option>Remote</option>
                               </select>
-                              @error('locationRe') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('locationRe') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4 grid grid-cols-2 gap-4">
                             <div>
-                                <label for="formStartedAt" class="block text-gray-500 text-sm font-bold mb-2">Started at </label>
+                                <label for="formStartedAt" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Started at </label>
                                 <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." wire:model="started_at">
-                                @error('started_at') <span class="text-red-500">{{ $message }}</span>@enderror
+                                @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                             </div>
                             <div>
-                                <label for="formStopedAt" class="block text-gray-500 text-sm font-bold mb-2">Stoped at </label>
+                                <label for="formStopedAt" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Stoped at </label>
                                 <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopedAt" placeholder="Fill in here..." wire:model="stoped_at">
-                                @error('stoped_at') <span class="text-red-500">{{ $message }}</span>@enderror
+                                @error('stoped_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                             </div>
                           </div>
                           <div class="mb-4">
-                              <label for="formDesc" class="block text-gray-500 text-sm font-bold mb-2">Reason you forgot to record </label>
+                              <label for="formDesc" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Reason you forgot to record </label>
                                   <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc" placeholder="isi Alasan.">
-                              @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                         @elseif($type == 'Overtime')
                           <div class="mb-4">
-                            <label for="formDate" class="block text-gray-500 text-sm font-bold mb-2">Date </label>
+                            <label for="formDate" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Date </label>
                             <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                            @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4">
-                              <label for="formDesc" class="block text-gray-500 text-sm font-bold mb-2">Reason </label>
+                              <label for="formDesc" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Reason </label>
                               <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here...">
-                              @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4">
-                              <label for="formTime" class="block text-gray-500 text-sm font-bold mb-2">Duration (minute) :</label>
+                              <label for="formTime" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Duration (minute) :</label>
                               <input type="number" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTime" wire:model="time_overtime" placeholder="duration in minutes">
-                              @error('time_overtime') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('time_overtime') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                         @elseif($type == 'Change Shift')
                           <div class="mb-4">
-                            <label for="formDate" class="block text-gray-500 text-sm font-bold mb-2">Date </label>
+                            <label for="formDate" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Date </label>
                             <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                            @error('date') <span class="text-red-500">{{ $message }}</span>@enderror
+                            @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4">
-                              <label for="formNewShift" class="block text-gray-500 text-sm font-bold mb-2">New Shift </label>
+                              <label for="formNewShift" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">New Shift </label>
                               <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
                                   <option hidden>Choose here</option>
                                   @foreach($shifts as $listShift)
                                       <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
                                   @endforeach
                               </select>
-                              @error('newShift') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('newShift') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                           <div class="mb-4">
-                              <label for="formNewShift" class="block text-gray-500 text-sm font-bold mb-2">Change Catering Shift </label>
+                              <label for="formNewShift" class="block text-gray-500 text-sm font-semibold tracking-wide mb-2">Change Catering Shift </label>
                               <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newCatering">
                                   <option hidden>Choose here</option>
                                   <option>Do Nothing!</option>
@@ -283,7 +285,7 @@
                                   <option>Pagi</option>
                                   <option>Siang</option>
                               </select>
-                              @error('newCatering') <span class="text-red-500">{{ $message }}</span>@enderror
+                              @error('newCatering') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                           </div>
                         @endif
                         <!--
@@ -306,9 +308,9 @@
                 </div>
 
                 <!--Footer-->
-                <div class="flex justify-end py-3 bg-gray-100 space-x-4 px-4  items-center">
-                    <button class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-indigo-400 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModal = false">Cancel</button>
-                    <button type="button" class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-indigo-400 font-semibold tracking-wider" @click="$wire.createRequest()">Save</button>
+                <div class="flex md:flex-row flex-col justify-end py-3 bg-gray-100 space-x-0 md:space-x-4 px-4 md:space-y-0 space-y-2 items-center">
+                    <button class="bg-transparent py-2 px-4 w-full md:w-min rounded-lg text-gray-500 hover:bg-white hover:text-indigo-700 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModal = false">Cancel</button>
+                    <button type="button" class="modal-close w-full md:w-min bg-blue-500 py-2 px-5 rounded-lg text-white focus:outline-none hover:bg-blue-600 font-semibold tracking-wider" @click="$wire.createRequest()">Save</button>
                 </div>
                 </form>
 
@@ -572,8 +574,6 @@
             }
           </script>
   </div>
-
-      
 
     </div>
 
@@ -873,7 +873,7 @@
               @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1 )
               <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none " wire:loading.remove wire:target="startOn">
                 <i class="far fa-clock" ></i>
-                <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="startOn"></i> Start Record</button>             
+                 Start Record</button>             
                 <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "  wire:loading wire:target="startOn" readonly>               
                   <i class="fas fa-circle-notch animate-spin"></i> Starting Record..</button> 
 
