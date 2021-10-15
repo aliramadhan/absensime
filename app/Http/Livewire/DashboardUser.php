@@ -20,7 +20,7 @@ class DashboardUser extends Component
 {
     public $user, $now, $schedule, $schedules, $detailSchedule, $detailsSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $is_check_half = 0, $note, $prevSchedule, $checkAutoStop;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
-    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $monthCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
+    public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
     //for Request
     public $type, $desc,$date,$time_overtime, $tasking = 0,$stopRequestDate, $startRequestDate, $time_out, $time_in, $started_at, $stoped_at,$format,$locationRe;
     //for activation with request
@@ -171,6 +171,9 @@ class DashboardUser extends Component
             }
         }
         $this->user->target_weekly = $this->intToTime($this->user->target_weekly);
+        if ($this->user->roles == 'Manager') {
+            $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
+        }
         return view('livewire.User.dashboard');
     }
     public function showStart()
@@ -291,7 +294,6 @@ class DashboardUser extends Component
     }
     public function showCreateRequest()
     {
-
         $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
         $this->isModal = 'Create Request';
     }

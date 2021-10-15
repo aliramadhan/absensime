@@ -16,12 +16,7 @@
                 </h1>               
             </div>
             <div class="bg-white px-4 md:pb-4 sm:p-6 pb-0 font-semibold">
-              
-              
-
                     <div class="mt-2 md:mt-0"> 
-                       
-                       
                         <div class="mb-4 px-2">
                             <label for="formType" class="block text-gray-500 text-sm  mb-2">Request Type</label>
                             <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="type" wire:change="updateDescRequest()">
