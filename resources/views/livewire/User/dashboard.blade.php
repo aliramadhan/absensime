@@ -88,7 +88,7 @@
             <!-- content -->
             <form>
               <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
-                <div wire:loading wire:target="type" class="px-3 text-sm md:text-lg text-gray-700"> 
+                <div wire:loading wire:target="type" class="px-3 text-base md:text-lg text-gray-700"> 
                   <i class="fas fa-circle-notch animate-spin"></i> 
                   <label class="animate-pulse"">Building form.. </label> </div>
                 <div class="" wire:loading.remove wire:target="type">
