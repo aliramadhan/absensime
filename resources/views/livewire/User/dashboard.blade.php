@@ -15,9 +15,6 @@
  }
 </style>
 
-
-
-
   <div class="bg-white shadow">
     <div class="flex justify-between items-center max-w-7xl mx-auto py-4 px-4 sm:px-6 lg:px-8 gap-2">
       <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
