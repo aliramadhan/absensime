@@ -90,7 +90,8 @@
               <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
                 <div wire:loading wire:target="type" class="px-3 text-base md:text-lg text-gray-700"> 
                   <i class="fas fa-circle-notch animate-spin"></i> 
-                  <label class="animate-pulse"">Building form.. </label> </div>
+                  <label class="animate-pulse"">Building form.. </label> 
+                </div>
                 <div class="" wire:loading.remove wire:target="type">
                   <div class="mb-4">
                     <label for="forEmployee" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Request Type</label>
@@ -813,72 +814,72 @@
               
               @if($schedule != null && $user->is_active != 1 && $schedule->status == 'Done')
              
-               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Recording Complete  
+               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Recording Complete  
                 <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>  
               <!--
               @elseif(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->position_stop == null))
              
-               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
                 <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>     
               
               @elseif(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->status == 'No Record'))
-               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+               <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
                 <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked. You are absent from work with no news. To start your attendance record, you need to activate your account and provide the reason.</div>
                </button>    
               -->         
               @elseif(auth()->user()->is_active != 1 && ($schedule != null && $schedule->started_at != null))
                 @if($detailSchedule->status == 'Rest' && Carbon\Carbon::parse($detailSchedule->started_at)->diffInHours($now) >= 4))
-                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
                 <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 4 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
                </button>               
                @endif   
               @elseif(auth()->user()->is_active != 1 && $schedule != null)
                 @if(Carbon\Carbon::parse($schedule->shift->time_in)->diffInMinutes($now) >= 60)
-                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
                   <div class="absolute weekly-target bg-white rounded-lg text-gray-700 md:-bottom-8 bottom-0 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You have reached the  tolerance limit of 1 hour late. To start your attendance record, you need to activate your account and provide the reason for your tardiness.</div>
                 </button>  
                 @else
-                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
+                <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Account is Locked
                   <div class="absolute weekly-target bg-white rounded-lg text-gray-700 md:-bottom-8 bottom-0 md:-top-18 z-30 p-3  shadow-xl border-2 left-0 md:-left-10 text-sm whitespace-normal">Your account is locked. You are late from the assigned shift. To start your attendance record, you need to activate your account and provide the reason for your tardiness. </div>
                 </button>  
                 @endif
               @elseif($schedule != null && ($schedule->status == 'Working'))
               <div class="grid grid-cols-2 items-center gap-4">
-                <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
-                <button wire:click="showStop()" class=" bg-red-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-stop-circle"></i><br> Stop</button>
+                <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
+                <button wire:click="showStop()" class=" bg-red-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none "><i class="far fa-stop-circle"></i><br> Stop</button>
                </div>
               @elseif($schedule != null && $schedule->status == 'Pause')
 
-              <button @if($tasking) wire:click="showResume()" @else wire:click="resumeOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-md focus:outline-none w-full">
+              <button @if($tasking) wire:click="showResume()" @else wire:click="resumeOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full">
                 <i class="fas fa-history"  wire:loading.remove  wire:target="resumeOn"></i>
                 <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="resumeOn"></i> Resume Record</button>
               <label class="flex items-center mt-3 w-auto">
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md" wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal? </span>
               </label>
               @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1 )
-              <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none " wire:loading.remove wire:target="startOn">
+              <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none " wire:loading.remove wire:target="startOn">
                 <i class="far fa-clock" ></i>
                 <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="startOn"></i> Start Record</button>             
-                <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "  wire:loading wire:target="startOn" readonly>               
+                <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none "  wire:loading wire:target="startOn" readonly>               
                   <i class="fas fa-circle-notch animate-spin"></i> Starting Record..</button> 
 
               <label class="flex items-center mt-3 w-auto">
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal?    </span>
               </label>
               @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1)
-              <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Not ready to Record</button>             
+              <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none "><i class="far fa-clock"></i> Not ready to Record</button>             
               <label class="flex items-center mt-3 w-auto">
                 Ready to start at : {{Carbon\Carbon::parse($schedule->shift->time_in)->subMinute(10)->format('H:i')}} 
               </label>
               @elseif($schedule != null && ($schedule->status == 'Done'))
-               <button  class="relative bg-gradient-to-r from-blue-400 to-blue-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6 text-white rounded-xl shadow-md focus:outline-none w-full weekly-trigger"><i class="fas fa-user-check"></i> Recording Complete     
+               <button  class="relative bg-gradient-to-r from-blue-400 to-blue-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6 text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-user-check"></i> Recording Complete     
                        
                </button>     
               @elseif($schedule != null && $schedule->status != 'Done' && $schedule->status != 'Rest' && $schedule->status != 'Working' && $schedule->status != 'Not sign in')
 
-                <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-md focus:outline-none "><i class="far fa-clock"></i> Today is {{$schedule->status}}</button>    
+                <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none "><i class="far fa-clock"></i> Today is {{$schedule->status}}</button>    
               @else
                <button  class="border-4 border-blue-600 duration-200 opacity-80 hover:opacity-100 py-4 text-xl font-bold tracking-wider px-6  text-gray-600 rounded-xl shadow-md focus:outline-none w-full"><i class="far fa-smile-beam"></i> No Schedule Today.</button>             
               @endif              
@@ -936,6 +937,7 @@
             </div>
                     
                     <div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg duration-300 hover:shadow-lg border md:border-4 border-white">
+
                       <div class="grid md:grid-cols-6 items-center gap-2">
                         <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2 ">
                           <div class="flex flex-col">
@@ -945,26 +947,26 @@
                             @if($schedule->started_at != null)<span class="md:hidden block "></span> 
                            {{ Carbon\Carbon::parse($schedule->started_at)->format('H:i, d F Y') }}@endif</span></h2>@endif
                           </div>
-                          <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-white leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg">
+                          <div class="block md:hidden flex flex-col md:text-sm text-xs xl:text-base border-2 rounded-xl px-2 py-1 text-white leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg ">
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFO</label><label class="text-gray-50">{{$wfo}}</label></div>
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>WFH</label><label class="text-gray-50">{{$wfh}}</label></div>
                             
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>BT</label><label class="text-right flex-auto text-gray-50">{{$business_travel}}</label></div>
                           </div>
                         </div>
-                        <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow hover:shadow-lg duration-300 py-2 px-2 border-2 rounded-lg border-red-300">
+                        <div class="flex flex-col text-xl text-gray-800  border-dashed leading-none font-semibold md:text-left text-center shadow hover:shadow-lg duration-300 py-2 px-2 border-2 rounded-lg border-red-300">
                          <h2 class="text-base leading-none">{{$unproductive}}</h2>
                          <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Unproductive</h2>
                        </div>
-                          <div class="flex flex-col text-xl text-gray-800 leading-none font-semibold md:text-left text-center shadow hover:shadow-lg duration-300 py-2 px-2 border-2 rounded-lg border-green-300">
+                          <div class="flex flex-col text-xl text-gray-800  border-dashed leading-none font-semibold md:text-left text-center shadow hover:shadow-lg duration-300 py-2 px-2 border-2 rounded-lg border-green-300">
                          <h2 class="text-base leading-none">{{$time}}</h2>
                          <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Productive</h2>
                        </div>
-                      <div class="hidden md:block flex flex-col md:text-xs xl:text-sm  rounded-xl px-3 py-2 text-white  leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg" style="">
+                      <div class="hidden md:block flex flex-col md:text-xs xl:text-sm  rounded-xl px-3 py-2 text-white  leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg ">
                         <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-50">{{$wfo}}</span></h2>
                         <h2 class="font-xs leading-tight flex justify-between flex-auto">WFH<span class="text-gray-50">{{$wfh}}</span></h2>
+                        <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-gray-50">{{$business_travel}}</span></h2>  
                         
-                        <h2 class="font-xs leading-tight flex justify-between flex-auto">BT<span class="text-gray-50">{{$business_travel}}</span></h2>
                       </div>
                      </div>
                  

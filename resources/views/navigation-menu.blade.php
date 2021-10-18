@@ -1,6 +1,8 @@
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
+<nav  class=" border-b border-gray-100 sticky top-0 z-50 " :class="{'border-b border-gray-200 backdrop-filter backdrop-blur-xl bg-opacity-70 ' : !atTop ,'bg-white' : atTop  }" x-data="{open: false, atTop: true   }" @scroll.window="atTop = (window.pageYOffset > 40) ? false : true"
+   >
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
