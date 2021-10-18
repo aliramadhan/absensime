@@ -47,7 +47,7 @@
     @endif
     <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showModal }">
       <!--Dialog-->
-      <div class="bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
+      <div class="absolute bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
 
           <!--Title-->
           <div class="flex justify-between items-center px-5 border-b pb-2">
@@ -123,10 +123,17 @@
           </div>
 
           <!--Footer-->
-          <div class="flex justify-end py-3 bg-gray-100 space-x-4 px-4  items-center">
-              <button class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-indigo-400 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModal = false">Cancel</button>
-              <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-indigo-400 font-semibold tracking-wider" @click="$wire.storeUser()">Save</button>
-          </div>
+      <!--     <div class="flex justify-end py-3 bg-gray-100 space-x-4 px-4  items-center">
+              <a class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-indigo-400 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModal = false">Cancel</a>
+              <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-indigo-400 font-semibold tracking-wider" @click="$wire.storeUser()">Save</button>              
+          </div> -->
+            <div class="flex md:flex-row flex-col justify-end py-3 bg-gray-100 space-x-0 space-y-2 md:space-y-0 md:space-x-4 px-4  items-center ">
+                <a  class="modal-close bg-transparent py-2 px-4 rounded-lg md:w-min w-full text-gray-500 hover:bg-white hover:text-indigo-400 font-semibold tracking-wider border border-gray-400  bg-white cursor-pointer text-center" @click="showModal = false">
+                Cancel</a>
+                <button class="bg-blue-500 py-2 px-5 rounded-lg md:w-min w-full text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.storeUser()" wire:loading.remove wire:target="storeUser">Save</button>
+                <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="storeUser" readonly>Saving..</button>
+            </div>
+           
           </form>
 
       </div>
