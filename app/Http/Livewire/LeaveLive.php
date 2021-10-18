@@ -6,7 +6,7 @@ use Livewire\Component;
 use App\Models\ListLeave;
 class LeaveLive extends Component
 {
-	public $leaves, $leave, $name, $desc, $is_annual = false, $isModal;
+	public $leaves, $leave, $name, $desc, $is_annual = false, $isModal = false;
     public function render()
     {
     	$this->leaves = ListLeave::all();
