@@ -1,4 +1,4 @@
-<nav  class=" border-b border-gray-100 sticky top-0 z-50 " :class="{'border-b border-gray-200 backdrop-filter backdrop-blur-xl bg-opacity-70 ' : !atTop ,'bg-white' : atTop  }" x-data="{open: false, atTop: true   }" @scroll.window="atTop = (window.pageYOffset > 40) ? false : true"
+<nav  class=" border-b border-gray-100 sticky top-0 z-50 " :class="{'border-b border-gray-200 backdrop-filter backdrop-blur-xl bg-opacity-90 ' : !atTop ,'bg-white' : atTop  }" x-data="{open: false, atTop: true   }" @scroll.window="atTop = (window.pageYOffset > 40) ? false : true"
    >
     <!-- Primary Navigation Menu -->
 
@@ -21,7 +21,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-20 lg:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-20 lg:flex" :class="{'text-gray-500': atTop, 'text-gray-900' : !atTop}">
                     @if(auth()->user()->roles == 'Admin')
                     <x-jet-nav-link href="{{ route('admin.dashboard') }}" :active="request()->routeIs('admin.dashboard')">
                         {{ __('Dashboard') }}
@@ -279,7 +279,7 @@
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
-                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
+                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md text-gray-500  hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" :class="{'bg-none': !atTop, 'bg-white': atTop  }">
                                     <img class="h-8 w-8 object-cover border-2 rounded-lg border-red-400 opacity-75 hover:opacity-100 duration-300" src="{{ asset('image/logo.png') }}" alt="{{ Auth::user()->name }}" />
                                    
                                 </button>

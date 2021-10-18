@@ -48,6 +48,22 @@
   .scroll::-webkit-scrollbar{
     height: 5px;
   }
+  .backdrop-blur-xl {
+    --tw-backdrop-blur: blur(24px);
+  }
+  .backdrop-filter {
+   
+    --tw-backdrop-brightness: var(--tw-empty, );
+    --tw-backdrop-contrast: var(--tw-empty, );
+    --tw-backdrop-grayscale: var(--tw-empty, );
+    --tw-backdrop-hue-rotate: var(--tw-empty, );
+    --tw-backdrop-invert: var(--tw-empty, );
+    --tw-backdrop-opacity: var(--tw-empty, );
+    --tw-backdrop-saturate: var(--tw-empty, );
+    --tw-backdrop-sepia: var(--tw-empty, );
+    -webkit-backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+    backdrop-filter: var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);
+  }
 </style>
 <style type="text/css">
 html,body,table{
