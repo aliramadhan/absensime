@@ -29,9 +29,9 @@
 
       </h2>
       @if (session()->has('success'))
-        <div class="flex fixed bottom-10 " x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 10000)">
+        <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 10000)">
           <div class="m-auto">
-            <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
+            <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
               <div class="flex flex-row">
                 <div class="px-2">
                   <svg width="24" height="24" viewBox="0 0 1792 1792" fill="#44C997" xmlns="http://www.w3.org/2000/svg">
@@ -53,9 +53,9 @@
           <span class="font-semibold"></span>
           <span class="block text-gray-500"></span>
         </div>
-        <div class="flex fixed bottom-10 " x-data="{ showNotif: true }" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 10000)">
+        <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 10000)">
           <div class="m-auto">
-            <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl">
+            <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
               <div class="flex flex-row">
                 <div class="px-2">
                   <i class="fas fa-times-circle text-red-600"></i>
@@ -300,8 +300,9 @@
 
               <!--Footer-->
               <div class="flex justify-end py-3 bg-gray-100 space-x-4 px-4  items-center">
-                  <button class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-indigo-400 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModal = false">Cancel</button>
-                  <button type="button" class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-indigo-400 font-semibold tracking-wider" @click="$wire.createRequest()">Save</button>
+                  <a class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-gray-700 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white focus:outline-none cursor-pointer" @click="showModal = false">Cancel</a>
+                  <button type="button" class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.createRequest()" wire:loading.remove wire:target="createRequest">Send</button>
+                  <button type="button" class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="createRequest" readonly>Sending..</button>
               </div>
             </form>
 
@@ -677,7 +678,7 @@
                                   </select>
                             @endif
                         </label>
-                          @error('location') <span class="text-red-500 text-base font-semibold ">Please fill in the tracking option</span>@enderror
+                          @error('location') <span class="text-red-500 text-base font-semibold ">Please fill tracking option</span>@enderror
 
                        <!--   <h2 class="text-gray-700 text-left mr-2 truncate w-full md:w-11/12  border rounded-xl px-3  py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2> -->
                          </div>
