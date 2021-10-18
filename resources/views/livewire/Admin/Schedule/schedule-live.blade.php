@@ -86,7 +86,6 @@
         </div>
 
         <!-- content -->
-        <form>
 
             <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
                 <div class="">
@@ -126,7 +125,6 @@
                 <button class="bg-blue-500 py-2 px-5 rounded-lg md:w-min w-full text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.store()" wire:loading.remove wire:target="store">Save</button>
                 <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="store" readonly>Saving..</button>
             </div>
-        </form>
 
     </div>
     <!--/Dialog -->
