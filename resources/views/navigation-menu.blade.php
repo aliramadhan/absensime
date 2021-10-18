@@ -6,14 +6,14 @@
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
                     @if(auth()->user()->role == 'Admin')
-                    <a href="{{ route('admin.dashboard') }}" class="flex items-center">
+                    <a href="{{ route('admin.dashboard') }}" class="flex items-center cursor-pointer hover:text-gray-700">
                         <img class="h-10" src="{{ asset('image/logo.png') }}" alt="" height="38px">
-                        <label class=" text-gray-700 font-semibold text-sm flex flex-col leading-none"><span>Attendance</span><span>application</span></label>
+                        <label class=" text-gray-700 font-semibold text-sm flex flex-col cursor-pointer hover:text-gray-700 duration-300 leading-none"><span>Attendance</span><span>application</span></label>
                     </a>
                     @else
-                        <a href="{{ route('user.dashboard') }}" class="flex items-center">
+                        <a href="{{ route('user.dashboard') }}" class="flex items-center cursor-pointer hover:text-gray-700">
                           <img class="h-10" src="{{ asset('image/logo.png') }}" alt="" height="38px">
-                        <label class=" text-gray-700 font-semibold text-sm flex flex-col leading-none"><span>Attendance</span><span>application</span></label>
+                        <label class=" text-gray-700 font-semibold text-sm flex flex-col cursor-pointer leading-none"><span>Attendance</span><span>application</span></label>
                         </a>
                     @endif
                 </div>
