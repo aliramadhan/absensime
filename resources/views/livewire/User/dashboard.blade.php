@@ -153,7 +153,7 @@
                         @error('newCatering') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
                   @elseif($leaves->contains('name',$type) || $type == 'Sick' || $type == 'Permission')
-                    <div class="mb-4 gap-4 grid md:grid-col grid-row">
+                    <div class="mb-4 gap-4 grid grid-cols-1 md:grid-cols-2">
                       <div class="flex-auto">
                         <label for="formStartRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">From</label>
                         <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
@@ -176,7 +176,7 @@
                       @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
                   @elseif($type == 'Remote')
-                    <div class="mb-4 gird md:grid-cols-2 grid-cols-1 gap-4">
+                    <div class="mb-4 grid md:grid-cols-2 grid-cols-1 gap-4">
                       <div class="flex-auto">
                         <label for="formStartRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">From</label>
                         <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
@@ -1109,7 +1109,7 @@
                             }
                         @endphp
                          
-                      <div class="flex flex-col px-4 py-3 text-center w-28 h-28 md:w-36 md:h-36 items-center hover:bg-gray-200 duration-200 cursor-pointer rounded-bl-3xl rounded-tr-3xl justify-between border-2  @if(($cekactive>=$startWeek->format('d') && $cekactive<=$endWeek->format('d'))OR($passing==1 && $cekactive<=$startWeek->format('d'))) border-gray-600 @else border-gray-400 @endif " >
+                      <div class="flex flex-col px-4 py-3 text-center w-28 h-28 md:w-36 md:h-36 items-center hover:bg-white  duration-200 cursor-pointer rounded-bl-3xl rounded-tr-3xl justify-between border-2  @if(($cekactive>=$startWeek->format('d') && $cekactive<=$endWeek->format('d'))OR($passing==1 && $cekactive<=$startWeek->format('d'))) border-gray-500 bg-white @else border-gray-400 bg-gray-100 @endif " >
                         <div class=" flex-col flex mb-2 ">
                           <label class="font-bold leading-none text-xl md:text-3xl text-gray-700">{{$cekactive}}</label>
                           <label class="text-xs md:text-sm font-base text-white leading-none bg-orange-500 px-2 py-1 rounded-md">{{Carbon\Carbon::parse($scheduleUser->date)->format('l')}}</label>
@@ -1118,12 +1118,16 @@
                       
                         <div class="text-gray-700 text-xs ">{{$timeMonthly}}</div>
                         
-                         <div class="text-blue-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
+                         <div class="text-green-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
                           <i class="fas fa-check-circle mr-1"></i>Attend
                         </div>
-                        @elseif($scheduleUser->status == 'Not sign in' || $scheduleUser->status == 'Absent')
+                        @elseif($scheduleUser->status == 'Absent')
                         <div class="text-red-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
                           <i class="fas fa-times-circle mr-1"></i>Absent
+                        </div>
+                         @elseif($scheduleUser->status == 'Not sign in' )
+                        <div class="text-indigo-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">
+                          <i class="fas fa-walking mr-1"></i>Coming
                         </div>
                         @elseif($scheduleUser->status == 'Pause')
                         <div class="text-purple-500 flex leading-tight items-center text-sm bg-white w-full justify-center py-1 rounded-lg">

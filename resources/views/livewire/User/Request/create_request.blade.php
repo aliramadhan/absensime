@@ -55,7 +55,7 @@
                         @endif
                         @if($type != 'Record Activation')
                             @if($type  == 'Sick' || $type  == 'Permission' || $leaves->contains('name',$type) || $type == 'Remote')
-                            <div class="mb-4 flex md:flex-row flex-col">
+                            <div class="mb-4 grid grid-cols-1 md:grid-cols-2">
                             <div class="px-2 flex-auto md:mb-0 mb-4">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
                                 <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
@@ -196,13 +196,13 @@
                             </select>
                         </div>
                             @error('typeRequest') <span class="text-red-500">{{ $message }}</span>@enderror
-                            <div class="flex mb-4 space-x-2">
-                            <div class="px-2 flex-auto md:mb-0 w-6/12">
+                            <div class="grid gap-4 md:grid-cols-2 grid-cols-1 mb-4 ">
+                            <div class="px-2 flex-auto md:mb-0">
                                 <label for="formStartRequestDate" class="block text-gray-500 text-sm  mb-2">From</label>
                                 <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="dateFrom">
                                 @error('dateFrom') <span class="text-red-500">{{ $message }}</span>@enderror
                             </div>
-                            <div class="flex-auto px-2 w-6/12">
+                            <div class="flex-auto px-2">
                                 <label for="formStopRequestDate" class="block text-gray-500 text-sm  mb-2">To</label>
                                 <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate"wire:model="dateTo">
                                 @error('dateTo') <span class="text-red-500">{{ $message }}</span>@enderror
