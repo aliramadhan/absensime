@@ -40,6 +40,7 @@
             </div>
           </div>
         </div>
+        <!--
         <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 10000)">
           <div class="m-auto">
             <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
@@ -56,7 +57,7 @@
               </div>
             </div>
           </div>
-        </div>      
+        </div>   -->   
       @endif
 
       @if(session()->has('failure'))
