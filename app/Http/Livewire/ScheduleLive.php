@@ -17,7 +17,7 @@ class ScheduleLive extends Component
 {
   use WithFileUploads;
 	public $schedules, $schedule, $employees, $shifts, $employee_id, $shift_id,$date, $employee, $shift, $file;
-  public $isModal = null;
+  public $isModal = null, $showModal = false;
 	protected $rules = [
 		'employee_id' => 'required',
 		'shift_id' => 'required',
@@ -46,6 +46,7 @@ class ScheduleLive extends Component
   public function closeModal()
   {
     $this->isModal = false;
+    $this->showModal = false;
   }
   public function create()
   {
