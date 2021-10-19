@@ -1,4 +1,4 @@
-<nav  class=" border-b border-gray-100 sticky top-0 z-50 " :class="{'border-b border-gray-200 backdrop-filter backdrop-blur-xl bg-opacity-90 ' : !atTop ,'bg-white' : atTop  }" x-data="{open: false, atTop: true   }" @scroll.window="atTop = (window.pageYOffset > 40) ? false : true"
+<nav  class=" border-gray-100 sticky top-0 z-10 " :class="{'border-b border-gray-200 backdrop-filter backdrop-blur-xl bg-opacity-90 ' : !atTop ,'bg-white border-b' : atTop  }" x-data="{open: false, atTop: true   }" @scroll.window="atTop = (window.pageYOffset > 40) ? false : true"
    >
     <!-- Primary Navigation Menu -->
 

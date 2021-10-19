@@ -954,13 +954,13 @@
                             <div class="font-xs leading-tight flex justify-between flex-auto space-x-2"><label>BT</label><label class="text-right flex-auto text-gray-50">{{$business_travel}}</label></div>
                           </div>
                         </div>
-                        <div class="flex flex-col text-xl text-gray-800  border-dashed leading-none font-semibold md:text-left text-center shadow hover:shadow-lg duration-300 py-2 px-2 border-2 rounded-lg border-red-300">
-                         <h2 class="text-base leading-none">{{$unproductive}}</h2>
-                         <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Unproductive</h2>
-                       </div>
-                          <div class="flex flex-col text-xl text-gray-800  border-dashed leading-none font-semibold md:text-left text-center shadow hover:shadow-lg duration-300 py-2 px-2 border-2 rounded-lg border-green-300">
-                         <h2 class="text-base leading-none">{{$time}}</h2>
-                         <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm text-gray-500 font-base">Productive</h2>
+                        <div class="flex flex-col text-xl   leading-none font-semibold md:text-left text-center hover:text-red-500 duration-300 py-2 px-2 text-gray-400 border-r border-gray-300">
+                         <h2 class="text-base text-gray-800 leading-none">{{$unproductive}}</h2>
+                         <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm  tracking-wide font-base">Unproductive</h2>
+                       </div>                       
+                          <div class="flex flex-col text-xl   leading-none font-semibold md:text-left text-center hover:text-green-500 duration-300 py-2 px-2 text-gray-400 ">
+                         <h2 class="text-base text-gray-800 leading-none">{{$time}}</h2>
+                         <h2 class="md:text-sm bg-red xl:text-md leading-none text-sm  tracking-wide font-base">Productive</h2>
                        </div>
                       <div class="hidden md:block flex flex-col md:text-xs xl:text-sm  rounded-xl px-3 py-2 text-white  leading-none font-semibold bg-gradient-to-r from-green-400 to-blue-500 shadow-lg ">
                         <h2 class="font-xs leading-tight flex justify-between flex-auto">WFO<span class="text-gray-50">{{$wfo}}</span></h2>
