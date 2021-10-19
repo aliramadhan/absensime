@@ -49,10 +49,6 @@
       @endif
 
       @if(session()->has('failure'))
-        <div class="ml-2 mr-6">
-          <span class="font-semibold"></span>
-          <span class="block text-gray-500"></span>
-        </div>
         <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 10000)">
           <div class="m-auto">
             <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
