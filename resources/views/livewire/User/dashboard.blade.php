@@ -28,6 +28,8 @@
         </div>
 
       </h2>
+      <div x-data="{ showNotif: false }">
+        
       @if (session()->has('success'))
         <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 10000)">
           <div class="m-auto">
@@ -65,6 +67,7 @@
           </div>
         </div>          
       @endif
+      </div>
       <div class="flex gap-2" x-data="{ showModal: false }" @keydown.escape="showModal = false" x-cloak>
        <!--  <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button> -->
         <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Create Request</span></button>
@@ -563,7 +566,7 @@
 
               <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden lg:block hidden">
                 <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
-                  <label class=" text-gray-700">Annual Leave Quota {{$schedule->status}}</label>
+                  <label class=" text-gray-700">Annual Leave Quota</label>
                   <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
                 </div>
               </div>
