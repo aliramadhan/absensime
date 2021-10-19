@@ -36,7 +36,7 @@
 </div>          
 @endif
 
-<div class="bg-white shadow" x-data="{ 'showModal': false }" @keydown.escape="showModal = false" x-cloak>    
+<div class="bg-white shadow" x-data="{ showModal: @entangle('showModal') }" @keydown.escape="showModal = false" x-cloak>    
     <div class="flex space-x-4 justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
        <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
         {{ __('Employee Schedule') }}
@@ -122,8 +122,9 @@
             <div class="flex md:flex-row flex-col justify-end py-3 bg-gray-100 space-x-0 space-y-2 md:space-y-0 md:space-x-4 px-4  items-center ">
                 <a  class="modal-close bg-transparent py-2 px-4 rounded-lg md:w-min w-full text-gray-500 hover:bg-white hover:text-indigo-400 font-semibold tracking-wider border border-gray-400  bg-white cursor-pointer text-center" @click="showModal = false">
                 Cancel</a>
-                <button class="bg-blue-500 py-2 px-5 rounded-lg md:w-min w-full text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.store()" >Save</button>
-              
+<button class="bg-blue-500 py-2 px-5 rounded-lg md:w-min w-full text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.store()">Save</button>
+                <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="store" readonly>Saving..</button>
+            
             </div>
           
     </div>
