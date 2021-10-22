@@ -178,6 +178,66 @@ class DashboardUser extends Component
         }
         return view('livewire.User.dashboard');
     }
+    public function syncTime()
+    {
+        if ($this->schedule != null) {
+            #count time
+            $start = Carbon::parse($this->schedule->started_at);
+            if($this->schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
+                $start = Carbon::parse($this->schedule->details->sortByDesc('id')->first()->started_at);
+            }
+            $timeInt = $start->diffInSeconds(Carbon::now());
+            $this->schedule->update(['timer' => $timeInt]);
+            $timeInt += $this->schedule->workhour;
+            $seconds = intval($timeInt%60);
+            $total_minutes = intval($timeInt/60);
+            $minutes = $total_minutes%60;
+            $hours = intval($total_minutes/60);
+            $this->time = $hours."h ".$minutes."m";
+            #count WFO/WFH
+            $wfo = 0;
+            $wfh = 0;
+            $remote = 0;
+            $business_travel = 0;
+            foreach ($this->schedule->details->where('status','Work') as $work) {
+                if ($work->stoped_at != null) {
+                    $startPause = Carbon::parse($work->started_at);
+                    $stopPause = Carbon::parse($work->stoped_at);
+                    if ($work->location == 'WFO') {
+                        $wfo += $startPause->diffInSeconds($stopPause);
+                    }
+                    elseif($work->location == 'WFH'){
+                        $wfh += $startPause->diffInSeconds($stopPause);
+                    }
+                    elseif($work->location == 'Remote'){
+                        $remote += $startPause->diffInSeconds($stopPause);
+                    }
+                    else{
+                        $business_travel += $startPause->diffInSeconds($stopPause);
+                    }
+                }
+                else{
+                    $startPause = Carbon::parse($work->started_at);
+                    if ($work->location == 'WFO') {
+                        $wfo += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    elseif($work->location == 'WFH'){
+                        $wfh += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    elseif($work->location == 'Remote'){
+                        $remote += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    else{
+                        $business_travel += $startPause->diffInSeconds(Carbon::now());
+                    }
+                }
+            }
+            $this->wfo = $this->intToTime($wfo);
+            $this->wfh = $this->intToTime($wfh);
+            $this->remote = $this->intToTime($remote);
+            $this->business_travel = $this->intToTime($business_travel);
+        }
+    }
     public function showStart()
     {
         $this->isModal = 'Working';
@@ -282,6 +342,8 @@ class DashboardUser extends Component
     public function closeModal()
     {
         $this->isModal = false;
+        $this->modalPause = false;
+        $this->modalStop = false;
     }
     public function resetFields()
     {

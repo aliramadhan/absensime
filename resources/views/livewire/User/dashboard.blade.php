@@ -706,10 +706,10 @@
               @elseif($isModal == 'Stop')
                   @include('livewire.User.show_stop')
               @endif
-                        @if($schedule != null && $schedule->started_at != null)
-                <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
+              @if($schedule != null && $schedule->started_at != null)
+              <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
-              <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms @elseif($schedule != null && ($schedule->status != 'No Record')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+              <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms="syncTime" @elseif($schedule != null && ($schedule->status != 'No Record')) wire:poll.10ms="syncTime" @elseif($user->is_active == 0) wire:poll.10ms="syncTime" @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @if($time_in->lessThan(Carbon\Carbon::parse($schedule->started_at)) && Carbon\Carbon::parse($schedule->started_at)->diffInMinutes($time_in) > 60  && $schedule->note == null)
                     @include('livewire.User.show-late')
@@ -1037,7 +1037,7 @@
                 </div>
                  </div>
                  
-            <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms @elseif($schedule != null && ($schedule->status != 'No Record')) wire:poll.10ms @endif class="absolute">
+            <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms="syncTime" @elseif($schedule != null && ($schedule->status != 'No Record')) wire:poll.10ms="syncTime" @endif class="absolute">
               @if($schedule != null)
                 @php
                 $start = Carbon\Carbon::parse($schedule->started_at);
