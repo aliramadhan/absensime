@@ -31,6 +31,7 @@
       <div x-data="{ showNotif: false }">
         
       @if (session()->has('success'))
+      <!--
         <div class="bg-teal-100 border-t-4 border-teal-500 rounded-b text-teal-900 px-4 py-3 shadow-md" role="alert">
           <div class="flex">
             <div class="py-1"><svg class="fill-current h-6 w-6 text-teal-500 mr-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"/></svg></div>
@@ -40,7 +41,7 @@
             </div>
           </div>
         </div>
-        <!--
+        -->
         <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 10000)">
           <div class="m-auto">
             <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
@@ -57,7 +58,7 @@
               </div>
             </div>
           </div>
-        </div>   -->   
+        </div>
       @endif
 
       @if(session()->has('failure'))
@@ -709,7 +710,7 @@
               @if($schedule != null && $schedule->started_at != null)
               <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
-              <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms="syncTime" @elseif($schedule != null && ($schedule->status != 'No Record')) wire:poll.10ms="syncTime" @elseif($user->is_active == 0) wire:poll.10ms="syncTime" @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+              <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms="syncTime" @elseif($user->is_active == 0) wire:poll.10ms="syncTime" @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @if($time_in->lessThan(Carbon\Carbon::parse($schedule->started_at)) && Carbon\Carbon::parse($schedule->started_at)->diffInMinutes($time_in) > 60  && $schedule->note == null)
                     @include('livewire.User.show-late')
@@ -1037,7 +1038,7 @@
                 </div>
                  </div>
                  
-            <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms="syncTime" @elseif($schedule != null && ($schedule->status != 'No Record')) wire:poll.10ms="syncTime" @endif class="absolute">
+            <div class="absolute">
               @if($schedule != null)
                 @php
                 $start = Carbon\Carbon::parse($schedule->started_at);
