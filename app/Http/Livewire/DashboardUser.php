@@ -25,6 +25,8 @@ class DashboardUser extends Component
     public $type, $desc,$date,$time_overtime, $tasking = 0,$stopRequestDate, $startRequestDate, $time_out, $time_in, $started_at, $stoped_at,$format,$locationRe;
     //for activation with request
     public $typeRequest, $dateTo, $dateFrom, $descRequest, $historyLock;
+    //for modal
+    public $modalPause = false, $modalStop = false;
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude',

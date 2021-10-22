@@ -709,7 +709,7 @@
                         @if($schedule != null && $schedule->started_at != null)
                 <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
-              <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms @elseif($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+              <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms @elseif($schedule != null && ($schedule->status != 'No Record')) wire:poll.10ms @elseif($user->is_active == 0) wire:poll.10ms @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @if($time_in->lessThan(Carbon\Carbon::parse($schedule->started_at)) && Carbon\Carbon::parse($schedule->started_at)->diffInMinutes($time_in) > 60  && $schedule->note == null)
                     @include('livewire.User.show-late')
@@ -855,9 +855,131 @@
                 </button>  
                 @endif
               @elseif($schedule != null && ($schedule->status == 'Working'))
-              <div class="grid grid-cols-2 items-center gap-4">
-                <button wire:click="showPause()" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
-                <button wire:click="showStop()" class=" bg-red-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none "><i class="far fa-stop-circle"></i><br> Stop</button>
+              <div class="grid grid-cols-2 items-center gap-4" x-data="{ showModalPause: @entangle('modalPause'), showModalStop: @entangle('modalStop') }" @keydown.escape="showModalPause = false" x-cloak>
+                <button @click="showModalPause = true" class="bg-gradient-to-r from-green-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none "><i class="fas fa-pause-circle"></i><br>Pause</button>
+                <button @click="showModalStop = true" class=" bg-red-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none "><i class="far fa-stop-circle"></i><br> Stop</button>
+                <!-- MODAL PAUSE -->
+                <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModalPause" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showModalPause }">
+                <!--Dialog-->
+                <div class="absolute bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModalPause" @click.away="showModalPause = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
+
+                    <!--Title-->
+                    <div class="flex justify-between items-center px-5 border-b pb-2">
+                      <p class="text-2xl font-semibold text-gray-700">Pause Recording</p>
+                      <div class="cursor-pointer z-50" @click="showModalPause = false">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                          <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <!-- content -->
+
+                      <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
+                        <div class="">
+                          <div class="mb-4">
+                              <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">Pause Type</label>
+                              <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline mb-1" id="formTask" wire:model="type_pause">
+                                  <option hidden>Choose one</option>
+                                  @if($schedule->status == 'Overtime')
+                                      <option value="Break">Break</option>
+                                      <option>New Task</option>                               
+                                  @else      
+                                      <option value="Break">Permission with Substitute</option>
+                                      <option value="Permission">Permission without Substitute</option> 
+                                      <option>New Task</option>                                 
+                                  @endif
+                              </select>
+                              @error('type_pause') <span class="text-red-500">{{ $message }}</span>@enderror
+                          </div>
+                          @if ($type_pause =='Break' OR $type_pause =='New Task' OR $type_pause =='Permission')
+                          <div class="mb-4">
+                              <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">@if($type_pause == 'New Task')Task @else Reason @endif</label>
+                              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTask" wire:model="task" required>
+                              @error('task') <span class="text-red-500">{{ $message }}</span>@enderror
+                                                  
+                          </div>
+                          @endif
+                          @if($type_pause == 'Break')      
+                              <label class="mt-1 text-gray-500 font-base italic ">
+                                  *Izin meninggalkan pekerjaan maks 4 jam.
+                              </label>
+                          @elseif($type_pause == 'Permission')
+                              <div class="flex space-x-2">
+                              <label for="formIsCancelOrder" class="block text-gray-500 text-sm font-semibold ">Automatically stop recording when end of shift?</label>
+                              <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="checkAutoStop" placeholder="fill in here...">
+                              </div>
+                              @error('is_cancel_order') <span class="text-red-500">{{ $message }}</span>@enderror
+                          @endif
+
+                          @if($type_pause == 'New Task')
+                          <div class="mb-4">
+                              <label for="formTaskDesc" class="block text-gray-500 text-sm font-semibold mb-2">Task Description</label>
+                              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTaskDesc" wire:model="task_desc">
+                              @error('task_desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                          </div>
+                          @endif
+                        </div>
+                      </div>
+
+                      <!--Footer-->
+                      <div class="flex md:flex-row flex-col justify-end py-3 bg-gray-100 space-x-0 space-y-2 md:space-y-0 md:space-x-4 px-4  items-center">
+                        <button class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-indigo-600 cursor-pointer font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModalPause = false">Cancel</button>
+                        <button class="bg-blue-500 py-2 px-5 rounded-lg md:w-min w-full text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.pauseOn()" wire:loading.remove wire:target="pauseOn">@if($type_pause == 'New Task') Start New Task @else Pause @endif</button>
+                        <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="pauseOn" readonly>Processing..</button>
+                      </div>
+
+                  </div>
+                  <!--/Dialog -->
+                </div><!-- /Overlay -->
+
+                <!-- MODAL STOP -->
+                <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModalStop" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showModalStop }">
+                <!--Dialog-->
+                <div class="absolute bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModalStop" @click.away="showModalStop = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
+
+                    <!--Title-->
+                    <div class="flex justify-between items-center px-5 border-b pb-2">
+                      <p class="text-2xl font-semibold text-gray-700">Stop Recording</p>
+                      <div class="cursor-pointer z-50" @click="showModalStop = false">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                          <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <!-- content -->
+
+                      <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
+                        <div class="">
+                          @if($now < Carbon\Carbon::parse($shift->time_out))  
+                          <div class="flex-col space-y-1 text-left">      
+                            <label class="text-red-600 tracking-wide text-xs md:text-sm "><label class="font-semibold">Warning</label>: Stopped recording before <br class="sm:hidden inline-block">  shift over</label>
+                            <div class="flex space-x-2 text-gray-700 items-center pr-4 ">
+                              <label class="font-base text-xs md:text-sm tracking-wide font-semibold">Reason</label>
+                              <input type="text" wire:model="note"  class="appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline text-sm border-gray-200 bg-gray-200 focus:outline-none focus:bg-white tracking-wide" placeholder="Fill your reason.." required>
+                              @error('note') <span class="text-red-500">{{ $message }}</span>@enderror
+                            </div>
+                          </div>   
+                          @endif
+                          <div class="border md:shadow-md rounded-lg text-white px-1 md:px-2 py-2">
+                            <p class="text-xs md:text-sm text-gray-700 text-left">
+                              Are you sure you want to stop recording?<br> This action cannot be undone.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--Footer-->
+                      <div class="flex md:flex-row flex-col justify-end py-3 bg-gray-100 space-x-0 space-y-2 md:space-y-0 md:space-x-4 px-4  items-center">
+                        <button class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-indigo-600 cursor-pointer font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModalStop = false">Cancel</button>
+                        <button class="bg-blue-500 py-2 px-5 rounded-lg md:w-min w-full text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.stopOn()" wire:loading.remove wire:target="stopOn">Stop</button>
+                        <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="stopOn" readonly>Processing..</button>
+                      </div>
+
+                  </div>
+                  <!--/Dialog -->
+                </div><!-- /Overlay --> 
                </div>
               @elseif($schedule != null && $schedule->status == 'Pause')
 
@@ -915,7 +1037,7 @@
                 </div>
                  </div>
                  
-            <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms @elseif($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.10ms @endif class="absolute">
+            <div @if(session()->has('success') || session()->has('failure')) wire:poll.5000ms @elseif($schedule != null && ($schedule->status != 'No Record')) wire:poll.10ms @endif class="absolute">
               @if($schedule != null)
                 @php
                 $start = Carbon\Carbon::parse($schedule->started_at);
