@@ -427,10 +427,10 @@ class DashboardUser extends Component
         $this->alert('info', 'Record Paused', [
             'position' =>  'center', 
             'timer' =>  3000,  
-            'toast' =>  true, 
+            'toast' =>  false, 
             'text' =>  '', 
             'confirmButtonText' =>  'Ok', 
-            'showConfirmButton' =>  true, 
+            'showConfirmButton' =>  false, 
         ]);
         #session()->flash('success', 'Record paused.');
     }
@@ -480,10 +480,10 @@ class DashboardUser extends Component
         $this->alert('info', 'Record resumed', [
             'position' =>  'center', 
             'timer' =>  3000,  
-            'toast' =>  true, 
+            'toast' =>  false, 
             'text' =>  '', 
             'confirmButtonText' =>  'Ok', 
-            'showConfirmButton' =>  true, 
+            'showConfirmButton' =>  false, 
         ]);
         #session()->flash('success', 'Record resumed.');
     }
