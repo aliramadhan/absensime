@@ -424,7 +424,15 @@ class DashboardUser extends Component
         ]);
         $this->closeModal();
         $this->resetFields();
-        session()->flash('success', 'Record paused.');
+        $this->alert('info', 'Record Paused', [
+            'position' =>  'center', 
+            'timer' =>  3000,  
+            'toast' =>  true, 
+            'text' =>  '', 
+            'confirmButtonText' =>  'Ok', 
+            'showConfirmButton' =>  true, 
+        ]);
+        #session()->flash('success', 'Record paused.');
     }
     public function showResume()
     {
@@ -469,7 +477,15 @@ class DashboardUser extends Component
 
         $this->closeModal();
         $this->resetFields();
-        session()->flash('success', 'Record resumed.');
+        $this->alert('info', 'Record resumed', [
+            'position' =>  'center', 
+            'timer' =>  3000,  
+            'toast' =>  true, 
+            'text' =>  '', 
+            'confirmButtonText' =>  'Ok', 
+            'showConfirmButton' =>  true, 
+        ]);
+        #session()->flash('success', 'Record resumed.');
     }
     public function stopOn()
     {
