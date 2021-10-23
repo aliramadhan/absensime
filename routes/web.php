@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Mail\SendNotifUserNonActived;
 use App\Notifications\NotifWithSlack;
 use Illuminate\Support\Facades\Mail;
+use Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -125,3 +126,16 @@ Route::group(['middleware' => ['auth:sanctum','role:Manager,Employee'], 'prefix'
 	Route::post('request/accept/{id}', [AdminController::class, 'acceptRequestOvertime'])->name('request.accept');
 	Route::get('history-schedule', HistorySchedule::class)->name('history.schedule');
 });
+
+///Route Guest
+Route::get('/reset-password/{token}/{email}', function ($token,$email) {
+	$tokenData = DB::table('password_resets')->where('email', $email)->first();
+	$now = Carbon::now();
+	if ($tokenData == null) {
+		return redirect()->route('login');
+	}
+	elseif($now > Carbon::parse($tokenData->created_at)->addHour()){
+		return redirect()->route('login');
+	}
+    return view('auth.reset-password', ['token' => $token, 'email' => $email]);
+})->middleware('guest')->name('password.reset');
