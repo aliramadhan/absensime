@@ -1,4 +1,5 @@
-<nav  class=" border-gray-100 sticky top-0 z-10 " :class="{'border-b border-gray-200 backdrop-filter backdrop-blur-xl bg-opacity-90 ' : !atTop ,'bg-white border-b' : atTop  }" x-data="{open: false, atTop: true }" @scroll.window="atTop = (window.pageYOffset > 40) ? false : true"
+
+<nav x-data="{open: false,atTop: true}" @scroll.window="atTop = (window.pageYOffset > 40) ? false : true" class=" border-gray-100 sticky top-0 z-10 " :class="{'border-b border-gray-200 backdrop-filter backdrop-blur-xl bg-opacity-90 ' : !atTop ,'bg-white border-b' : atTop  }" 
    >
     <!-- Primary Navigation Menu -->
 
@@ -279,7 +280,7 @@
                     <x-jet-dropdown align="right" width="48">
                         <x-slot name="trigger">
                             <span class="inline-flex rounded-md">
-                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md text-gray-500  hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" :class="{'bg-none': !atTop, 'bg-white': atTop  }">
+                                <button type="button" class="inline-flex items-center px-3 py-2 border border-transparent text-base leading-4 font-medium rounded-md text-gray-500  hover:text-gray-700 focus:outline-none transition ease-in-out duration-150" >
                                     <img class="h-8 w-8 object-cover border-2 rounded-lg border-red-400 opacity-75 hover:opacity-100 duration-300" src="{{ asset('image/logo.png') }}" alt="{{ Auth::user()->name }}" />
                                    
                                 </button>
@@ -485,6 +486,7 @@
         </div>
     </div>
 </nav>
+
 
 <script type="text/javascript">
 
