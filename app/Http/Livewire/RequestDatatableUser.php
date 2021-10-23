@@ -277,5 +277,13 @@ class RequestDatatableUser extends LivewireDatatable
     		$request->save();
     	}
         $this->emit('refreshLivewireDatatable');
+        $this->alert('info', 'Successfully done.', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false, 
+            'text' =>  '', 
+            'confirmButtonText' =>  'Ok', 
+            'showConfirmButton' =>  false, 
+        ]);
     }
 }

@@ -479,7 +479,7 @@ class DashboardUser extends Component
         $this->resetFields();
         $this->alert('info', 'Record resumed', [
             'position' =>  'center', 
-            'timer' =>  3000,  
+            'timer' =>  3000,
             'toast' =>  false, 
             'text' =>  '', 
             'confirmButtonText' =>  'Ok', 
