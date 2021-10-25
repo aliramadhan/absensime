@@ -8,7 +8,7 @@ use App\Models\Shift;
 class ShiftLive extends Component
 {
 	public $name, $time_in, $time_out, $shifts,$shift;
-  public $isModal;
+  public $isModal, $showModal = false;
   protected $rules = [
     'name' => 'required|string',
     'time_in' => 'required|date_format:H:i',
@@ -47,6 +47,7 @@ class ShiftLive extends Component
   public function closeModal()
   {
       $this->isModal = false;
+      $this->showModal = false;
   }
   public function store()
   {
@@ -59,11 +60,15 @@ class ShiftLive extends Component
       	'time_out' => $this->time_out,
       ]);
 
-      //redirect if success
-      session()->flash('success', 'Shift '.$this->name . ' added successfully.');
+
       $this->closeModal(); //TUTUP MODAL
       $this->resetFields(); //DAN BERSIHKAN FIELD
       $this->emit('refreshLivewireDatatable');
+      $this->alert('info', 'Shift '.$this->name . ' added successfully.', [
+          'position' =>  'center', 
+          'timer' =>  3000,
+          'toast' =>  false,
+      ]);
   }
   public function update()
   {
@@ -74,19 +79,27 @@ class ShiftLive extends Component
   	]);
 
       //redirect if success
-      session()->flash('message', 'Shift '.$this->name . ' updated successfully.');
       $this->closeModal(); //TUTUP MODAL
       $this->resetFields(); //DAN BERSIHKAN FIELD
       $this->emit('refreshLivewireDatatable');
+      $this->alert('info', 'Shift '.$this->name . ' updated successfully.', [
+          'position' =>  'center', 
+          'timer' =>  3000,
+          'toast' =>  false,
+      ]);
   }
   public function destroy()
   {
-  	$message =  'Shift '.$this->name . ' deleted successfully.';
   	$this->shift->delete();	
     session()->flash('failure', $message);
     $this->closeModal(); //TUTUP MODAL
     $this->resetFields(); //DAN BERSIHKAN FIELD
     $this->emit('refreshLivewireDatatable');
+    $this->alert('info', 'Shift '.$this->name . ' deleted successfully.', [
+        'position' =>  'center', 
+        'timer' =>  3000,
+        'toast' =>  false,
+    ]);
   }
   public function updated($propertyName)
   {

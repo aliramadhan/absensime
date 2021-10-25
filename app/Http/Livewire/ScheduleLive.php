@@ -87,7 +87,12 @@ class ScheduleLive extends Component
     $this->employee = User::findOrFail($this->employee_id);
     $this->shift = Shift::findOrFail($this->shift_id);
     if ($schedule != null) {
-      session()->flash('success', 'Schedule for '.$this->employee->name . ' at '.$this->date.' already exists, add different date.');
+      $this->alert('warning', 'Schedule for '.$this->employee->name . ' at '.$this->date.' already exists, add different date.', [
+          'position' =>  'center', 
+          'timer' =>  5000,
+          'toast' =>  false, 
+          'text' =>  '', 
+      ]);
       $this->closeModal();
       $this->resetFields();
     }
@@ -102,9 +107,14 @@ class ScheduleLive extends Component
         'status' => 'Not sign in',
       ]);
 
-      session()->flash('success', 'Schedule for '.$this->employee->name . ' at '.$this->date.' added successfully.');
+      $this->alert('info', 'Schedule for '.$this->employee->name . ' at '.$this->date.' added successfully.', [
+          'position' =>  'center', 
+          'timer' =>  5000,
+          'toast' =>  false, 
+          'text' =>  '', 
+      ]);
       $this->closeModal();
-      $this->resetFields();    
+      $this->resetFields();
     }
     $this->emit('refreshLivewireDatatable');
   }
@@ -118,7 +128,12 @@ class ScheduleLive extends Component
       'shift_name' => $this->shift->name,
     ]);
 
-    session()->flash('success', 'Schedule for '.$this->employee->name . ' at '.$this->date.' updated successfully.');
+    $this->alert('info', 'Schedule for '.$this->employee->name . ' at '.$this->date.' updated successfully.', [
+        'position' =>  'center', 
+        'timer' =>  5000,
+        'toast' =>  false, 
+        'text' =>  '', 
+    ]);
     $this->closeModal();
     $this->resetFields(); 
     $this->emit('refreshLivewireDatatable');
@@ -127,7 +142,12 @@ class ScheduleLive extends Component
   {
     $this->shift = Shift::findOrFail($this->shift_id);
     $this->employee = User::findOrFail($this->employee_id);
-    session()->flash('failure', 'Schedule for '.$this->employee->name . ' at '.$this->date.' deleted successfully.');
+    $this->alert('info', 'Schedule for '.$this->employee->name . ' at '.$this->date.' deleted successfully.', [
+        'position' =>  'center', 
+        'timer' =>  5000,
+        'toast' =>  false, 
+        'text' =>  '', 
+    ]);
     $this->schedule->delete();
     $this->closeModal();
     $this->resetFields(); 
@@ -168,9 +188,19 @@ class ScheduleLive extends Component
           }
       }
     }
-    session()->flash('success', 'Import Schedule successfully.');
+    $this->alert('info', 'Import Schedule successfully.', [
+        'position' =>  'center', 
+        'timer' =>  5000,
+        'toast' =>  false, 
+        'text' =>  '', 
+    ]);
     if ($message != '') {
-      session()->flash('failure', $message);
+      $this->alert('error', $message, [
+          'position' =>  'center', 
+          'timer' =>  5000,
+          'toast' =>  false, 
+          'text' =>  '', 
+      ]);
     }
     $this->closeModal();
     $this->resetFields();   

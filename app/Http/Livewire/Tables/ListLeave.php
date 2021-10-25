@@ -43,6 +43,11 @@ class ListLeave extends LivewireDatatable
         if ($leave != null) {
             session()->flash('failure', 'Leave '.$leave->name.' deleted successfully.');
             $leave->delete();
+            $this->alert('info', 'Leave '.$leave->name.' deleted successfully.', [
+                'position' =>  'center', 
+                'timer' =>  3000,
+                'toast' =>  false,
+            ]);
             return redirect()->back();
         }
     }

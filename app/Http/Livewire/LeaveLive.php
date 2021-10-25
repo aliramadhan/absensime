@@ -37,6 +37,11 @@ class LeaveLive extends Component
       	$this->resetField();
       	$this->closeModal();
         $this->emit('refreshLivewireDatatable');
+        $this->alert('info', 'Leave '.$this->name . ' added successfully.', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false,
+        ]);
     }
     public function deleteLeave($id)
     {
