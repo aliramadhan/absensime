@@ -16,7 +16,7 @@ use App\Mail\RequestNotificationMail;
 
 class RequestUser extends Component
 {
-	public $user, $tasks,$now, $isModal, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser, $historyLock, $started_at, $stoped_at,$format,$locationRe, $schedule;
+	public $user, $tasks,$now, $isModal = false, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser, $historyLock, $started_at, $stoped_at,$format,$locationRe, $schedule;
 
     public function render()
     {
@@ -75,12 +75,22 @@ class RequestUser extends Component
             if ($isSchedule == null) {
                 $this->closeModal();
                 $this->resetFields();
-                return session()->flash('failure', "Can't submit request, no schedule found.");
+                $this->alert('error', 'Cannot submit request, no schedule found.', [
+                    'position' =>  'center', 
+                    'timer' =>  3000,
+                    'toast' =>  false, 
+                    'text' =>  '', 
+                ]);
             }
             if ($issetRequest != null) {
                 $this->closeModal();
                 $this->resetFields();
-                return session()->flash('failure', "Can't submit request, duplicate request.");
+                $this->alert('error', 'Cannot submit request, duplicate request.', [
+                    'position' =>  'center', 
+                    'timer' =>  3000,
+                    'toast' =>  false, 
+                    'text' =>  '', 
+                ]);
             }
             //create request after activation
             if ($isSchedule != null && $issetRequest == null) {
@@ -232,7 +242,12 @@ class RequestUser extends Component
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
                 if ($issetRequest != null) {
-                    return session()->flash('failure', "Can't submit request, duplicate request.");
+                    $this->alert('error', 'Cannot submit request, duplicate request.', [
+                        'position' =>  'center', 
+                        'timer' =>  3000,
+                        'toast' =>  false, 
+                        'text' =>  '', 
+                    ]);
                     $this->closeModal();
                     $this->resetFields();
                 }
@@ -240,12 +255,22 @@ class RequestUser extends Component
         }
         
         if ($issetRequest != null && $this->type != 'Record Activation') {
-            return session()->flash('failure', "Can't submit request, duplicate request.");
+            $this->alert('error', 'Cannot submit request, duplicate request.', [
+                'position' =>  'center', 
+                'timer' =>  3000,
+                'toast' =>  false, 
+                'text' =>  '', 
+            ]);
             $this->closeModal();
             $this->resetFields();
         }
-        elseif ($isSchedule == null && $cekLeave == null && $this->type != 'Record Activation') {
-            return session()->flash('failure', "Can't submit request, no schedule found.");
+        elseif ($isSchedule == null && $cekLeave == null && ($this->type != 'Sick' && $this->type != 'Permission' && $this->type != 'Remote')) {
+            $this->alert('error', 'Cannot submit request, no schedule found.', [
+                'position' =>  'center', 
+                'timer' =>  3000,
+                'toast' =>  false, 
+                'text' =>  '', 
+            ]);
             $this->closeModal();
             $this->resetFields();
         }
@@ -273,7 +298,12 @@ class RequestUser extends Component
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                         $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
                         if ($isSchedule == null) {
-                            session()->flash('failure', "Can't submit request, no schedule found at ".$startDate->format('d F Y').".");
+                            $this->alert('error', 'Cannot submit request, no schedule found at '.$startDate->format('d F Y').'.', [
+                                'position' =>  'center', 
+                                'timer' =>  3000,
+                                'toast' =>  false, 
+                                'text' =>  '', 
+                            ]);
                             continue;
                         }
                         else{
@@ -312,7 +342,12 @@ class RequestUser extends Component
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                         $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
                         if ($isSchedule == null) {
-                            session()->flash('failure', "Can't submit request, no schedule found at ".$startDate->format('d F Y').".");
+                            $this->alert('error', 'Cannot submit request, no schedule found at '.$startDate->format('d F Y').'.', [
+                                'position' =>  'center', 
+                                'timer' =>  3000,
+                                'toast' =>  false, 
+                                'text' =>  '', 
+                            ]);
                             continue;
                         }
                         else{
@@ -446,7 +481,12 @@ class RequestUser extends Component
                 elseif($this->type == 'Absent'){
                     //check if schedule previous is No Record
                     if ($isSchedule->status != 'No Record') {
-                        return session()->flash('failure', "Can't submit request, schedule status must be 'No Record'.");
+                        $this->alert('error', 'Cannot submit request, schedule status must be `No Record`.', [
+                            'position' =>  'center', 
+                            'timer' =>  3000,
+                            'toast' =>  false, 
+                            'text' =>  '', 
+                        ]);
                         $this->closeModal();
                         $this->resetFields();
                     }
@@ -514,6 +554,12 @@ class RequestUser extends Component
             $this->is_cancel_order = null;
             $this->emit('refreshLivewireDatatable');
             session()->flash('success', 'Request successfully added.');
+            $this->alert('success', 'Request successfully added.', [
+                'position' =>  'center', 
+                'timer' =>  3000,
+                'toast' =>  false, 
+                'text' =>  '', 
+            ]);
         }
     }
 }
