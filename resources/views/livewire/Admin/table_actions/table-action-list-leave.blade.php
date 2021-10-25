@@ -35,9 +35,9 @@
                             @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>
                         <div class="mb-4">
-                            <label for="formDesc" class="block text-gray-600 text-sm font-semibold mb-2">Leave Duration:</label>
-                            <input type="number" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" name="duration" value="{{$leave->duration}}">
-                            @error('duration') <span class="text-red-500">{{ $message }}</span>@enderror
+                            <label for="formDesc" class="block text-gray-600 text-sm font-semibold mb-2">Description:</label>
+                            <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-600 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" name="desc" value="{{$leave->desc}}">
+                            @error('desc') <span class="text-red-500">{{ $message }}</span>@enderror
                         </div>                      
 
                         <div class="mb-4 flex-auto flex items-center gap-2">

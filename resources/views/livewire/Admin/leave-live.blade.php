@@ -1,11 +1,8 @@
 <div class="bg-white shadow">
-    <div class="flex gap-4 justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 " x-data="{ showModal: false }" @keydown.escape="showModal = false" x-cloak>
+    <div class="flex gap-4 justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 " x-data="{ showModal: @entangle('isModal') }" @keydown.escape="showModal = false" x-cloak>
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
             {{ __('Manage Leave') }}
         </h2>
-        @if($isModal == 'create')
-          @include('livewire.Admin.create_leave')
-        @endif
         <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showModal }">
           <!--Dialog-->
           <div class="absolute bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >

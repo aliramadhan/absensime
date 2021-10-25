@@ -171,6 +171,7 @@ class RequestDatatableUser extends LivewireDatatable
     	$dateRequest = Carbon::parse($request->created_at);
     	$date = Carbon::parse($request->date);
     	$user = User::find($request->employee_id);
+    	$message = '';
     	if ($action == 'Accept') {
     		$schedule = Schedule::whereDate('date',$request->date)->where('employee_id',$user->id)->first();
     		$cekLeave = ListLeave::where('name','like','%'.$request->type.'%')->first();
@@ -277,7 +278,7 @@ class RequestDatatableUser extends LivewireDatatable
     		$request->save();
     	}
         $this->emit('refreshLivewireDatatable');
-        $this->alert('info', 'Successfully done.', [
+        $this->alert('info', 'Request '.$request->type.' from '.$user->name.' accepted.', [
             'position' =>  'center', 
             'timer' =>  3000,
             'toast' =>  false, 

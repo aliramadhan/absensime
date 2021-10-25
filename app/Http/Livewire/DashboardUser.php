@@ -482,8 +482,6 @@ class DashboardUser extends Component
             'timer' =>  3000,
             'toast' =>  false, 
             'text' =>  '', 
-            'confirmButtonText' =>  'Ok', 
-            'showConfirmButton' =>  false, 
         ]);
         #session()->flash('success', 'Record resumed.');
     }
