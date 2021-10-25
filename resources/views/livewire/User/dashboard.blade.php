@@ -71,7 +71,7 @@
        <!--  <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button> -->
         <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Create Request</span></button>
         
-        <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-30 flex items-center justify-center': showModal }">
+        <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-50 flex items-center justify-center': showModal }">
           <!--Dialog-->
           <div class="bg-white mx-auto rounded shadow-lg pt-4 text-left w-11/12 md:w-8/12 lg:w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
             <!--Title-->
@@ -88,7 +88,7 @@
               <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
                 <div wire:loading wire:target="type" class="px-3 text-base md:text-lg text-gray-700"> 
                   <i class="fas fa-circle-notch animate-spin"></i> 
-                  <label class="animate-pulse"">Building form.. </label> 
+                  <label class="animate-pulse">Loading form.. </label> 
                 </div>
                 <div class="" wire:loading.remove wire:target="type">
                   <div class="mb-4">
@@ -349,13 +349,13 @@
 
                         <div class="flex items-center justify-between py-2 px-2">
                           <div>
-                            <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-800 "></span>
+                            <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-700 "></span>
                             <span x-text="year" class="ml-1 text-lg text-gray-600 font-normal"></span>
                           </div>
                           <div class="border rounded-lg px-1" style="padding-top: 2px;">
                             <button 
                             type="button"
-                            class="leading-none focus:outline-none  focus:ring focus:border-blue-200 rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center" 
+                            class="leading-none focus:outline-none  focus:ring focus:border-blue-200 rounded-lg transition ease-in-out duration-100 inline-flex  hover:bg-gray-200 p-1 items-center" 
                             :class="{'cursor-not-allowed opacity-25': month == 0 }"
                             :disabled="month == 0 ? true : false"
                             @click="month--; getNoOfDays()">
@@ -366,7 +366,7 @@
                           <div class="border-r inline-flex h-4"></div>    
                           <button 
                           type="button"
-                          class="leading-none focus:outline-none  focus:ring focus:border-blue-200 rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1" 
+                          class="leading-none focus:outline-none  focus:ring focus:border-blue-200 rounded-lg transition ease-in-out duration-100 inline-flex items-center  hover:bg-gray-200 p-1" 
                           :class="{'cursor-not-allowed opacity-25': month == 11 }"
                           :disabled="month == 11 ? true : false"
                           @click="month++; getNoOfDays()">
@@ -383,7 +383,7 @@
                           <div style="width: 14.1%" class="px-2 py-2 ">
                             <div
                             x-text="day" 
-                            class=" text-sm uppercase tracking-wide font-bold text-center mb-10"></div>
+                            class=" text-sm uppercase tracking-wide font-bold text-center mb-10 text-gray-500"></div>
                           </div>
                         </template>
                       </div>
@@ -607,7 +607,7 @@
 
                         <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-4 md:-ml-2">
                            <div class="bg-cover bg-no-repeat bg-center w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
-                         <label class="border-r pr-2"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
+                         <label class="border-r pr-2 text-gray-600"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
                             <label class="leading-none text-base hidden md:block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d F')}} @else {{$now->format('d F')}} @endif</label>
                              <label class="leading-none text-base  md:hidden block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d M')}} @else {{$now->format('d M')}} @endif</label>
@@ -867,7 +867,7 @@
                       <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
                          <div wire:loading wire:target="type_pause" class="px-3 text-base md:text-lg text-gray-700"> 
                           <i class="fas fa-circle-notch animate-spin"></i> 
-                          <label class="animate-pulse"">Building form.. </label> 
+                          <label class="animate-pulse">Loading form.. </label> 
                         </div>
                         <div class=""wire:loading.remove wire:target="type_pause">
                           <div class="mb-4">
