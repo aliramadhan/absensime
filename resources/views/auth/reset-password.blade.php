@@ -38,7 +38,7 @@
             </div>
 
             <div class="flex items-center justify-end mt-4">
-                <x-jet-button class="py-3 bg-blue-500 uppercase tracking-widest">
+                <x-jet-button class="font-semibold md:text-base text-xl bg-blue-400 text-center md:py-2 py-4 px-8 hover:bg-blue-600 md:w-auto w-full focus:border-yellow-100 duration-500">
                     {{ __('Reset Password') }}
                 </x-jet-button>
             </div>

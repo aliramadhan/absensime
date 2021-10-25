@@ -8,7 +8,7 @@
   <div class="md:h-auto h-screen w-full sm:max-w-sm m-0 md:mt-6 px-7 py-7 bg-white shadow-xl overflow-hidden sm:rounded-2xl grid">
   
    <div class="flex items-center gap-4">
-     <a href="{{ route('login') }}" class="px-3 py-1 font-semibold hover:bg-gray-400 duration-300 rounded-full text-gray-600 hover:text-white cursor-pointer text-2xl"><i class="fas fa-chevron-left"></i></a>
+     <a href="{{ route('login') }}" class="flex items-center h-9 w-9 font-semibold hover:bg-gray-400 duration-300 rounded-full text-gray-600 hover:text-white cursor-pointer text-2xl"><i class="fas fa-chevron-left mx-auto"></i></a>
      <label class="font-bold text-2xl text-gray-700 flex-auto  tracking-wide">Forgot Password</label>        
  </div>
     <img src="{{ asset('/image/logo.png')}}" class="img-fluid mx-auto my-auto" width="100px" height="100px">
@@ -35,8 +35,8 @@
 
 
         <div class="flex items-center justify-end mt-4">
-            <x-jet-button class="py-3 bg-yellow-500 uppercase tracking-widest text-sm">
-                {{ __('Send Reset Link') }}
+            <x-jet-button class="font-semibold md:text-base text-xl bg-blue-400 text-center md:py-2 py-4 px-8 hover:bg-blue-600 md:w-auto w-full focus:border-yellow-100 duration-500">
+                {{ __('Reset Password') }}
             </x-jet-button>
         </div>
     </form>
