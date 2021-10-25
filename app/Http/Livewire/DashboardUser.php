@@ -478,7 +478,7 @@ class DashboardUser extends Component
 
         $this->closeModal();
         $this->resetFields();
-        $this->alert('success', 'Recording resumed', [
+         $this->alert('success', 'Recording resumed', [
             'position' =>  'bottom-start', 
             'timer' =>  5000,
             'toast' =>  true, 

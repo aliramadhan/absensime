@@ -107,18 +107,18 @@ class AdminController extends Controller
         if ($request->name != $leave->name) {
             $this->validate($request,[
                 'name' => 'required|string|unique:list_leaves',
-                'duration' => 'required|numeric',
+                'desc' => 'required',
             ]);
         }
         else{
             $this->validate($request,[
                 'name' => 'required|string',
-                'duration' => 'required|numeric',
+                'desc' => 'required',
             ]);
         }
         $leave->update([
             'name' => $request->name,
-            'duration' => $request->duration,
+            'desc' => $request->desc,
             'is_annual' => $is_annual
         ]);
         return redirect()->back()->with(['success' => 'Leave '.$leave->name.' updated.']);
@@ -153,9 +153,9 @@ class AdminController extends Controller
     {
         $division = Division::find($id);
         if ($division == null) {
-            return redirect()->back()->with(['failure' => 'Leave not found.']);
+            return redirect()->back()->with(['failure' => 'Division not found.']);
         }
-        $message = "Leave ".$division->name. " deleted successfully.";
+        $message = "Division ".$division->name. " deleted successfully.";
         $division->delete();
 
         return redirect()->back()->with(['success' => $message]);

@@ -7,7 +7,7 @@ use App\Models\Division;
 
 class DivisionLive extends Component
 {
-	public $divisions, $isModal, $name, $desc;
+	public $divisions, $isModal, $name, $desc, $showModal = false;
     public function render()
     {
     	$this->divisions = Division::all();
@@ -20,7 +20,8 @@ class DivisionLive extends Component
     }
     public function closeModal()
     {
-    	$this->isModal = null;
+        $this->isModal = null;
+    	$this->showModal = null;
     }
     public function storeDivision()
     {
@@ -32,7 +33,12 @@ class DivisionLive extends Component
     		'name' => $this->name,
     		'desc' => $this->desc
     	]);
-      	session()->flash('success', 'new Division added successfully.');
+        $this->alert('info', 'new Division added successfully.', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false, 
+            'text' =>  '', 
+        ]);
       	$this->resetField();
       	$this->closeModal();
         $this->emit('refreshLivewireDatatable');
@@ -41,7 +47,12 @@ class DivisionLive extends Component
     {
     	$division = Division::find($id);
     	if ($division != null) {
-      		session()->flash('failure', 'Division '.$division->name.' deleted successfully.');
+            $this->alert('info', 'Division '.$division->name.' deleted successfully.', [
+                'position' =>  'center', 
+                'timer' =>  3000,
+                'toast' =>  false, 
+                'text' =>  '', 
+            ]);
     		$division->delete();
     	}
         $this->emit('refreshLivewireDatatable');
