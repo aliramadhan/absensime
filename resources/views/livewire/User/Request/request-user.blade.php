@@ -3,10 +3,6 @@
         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
             {{ __('Working Request') }}
         </h2>
-        @if($isModal == 'Create')
-            @include('livewire.User.Request.create_request')
-        @endif
-
         <div class="flex gap-2" x-data="{ showModal: @entangle('isModal') }" @keydown.escape="showModal = false" x-cloak>
          <!--  <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button> -->
           <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Create Request</span></button>
