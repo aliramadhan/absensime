@@ -17,6 +17,7 @@ class AdminController extends Controller
     public function updateSchedule(Request $request, $id)
     {
     	$schedule = Schedule::find($id);
+        $user = User::find($request->employee_id);
         $shift = Shift::find($request->shift_id);
     	$cekSchedule = Schedule::where('employee_id',$request->employee_id)->whereDate('date',$request->date)->get();
     	if ($cekSchedule->count() <= 1) {
@@ -29,7 +30,7 @@ class AdminController extends Controller
     	else{
     		return redirect()->back()->with(['failure' => "Error, duplicate schedule at the same date."]);
     	}
-		return redirect()->back()->with(['success' => "Success, Schedule updated."]);
+		return redirect()->back()->with(['success' => "Success, Schedule of ".$user->name." at ".$schedule->date." updated to ".$request->date."."]);
     }
     public function destroySchedule($id)
     {
@@ -56,7 +57,7 @@ class AdminController extends Controller
         else{
             return redirect()->back()->with(['failure' => "Error, duplicate Shift name."]);
         }
-        return redirect()->back()->with(['success' => "Success, ".$shift->name." updated."]);
+        return redirect()->back()->with(['success' => "Success, Shift ".$shift->name." updated."]);
     }
     public function destroyShift($id)
     {

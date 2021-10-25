@@ -288,7 +288,30 @@ html,body,table{
 @livewireScripts
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
 </script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <x-livewire-alert::scripts />
+<script type="text/javascript">
+  @if(Session::has('success'))
+  Swal.fire({
+    titleText: "{{ session('success') }}",
+    icon: 'info',
+    position: 'center', 
+    timer: 3000,
+    toast: false,
+    showConfirmButton: false,
+  });
+  @endif
+  @if(Session::has('failure'))
+  Swal.fire({
+    titleText: "{{ session('failure') }}",
+    icon: 'error',
+    position: 'center', 
+    timer: 3000,
+    toast: false,
+    showConfirmButton: false,
+  });
+  @endif
+</script>
 <script >
   window.onload = function checkBtnNotif() {
 
