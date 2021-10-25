@@ -26,7 +26,7 @@ class DashboardUser extends Component
     //for activation with request
     public $typeRequest, $dateTo, $dateFrom, $descRequest, $historyLock;
     //for modal
-    public $modalPause = false, $modalStop = false;
+    public $modalPause = false, $modalStop = false, $modalStart = false;
 
     protected $listeners = [
         'set:latitude-longitude' => 'setLatitudeLongitude',
@@ -284,7 +284,12 @@ class DashboardUser extends Component
 
         $this->closeModal();
         $this->resetFields();
-        session()->flash('success', 'Overtime record started.');
+        $this->alert('info', 'Overtime record started.', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false, 
+            'text' =>  '', 
+        ]);
     }
     public function startOn()
     {
@@ -304,6 +309,13 @@ class DashboardUser extends Component
         $this->position = $position[0]['formatted_address'];
         $this->currentPosition = $position[2]['address_components'][1]->long_name.', '.$position[2]['address_components'][4]->long_name;
         */
+        #validate if tasking
+        if ($this->tasking) {
+            $this->validate([
+                'task' => 'required',
+                'task_desc' => 'required'
+            ]);
+        }
         //Update schedule and create task
         $this->now = Carbon::now();
         $shift = $this->schedule->shift;
@@ -337,7 +349,12 @@ class DashboardUser extends Component
         $this->task = null;
         $this->closeModal();
         $this->resetFields();
-        session()->flash('success', 'Record started.');
+        $this->alert('info', 'Record started.', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false, 
+            'text' =>  '', 
+        ]);
     }
     public function closeModal()
     {
@@ -571,7 +588,12 @@ class DashboardUser extends Component
             'current_position' => $this->currentPosition
         ]);
         $this->closeModal();
-        session()->flash('success', 'Record stoped.');
+        $this->alert('info', 'Record stoped', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false, 
+            'text' =>  '', 
+        ]);
       
     }
     public function continueOn()
@@ -607,12 +629,22 @@ class DashboardUser extends Component
             if ($isSchedule == null) {
                 $this->closeModal();
                 $this->resetFields();
-                return session()->flash('failure', "Can't submit request, no schedule found.");
+                $this->alert('error', 'Cannot submit request, no schedule found.', [
+                    'position' =>  'center', 
+                    'timer' =>  3000,
+                    'toast' =>  false, 
+                    'text' =>  '', 
+                ]);
             }
             if ($issetRequest != null) {
                 $this->closeModal();
                 $this->resetFields();
-                return session()->flash('failure', "Can't submit request, duplicate request.");
+                $this->alert('error', 'Cannot submit request, duplicate request.', [
+                    'position' =>  'center', 
+                    'timer' =>  3000,
+                    'toast' =>  false, 
+                    'text' =>  '', 
+                ]);
             }
             //create request after activation
             if ($isSchedule != null && $issetRequest == null) {
@@ -669,9 +701,14 @@ class DashboardUser extends Component
         $this->date = $this->dateTo = $this->dateFrom= null;
         $this->time_overtime = null;
         $this->is_cancel_order = null;
-        $this->emit('refreshLivewireDatatable');
-        session()->flash('success', 'Request successfully added.');
         $this->emit('RefreshComponents');
+        $this->emit('refreshLivewireDatatable');
+        $this->alert('info', 'Request successfully added.', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false, 
+            'text' =>  '', 
+        ]);
     }
     public function updateDescRequest()
     {
@@ -781,19 +818,34 @@ class DashboardUser extends Component
             for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                 $issetRequest = Request::whereDate('date',$startDate)->where('type',$this->type)->where('employee_id',$this->user->id)->where('status','Waiting')->first();
                 if ($issetRequest != null) {
-                    return session()->flash('failure', "Can't submit request, duplicate request.");
+                    $this->alert('error', 'Cannot submit request, duplicate request.', [
+                        'position' =>  'center', 
+                        'timer' =>  3000,
+                        'toast' =>  false, 
+                        'text' =>  '', 
+                    ]);
                     $this->closeModal();
                     $this->resetFields();
                 }
             }
         }
         if ($issetRequest != null && $this->type != 'Record Activation') {
-            return session()->flash('failure', "Can't submit request, duplicate request.");
+            $this->alert('error', 'Cannot submit request, duplicate request.', [
+                'position' =>  'center', 
+                'timer' =>  3000,
+                'toast' =>  false, 
+                'text' =>  '', 
+            ]);
             $this->closeModal();
             $this->resetFields();
         }
         elseif ($isSchedule == null && $cekLeave == null && $this->type != 'Record Activation') {
-            return session()->flash('failure', "Can't submit request, no schedule found.");
+            $this->alert('error', 'Cannot submit request, no schedule found.', [
+                'position' =>  'center', 
+                'timer' =>  3000,
+                'toast' =>  false, 
+                'text' =>  '', 
+            ]);
             $this->closeModal();
             $this->resetFields();
         }
@@ -822,7 +874,12 @@ class DashboardUser extends Component
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                         $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
                         if ($isSchedule == null) {
-                            session()->flash('failure', "Can't submit request, no schedule found at ".$startDate->format('d F Y').".");
+                            $this->alert('error', 'Cannot submit request, no schedule found at '.$startDate->format('d F Y').'.', [
+                                'position' =>  'center', 
+                                'timer' =>  3000,
+                                'toast' =>  false, 
+                                'text' =>  '', 
+                            ]);
                             continue;
                         }
                         else{
@@ -861,7 +918,12 @@ class DashboardUser extends Component
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                         $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
                         if ($isSchedule == null) {
-                            return session()->flash('failure', "Can't submit request, no schedule found at ".$startDate->format('d F Y').".");
+                            $this->alert('error', 'Cannot submit request, no schedule found at '.$startDate->format('d F Y').'.', [
+                                'position' =>  'center', 
+                                'timer' =>  3000,
+                                'toast' =>  false, 
+                                'text' =>  '', 
+                            ]);
                             continue;
                         }
                         else{
@@ -995,7 +1057,12 @@ class DashboardUser extends Component
                 elseif($this->type == 'Absent'){
                     //check if schedule previous is No Record
                     if ($isSchedule->status != 'No Record') {
-                        return session()->flash('failure', "Can't submit request, schedule status must be 'No Record'.");
+                        $this->alert('error', 'Cannot submit request, schedule status must be No Record.', [
+                            'position' =>  'center', 
+                            'timer' =>  3000,
+                            'toast' =>  false, 
+                            'text' =>  '', 
+                        ]);
                         $this->closeModal();
                         $this->resetFields();
                     }
@@ -1055,7 +1122,12 @@ class DashboardUser extends Component
                 }
             }
 
-            session()->flash('success', 'Request successfully added.');
+            $this->alert('info', 'Request successfully added.', [
+                'position' =>  'center', 
+                'timer' =>  3000,
+                'toast' =>  false, 
+                'text' =>  '', 
+            ]);
             $this->closeModal();
             $this->type = null;
             $this->desc = null;

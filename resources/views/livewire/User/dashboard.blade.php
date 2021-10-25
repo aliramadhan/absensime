@@ -28,45 +28,6 @@
         </div>
 
       </h2>
-      <div x-data="{ showNotif: false }">        
-      @if (session()->has('success'))
-        <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show="showNotif" x-transition:leave="transition duration-100 transform ease-in" x-transition:leave-end="opacity-0 scale-90" x-init="setTimeout(() => showNotif = false, 10000)">
-          <div class="m-auto">
-            <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
-              <div class="flex flex-row">
-                <div class="px-2">
-                  <svg width="24" height="24" viewBox="0 0 1792 1792" fill="#44C997" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M1299 813l-422 422q-19 19-45 19t-45-19l-294-294q-19-19-19-45t19-45l102-102q19-19 45-19t45 19l147 147 275-275q19-19 45-19t45 19l102 102q19 19 19 45t-19 45zm141 83q0-148-73-273t-198-198-273-73-273 73-198 198-73 273 73 273 198 198 273 73 273-73 198-198 73-273zm224 0q0 209-103 385.5t-279.5 279.5-385.5 103-385.5-103-279.5-279.5-103-385.5 103-385.5 279.5-279.5 385.5-103 385.5 103 279.5 279.5 103 385.5z"/>
-                  </svg>
-                </div>
-                <div class="ml-2 mr-6">
-                  <span class="font-semibold">Processing was Successful!</span>
-                  <span class="block text-gray-500">{{ session('success') }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      @endif
-
-      @if(session()->has('failure'))
-        <div class="flex fixed bottom-10 z-30" x-data="{ showNotif: true }" x-show.transition="showNotif" x-init="setTimeout(() => showNotif = false, 10000)">
-          <div class="m-auto">
-            <div class="bg-white rounded-lg border-gray-300 border p-3 shadow-xl ">
-              <div class="flex flex-row">
-                <div class="px-2">
-                  <i class="fas fa-times-circle text-red-600"></i>
-                </div>
-                <div class="ml-2 mr-6">
-                  <span class="font-semibold">Somethings wrong!</span>
-                  <span class="block text-gray-500">{{ session('failure') }}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>          
-      @endif
-      </div>
       <div class="flex gap-2" x-data="{ showModal: false }" @keydown.escape="showModal = false" x-cloak>
        <!--  <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button> -->
         <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Create Request</span></button>
@@ -698,7 +659,7 @@
               @if($schedule != null && $schedule->started_at != null)
               <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
               @if($schedule->status == 'Working')
-              <div @if($schedule != null && ($schedule->status == 'Working' || $schedule->status == 'Not sign in')) wire:poll.keep-alive="syncTime" @elseif($user->is_active == 0) wire:poll.keep-alive="syncTime" @endif class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+              <div class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
                 @if($schedule != null && $schedule->status != 'Not sign in')
                   @if($time_in->lessThan(Carbon\Carbon::parse($schedule->started_at)) && Carbon\Carbon::parse($schedule->started_at)->diffInMinutes($time_in) > 60  && $schedule->note == null)
                     @include('livewire.User.show-late')
@@ -808,7 +769,7 @@
             @endif
             @endif
               
-             <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full">
+             <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full" wire:poll.keep-alive="syncTime" >
               
               @if($schedule != null && $user->is_active != 1 && $schedule->status == 'Done')
              
@@ -955,11 +916,9 @@
                             </div>
                           </div>   
                           @endif
-                          <div class="border md:shadow-md rounded-lg text-white px-1 md:px-2 py-2">
                             <p class="text-xs md:text-sm text-gray-700 text-left">
                               Are you sure you want to stop recording?<br> This action cannot be undone.
                             </p>
-                          </div>
                         </div>
                       </div>
 
@@ -983,16 +942,65 @@
                 <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md" wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal? </span>
               </label>
               @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1 )
-              <button @if($tasking) wire:click="showStart()" @else wire:click="startOn()" @endif class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none " wire:loading.remove wire:target="startOn">
-                <i class="far fa-clock" ></i>
-                <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="startOn"></i> Start Record</button>             
-              <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none "  wire:loading wire:target="startOn" readonly>               
-                <i class="fas fa-circle-notch animate-spin"></i> Starting Record..
-              </button> 
+              <div class="grid grid-cols-2 items-center gap-4" x-data="{ showModalStart: @entangle('modalStart'), showTasking: @entangle('tasking')}" @keydown.escape="showModalStart = false" x-cloak>
+                <!-- Start button -->
+                <button x-show="showTasking" @click="showModalStart = true" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none " wire:loading.remove wire:target="startOn">
+                  <i class="far fa-clock"></i>
+                  <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="startOn"></i> Start Record</button> 
+                <!-- Start button for tasking -->
+                <button x-show="!showTasking" @click="$wire.startOn()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none " wire:loading.remove wire:target="startOn">
+                  <i class="far fa-clock"></i>
+                  <i class="fas fa-circle-notch animate-spin" wire:loading wire:target="startOn"></i> Start Record</button>             
+                <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none "  wire:loading wire:target="startOn" readonly>               
+                  <i class="fas fa-circle-notch animate-spin"></i> Starting Record..
+                </button> 
 
-              <label class="flex items-center mt-3 w-auto">
-                <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal?    </span>
-              </label>
+                <label class="flex items-center mt-3 w-auto">
+                  <input type="checkbox" class="form-checkbox h-5 w-5 text-gray-600 rounded-md"  wire:model="tasking" @if($tasking) wire:click="$set('tasking',false)"  @else wire:click="$set('tasking',true)" @endif><span class="ml-2 text-gray-700"> Write a journal?    </span>
+                </label>
+                <!-- MODAL PAUSE -->
+                <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModalStart" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showModalStart }">
+                <!--Dialog-->
+                <div class="absolute bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModalStart" @click.away="showModalStart = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
+
+                    <!--Title-->
+                    <div class="flex justify-between items-center px-5 border-b pb-2">
+                      <p class="text-2xl font-semibold text-gray-700">Start Recording Form</p>
+                      <div class="cursor-pointer z-50" @click="showModalStart = false">
+                        <svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18">
+                          <path d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z"></path>
+                        </svg>
+                      </div>
+                    </div>
+
+                    <!-- content -->
+
+                      <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
+                        <div class="">
+                          <div class="mb-4">
+                              <label for="formTask" class="block text-gray-500 text-sm font-semibold mb-2">Task</label>
+                              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTask" wire:model="task">
+                              @error('task') <span class="text-red-500">{{ $message }}</span>@enderror
+                          </div>
+                          <div class="mb-4">
+                              <label for="formTaskDesc" class="block text-gray-500 text-sm font-semibold mb-2">Description</label>
+                              <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTaskDesc" wire:model="task_desc">
+                              @error('task_desc') <span class="text-red-500">{{ $message }}</span>@enderror
+                          </div>
+                        </div>
+                      </div>
+
+                      <!--Footer-->
+                      <div class="flex md:flex-row flex-col justify-end py-3 bg-gray-100 space-x-0 space-y-2 md:space-y-0 md:space-x-4 px-4  items-center">
+                        <button class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-indigo-600 cursor-pointer font-semibold tracking-wider border border-gray-400 rounded-lg bg-white" @click="showModalStart = false">Cancel</button>
+                        <button class="bg-blue-500 py-2 px-5 rounded-lg md:w-min w-full text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.startOn()" wire:loading.remove wire:target="startOn()">Start</button>
+                        <button class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="startOn()" readonly>Processing..</button>
+                      </div>
+
+                  </div>
+                  <!--/Dialog -->
+                </div><!-- /Overlay --> 
+               </div>
               @elseif($schedule != null && $schedule->status == 'Not sign in' && auth()->user()->is_active == 1)
               <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 px-4 py-4 xl:text-2xl lg:text-xl text-2xl lg:font-base xl:font-semibold tracking-wider px-6 w-full text-white rounded-xl shadow-xl focus:outline-none "><i class="far fa-clock"></i> Not ready to Record</button>             
               <label class="flex items-center mt-3 w-auto">
