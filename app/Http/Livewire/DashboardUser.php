@@ -424,11 +424,12 @@ class DashboardUser extends Component
         ]);
         $this->closeModal();
         $this->resetFields();
-        $this->alert('info', 'Record Paused', [
-            'position' =>  'center', 
-            'timer' =>  3000,  
-            'toast' =>  false, 
+        $this->alert('success', 'Recording Paused', [
+            'position' =>  'bottom-start', 
+            'timer' =>  5000,  
+            'toast' =>  true, 
             'text' =>  '', 
+            'timerProgressBar' => true,
             'confirmButtonText' =>  'Ok', 
             'showConfirmButton' =>  false, 
         ]);
@@ -477,13 +478,14 @@ class DashboardUser extends Component
 
         $this->closeModal();
         $this->resetFields();
-        $this->alert('info', 'Record resumed', [
-            'position' =>  'center', 
-            'timer' =>  3000,
-            'toast' =>  false, 
+        $this->alert('success', 'Recording resumed', [
+            'position' =>  'bottom-start', 
+            'timer' =>  5000,
+            'toast' =>  true, 
+            'timerProgressBar' => true,
             'text' =>  '', 
             'confirmButtonText' =>  'Ok', 
-            'showConfirmButton' =>  false, 
+            'showConfirmButton' =>  false,             
         ]);
         #session()->flash('success', 'Record resumed.');
     }

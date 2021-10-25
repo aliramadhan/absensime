@@ -294,7 +294,7 @@ html,body,table{
   @if(Session::has('success'))
   Swal.fire({
     titleText: "{{ session('success') }}",
-    icon: 'info',
+    icon: 'success',
     position: 'center', 
     timer: 3000,
     toast: false,
