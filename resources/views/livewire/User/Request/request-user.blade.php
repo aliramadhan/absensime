@@ -23,8 +23,7 @@
               <form>
                 <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
                   <div  class="px-3 text-blue-400  items-center text-center"> 
-                    <i class="fas fa-circle-notch animate-spin m-auto fa-2x" wire:loading wire:target="type"></i> 
-                    
+                    <i class="fas fa-circle-notch animate-spin m-auto fa-2x" wire:loading wire:target="type"></i>                     
                   </div>
                   <div class=""  wire:loading.remove wire:target="type">
                     <div class="mb-4">
