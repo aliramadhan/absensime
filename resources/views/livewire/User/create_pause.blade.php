@@ -15,7 +15,7 @@
                 <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                    <div wire:loading wire:target="type_pause" class="px-3 text-base md:text-lg text-gray-700"> 
                       <i class="fas fa-circle-notch animate-spin"></i> 
-                      <label class="animate-pulse"">Building form.. </label> 
+                      <label class="animate-pulse">Building form.. </label> 
                     </div>
                     <div class="" wire:loading.remove wire:target="type_pause">
                         <div class="mb-4">

@@ -32,7 +32,7 @@
        <!--  <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button> -->
         <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Create Request</span></button>
         
-        <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-30 flex items-center justify-center': showModal }">
+        <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-50 flex items-center justify-center': showModal }">
           <!--Dialog-->
           <div class="bg-white mx-auto rounded shadow-lg pt-4 text-left w-11/12 md:w-8/12 lg:w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
             <!--Title-->
@@ -49,7 +49,7 @@
               <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
                 <div wire:loading wire:target="type" class="px-3 text-base md:text-lg text-gray-700"> 
                   <i class="fas fa-circle-notch animate-spin"></i> 
-                  <label class="animate-pulse"">Building form.. </label> 
+                  <label class="animate-pulse">Loading form.. </label> 
                 </div>
                 <div class="" wire:loading.remove wire:target="type">
                   <div class="mb-4">
@@ -76,169 +76,169 @@
                     @error('type') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                   </div>
                   @if($type == 'Mandatory')
-                    <div class="mb-4">
-                      <label for="formSetUser" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Select Employee </label>
-                      <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formSetUser" wire:model="setUser">
-                        <option hidden>Choose here</option>
-                          @foreach($users as $thisUser)
-                            <option value="{{$thisUser->id}}" >{{$thisUser->name}}</option>
-                          @endforeach
-                      </select>
-                      @error('setUser') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
-                        <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                        @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="formNewShift" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">New Shift </label>
-                        <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
-                            <option hidden>Choose here</option>
-                            @foreach($shifts as $listShift)
-                                <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
+                      <div class="mb-4">
+                        <label for="formSetUser" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Select Employee </label>
+                        <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formSetUser" wire:model="setUser">
+                          <option hidden>Choose here</option>
+                            @foreach($users as $thisUser)
+                              <option value="{{$thisUser->id}}" >{{$thisUser->name}}</option>
                             @endforeach
                         </select>
-                        @error('newShift') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                        <label for="formNewShift" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Change Catering Shift </label>
-                        <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newCatering">
-                            <option hidden>Choose here</option>
-                            <option>Do Nothing!</option>
-                            <option>Cancel Order</option>
-                            <option>Pagi</option>
-                            <option>Siang</option>
-                        </select>
-                        @error('newCatering') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                  @elseif($leaves->contains('name',$type) || $type == 'Sick' || $type == 'Permission')
-                    <div class="mb-4 gap-4 grid grid-cols-1 md:grid-cols-2">
-                      <div class="flex-auto">
-                        <label for="formStartRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">From</label>
-                        <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
-                        @error('startRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        @error('setUser') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                       </div>
-                      <div class="flex-auto">
+                      <div class="mb-4">
+                          <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
+                          <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}">
+                          @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                      <div class="mb-4">
+                          <label for="formNewShift" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">New Shift </label>
+                          <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
+                              <option hidden>Choose here</option>
+                              @foreach($shifts as $listShift)
+                                  <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
+                              @endforeach
+                          </select>
+                          @error('newShift') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                      <div class="mb-4">
+                          <label for="formNewCatering" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Change Catering Shift </label>
+                          <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewCatering" wire:model="newCatering">
+                              <option hidden>Choose here</option>
+                              <option>Do Nothing!</option>
+                              <option>Cancel Order</option>
+                              <option>Pagi</option>
+                              <option>Siang</option>
+                          </select>
+                          @error('newCatering') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                    @elseif($leaves->contains('name',$type) || $type == 'Sick' || $type == 'Permission')
+                      <div class="mb-4 gap-4 grid grid-cols-1 md:grid-cols-2">
+                        <div class="flex-auto">
+                          <label for="formStartRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">From</label>
+                          <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
+                          @error('startRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="flex-auto">
+                            <label for="formStopRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">To</label>
+                            <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate">
+                            @error('stopRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        </div>
+                      </div>
+                      <div class="mb-4">
+                        <label for="formDesc" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Reason </label>
+                        <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here...">
+                        @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                      <div class="mb-4 flex items-center gap-2">
+                        <label for="formIsCancelOrder" class="block text-gray-500 text-sm tracking-wide font-semibold">Cancel your <span class="text-orange-500">catering</span> order ?</label>
+                        <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
+                        @error('is_cancel_order') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                    @elseif($type == 'Remote')
+                      <div class="mb-4 grid md:grid-cols-2 grid-cols-1 gap-4">
+                        <div class="flex-auto">
+                          <label for="formStartRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">From</label>
+                          <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
+                          @error('startRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="flex-auto">
                           <label for="formStopRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">To</label>
                           <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate">
                           @error('stopRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        </div>
                       </div>
-                    </div>
-                    <div class="mb-4">
-                      <label for="formDesc" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Reason </label>
-                      <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here...">
-                      @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4 flex items-center gap-2">
-                      <label for="formIsCancelOrder" class="block text-gray-500 text-sm tracking-wide font-semibold">Cancel your <span class="text-orange-500">catering</span> order ?</label>
-                      <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
-                      @error('is_cancel_order') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                  @elseif($type == 'Remote')
-                    <div class="mb-4 grid md:grid-cols-2 grid-cols-1 gap-4">
-                      <div class="flex-auto">
-                        <label for="formStartRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">From</label>
-                        <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartRequestDate" wire:model="startRequestDate" >
-                        @error('startRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      <div class="mb-4">
+                        <label for="formLocation" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Where? </label>
+                        <select id="formLocation" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
+                          <option hidden>Choose here</option>                             
+                          <option>Malang</option>
+                          <option>Luar Malang</option>                                
+                        </select>
                       </div>
-                      <div class="flex-auto">
-                        <label for="formStopRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">To</label>
-                        <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopRequestDate" wire:model="stopRequestDate">
-                        @error('stopRequestDate') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      <div class="mb-4 flex items-center gap-2">
+                        <label for="formIsCancelOrder" class="block text-gray-500 text-sm tracking-wide font-semibold">Cancel your <span class="text-orange-500">catering</span> order ?</label>
+                        <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
+                        @error('is_cancel_order') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                       </div>
-                    </div>
-                    <div class="mb-4">
-                      <label for="formNewShift" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Where? </label>
-                      <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc">
-                        <option hidden>Choose here</option>                             
-                        <option>Malang</option>
-                        <option>Luar Malang</option>                                
-                      </select>
-                    </div>
-                    <div class="mb-4 flex items-center gap-2">
-                      <label for="formIsCancelOrder" class="block text-gray-500 text-sm tracking-wide font-semibold">Cancel your <span class="text-orange-500">catering</span> order ?</label>
-                      <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
-                      @error('is_cancel_order') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                  @elseif($type == 'Absent')
-                    <div class="mb-4">
-                      <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
-                      <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                      @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                      <label for="formLocation" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Working at (Tracking option)</label>
-                      <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="locationRe">
-                          <option hidden>Choose one</option>
-                          <option value="WFO">Work From Office</option>
-                          <option value="WFH">Work From Home</option>
-                          <option value="Business Travel">Business Travel</option>
-                          <option>Remote</option>
-                      </select>
-                      @error('locationRe') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Started at </label>
-                        <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." wire:model="started_at">
-                        @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                    @elseif($type == 'Absent')
+                      <div class="mb-4">
+                        <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
+                        <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @endif>
+                        @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                       </div>
-                      <div>
-                        <label for="formStopedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Stoped at </label>
-                        <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopedAt" placeholder="Fill in here..." wire:model="stoped_at">
-                        @error('stoped_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      <div class="mb-4">
+                        <label for="formLocation" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Working at (Tracking option)</label>
+                        <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="locationRe">
+                            <option hidden>Choose one</option>
+                            <option value="WFO">Work From Office</option>
+                            <option value="WFH">Work From Home</option>
+                            <option value="Business Travel">Business Travel</option>
+                            <option>Remote</option>
+                        </select>
+                        @error('locationRe') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                       </div>
-                    </div>
-                    <div class="mb-4">
-                      <label for="formDesc" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Reason you forgot to record </label>
-                      <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc" placeholder="isi Alasan.">
-                      @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                  @elseif($type == 'Overtime')
-                    <div class="mb-4">
-                      <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
-                      <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                      @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                      <label for="formDesc" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Reason </label>
-                      <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here...">
-                      @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                      <label for="formTime" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Duration (minute) :</label>
-                      <input type="number" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTime" wire:model="time_overtime" placeholder="duration in minutes">
-                      @error('time_overtime') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                  @elseif($type == 'Change Shift')
-                    <div class="mb-4">
-                      <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
-                      <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
-                      @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                      <label for="formNewShift" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">New Shift </label>
-                      <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
-                        <option hidden>Choose here</option>
-                        @foreach($shifts as $listShift)
-                          <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
-                        @endforeach
-                      </select>
-                      @error('newShift') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                    <div class="mb-4">
-                      <label for="formNewShift" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Change Catering Shift </label>
-                      <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newCatering">
-                        <option hidden>Choose here</option>
-                        <option>Do Nothing!</option>
-                        <option>Cancel Order</option>
-                        <option>Pagi</option>
-                        <option>Siang</option>
-                      </select>
-                      @error('newCatering') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>
-                  @endif
+                      <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Started at </label>
+                          <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." wire:model="started_at">
+                          @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        </div>
+                        <div>
+                          <label for="formStopedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Stoped at </label>
+                          <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopedAt" placeholder="Fill in here..." wire:model="stoped_at">
+                          @error('stoped_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                        </div>
+                      </div>
+                      <div class="mb-4">
+                        <label for="formDesc" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Reason you forgot to record </label>
+                        <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc" placeholder="isi Alasan.">
+                        @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                    @elseif($type == 'Overtime')
+                      <div class="mb-4">
+                        <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
+                        <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date">
+                        @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                      <div class="mb-4">
+                        <label for="formDesc" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Reason </label>
+                        <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here...">
+                        @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                      <div class="mb-4">
+                        <label for="formTime" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Duration (minute) :</label>
+                        <input type="number" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTime" wire:model="time_overtime" placeholder="duration in minutes">
+                        @error('time_overtime') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                    @elseif($type == 'Change Shift')
+                      <div class="mb-4">
+                        <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
+                        <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
+                        @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                      <div class="mb-4">
+                        <label for="formNewShift" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">New Shift </label>
+                        <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewShift" wire:model="newShift">
+                          <option hidden>Choose here</option>
+                          @foreach($shifts as $listShift)
+                            <option value="{{$listShift->id}}" >{{$listShift->name}}</option>
+                          @endforeach
+                        </select>
+                        @error('newShift') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                      <div class="mb-4">
+                        <label for="formNewCatering" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Change Catering Shift </label>
+                        <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNewCatering" wire:model="newCatering">
+                          <option hidden>Choose here</option>
+                          <option>Do Nothing!</option>
+                          <option>Cancel Order</option>
+                          <option>Pagi</option>
+                          <option>Siang</option>
+                        </select>
+                        @error('newCatering') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                      </div>
+                    @endif
                   <!--
                   <div class="mb-4">
                       <label for="forDate" class="block text-gray-500 text-sm font-bold mb-2">Date:</label>
@@ -310,13 +310,13 @@
 
                         <div class="flex items-center justify-between py-2 px-2">
                           <div>
-                            <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-800 "></span>
+                            <span x-text="MONTH_NAMES[month]" class="text-lg font-bold text-gray-700 "></span>
                             <span x-text="year" class="ml-1 text-lg text-gray-600 font-normal"></span>
                           </div>
                           <div class="border rounded-lg px-1" style="padding-top: 2px;">
                             <button 
                             type="button"
-                            class="leading-none focus:outline-none  focus:ring focus:border-blue-200 rounded-lg transition ease-in-out duration-100 inline-flex cursor-pointer hover:bg-gray-200 p-1 items-center" 
+                            class="leading-none focus:outline-none  focus:ring focus:border-blue-200 rounded-lg transition ease-in-out duration-100 inline-flex  hover:bg-gray-200 p-1 items-center" 
                             :class="{'cursor-not-allowed opacity-25': month == 0 }"
                             :disabled="month == 0 ? true : false"
                             @click="month--; getNoOfDays()">
@@ -327,7 +327,7 @@
                           <div class="border-r inline-flex h-4"></div>    
                           <button 
                           type="button"
-                          class="leading-none focus:outline-none  focus:ring focus:border-blue-200 rounded-lg transition ease-in-out duration-100 inline-flex items-center cursor-pointer hover:bg-gray-200 p-1" 
+                          class="leading-none focus:outline-none  focus:ring focus:border-blue-200 rounded-lg transition ease-in-out duration-100 inline-flex items-center  hover:bg-gray-200 p-1" 
                           :class="{'cursor-not-allowed opacity-25': month == 11 }"
                           :disabled="month == 11 ? true : false"
                           @click="month++; getNoOfDays()">
@@ -344,7 +344,7 @@
                           <div style="width: 14.1%" class="px-2 py-2 ">
                             <div
                             x-text="day" 
-                            class=" text-sm uppercase tracking-wide font-bold text-center mb-10"></div>
+                            class=" text-sm uppercase tracking-wide font-bold text-center mb-10 text-gray-500"></div>
                           </div>
                         </template>
                       </div>
@@ -568,7 +568,7 @@
 
                         <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-4 md:-ml-2">
                            <div class="bg-cover bg-no-repeat bg-center w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
-                         <label class="border-r pr-2"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
+                         <label class="border-r pr-2 text-gray-600"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
                           <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
                             <label class="leading-none text-base hidden md:block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d F')}} @else {{$now->format('d F')}} @endif</label>
                              <label class="leading-none text-base  md:hidden block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d M')}} @else {{$now->format('d M')}} @endif</label>
@@ -828,7 +828,7 @@
                       <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
                          <div wire:loading wire:target="type_pause" class="px-3 text-base md:text-lg text-gray-700"> 
                           <i class="fas fa-circle-notch animate-spin"></i> 
-                          <label class="animate-pulse"">Building form.. </label> 
+                          <label class="animate-pulse">Loading form.. </label> 
                         </div>
                         <div class=""wire:loading.remove wire:target="type_pause">
                           <div class="mb-4">
