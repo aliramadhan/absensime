@@ -106,14 +106,6 @@
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="edit{{$id}}-backdrop"></div>
 <div class="hidden opacity-25 fixed inset-0 z-40 bg-black" id="delete{{$id}}-backdrop"></div>
 <!-- iki tambahan -->
-  <script type="text/javascript">
-    function toggleModal(modalID){
-      document.getElementById(modalID).classList.toggle("hidden");
-      document.getElementById(modalID + "-backdrop").classList.toggle("hidden");
-      document.getElementById(modalID).classList.toggle("flex");
-      document.getElementById(modalID + "-backdrop").classList.toggle("flex");
-    }
-  </script>
 
    <!--  @php  
    if($id==count($this->results)){ 
