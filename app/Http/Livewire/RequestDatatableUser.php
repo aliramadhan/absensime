@@ -278,7 +278,7 @@ class RequestDatatableUser extends LivewireDatatable
     		$request->save();
     	}
         $this->emit('refreshLivewireDatatable');
-        $this->alert('info', 'Request '.$request->type.' from '.$user->name.' accepted.', [
+        $this->alert('info', 'Request '.$request->type.' from '.$user->name.' '.$action.'ed.', [
             'position' =>  'center', 
             'timer' =>  3000,
             'toast' =>  false, 
