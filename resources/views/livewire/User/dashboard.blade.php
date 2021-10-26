@@ -30,7 +30,7 @@
       </h2>
       <div class="flex gap-2" x-data="{ showModal: false }" @keydown.escape="showModal = false" x-cloak>
        <!--  <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button> -->
-        <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Create Request</span></button>
+        <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-3 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-full md:rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Create Request</span></button>
         
         <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-50 flex items-center justify-center': showModal }">
           <!--Dialog-->
@@ -47,10 +47,9 @@
             <!-- content -->
             <form>
               <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
-                <div wire:loading wire:target="type" class="px-3 text-base md:text-lg text-gray-700"> 
-                  <i class="fas fa-circle-notch animate-spin"></i> 
-                  <label class="animate-pulse">Loading form.. </label> 
-                </div>
+               <div  class="px-3 text-blue-400 items-center text-center"> 
+                <i class="fas fa-circle-notch animate-spin m-auto fa-2x" wire:loading wire:target="type"></i>                     
+              </div>
                 <div class="" wire:loading.remove wire:target="type">
                   <div class="mb-4">
                     <label for="forEmployee" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Request Type</label>
@@ -1203,7 +1202,7 @@
                                return $item->status == 'Working' || $item->status == 'Done' || $item->status == 'Rest';
                             })->count()}}
                          </h2>
-                         <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Attend</h2>
+                         <h2 class="text-sm md:text-base border-t border-gray-300 text-gray-400 font-base">Attend</h2>
                        </div>
                         <div class="flex flex-col text-xl text-left text-gray-800 leading-none font-semibold">
                          <h2 >
@@ -1211,7 +1210,7 @@
                                return $item->status != 'Working' && $item->status != 'Done' && $item->status != 'Rest';
                             })->count()}}
                          </h2>
-                         <h2 class="text-sm md:text-base border-t-2 border-gray-500 text-gray-500 font-base">Not Present</h2>
+                         <h2 class="text-sm md:text-base border-t border-gray-300 text-gray-400 font-base">Not Present</h2>
                        </div>
                        <div class="flex flex-col text-sm text-center text-gray-800 items-center relative weekly-trigger cursor-pointer">
                         <h2 class="text-lg text-orange-500 font-base font-semibold leading-none">

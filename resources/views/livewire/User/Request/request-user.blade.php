@@ -7,7 +7,7 @@
          <!--  <button wire:click="showCreateRequest()" class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-5 px-4 py-4 md:py-2 text-lg font-semibold tracking-wider text-white md:rounded-xl rounded-full shadow-md focus:outline-none items-center flex-row gap-3 flex"><i class="fas fa-paper-plane" ></i><span class="hidden md:block">Create Request</span></button> -->
           <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Create Request</span></button>
           
-          <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-30 flex items-center justify-center': showModal }">
+          <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-50 flex items-center justify-center': showModal }">
             <!--Dialog-->
             <div class="bg-white mx-auto rounded shadow-lg pt-4 text-left w-11/12 md:w-8/12 lg:w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
               <!--Title-->
@@ -22,11 +22,11 @@
               <!-- content -->
               <form>
                 <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
-                  <div wire:loading wire:target="type" class="px-3 text-base md:text-lg text-gray-700"> 
-                    <i class="fas fa-circle-notch animate-spin"></i> 
-                    <label class="animate-pulse"">Building form.. </label> 
+                  <div  class="px-3 text-blue-400  items-center text-center"> 
+                    <i class="fas fa-circle-notch animate-spin m-auto fa-2x" wire:loading wire:target="type"></i> 
+                    
                   </div>
-                  <div class="" wire:loading.remove wire:target="type">
+                  <div class=""  wire:loading.remove wire:target="type">
                     <div class="mb-4">
                       <label for="forEmployee" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Request Type</label>
                       <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="type" wire:change="updateDescRequest()">
@@ -50,7 +50,7 @@
                       </select>
                       @error('type') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                     </div>
-                    @if($type == 'Mandatory')
+                    @if($type == 'Mandatory' && $type != 'Overtime' && $type != 'Sick')
                       <div class="mb-4">
                         <label for="formSetUser" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Select Employee </label>
                         <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formSetUser" wire:model="setUser">
@@ -87,7 +87,7 @@
                           </select>
                           @error('newCatering') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                       </div>
-                    @elseif($leaves->contains('name',$type) || $type == 'Sick' || $type == 'Permission')
+                    @elseif(($leaves->contains('name',$type) && $type != 'Mandatory')  || ($type == 'Sick' && $type != 'Mandatory' ) || $type == 'Permission')
                       <div class="mb-4 gap-4 grid grid-cols-1 md:grid-cols-2">
                         <div class="flex-auto">
                           <label for="formStartRequestDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">From</label>
@@ -110,6 +110,7 @@
                         <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
                         @error('is_cancel_order') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                       </div>
+
                     @elseif($type == 'Remote')
                       <div class="mb-4 grid md:grid-cols-2 grid-cols-1 gap-4">
                         <div class="flex-auto">
@@ -170,7 +171,7 @@
                         <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" wire:model="desc" id="formDesc" placeholder="isi Alasan.">
                         @error('desc') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                       </div>
-                    @elseif($type == 'Overtime')
+                    @elseif($type == 'Overtime' && $type != 'Mandatory')
                       <div class="mb-4">
                         <label for="formDate" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Date </label>
                         <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date" @if($type == 'Change Shift' && $schedule != null) @if($schedule->status == 'Not sign in') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @else min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif @elseif($type == 'Excused') min="{{Carbon\Carbon::now()->format('Y-m-d')}}" @elseif($type == 'Absent') max="{{Carbon\Carbon::now()->subDay(1)->format('Y-m-d')}}" @elseif($type != 'Overtime')min="{{Carbon\Carbon::now()->addDay()->format('Y-m-d')}}" @endif>
