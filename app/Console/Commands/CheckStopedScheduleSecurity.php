@@ -9,6 +9,8 @@ use App\Models\User;
 use App\Models\HistoryLock;
 use App\Mail\SendNotifUserNonActived;
 use Illuminate\Support\Facades\Mail;
+use App\Notifications\NotifWithSlack;
+use Illuminate\Support\Facades\Notification;
 
 class CheckStopedScheduleSecurity extends Command
 {
@@ -77,6 +79,9 @@ class CheckStopedScheduleSecurity extends Command
                 //do something
             }
         }
+        
+        $message = "CheckedStoped Security Berhasil. \n<https://attendance.pahlawandesignstudio.com/|*click me!*>";
+        Notification::route('slack', env('SLACK_HOOK'))->notify(new NotifWithSlack($message, 'U0115H2EE4F'));
         if (count($data) > 0) {
             Mail::to('aliachmadramadhan@gmail.com')->send(new SendNotifUserNonActived($data));
             Mail::to('fajarfaz@gmail.com')->send(new SendNotifUserNonActived($data));

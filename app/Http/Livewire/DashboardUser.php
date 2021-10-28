@@ -874,13 +874,12 @@ class DashboardUser extends Component
                     for ($i=0; $i <= $limitDays; $i++, $startDate->addDay()) { 
                         $isSchedule = Schedule::whereDate('date',$startDate)->where('employee_id',$this->user->id)->first();
                         if ($isSchedule == null) {
-                            $this->alert('error', 'Cannot submit request, no schedule found at '.$startDate->format('d F Y').'.', [
+                            return $this->alert('error', 'Cannot submit request, no schedule found at '.$startDate->format('d F Y').'.', [
                                 'position' =>  'center', 
                                 'timer' =>  3000,
                                 'toast' =>  false, 
                                 'text' =>  '', 
                             ]);
-                            continue;
                         }
                         else{
                             $request = Request::create([
