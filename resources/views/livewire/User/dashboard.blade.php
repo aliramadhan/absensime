@@ -387,6 +387,7 @@
                 schedules: {!! json_encode(App\Models\Schedule::where('employee_id',$user->id)->get()->toArray()) !!},
                 blankdays: [],
                 days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                today : '',
 
                 events: [
                 {
@@ -438,6 +439,7 @@
 
                 initDate() {
                   let today = new Date();
+                  this.today = new Date();
                   this.month = today.getMonth();
                   this.year = today.getFullYear();
                   this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
@@ -506,6 +508,9 @@
                     })
                     if (schedule != null) {
                       daysArray.push([i,schedule.shift_name]);
+                    }
+                    else if(schedule == null && this.today.getMonth() < this.month){
+                      daysArray.push([i,'soon']);
                     }
                     else{
                       daysArray.push([i,'libur']);
