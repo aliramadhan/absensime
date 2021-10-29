@@ -911,7 +911,7 @@
 
                       <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
                         <div class="">
-                          @if($now < Carbon\Carbon::parse($shift->time_out))  
+                          @if(($schedule->timer + $schedule->workhour) < $limit_workhour)  
                           <div class="flex-col space-y-1 text-left">      
                             <label class="text-red-600 tracking-wide text-xs md:text-sm "><label class="font-semibold">Warning</label>: Stopped recording before <br class="sm:hidden inline-block">  shift over</label>
                             <div class="flex space-x-2 text-gray-700 items-center pr-4 ">
