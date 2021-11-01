@@ -361,7 +361,16 @@
                           <div class="relative flex flex-col  inline-flex w-full h-full  items-center justify-center cursor-pointer text-center leading-none  transition ease-in-out duration-300 m-auto weekly-trigger"
                           :class="{'bg-blue-400 text-white border-white hover:bg-blue-500': isToday(date[0]) == true, 'hover:bg-gray-200 text-gray-600 ': isToday(date[0]) == false }">
                           <div class="weekly-target absolute inset-0 bg-white text-base">
-                           <i class="fas fa-check-circle my-4 shadow-md text-green-500 m-auto fa-lg"></i>                        
+                            <!-- if done -->
+                            <i x-show="date[2] === 3" class="fas fa-check-circle my-4 shadow-md text-green-500 m-auto fa-lg"></i>
+                            <!-- if no record -->
+                            <i x-show="date[2] === 1" class="w-4 fas fa-times-circle mr-1 text-red-500"></i>
+                            <!-- if coming -->
+                            <i x-show="date[2] === 5" class="w-4 fas fa-walking mr-1 text-indigo-500"></i>
+                            <!-- if pause -->
+                            <i x-show="date[2] === 6" class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>
+                            <!-- if permission -->
+                            <i x-show="date[2] === 4" class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>
                          </div>
                          <div
                          @click="showEventModal(date)" class="text-lg font-semibold border-b border-dashed w-6 text-center " :class="isToday(date[0]) ? 'border-white':'border-gray-500'"
@@ -510,14 +519,42 @@
                     var schedule = this.schedules.find(function(item){
                       return item.date == dateString
                     })
+                    /*
+                      0 = libur
+                      1 = Absent
+                      2 = Today
+                      3 = Done
+                      4 = Permission
+                      5 = Coming
+                      6 = Pause
+
+
+                    */
                     if (schedule != null) {
-                      daysArray.push([i,schedule.shift_name]);
+                      if (schedule.status == 'No Record') {
+                        daysArray.push([i,schedule.shift_name,1]);
+                      }
+                      else if (schedule.status == 'Pause') {
+                        daysArray.push([i,schedule.shift_name,6]);
+                      }
+                      else if(this.isToday(i)){
+                        daysArray.push([i,schedule.shift_name,2]);
+                      }
+                      else if(schedule.status == 'Done'){
+                        daysArray.push([i,schedule.shift_name,3]);
+                      }
+                      else if(schedule.status != 'Working' && schedule.status != 'Pause' && schedule.status != 'Remote'){
+                        daysArray.push([i,schedule.shift_name,4]);
+                      }
+                      else{
+                        daysArray.push([i,schedule.shift_name],5);
+                      }
                     }
                     else if(schedule == null && this.today.getMonth() < this.month){
-                      daysArray.push([i,'soon']);
+                      daysArray.push([i,'soon',0]);
                     }
                     else{
-                      daysArray.push([i,'libur']);
+                      daysArray.push([i,'libur',0]);
                     }
                   }
 
@@ -537,7 +574,6 @@
           <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
           <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
         </div>
-
       </div>
 
       <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden lg:block hidden">
