@@ -142,7 +142,7 @@
           <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>
             <div class="flex"> 
               {{$schedule->shift_name}}
-              {{Carbon\Carbon::parse($shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($shift->time_out)->format('H.i')}}
+              {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}}
             </div>
           </td>
           @elseif($schedule != null && $schedule->status == 'No Record')
