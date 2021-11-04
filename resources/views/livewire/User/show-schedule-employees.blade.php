@@ -114,7 +114,7 @@
         <tr >
           <th  class="p-2  truncate text-gray-700 bg-gray-100 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0  z-20 ">
             <div class="truncate md:w-full w-28 flex flex-rows space-x-2  items-center">
-             <img src="https://scontent-sin6-1.xx.fbcdn.net/v/t45.5328-4/p720x720/247391060_4824050717614817_4148056931220408898_n.png?_nc_cat=107&ccb=1-5&_nc_sid=c48759&_nc_eui2=AeEflAsCLjUJxfUia1kuGrM_v1qZWYJ0_hW_WplZgnT-FSbgjgRf_LuqTMyv1BySJ1_eL5IBwwgZgpT1tYFDFDXc&_nc_ohc=qwWZ26PAR28AX8ww_ay&_nc_ht=scontent-sin6-1.xx&oh=85091efafcf6d3da15a60a3df4673c58&oe=6184A563" class="w-8 h-8 rounded-full"> 
+             <img src="{{$user->profile_photo_url}}" class="w-8 h-8 rounded-full"> 
              <div class="grid grid-rows-2  w-56 ">
               <label class="truncate "> {{$user->name}} </label>
               <label class="text-gray-500"> {{$user->division}} </label>
