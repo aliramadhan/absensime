@@ -156,7 +156,7 @@
                     </select>
                   </div>
                   <div class="mb-4 flex items-center gap-2">
-                    <label for="formIsCancelOrder" class="block text-gray-500 text-sm tracking-wide font-semibold">Cancel your <span class="text-orange-500">catering</span> order ?</label>
+                    <label for="formIsCancelOrder" class="block text-gray-500 text-sm tracking-wide font-semibold">Cancel<span class="text-orange-500">catering</span> order ?</label>
                     <input type="checkbox" class="shadow appearance-none hover:pointer border rounded-md w-5 h-5 text-orange-500 leading-tight focus:outline-none focus:shadow-outline" id="formIsCancelOrder" wire:model="is_cancel_order" placeholder="fill in here......">
                     @error('is_cancel_order') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                   </div>
@@ -359,18 +359,21 @@
                       <template x-for="(date, dateIndex) in no_of_days" :key="dateIndex"> 
                         <div style="width: 14.1%; height: 50px" class="border-r border-b  border-gray-300 text-center flex items-center leading-none">
                           <div class="relative flex flex-col  inline-flex w-full h-full  items-center justify-center cursor-pointer text-center leading-none  transition ease-in-out duration-300 m-auto weekly-trigger"
-                          :class="{'bg-blue-400 text-white border-white hover:bg-blue-500': isToday(date[0]) == true, 'hover:bg-gray-200 text-gray-600 ': isToday(date[0]) == false }">
-                          <div class="weekly-target absolute inset-0 bg-white text-base">
+                          :class="{'bg-blue-400 text-white border-white hover:bg-blue-500 ': isToday(date[0]) == true, 'hover:bg-gray-200 text-gray-600 ': isToday(date[0]) == false }">
+                          <div x-show="date[2] !== 0" class="weekly-target absolute inset-0 bg-white text-base">
                             <!-- if done -->
-                            <i x-show="date[2] === 3" class="fas fa-check-circle my-4 shadow-md text-green-500 m-auto fa-lg"></i>
+                            <i x-show="date[2] === 3" class="fas fa-check-circle shadow-md text-green-500 m-auto fa-lg my-4 "></i>
                             <!-- if no record -->
-                            <i x-show="date[2] === 1" class="w-4 fas fa-times-circle mr-1 text-red-500"></i>
+                            <i x-show="date[2] === 1" class="fas fa-times-circle  mx-auto fa-lg my-4  text-red-500"></i>
                             <!-- if coming -->
-                            <i x-show="date[2] === 5" class="w-4 fas fa-walking mr-1 text-indigo-500"></i>
+                            <i x-show="date[2] === 5" class="fas fa-walking  mx-auto fa-lg my-4  text-indigo-500"></i>
                             <!-- if pause -->
-                            <i x-show="date[2] === 6" class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>
+                            <i x-show="date[2] === 6" class="fas fa-pause-circle  mx-auto fa-lg my-4  text-purple-500"></i>
                             <!-- if permission -->
-                            <i x-show="date[2] === 4" class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>
+                            <i x-show="date[2] === 4" class="fas fa-check-circle  mx-auto fa-lg my-4  text-yellow-500"></i>
+                              <!-- if today -->
+                            <i x-show="date[2] === 2" class="fas fa-circle-notch animate-spin  mx-auto fa-lg my-4  text-blue-500"></i>
+                            
                          </div>
                          <div
                          @click="showEventModal(date)" class="text-lg font-semibold border-b border-dashed w-6 text-center " :class="isToday(date[0]) ? 'border-white':'border-gray-500'"
@@ -568,11 +571,15 @@
 
         <div class="flex flex-col bg-white px-3 py-2 mt-3 rounded-xl space-y-1 border">
           <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 ">Legend</label>
+          <div class="grid grid-cols-2 gap-2">
+
           <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend</label>
           <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent</label>
           <label class="text-sm flex items-center "><i class="w-4 fas fa-walking mr-1 text-indigo-500"></i>Coming</label>
           <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
           <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
+          <label class="text-sm flex items-center "> <i class=" fas fa-circle-notch animate-spin  text-blue-500 mr-1"></i>Recording</label>
+          </div>
         </div>
       </div>
 
@@ -1244,16 +1251,7 @@
 
 <script type="text/javascript">
 
-  const flavoursContainer = document.getElementById('flavoursContainer');
-  const flavoursScrollWidth = flavoursContainer.scrollWidth;
-
-  window.addEventListener('load', () => {
-    self.setInterval(() => {
-      if (flavoursContainer.scrollLeft !== flavoursScrollWidth) {
-        flavoursContainer.scrollTo(flavoursContainer.scrollLeft + 1, 0);
-      }
-    }, 15);
-  });
+ 
   class ProgressRing extends HTMLElement {
     constructor() {
       super();
@@ -1337,32 +1335,32 @@ function showPosition() {
           }*/
         }
 
-        const slider = document.querySelector(".scroll");
-        let isDown = false;
-        let startX;
-        let scrollLeft;
+        // const slider = document.querySelector(".scroll");
+        // let isDown = false;
+        // let startX;
+        // let scrollLeft;
 
-        slider.addEventListener("mousedown", e => {
-          isDown = true;
-          slider.classList.add("active");
-          startX = e.pageX - slider.offsetLeft;
-          scrollLeft = slider.scrollLeft;
-        });
-        slider.addEventListener("mouseleave", () => {
-          isDown = false;
-          slider.classList.remove("active");
-        });
-        slider.addEventListener("mouseup", () => {
-          isDown = false;
-          slider.classList.remove("active");
-        });
-        slider.addEventListener("mousemove", e => {
-          if (!isDown) return;
-          e.preventDefault();
-          const x = e.pageX - slider.offsetLeft;
-          const walk = x - startX;
-          slider.scrollLeft = scrollLeft - walk;
-        });
+        // slider.addEventListener("mousedown", e => {
+        //   isDown = true;
+        //   slider.classList.add("active");
+        //   startX = e.pageX - slider.offsetLeft;
+        //   scrollLeft = slider.scrollLeft;
+        // });
+        // slider.addEventListener("mouseleave", () => {
+        //   isDown = false;
+        //   slider.classList.remove("active");
+        // });
+        // slider.addEventListener("mouseup", () => {
+        //   isDown = false;
+        //   slider.classList.remove("active");
+        // });
+        // slider.addEventListener("mousemove", e => {
+        //   if (!isDown) return;
+        //   e.preventDefault();
+        //   const x = e.pageX - slider.offsetLeft;
+        //   const walk = x - startX;
+        //   slider.scrollLeft = scrollLeft - walk;
+        // });
 
         window.onload = showPosition;
 
