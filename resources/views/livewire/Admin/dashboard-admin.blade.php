@@ -282,7 +282,7 @@
 
             </div>
             <div class="overflow-y-auto px-2 py-3 text-center flex flex-col hidden lg:block items-center bg-white rounded-lg shadow">
-            <label class="text-xl text-center font-semibold tracking-wide text-gray-700 border-b mb-3">Head of Division</label>
+            <label class="text-xl text-center font-semibold tracking-wide text-gray-700 border-b mb-3">Admin of Division</label>
             @foreach($users->where('roles','Manager') as $user)
             <div class="flex justify-between space-x-2 items-center text-sm my-2 px-2"> 
               <label class="truncate font-semibold text-center">{{$user->division}}</label>
