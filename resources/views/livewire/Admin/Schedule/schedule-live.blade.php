@@ -55,9 +55,15 @@
                         <label for="forEmployee" class="block text-gray-500 text-sm font-bold mb-2">Employee:</label>
                         <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="forEmployee" wire:model="employee_id">
                             <option hidden>Choose Employee here</option>
+                            @if(auth()->user()->roles == 'Admin')
                             @foreach($employees as $employee)
                             <option value="{{$employee->id}}">{{$employee->name}}</option>
                             @endforeach
+                            @else
+                            @foreach($employees->where('division',auth()->user()->division) as $employee)
+                            <option value="{{$employee->id}}">{{$employee->name}}</option>
+                            @endforeach
+                            @endif
 
                         </select>
                         @error('employee_id') <span class="text-red-500">{{ $message }}</span>@enderror

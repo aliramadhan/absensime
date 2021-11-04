@@ -22,6 +22,12 @@ class AdminDatatableSchedule extends LivewireDatatable
         $this->schedules = Schedule::all();
         $this->users = User::all();
         $this->shifts = Shift::all();
+        if (auth()->user()->roles == 'Manager') {
+            $this->users = User::where('division',auth()->user()->division)->get();
+            $users = User::where('division',auth()->user()->division)->pluck('id');
+            $this->schedules = Schedule::whereIn('employee_id',$users)->get();
+            return Schedule::whereIn('employee_id',$users);
+        }
   		return Schedule::where('id','!=',null);
     }
 

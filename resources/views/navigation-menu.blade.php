@@ -147,6 +147,9 @@
                     <x-jet-nav-link href="{{ route('manager.guide') }}" :active="request()->routeIs('manager.guide')">
                         {{ __('Guide') }}
                     </x-jet-nav-link>   
+                    <x-jet-nav-link href="{{ route('manager.schedule') }}" :active="request()->routeIs('manager.schedule')">
+                        {{ __('Schedule') }}
+                    </x-jet-nav-link>
                     @else
                     <x-jet-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
                         {{ __('Dashboard') }}
