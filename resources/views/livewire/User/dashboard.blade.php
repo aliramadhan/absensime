@@ -540,10 +540,10 @@
                       else if (schedule.status == 'Pause') {
                         daysArray.push([i,schedule.shift_name,6]);
                       }
-                      else if(this.isToday(i)){
+                      else if((this.isToday(i))&& schedule.status != 'Done'){ //sedang melakukan recording & belum selesai
                         daysArray.push([i,schedule.shift_name,2]);
                       }
-                      else if(schedule.status == 'Done'){
+                      else if((schedule.status == 'Done')||(this.isToday(i) && schedule.status == 'Done')){ //sudah record
                         daysArray.push([i,schedule.shift_name,3]);
                       }
                       else if(schedule.status != 'Working' && schedule.status != 'Pause' && schedule.status != 'Remote'){
@@ -569,18 +569,33 @@
           </script>
         </div>
 
-        <div class="flex flex-col bg-white px-3 py-2 mt-3 rounded-xl space-y-1 border md:w-full w-11/12 mx-auto md:mb-0 mb-4 lg:block md:hidden sm:block">
-          <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 pb-2">Legend</label>
-          <div class="grid grid-cols-2 gap-2">
-
-          <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend</label>
-          <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent</label>
-          <label class="text-sm flex items-center "><i class="w-4 fas fa-walking mr-1 text-indigo-500"></i>Coming</label>
-          <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
-          <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
-          <label class="text-sm flex items-center "> <i class=" fas fa-circle-notch animate-spin  text-blue-500 mr-1"></i>Recording</label>
+        <div class="flex-row bg-white px-3 pt-2 py-4 my-3 rounded-xl space-y-1 border md:w-full w-11/12 mx-auto md:mb-0 lg:flex  md:hidden sm:flex  space-x-2">
+          <div class="flex flex-col py-1 space-y-2">
+            <div class="rounded-full w-5 h-5 border-blue-400 p-1 border-4 mt-0.5"></div>
+            <div class="border w-0.5 mt-0.5 mx-auto h-full py-1"></div>
           </div>
-        </div>
+         
+            <div>
+            <div class="text-gray-700 pb-3 flex items-center pb-2 space-x-1">
+             <label class=" font-semibold tracking-wider text-lg -mt-0.5"> Legend   </label>
+           </div>
+
+           <div class="grid grid-cols-2 gap-2  truncate">
+            <div class="flex flex-col space-y-1">
+            <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend</label>
+            <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent</label>
+            <label class="text-sm flex items-center "><i class="w-4 fas fa-walking mr-1 text-indigo-500"></i>Coming</label>
+            </div>
+            <div class="flex flex-col space-y-1">
+            <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
+            <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
+            <label class="text-sm flex items-center "> <i class=" fas fa-circle-notch animate-spin  text-blue-500 mr-1"></i>Recording</label>
+            </div>
+          </div>
+          </div>
+      
+
+      </div>
       </div>
         
 
@@ -664,7 +679,7 @@
                 </div>
                 <div class="flex flex-col">
                 <h2 class="font-semibold text-gray-800 text-sm "> Shift {{$schedule->shift->name}}  @if($user->position == 'Project Manager') <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
-                <h4 class="text-sm text-right">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
+                <h4 class="text-sm text-right text-gray-600">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
                 </div>
                 @else
                 <h2 class="font-semibold text-gray-800 text-sm md:text-base ">No Schedule</h2>
@@ -696,8 +711,8 @@
 
           </div>
 
-          <div class="row-span-4 px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
-            <div class="flex md:flex-row flex-col  space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate">
+          <div class="row-span-3 flex h-44 flex-col justify-between px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
+            <div class="flex md:flex-row flex-col  space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate flex-auto md:px-4">
               <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                 <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                 @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
@@ -1148,7 +1163,7 @@
   @endif
 </div>
 
-<div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg duration-300 hover:shadow-lg border md:border-4 border-white">
+<div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg duration-300 hover:shadow-lg border md:border-4 border-white flex flex-col justify-between ">
 
   <div class="grid md:grid-cols-6 items-center gap-2">
     <div class="md:col-span-3 col-span-2 flex flex-row justify-between md:text-xl text-sm xl:text-2xl text-gray-800 leading-none font-semibold md:border-0 border-b pb-2 ">
@@ -1222,7 +1237,7 @@
       </span>
     </div>
   </div>
-  <div class=" h-3 mb-4 text-xs flex rounded-xl bg-gray-200">
+  <div class=" h-3  text-xs flex rounded-xl bg-gray-200">
     @if($schedule != null)
 
     @foreach($schedule->details as $detail)

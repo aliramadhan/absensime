@@ -140,16 +140,47 @@
                     </x-jet-nav-link>
                      <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
                         {{ __('Track Record') }}
-                    </x-jet-nav-link>   
-                     <x-jet-nav-link href="{{ route('manager.show.schedule') }}" :active="request()->routeIs('manager.show.schedule')">
-                        {{ __('Show Schedule') }}
-                    </x-jet-nav-link>                         
+                    </x-jet-nav-link> 
+
+                      <div class="hidden lg:flex sm:items-center sm:ml-6 hover:border-gray-300  focus:outline-none focus:text-gray-700 focus:border-gray-300  border-transparent 
+                        transition duration-150 ease-in-out  hover:text-gray-700">
+                            <x-jet-dropdown align="right" width="48">
+                                <x-slot name="trigger">
+
+                                    <button class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 focus:outline-none ">
+                                        <div>Schedule</div>
+
+                                        <div class="ml-1">
+                                            <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                    </button>
+
+                                </x-slot>
+
+                                <x-slot name="content">
+
+                                    <!-- User Management -->
+                                    <div class="block px-4 py-2 text-base text-gray-700 font-semibold border-b">
+                                        {{ __('Schedule') }}
+                                    </div>
+
+                                    <x-jet-dropdown-link href="{{ route('manager.show.schedule') }}" >
+                                        {{ __('Show') }}
+                                    </x-jet-dropdown-link> 
+
+                                    <x-jet-dropdown-link  href="{{ route('manager.schedule') }}" >
+                                        {{ __('Manage') }}
+                                    </x-jet-dropdown-link>                                  
+
+                                </x-slot>  
+                            </x-jet-dropdown>
+                        </div>
                     <x-jet-nav-link href="{{ route('manager.guide') }}" :active="request()->routeIs('manager.guide')">
                         {{ __('Guide') }}
                     </x-jet-nav-link>   
-                    <x-jet-nav-link href="{{ route('manager.schedule') }}" :active="request()->routeIs('manager.schedule')">
-                        {{ __('Schedule') }}
-                    </x-jet-nav-link>
+                 
                     @else
                     <x-jet-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
                         {{ __('Dashboard') }}
@@ -384,8 +415,9 @@
                     <x-jet-responsive-nav-link href="{{ route('manager.show.schedule') }}" :active="request()->routeIs('manager.show.schedule')">
                         {{ __('Schedule') }}
                     </x-jet-responsive-nav-link>
-               
-                   
+                     <x-jet-responsive-nav-link href="{{ route('manager.schedule') }}" :active="request()->routeIs('manager.schedule')">
+                        {{ __('Manage Schedule') }}
+                     </x-jet-responsive-nav-link>                   
                     @endif
                     
            
