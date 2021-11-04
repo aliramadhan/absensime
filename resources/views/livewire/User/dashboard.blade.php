@@ -656,11 +656,16 @@
               $weekStop = Carbon\Carbon::now()->endOfWeek();
               $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
               @endphp
-              <div class="my-auto flex-row">                          
+              <div class="my-auto flex flex-row space-x-2">                          
                 @if($schedule != null)
-                <h2 class="font-semibold text-gray-800 text-sm md:text-base "><i class="far fa-calendar-alt text-orange-500"></i> Shift {{$schedule->shift->name}}  @if($user->position == 'Project Manager') <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
-                <h4 class="text-sm md:text-base ">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
-
+                <div class="flex flex-col">
+                <i class="far fa-calendar-alt text-orange-500"></i>
+                <div class="border w-0.5 mt-0.5 mx-auto h-full"></div>
+                </div>
+                <div class="flex flex-col">
+                <h2 class="font-semibold text-gray-800 text-sm "> Shift {{$schedule->shift->name}}  @if($user->position == 'Project Manager') <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
+                <h4 class="text-sm text-right">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
+                </div>
                 @else
                 <h2 class="font-semibold text-gray-800 text-sm md:text-base ">No Schedule</h2>
                 @endif
