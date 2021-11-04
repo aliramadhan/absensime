@@ -179,7 +179,7 @@
           <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>
             <div class="flex flex-col">
               <label class="text-base"> {{$schedule->shift_name}} </label>
-              <label class="font-normal"> 08.00 - 16.00 </label>
+              <label class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} </label>
             </div>
           </td>
           @elseif($schedule != null && $schedule->status == 'No Record')
@@ -190,7 +190,7 @@
           <td class='hover:bg-gray-100 px-1 py-2 text-center  border border-gray-300 font-semibold tracking-wide text-center text-sm '>
             <div class="flex flex-col">
               <label class="text-base"> {{$schedule->shift_name}} </label>
-              <label class="font-normal"> 08.00 - 16.00 </label>
+              <label class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} </label>
             </div>
           </td>
           @endif
