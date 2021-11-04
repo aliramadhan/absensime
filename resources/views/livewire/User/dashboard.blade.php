@@ -569,8 +569,8 @@
           </script>
         </div>
 
-        <div class="flex flex-col bg-white px-3 py-2 mt-3 rounded-xl space-y-1 border">
-          <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 ">Legend</label>
+        <div class="flex flex-col bg-white px-3 py-2 mt-3 rounded-xl space-y-1 border md:w-full w-11/12 mx-auto md:mb-0 mb-4 lg:block md:hidden sm:block">
+          <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 pb-2">Legend</label>
           <div class="grid grid-cols-2 gap-2">
 
           <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend</label>
@@ -582,6 +582,7 @@
           </div>
         </div>
       </div>
+        
 
       <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden lg:block hidden">
         <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
@@ -590,13 +591,25 @@
         </div>
       </div>
       <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg md:mt-0 sm:mt-4 md:block lg:hidden hidden">
+          <div class="flex flex-col bg-white px-3 py-2  rounded-xl space-y-1 border md:w-full w-11/12 mx-auto  mb-4 ">
+          <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 ">Legend</label>
+          <div class="grid grid-cols-2 gap-2">
+
+          <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend</label>
+          <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent</label>
+          <label class="text-sm flex items-center "><i class="w-4 fas fa-walking mr-1 text-indigo-500"></i>Coming</label>
+          <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
+          <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
+          <label class="text-sm flex items-center "> <i class=" fas fa-circle-notch animate-spin  text-blue-500 mr-1"></i>Recording</label>
+          </div>
+        </div>
+
         <div class="overflow-hidden md:col-span-1 col-span-2  mb-2">
           <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
             <label class=" text-gray-700">Annual Leave Quota</label>
             <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
           </div>
-        </div>             
-
+        </div>            
       </div>
 
 
