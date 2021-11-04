@@ -29,7 +29,7 @@
                   </div>
                   <div class="flex justify-center">
                       <button class="modal-close bg-gray-300 text-gray-900 rounded hover:bg-gray-200 px-6 py-2 focus:outline-none mx-1" onclick="toggleModal('delete{{$id}}')">Cancel</button>
-                      <form action="{{route('admin.schedule.destroy',$id)}}" method="POST">
+                      <form @if(auth()->user()->roles == 'Admin') action="{{route('admin.schedule.destroy',$id)}}" @elseif(auth()->user()->roles == 'Manager') action="{{route('manager.schedule.destroy',$id)}}" @endif method="POST">
                       @csrf
                       @method('DELETE')
                         
@@ -69,7 +69,7 @@
             </svg>
           </div>
         </div>
-            <form action="{{route('admin.schedule.update',$id)}}" method="POST">
+            <form @if(auth()->user()->roles == 'Admin') action="{{route('admin.schedule.update',$id)}}" @elseif(auth()->user()->roles == 'Manager') action="{{route('manager.schedule.update',$id)}}" @endif method="POST">
             @csrf
             @method('PUT')
                 <div class=" px-2 pt-5 pb-4 sm:p-6 sm:pb-4">

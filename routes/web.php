@@ -116,6 +116,7 @@ Route::group(['middleware' => ['auth:sanctum','role:Employee,Employee'], 'prefix
 	Route::get('details-schedule', DetailsSchedule::class)->name('details.schedule');
 	Route::delete('request/destroy/{id}', [AdminController::class, 'destroyRequest'])->name('request.destroy');
 	Route::get('guide', Guide::class)->name('guide');
+
 });
 
 Route::group(['middleware' => ['auth:sanctum','role:Manager,Employee'], 'prefix' => 'manager', 'as' => 'manager.'], function() {
@@ -125,6 +126,13 @@ Route::group(['middleware' => ['auth:sanctum','role:Manager,Employee'], 'prefix'
 	Route::get('show-schedule', ShowSCheduleEmployees::class)->name('show.schedule');
 	Route::post('request/accept/{id}', [AdminController::class, 'acceptRequestOvertime'])->name('request.accept');
 	Route::get('history-schedule', HistorySchedule::class)->name('history.schedule');
+	
+	#Route Schedule
+	Route::get('schedule', ScheduleLive::class)->name('schedule');
+	Route::get('schedule-today', ScheduleToday::class)->name('schedule_today');
+	Route::put('schedule/update/{id}', [AdminController::class, 'updateSchedule'])->name('schedule.update');
+	Route::delete('schedule/destroy/{id}', [AdminController::class, 'destroySchedule'])->name('schedule.destroy');
+	Route::get('report', ReportAdmin::class)->name('report');
 });
 
 ///Route Guest
