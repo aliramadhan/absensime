@@ -128,72 +128,88 @@
           $schedule = App\Models\Schedule::where('employee_id',$user->id)->whereDate('date',$date)->first();
           @endphp
           @if($i==$mytimenow->format('d'))
-            @if($schedule == null)
-            <td class='px-1 py-2 text-center z-10 shadow-md text-xs w-80 bg-blue-400 border'>
-              <!-- <label class="hover:bg-red-300 border-2 border-white duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label> -->
-              <label class="text-sm text-red-600 trecking-wide"> Day Off </label>
-            </td>
-            @elseif($schedule != null && in_array($schedule->status,$leaves))
+          @if($schedule == null)
+          <td class='px-1 py-2 text-center z-10 shadow-md text-xs w-80 hover:bg-blue-600 bg-blue-400 border duration-300'>
+            <!-- <label class="hover:bg-red-300 border-2 border-white duration-500 text-white py-0 px-2 rounded-full shadow-md" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></label> -->
+            <label class="text-sm text-white trecking-wide"> Day Off </label>
+          </td>
+          @elseif($schedule != null && in_array($schedule->status,$leaves))
 
-            <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 hover-trigger relative'>{{$schedule->shift_name}}
-              <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div>
-            </td>
-            @elseif($schedule != null && $schedule->status == 'Done')
-            <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>
-              <div class="flex"> 
-                {{$schedule->shift_name}}
-                {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}}
+          <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 hover-trigger relative'>{{$schedule->shift_name}}
+            <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div>
+          </td>
+          @elseif($schedule != null && $schedule->status == 'Done')
+          <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>
+            <div class="flex"> 
+              {{$schedule->shift_name}}
+              {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}}
+            </div>
+          </td>
+          @elseif($schedule != null && $schedule->status == 'No Record')
+          <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
+          @elseif($schedule != null && $schedule->status =='Not sign in')
+          <td class='hover:bg-blue-600 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 relative duration-300 '>
+              <div class="flex flex-col">
+                <label class="text-base"> {{$schedule->shift_name}} </label>
+                <label class="font-normal">  {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}}  </label> <!--  lek durung record muncul e jam shift e -->
               </div>
-            </td>
-            @elseif($schedule != null && $schedule->status == 'No Record')
-            <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
-            @elseif($schedule != null && $schedule->status !='Working' && $schedule->status !='Pause')
-              <td class='hover:bg-yellow-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-400 relative hover-trigger duration-300 '>{{$schedule->shift_name}}
-              <div class="hover-target absolute duration-300 top-0 bg-yellow-500 left-0 text-white text-xs w-full h-full p-1">{{$schedule->status}} </div></td>
+
+          </td>
+          @elseif($schedule != null && $schedule->status !='Working' && $schedule->status !='Pause')
+          <td class='hover:bg-yellow-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-500 relative duration-300 '>
+              <div class="flex flex-col">
+                <label class="text-base"> {{$schedule->shift_name}} </label>
+                <label class="font-normal"> {{$schedule->status}}  </label> <!--  lek durung record muncul e jam shift e -->
+              </div>
+
+          </td>
             @elseif($schedule != null && $schedule->status == 'Pause')
-              <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 hover-trigger relative'>Paused
-                <div class="hover-target absolute duration-300 top-0 bg-blue-500 left-0 text-white text-sm w-full h-full p-1 py-2">{{$schedule->shift_name}}</div>
-              </td>
+            <td class='hover:bg-blue-300 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 hover-trigger relative'>
+              <div class="flex flex-col">
+                <label class="text-base"> {{$schedule->shift_name}} </label>
+                <label class="font-sm bg-blue-500 rounded-md py-1 px-2 w-min mx-auto"> Paused  </label> <!--  lek durung record muncul e jam shift e -->
+              </div>
+
+            </td>
             @else
-              <td class='hover:bg-blue-500 px-1 py-2 text-center border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>
-                <div class="flex flex-col">
-                  <label class="text-base"> {{$schedule->shift_name}} </label>
-                  <label class="font-normal"> Recording </label> <!--  lek durung record muncul e jam shift e -->
-                </div>
-              </td>
+            <td class='hover:bg-blue-500 px-1 py-2 text-center border border-white bg-blue-400 font-semibold tracking-wide text-center text-sm text-white '>
+              <div class="flex flex-col">
+                <label class="text-base"> {{$schedule->shift_name}} </label>
+                <label class="font-sm bg-blue-500 rounded-md py-1 px-2 w-min mx-auto"> Recording </label> <!--  lek durung record muncul e jam shift e -->
+              </div>
+            </td>
             @endif
-          @else
+            @else
             @if($schedule == null)
-              <td class='px-1 py-2 text-center border border-gray-300 text-xs w-80'>
-               <label class="text-sm text-red-600 trecking-wide"> Day Off </label>
-               <!-- <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label> -->
-              </td>
-            @elseif($schedule != null && in_array($schedule->status,$leaves) )
-             <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-500 relative duration-300 text-white'>
-              <div class="flex flex-col">
-                <label class="text-base">  {{$schedule->shift_name}} </label>
-                <label class="font-normal"> {{$schedule->status}}  </label>
-              </div>
-            </td>
-            @elseif($schedule != null && $schedule->status == 'Done')
-            <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>
-              <div class="flex flex-col">
-                <label class="text-base"> {{$schedule->shift_name}} </label>
-                <label class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} </label>
-              </div>
-            </td>
-            @elseif($schedule != null && $schedule->status == 'No Record')
-            <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
-            @elseif($schedule != null && $schedule->status != 'Not sign in')
-            <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm'>{{$schedule->shift_name}}</td>
-            @else
-            <td class='hover:bg-gray-100 px-1 py-2 text-center  border border-gray-300 font-semibold tracking-wide text-center text-sm '>
-              <div class="flex flex-col">
-                <label class="text-base"> {{$schedule->shift_name}} </label>
-                <label class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} </label>
-              </div>
-            </td>
-            @endif
+            <td class='px-1 py-2 text-center border border-gray-300 text-xs w-80'>
+             <label class="text-sm text-red-600 trecking-wide"> Day Off </label>
+             <!-- <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label> -->
+           </td>
+           @elseif($schedule != null && in_array($schedule->status,$leaves) )
+           <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-500 relative duration-300 text-white'>
+            <div class="flex flex-col">
+              <label class="text-base">  {{$schedule->shift_name}} </label>
+              <label class="font-normal"> {{$schedule->status}}  </label>
+            </div>
+          </td>
+          @elseif($schedule != null && $schedule->status == 'Done')
+          <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white '>
+            <div class="flex flex-col">
+              <label class="text-base"> {{$schedule->shift_name}} </label>
+              <label class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} </label>
+            </div>
+          </td>
+          @elseif($schedule != null && $schedule->status == 'No Record')
+          <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
+         
+          @else
+          <td class='hover:bg-gray-100 px-1 py-2 text-center  border border-gray-300 font-semibold tracking-wide text-center text-sm '>
+            <div class="flex flex-col">
+              <label class="text-base"> {{$schedule->shift_name}}</label>
+              <label class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} </label>
+            </div>
+          </td>
+          @endif
           @endif
           @endfor
         </tr>
@@ -212,7 +228,7 @@
         <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-400 opacity-75"></span>
         <span class="relative inline-flex rounded-full h-3 w-3" style="background-image: linear-gradient( to right, #ff416c, #ff4b2b );"></span>
       </span>
-      Day Off 
+     Absent
     </h4>
     <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
       <span class="flex h-3 w-3 mr-2">
@@ -235,20 +251,20 @@
       </span>
       Present
     </h4>
-    <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
+    <!-- <h4 class="font-medium flex-1 text-md leading-snug text-left flex items-center text-gray-700">
       <span class="flex h-3 w-3 mr-2">
         <span class="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-red-200 opacity-75"></span>
         <span class="relative inline-flex rounded-full h-3 w-6 bg-red-300"></span>
       </span>
       Absent
-    </h4>
-    @foreach($shifts as $shift)
+    </h4> -->
+  <!--   @foreach($shifts as $shift)
     <h4 class="font-medium text-md flex items-center text-gray-700">           
       <span class="font-bold mr-2 w-min-3  text-lg">{{$shift->name}}</span>
       <label>{{Carbon\Carbon::parse($shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($shift->time_out)->format('H.i')}}</label>
 
     </h4>
-    @endforeach
+    @endforeach -->
   </div>     
 </div>
 

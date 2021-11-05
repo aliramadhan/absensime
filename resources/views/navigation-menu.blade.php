@@ -147,7 +147,7 @@
                             <x-jet-dropdown align="right" width="48">
                                 <x-slot name="trigger">
 
-                                    <button class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-500 focus:outline-none ">
+                                    <button class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-700 focus:outline-none ">
                                         <div>Schedule</div>
 
                                         <div class="ml-1">
