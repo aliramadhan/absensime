@@ -83,7 +83,7 @@ class RequestDatatableUser extends LivewireDatatable
 	            	if ($request->status == 'Waiting') {
 		                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request, 'order' => $order]);
 	            	}
-	            })->label('Action'),
+	            })->label('Action')->excludeFromExport(),
 	        ];
     	}
     	elseif (auth()->user()->role == 'Admin') {
@@ -123,7 +123,7 @@ class RequestDatatableUser extends LivewireDatatable
 	            	$this->time_overtime = $request->time_overtime;
 					$order = DB::table('orders')->whereDate('order_date',$request->date)->where('employee_id',$user->id)->first();
 	                return view('livewire.Admin.table-actions-request-admin', ['id' => $id, 'request' => $request, 'order' => $order]);
-	            })->label('Actions')
+	            })->label('Actions')->excludeFromExport()
 	        ];
     	}
     	else{
@@ -161,7 +161,7 @@ class RequestDatatableUser extends LivewireDatatable
 	            	if ($request->status == 'Waiting') {
 		                return view('livewire.User.table_actions.table-actions-request-user', ['id' => $id, 'request' => $request]);
 	            	}
-	            })->label('Action')
+	            })->label('Action')->excludeFromExport()
 	        ];
     	}
     }

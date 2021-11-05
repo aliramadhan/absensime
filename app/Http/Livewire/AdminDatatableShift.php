@@ -37,7 +37,7 @@ class AdminDatatableShift extends LivewireDatatable
                 	'id' => $id,
                 	'shift' => $shift,
                 ]);
-            })->label('Action')
+            })->label('Action')->excludeFromExport()
 	    ];
     }
 }

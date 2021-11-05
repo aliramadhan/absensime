@@ -60,7 +60,7 @@ class AdminDatatableSchedule extends LivewireDatatable
 	                	'schedule' => $schedule,
 	                ]);
             	}
-            })->label('Action')
+            })->label('Action')->excludeFromExport()
 
     	];
     }
