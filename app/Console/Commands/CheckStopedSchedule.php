@@ -75,13 +75,13 @@ class CheckStopedSchedule extends Command
                             $stoped_at = Carbon::parse($detail->stoped_at);
                             $workhour += $started_at->diffInSeconds($stoped_at);
                         }
+                        $schedule->update([
+                            'stoped_at' => $now,
+                            'workhour' => $workhour,
+                            'timer' => 0,
+                            'status' => 'Done',
+                        ]);
                     }
-                    $schedule->update([
-                        'stoped_at' => $now,
-                        'workhour' => $workhour,
-                        'timer' => 0,
-                        'status' => 'Done',
-                    ]);
                 }
             }
         }
