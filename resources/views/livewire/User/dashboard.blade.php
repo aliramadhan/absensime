@@ -546,11 +546,11 @@
                       else if((schedule.status == 'Done')||(this.isToday(i) && schedule.status == 'Done')){ //sudah record
                         daysArray.push([i,schedule.shift_name,3]);
                       }
-                      else if(schedule.status != 'Working' && schedule.status != 'Pause' && schedule.status != 'Remote'){
+                      else if(schedule.status != 'Working' && schedule.status != 'Pause' && schedule.status != 'Remote' && schedule.status != 'Not sign in'){
                         daysArray.push([i,schedule.shift_name,4]);
                       }
                       else{
-                        daysArray.push([i,schedule.shift_name],5);
+                        daysArray.push([i,schedule.shift_name,5]);
                       }
                     }
                     else if(schedule == null && this.today.getMonth() < this.month){
