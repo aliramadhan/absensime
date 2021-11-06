@@ -112,7 +112,7 @@
       <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
         <tr >
-          <th  class="p-2  truncate text-gray-700 bg-gray-100 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0  z-20 ">
+          <th  class="p-2  truncate text-gray-700 bg-gray-50 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0  z-20 ">
             <div class="truncate md:w-full w-28 flex flex-rows space-x-2  items-center">
              <img src="{{$user->profile_photo_url}}" class="w-8 h-8 rounded-full"> 
              <div class="grid grid-rows-2  w-56 ">
