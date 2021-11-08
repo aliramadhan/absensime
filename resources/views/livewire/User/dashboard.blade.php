@@ -711,8 +711,8 @@
 
           </div>
 
-          <div class="row-span-3 flex h-44 flex-col justify-between px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
-            <div class="flex md:flex-row flex-col  space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate flex-auto md:px-4">
+          <div class="row-span-3 flex h-min flex-col justify-between px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
+            <div class="flex md:flex-row flex-col  space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate flex-auto md:px-4 flex-auto">
               <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
                 <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
                 @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
