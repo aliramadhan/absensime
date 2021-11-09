@@ -151,7 +151,7 @@
               </div>
           </td>
           @elseif($schedule != null && $schedule->status == 'No Record')
-          <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
+          <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-400 font-semibold tracking-wide text-center text-sm text-white'>{{$schedule->shift_name}}</td>
           @elseif($schedule != null && $schedule->status =='Not sign in')
           <td class='hover:bg-blue-600 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 relative duration-300 '>
               <div class="flex flex-col">
