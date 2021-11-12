@@ -66,6 +66,7 @@ class DashboardUser extends Component
     {
         $this->user = auth()->user();
         $this->leaves = ListLeave::all();
+        $leave = ListLeave::pluck('name');
         $unproductive = 0;
         $this->user = auth()->user();
         $this->now = Carbon::now();
@@ -77,7 +78,7 @@ class DashboardUser extends Component
             $this->location = 'Remote';
         }
         //check if have shift over 24
-        $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->subDay(2),Carbon::now()])->where('status','!=','Done')->where('status','!=','No Record')->orderBy('date','desc')->with('shift')->get();
+        $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->subDay(2),Carbon::now()->subDay()])->where('status','!=','Done')->where('status','!=','No Record')->whereNotIn('status',$leave)->orderBy('date','desc')->with('shift')->get();
         if ($schedules->first() != null) {
             $this->schedule = $schedules->first();
         }

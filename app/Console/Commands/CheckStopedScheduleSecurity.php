@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Carbon\Carbon;
 use App\Models\Schedule;
 use App\Models\User;
+use App\Models\ListLeave;
 use App\Models\HistoryLock;
 use App\Mail\SendNotifUserNonActived;
 use Illuminate\Support\Facades\Mail;
@@ -46,6 +47,7 @@ class CheckStopedScheduleSecurity extends Command
     public function handle()
     {
         $now = Carbon::now();
+        $leave = ListLeave::pluck('name');
         $schedules = Schedule::whereDate('date',Carbon::now()->subDay())->get();
         $data = [];
         foreach ($schedules as $schedule) {
@@ -53,6 +55,7 @@ class CheckStopedScheduleSecurity extends Command
             $shift = $schedule->shift;
             $time_in = Carbon::parse($shift->time_in);
             $time_out = Carbon::parse($shift->time_out);
+            $this->info($user->name.' => '.$schedule->date." =>".$shift->name);
             if ($shift->is_night) {
                 if ($schedule->status == 'Not sign in') {
                     $schedule->update([
