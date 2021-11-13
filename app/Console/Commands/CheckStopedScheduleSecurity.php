@@ -48,7 +48,7 @@ class CheckStopedScheduleSecurity extends Command
     {
         $now = Carbon::now();
         $leave = ListLeave::pluck('name');
-        $schedules = Schedule::whereDate('date',Carbon::now()->subDay())->get();
+        $schedules = Schedule::whereDate('date',Carbon::now()->subDay())->whereNotIn('status',$leave)->get();
         $data = [];
         foreach ($schedules as $schedule) {
             $user = User::find($schedule->employee_id);

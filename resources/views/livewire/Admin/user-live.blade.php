@@ -161,7 +161,7 @@
            
             <livewire:tables.users-activated 
             searchable="name, planet.name"
-             hideable="select"
+             hideable="select" editable="name"
             exportable/>
             
         </div>
