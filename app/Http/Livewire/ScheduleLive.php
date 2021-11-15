@@ -201,7 +201,9 @@ class ScheduleLive extends Component
           'position' =>  'center', 
           'timer' =>  10000,
           'toast' =>  true, 
-          'text' =>  '', 
+          'text' =>  '',
+           'width' => '700',
+           'timerProgressBar' => true, 
       ]);
     }
     $this->closeModal();
