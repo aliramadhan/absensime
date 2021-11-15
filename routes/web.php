@@ -18,6 +18,7 @@ use App\Http\Livewire\ScheduleToday;
 use App\Http\Livewire\ReportWeekly;
 use App\Http\Livewire\ReportAllLate;
 use App\Http\Livewire\DivisionLive;
+use App\Http\Livewire\MakeTeamDesigner;
 use App\Http\Livewire\Tables\EmployeePresence;
 use App\Http\Livewire\Tables\ReportOvertime;
 use App\Http\Livewire\Guide;

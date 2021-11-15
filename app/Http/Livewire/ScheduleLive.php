@@ -12,9 +12,11 @@ use Excel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ScheduleLive extends Component
 {
+  use LivewireAlert;
   use WithFileUploads;
 	public $schedules, $schedule, $employees, $shifts, $employee_id, $shift_id,$date, $employee, $shift, $file;
   public $isModal = null, $showModal = false;
@@ -197,8 +199,8 @@ class ScheduleLive extends Component
     if ($message != '') {
       $this->alert('error', $message, [
           'position' =>  'center', 
-          'timer' =>  5000,
-          'toast' =>  false, 
+          'timer' =>  10000,
+          'toast' =>  true, 
           'text' =>  '', 
       ]);
     }

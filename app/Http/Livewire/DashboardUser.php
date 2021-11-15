@@ -15,9 +15,11 @@ use Geocoder;
 use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestNotificationMail;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class DashboardUser extends Component
 {
+    use LivewireAlert;
     public $user, $now, $schedule, $schedules, $detailSchedule, $detailsSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $is_check_half = 0, $note, $prevSchedule, $checkAutoStop;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;
@@ -317,6 +319,7 @@ class DashboardUser extends Component
                 'task_desc' => 'required'
             ]);
         }
+
         //Update schedule and create task
         $this->now = Carbon::now();
         $shift = $this->schedule->shift;
@@ -337,9 +340,10 @@ class DashboardUser extends Component
             'position_start' => $this->position,
             'current_position' => $this->currentPosition
         ]);
-        $this->detailSchedule = HistorySchedule::create([
+        $this->detailSchedule = HistorySchedule::updateOrCreate([
             'schedule_id' => $this->schedule->id,
-            'status' => 'Work',
+            'status' => 'Work']
+            ,[
             'started_at' => $this->now,
             'location' => $this->location,
             'task' => $this->task,

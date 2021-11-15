@@ -8,9 +8,11 @@ use App\Models\Division;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterSuccessfully;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class UserLive extends Component
 {
+    use LivewireAlert;
     public $users, $user, $name, $email, $role, $division, $joined_at, $number, $address, $isModal, $divisions, $position;
     public function render()
     {
@@ -60,8 +62,12 @@ class UserLive extends Component
                 'password' => $password
             ];
             Mail::to($user->email)->send(new RegisterSuccessfully($data));
-            return dd($password);
-            session()->flash('success', 'New '.$this->role . ' added successfully.');
+            $this->alert('info', 'New '.$this->role . ' added successfully.', [
+              'position' =>  'center', 
+              'timer' =>  5000,
+              'toast' =>  false, 
+              'text' =>  '', 
+            ]);
             $this->closeModal();
             $this->emit('refreshLivewireDatatable');
         }
@@ -72,7 +78,12 @@ class UserLive extends Component
         if ($user == null) {
             session()->flash('failure', 'User not found.');
         }
-        session()->flash('success', 'Delete '.$user->name . ' deleted successfully.');
+        $this->alert('info', 'Delete '.$user->name . ' deleted successfully.', [
+          'position' =>  'center', 
+          'timer' =>  5000,
+          'toast' =>  false, 
+          'text' =>  '', 
+        ]);
         $user->delete();
         $this->emit('refreshLivewireDatatable');
     }
@@ -85,7 +96,12 @@ class UserLive extends Component
         else{
             if ($user->is_active == 0) {
                 $user->update(['is_active' => 1]);
-                session()->flash('success', 'User '.$user->name.' activated.');
+                $this->alert('info', 'User '.$user->name.' activated.', [
+                  'position' =>  'center', 
+                  'timer' =>  5000,
+                  'toast' =>  false, 
+                  'text' =>  '', 
+                ]);
             }
         }
         $this->emit('refreshLivewireDatatable');

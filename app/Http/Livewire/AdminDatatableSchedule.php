@@ -43,8 +43,7 @@ class AdminDatatableSchedule extends LivewireDatatable
 	    	Column::name('shift_name')
 	    		->label('Shift'),
 	    	Column::name('status')
-	    		->label('Status')
-                ->filterable(),
+	    		->label('Status'),
 
             Column::callback(['id'], function ($id) {
             	$schedule = $this->schedules->where('id',$id)->first();

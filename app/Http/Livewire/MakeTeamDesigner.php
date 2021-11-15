@@ -8,6 +8,6 @@ class MakeTeamDesigner extends Component
 {
     public function render()
     {
-        return view('livewire.make-team-designer');
+        return view('livewire.User.make-team-designer');
     }
 }
