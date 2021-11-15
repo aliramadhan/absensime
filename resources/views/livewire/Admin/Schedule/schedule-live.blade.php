@@ -33,7 +33,7 @@
  <!-- bukak ane -->
  <div class="flex space-x-4">
 
-   <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-10 flex items-center justify-center ': showModal }">
+   <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-50 flex items-center justify-center ': showModal }">
     <!--Dialog-->
     <div class="bg-white mx-auto rounded shadow-lg pt-4 text-left md:w-8/12 lg:w-4/12 w-11/12 absolute" x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300"  x-transition:leave.duration.400ms x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
 
