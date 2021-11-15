@@ -17,9 +17,6 @@
           <button class="bg-gradient-to-r from-purple-500 to-blue-600 duration-200 opacity-80 hover:opacity-100 md:px-6 px-4 md:py-2 py-3 flex items-center gap-2 text-lg font-semibold tracking-wider text-white rounded-xl shadow-md focus:outline-none" @click="showModal = true"><i class="fas fa-plus"></i> <span class="hidden md:block">Schedule</span></button>
    </div>
 
-
-
-
 </div>
    <div wire:loading wire:target="create,closeModal,importSchedule,create,import,update,store" class="overflow-x-hidden overflow-y-hidden absolute inset-0 z-50 outline-none focus:outline-none justify-center items-center">
        <section class="h-full w-full border-box  transition-all duration-500 flex bg-gray-500 opacity-75">   
