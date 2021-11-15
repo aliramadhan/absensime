@@ -33,7 +33,6 @@ class ScheduleLive extends Component
     'employee_id' => 'Employee',
     'shift_id' => 'Shift',
     'date' => 'Date',
-    'file' => 'File Import',
   ];
   public function updated($propertyName)
   {
