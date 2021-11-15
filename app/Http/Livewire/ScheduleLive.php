@@ -165,7 +165,7 @@ class ScheduleLive extends Component
     for ($i=1; $i < count($data); $i++) { 
       $employee = User::where('code_number',$data[$i][0])->orWhere('name','like','%'.$data[$i][0].'%')->first();
       if ($employee == null) {
-        $message .= "User ".$data[$i][0].' tidak ditemukan.\n';
+        $message .= "User ".$data[$i][0].' tidak ditemukan.<br>';
         continue;
       }
       for ($k=1; $k < count($data[0]); $k++) { 
@@ -186,7 +186,7 @@ class ScheduleLive extends Component
             # code...
           }
           else{
-            $message .= 'Schedule '.$employee->name.' tanggal '.$date->format('l F Y').' gagal dimasukkan.\n';
+            $message .= 'Schedule '.$employee->name.' tanggal '.$date->format('l F Y').' gagal dimasukkan.<br>';
           }
       }
     }
