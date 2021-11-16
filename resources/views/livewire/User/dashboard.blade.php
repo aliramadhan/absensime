@@ -598,13 +598,13 @@
       </div>
       </div>
         
-
+      <!--
       <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden lg:block hidden">
         <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
           <label class=" text-gray-700">Annual Leave Quota</label>
           <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
         </div>
-      </div>
+      </div>-->
       <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg md:mt-0 sm:mt-4 md:block lg:hidden hidden">
           <div class="flex flex-col bg-white px-3 py-2  rounded-xl space-y-1 border md:w-full w-11/12 mx-auto  mb-4 ">
           <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 ">Legend</label>
@@ -863,7 +863,7 @@
                   @endif
                   @endif
 
-                  <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full" wire:poll.keep-alive="syncTime" >
+                  <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full" wire:poll.10000ms >
 
                     @if($schedule != null && $user->is_active != 1 && $schedule->status == 'Done')
 

@@ -123,8 +123,6 @@
                                     <x-jet-dropdown-link  href="{{ route('admin.all_late.report') }}">
                                         {{ __('All Late Report') }}
                                     </x-jet-dropdown-link>
-                                     
-
                                 </x-slot>
 
                             </x-jet-dropdown>
@@ -138,6 +136,11 @@
                     <x-jet-nav-link href="{{ route('manager.request') }}" :active="request()->routeIs('manager.request')">
                         {{ __('Request') }}
                     </x-jet-nav-link>
+                    @if(auth()->user()->division == 'Design')
+                    <x-jet-nav-link href="{{ route('manager.make_team_designer') }}" :active="request()->routeIs('manager.make_team_designer')">
+                        {{ __('Make Team Design') }}
+                    </x-jet-nav-link>
+                    @endif
                      <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
                         {{ __('Track Record') }}
                     </x-jet-nav-link> 

@@ -130,6 +130,7 @@ Route::group(['middleware' => ['auth:sanctum','role:Manager,Employee'], 'prefix'
 	
 	#Route Schedule
 	Route::get('schedule', ScheduleLive::class)->name('schedule');
+	Route::get('make-team-designer', MakeTeamDesigner::class)->name('make_team_designer');
 	Route::get('schedule-today', ScheduleToday::class)->name('schedule_today');
 	Route::put('schedule/update/{id}', [AdminController::class, 'updateSchedule'])->name('schedule.update');
 	Route::delete('schedule/destroy/{id}', [AdminController::class, 'destroySchedule'])->name('schedule.destroy');
