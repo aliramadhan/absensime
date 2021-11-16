@@ -610,8 +610,8 @@
           <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 ">Legend</label>
           <div class="grid grid-cols-2 gap-2">
 
-          <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend</label>
-          <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent</label>
+          <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend {{$schedules->where('status','!=','No Record')->count()}}</label>
+          <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent {{$schedules->where('status','No Record')->count()}}</label>
           <label class="text-sm flex items-center "><i class="w-4 fas fa-walking mr-1 text-indigo-500"></i>Coming</label>
           <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
           <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
