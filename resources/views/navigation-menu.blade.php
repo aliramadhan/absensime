@@ -165,7 +165,7 @@
                                 <x-slot name="content">
 
                                     <!-- User Management -->
-                                    <div class="block px-4 py-2 text-base text-gray-700 font-semibold border-b">
+                                    <div class="block px-4 py-2 text-sm text-gray-700 font-semibold border-b">
                                         {{ __('Schedule') }}
                                     </div>
 
@@ -180,7 +180,10 @@
                                 </x-slot>  
                             </x-jet-dropdown>
                         </div>
-                    <x-jet-nav-link href="{{ route('manager.guide') }}" :active="request()->routeIs('manager.guide')">
+                    <x-jet-nav-link href="{{ route('manager.make_team_designer') }}" :active="request()->routeIs('manager.make_team_designer')">
+                        {{ __('Teammates') }}
+                    </x-jet-nav-link>   
+                    <x-jet-nav-link href="{{ route('manager.guide') }}" :active="request()->routeIs('manager.guide')" >
                         {{ __('Guide') }}
                     </x-jet-nav-link>   
                  

@@ -23,7 +23,6 @@
         <div class="flex space-x-1 items-center font-semibold text-sm">
          <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
          <label class="text-gray-500">Annual Leave Quota</label>
-
        </div>
      </div>
 
@@ -200,6 +199,18 @@
                     <input type="date" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDate" wire:model="date">
                     @error('date') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                   </div>
+                  <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Started at </label>
+                      <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." wire:model="started_at">
+                      @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                    </div>
+                    <div>
+                      <label for="formStopedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Stoped at </label>
+                      <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopedAt" placeholder="Fill in here..." wire:model="stoped_at">
+                      @error('stoped_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                    </div>
+                  </div>
                   <div class="mb-4">
                     <label for="formDesc" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Reason </label>
                     <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDesc" wire:model="desc" placeholder="Fill in here...">
@@ -272,12 +283,6 @@
         </div>
       </div>
 
-
-
-      
-
-
-
       <div wire:loading wire:target="showCreateRequest,closeModal,showMandatory" class="overflow-x-hidden overflow-y-hidden fixed inset-0 z-50 outline-none focus:outline-none justify-center items-center">
         <section class="h-full w-full border-box  transition-all duration-500 flex bg-gray-500 opacity-75"    >   
           <div class="text-6xl text-white m-auto text-center">        
@@ -290,7 +295,7 @@
       <div class="max-w-7xl mx-auto sm:px-0 md:px-4 lg:px-8">
         <div class="lg:grid lg:grid-cols-8 flex-col flex flex-col-reverse gap-4">
 
-          <div class="lg:flex lg:flex-col md:grid md:grid-cols-2  sm:rounded-lg col-span-2 lg:space-y-4 flex flex-col-reverse hide-scroll lg:space-x-0 md:space-x-2">
+          <div class="lg:flex lg:flex-col md:grid md:grid-cols-2  sm:rounded-lg col-span-2 lg:space-y-3 flex flex-col-reverse hide-scroll lg:space-x-0 md:space-x-2">
 
 
             <div class="overflow-hidden md:mt-0 ">
@@ -569,7 +574,7 @@
           </script>
         </div>
 
-        <div class="flex-row bg-white px-3 pt-2 py-4 my-3 rounded-xl space-y-1 border md:w-full w-11/12 mx-auto md:mb-0 lg:flex  md:hidden sm:flex  space-x-2">
+        <div class="flex-row bg-white px-3 pt-2 py-4 mt-3 mb-2 rounded-xl space-y-1 border md:w-full w-11/12 mx-auto md:mb-0 lg:flex  md:hidden sm:flex  space-x-2">
           <div class="flex flex-col py-1 space-y-2">
             <div class="rounded-full w-5 h-5 border-blue-400 p-1 border-4 mt-0.5"></div>
             <div class="border w-0.5 mt-0.5 mx-auto h-full py-1"></div>
@@ -598,13 +603,20 @@
       </div>
       </div>
         
-      <!--
+      
       <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden lg:block hidden">
-        <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
-          <label class=" text-gray-700">Annual Leave Quota</label>
-          <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
+        <div class="hover:bg-white duration-300 px-4 py-3 rounded-lg overflow-y-auto h-full grid grid-cols-2 border items-center font-semibold justify-items-center text-sm">
+          <div  class="flex flex-cols space-x-2 items-center">
+          <label class=" text-gray-700">Attend</label>
+          <h2 class="text-white rounded-md bg-green-400 px-1.5">{{auth()->user()->leave_count}}</h2> 
+          </div>
+          <div class="flex flex-cols space-x-2 items-center">
+          <label class=" text-gray-700">No Record</label>
+          <h2 class="text-white rounded-md bg-red-500 px-1.5">{{auth()->user()->leave_count}}</h2> 
+          </div>
+       
         </div>
-      </div>-->
+      </div>
       <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg md:mt-0 sm:mt-4 md:block lg:hidden hidden">
           <div class="flex flex-col bg-white px-3 py-2  rounded-xl space-y-1 border md:w-full w-11/12 mx-auto  mb-4 ">
           <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 ">Legend</label>
@@ -634,8 +646,8 @@
     <div class="overflow-hidden sm:rounded-lg col-span-6 grid md:gap-10 md:space-y-0 space-y-4">
 
       <div class="overflow-hidden sm:rounded-lg h-60 grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 items-center leading-tight h-full ">
-       <div class=" bg-gradient-to-r from-purple-300 to-blue-400 w-full h-full py-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-md">   
-        <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-6 items-center rounded-full mx-auto relative weekly-trigger cursor-pointer" style="background-image: url({{ Auth::user()->profile_photo_url }});">
+       <div class=" bg-gradient-to-r from-purple-400 to-blue-400 w-full h-full pb-4 pt-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-md">   
+        <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-3 items-center rounded-full mx-auto relative weekly-trigger cursor-pointer" style="background-image: url({{ Auth::user()->profile_photo_url }});">
           @if($schedule != null)
           @php
           $progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
@@ -647,9 +659,14 @@
             <label class="text-4xl"> @if($progress>=100) {{100}}% @else {{number_format($progress,0)}}% @endif</label> </div>
           </div>
 
-          <h2 class="font-semibold text-xl tracking-wide truncate">{{auth()->user()->name}}</h2>                  
+          <h2 class="font-semibold text-xl tracking-wide truncate pt-2">{{auth()->user()->name}}</h2>                  
           <h2 class="text-gray-50">{{auth()->user()->division}}</h2> 
-
+          <div class="flex space-x-1 mt-2 font-semibold mx-auto w-max items-center">
+          <h2 class="text-gray-100 border border-gray-100 px-2 py-1 rounded-md text-sm shadow-md ">
+            Annual Leave Quota           
+          </h2> 
+          <h2 class="bg-gradient-to-r from-blue-500 to-indigo-600   shadow-md text-white rounded-md px-2 py-1 duration-300">{{auth()->user()->leave_count}}</h2>
+          </div>
         </div>
         <div class="flex-auto col-span-4 xl:col-span-6 h-full md:py-6 pt-8 md:pt-0">
           <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl  static ">

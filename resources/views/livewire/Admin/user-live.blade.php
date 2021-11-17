@@ -45,7 +45,7 @@
     @if($isModal == 'create')
         @include('livewire.Admin.create_user')
     @endif
-    <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-10 flex items-center justify-center': showModal }">
+    <div class="overflow-auto" style="background-color: rgba(0,0,0,0.5)" x-show="showModal" :class="{ 'fixed inset-0 z-50 flex items-center justify-center': showModal }">
       <!--Dialog-->
       <div class="absolute bg-white mx-auto rounded shadow-lg pt-4 text-left w-4/12 " x-show="showModal" @click.away="showModal = false" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100" >
 
@@ -64,10 +64,17 @@
 
           <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">
               <div class="">
-                  <div class="mb-4">
-                      <label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Employee Name:</label>
+                  <div class="mb-4 grid grid-cols-2 gap-4">
+                    <div>
+                      <label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Full Name:</label>
                       <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formName" wire:model="name">
                       @error('name') <span class="text-red-500">{{ $message }}</span>@enderror
+                    </div>
+                    <div>
+                      <label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Nickname:</label>
+                      <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNickname" wire:model="nickname">
+                      @error('nicknawme') <span class="text-red-500">{{ $message }}</span>@enderror
+                    </div>
                   </div>
                   <div class="mb-4 flex-auto">
                       <label for="formEmail" class="block text-gray-500 text-sm font-semibold mb-2">Email:</label>
@@ -75,7 +82,7 @@
                       @error('email') <span class="text-red-500">{{ $message }}</span>@enderror
                   </div>
                   <div class="mb-4 grid grid-cols-2 gap-4">
-                      <div class="flex-auto">
+                      <div>
                           <label for="formRole" class="block text-gray-500 text-sm font-semibold mb-2">Role:</label>
                           <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formRole" wire:model="role">
                               <option hidden>Choose Here</option>
@@ -84,7 +91,7 @@
                           </select>
                           @error('role') <span class="text-red-500">{{ $message }}</span>@enderror
                       </div>
-                      <div  class="flex-auto">
+                      <div >
                           <label for="formDivision" class="block text-gray-500 text-sm font-semibold mb-2">Division:</label>
                           <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formDivision" wire:model="division">
                               <option hidden>Choose Here</option>
@@ -95,25 +102,25 @@
                           @error('division') <span class="text-red-500">{{ $message }}</span>@enderror
                       </div>
                   </div>
-                  <div class="mb-4 flex-auto flex gap-4">
-                      <div class="flex-auto">
+                  <div class="mb-4 grid grid-cols-2 gap-4">
+                      <div>
                         <label for="formPosition" class="block text-gray-500 text-sm font-semibold mb-2">Position:</label>
                         <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formPosition" wire:model="position">
                         @error('position') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
-                    <div class="flex-auto">
+                    <div>
                       <label for="formNumber" class="block text-gray-500 text-sm font-semibold mb-2">Number Phone:</label>
                       <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNumber" wire:model="number">
                       @error('number') <span class="text-red-500">{{ $message }}</span>@enderror
                       </div>
                   </div>
-                  <div class="mb-4 flex-auto flex md:flex-row flex-col gap-4">
-                      <div class="md:w-6/12 w-full">                          
+                  <div class="mb-4 grid grid-cols-2 gap-4">
+                      <div>                          
                           <label for="formAddress" class="block text-gray-500 text-sm font-semibold mb-2">Address:</label>
                           <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formAddress" wire:model="address">
                           @error('address') <span class="text-red-500">{{ $message }}</span>@enderror
                       </div>
-                      <div class="md:w-6/12 w-full">                      
+                      <div>                      
                           <label for="formJoinedAt" class="block text-gray-500 text-sm font-semibold mb-2">Joined At:</label>
                           <input type="date" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formJoinedAt" wire:model="joined_at">
                           @error('joined_at') <span class="text-red-500">{{ $message }}</span>@enderror
