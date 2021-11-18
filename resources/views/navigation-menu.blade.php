@@ -138,7 +138,7 @@
                     </x-jet-nav-link>
                     @if(auth()->user()->division == 'Design')
                     <x-jet-nav-link href="{{ route('manager.make_team_designer') }}" :active="request()->routeIs('manager.make_team_designer')">
-                        {{ __('Make Team Design') }}
+                        {{ __('Teammates') }}
                     </x-jet-nav-link>
                     @endif
                      <x-jet-nav-link href="{{ route('manager.history.schedule') }}" :active="request()->routeIs('manager.history.schedule')">
@@ -180,9 +180,7 @@
                                 </x-slot>  
                             </x-jet-dropdown>
                         </div>
-                    <x-jet-nav-link href="{{ route('manager.make_team_designer') }}" :active="request()->routeIs('manager.make_team_designer')">
-                        {{ __('Teammates') }}
-                    </x-jet-nav-link>   
+                  
                     <x-jet-nav-link href="{{ route('manager.guide') }}" :active="request()->routeIs('manager.guide')" >
                         {{ __('Guide') }}
                     </x-jet-nav-link>   

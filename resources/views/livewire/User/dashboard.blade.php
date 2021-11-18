@@ -695,7 +695,7 @@
                 <div class="border w-0.5 mt-0.5 mx-auto h-full"></div>
                 </div>
                 <div class="flex flex-col">
-                <h2 class="font-semibold text-gray-800 text-sm "> Shift {{$schedule->shift->name}}  @if($user->position == 'Project Manager') <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
+                <h2 class="font-semibold text-gray-800 text-sm "> Shift {{$schedule->shift->name}}  @if(strpos($user->position,'Project Manager')) <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
                 <h4 class="text-sm text-right text-gray-600">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
                 </div>
                 @else
@@ -714,7 +714,7 @@
               @endphp
               <div class="space-x-2 flex mx-auto items-center ">
                 <h2 class="font-semibold text-sm md:text-base tracking-wide"><i class="far fa-calendar-alt"></i>  Shift {{$schedule->shift->name}} </h2>
-                <h4 class="text-sm md:text-base tracking-wider">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}} @if($user->position == 'Project Manager') <span >(+4 h) </span> @endif</h4>
+                <h4 class="text-sm md:text-base tracking-wider">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}} @if(strpos($user->position,'Project Manager')) <span >(+4 h) </span> @endif</h4>
 
               </div>
               @else
@@ -783,11 +783,12 @@
                   $workhourDetail += $started_atDetail->diffInSeconds($stoped_atDetail);
                 }
                 @endphp
-                @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800) && ($user->position != 'Project Manager' && $user->position != 'Junior PM'))
+                $checkDivision = strpos($user->position, 'Project Manager');
+                @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800) && ($checkDivision === false))
                   @include('livewire.User.show-confirm-stop')
-                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && ($user->position == 'Project Manager'  && $user->position == 'Junior PM'))
+                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && ($checkDivision === true))
                     @include('livewire.User.show-confirm-stop')
-                    @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && ($user->position != 'Project Manager' && $user->position != 'Junior PM'))
+                    @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && ($checkDivision === false))
                     @php
                     //update task and stop schedule
                     $detailSchedule = $schedule->details->sortByDesc('id')->first();
@@ -807,7 +808,7 @@
                     'status' => 'Done',
                     ]);
                     @endphp
-                    @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && ($user->position == 'Project Manager' && $user->position == 'Junior PM'))
+                    @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && ($checkDivision === true))
                     @php
                     //update task and stop schedule
                     $detailSchedule = $schedule->details->sortByDesc('id')->first();
