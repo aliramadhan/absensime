@@ -70,6 +70,10 @@ class CheckStopedAfterShift extends Command
                     $time_out = Carbon::parse($shift->time_out);
                 }
             }
+            #cek if PM/ junior PM, add 4 hour
+            if(($user->position == 'Project Manager' && $user->position == 'Junior PM')){
+                $time_out->addHours(4);
+            }
             $time_limit = $time_in->diffInSeconds($time_out);
             $historyLock = HistoryLock::where('employee_id',$user->id)->whereDate('created_at',$now)->get();
             $cekLeave = ListLeave::where('name','like','%'.$schedule->status.'%')->first();
