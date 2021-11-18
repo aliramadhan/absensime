@@ -29,9 +29,8 @@ class UsersActivated extends LivewireDatatable
             Column::name('division')
                 ->label('Division'),
             Column::name('leave_count')
-                ->editable()
-            /*
                 ->label('Remain Annual Leave')->editable(),
+                /*
             Column::callback(['is_active'], function ($is_active) {
                 if ($is_active == 1) {
                     return 'Active';

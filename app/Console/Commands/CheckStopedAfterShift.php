@@ -52,8 +52,7 @@ class CheckStopedAfterShift extends Command
     public function handle()
     {
         $now = Carbon::now();
-        $leave = ListLeave::pluck('name');
-        $schedules = Schedule::whereDate('date',$now)->whereNotIn('status',$leave)->get();
+        $schedules = Schedule::whereDate('date',$now)->get();
         $data = [];
         foreach ($schedules as $schedule) {
             $user = User::find($schedule->employee_id);
@@ -63,15 +62,16 @@ class CheckStopedAfterShift extends Command
             if($shift->is_night){
                 continue;
                 if(Carbon::parse($schedule->date)->day == $now->day){
-                    $this->info('Shift hari ini date hari ini'. $user->name);
                     $time_in = Carbon::parse($shift->time_in);
                     $time_out = Carbon::parse($shift->time_out)->addDay();
                 }
                 elseif(Carbon::parse($schedule->date)->day < $now->day){
-                    $this->info('Shift kemarin date hari ini'. $user->name);
                     $time_in = Carbon::parse($shift->time_in)->subDay();
                     $time_out = Carbon::parse($shift->time_out);
                 }
+            }
+            if(($user->position == 'Project Manager' && $user->position == 'Junior PM')){
+                $time_out->addHours(4);
             }
             $time_limit = $time_in->diffInSeconds($time_out);
             $historyLock = HistoryLock::where('employee_id',$user->id)->whereDate('created_at',$now)->get();
@@ -89,9 +89,12 @@ class CheckStopedAfterShift extends Command
                             $message = "Hey <@".$user->slack_id.">, Your recording has exceeded shift, please stop recording";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
-                            $expireTime = Carbon::now()->addHours(2);
+                            $expireTime = Carbon::now()->addHours(4);
                             Cache::put('sent_notif_stop_'.$user->id, Carbon::now(), $expireTime);
                             $this->info("Sending after shift notification email to: {$user->name}!");
+                            #send notif to dev
+                            Notification::route('slack', env('SLACK_HOOK'))
+                          ->notify(new NotifWithSlack("Notif stop untuk ".$user->name, 'U0115H2EE4F'));
                         }
                         //Mail::to($user->email)->send(new NotifStopedAfterShift());
                     }
@@ -126,6 +129,9 @@ class CheckStopedAfterShift extends Command
                     $message = "Hey <@".$user->slack_id.">, Kamu hari ini tidak melakukan recording. Kamu dapat melakukan perubahan pencatatan besok silakan klik tautan <https://attendance.pahlawandesignstudio.com/|*ini*>.";
                         Notification::route('slack', env('SLACK_HOOK'))
                             ->notify(new NotifWithSlack($message, $user->slack_id));
+                        #send notif to dev
+                        Notification::route('slack', env('SLACK_HOOK'))
+                      ->notify(new NotifWithSlack("Notif tidak record untuk ".$user->name, 'U0115H2EE4F'));
                 }
                 /*elseif(($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null) && ($time_out->diffInMinutes($now) == 10){
                     $workhour = 0;
@@ -176,13 +182,16 @@ class CheckStopedAfterShift extends Command
                             $message = "Hey <@".$user->slack_id.">, Kamu terlambat masuk. Ayo segera catat jam masuk. klik tautan <https://attendance.pahlawandesignstudio.com/|*ini*>.";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
-                            $expireTime = Carbon::now()->addHours(2);
+                            $expireTime = Carbon::now()->addHours(8);
                             Cache::put('sent_notif_late_'.$user->id, Carbon::now(), $expireTime);
+                            #send notif to dev
+                            Notification::route('slack', env('SLACK_HOOK'))
+                          ->notify(new NotifWithSlack("Notif telat untuk ".$user->name, 'U0115H2EE4F'));
                         }
                     }
                     
                 }
-  elseif($timeSet >= 60 && $schedule->status == 'Not sign in'){
+                elseif($timeSet >= 60 && $schedule->status == 'Not sign in'){
 
                     if(Cache::has('sent_notif_late1_' .$user->id)){
                         //do nothing
@@ -192,8 +201,11 @@ class CheckStopedAfterShift extends Command
                             $message = "Hey <@".$user->slack_id.">, Kamu sudah melebihi batas 1 jam toleransi terlambat masuk. Ayo segera catat jam masuk. klik tautan <https://attendance.pahlawandesignstudio.com/|*ini*>.";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
-                            $expireTime = Carbon::now()->addHours(2);
+                            $expireTime = Carbon::now()->addHours(8);
                             Cache::put('sent_notif_late1_'.$user->id, Carbon::now(), $expireTime);
+                            #send notif to dev
+                            Notification::route('slack', env('SLACK_HOOK'))
+                          ->notify(new NotifWithSlack("Notif stop 1 jam untuk ".$user->name, 'U0115H2EE4F'));
                         }
                         //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                         $this->info("Sending late notification email to: {$user->name}!");
@@ -241,6 +253,9 @@ class CheckStopedAfterShift extends Command
                                 $expireTime = Carbon::now()->addHours(1);
                                 Cache::put('sent_notif_maxpause_'.$user->id, Carbon::now(), $expireTime);
                                 $this->info("Sending late notification email to: {$user->name}!");
+                                #send notif to dev
+                                Notification::route('slack', env('SLACK_HOOK'))
+                              ->notify(new NotifWithSlack("Notif pause lebih 4 jam untuk ".$user->name, 'U0115H2EE4F'));
                             }
                         
                         }

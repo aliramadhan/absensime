@@ -17,9 +17,11 @@ use Mediconesystems\LivewireDatatables\TimeColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use DB;
 use Carbon\Carbon;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class RequestDatatableUser extends LivewireDatatable
 {
+    use LivewireAlert;
 	public $hideable = 'select',$time_overtime, $users;
     public function builder()
     {
@@ -91,7 +93,7 @@ class RequestDatatableUser extends LivewireDatatable
 	            Column::callback(['employee_id'], function ($employee_id) {
 	            	$user = $this->users->where('id',$employee_id)->first();
 			        return $user->name;
-	            })->label('Employee'),
+	            })->label('Employee')->filterable(),
 	            DateColumn::name('date')
 	                ->label('Date')
 	                ->format('d F Y')->filterable(),
@@ -175,19 +177,19 @@ class RequestDatatableUser extends LivewireDatatable
     	if ($action == 'Accept') {
     		$schedule = Schedule::whereDate('date',$request->date)->where('employee_id',$user->id)->first();
     		$cekLeave = ListLeave::where('name','like','%'.$request->type.'%')->first();
-    		if($cekLeave != null && $cekLeave->is_annual == 1){
+    		if($cekLeave != null && $cekLeave->is_annual == 1 && $schedule != null){
     			$user->leave_count -= 1;
     			$user->save();
 	    		$schedule->update([
 	    			'status' => $request->type
 	    		]);
     		}
-    		elseif($request->type == 'Excused'){
+    		elseif($request->type == 'Excused' && $schedule != null){
     			$schedule->update([
     				'status_depart' => 'Present'
     			]);
     		}
-    		elseif($request->type == 'Absent'){
+    		elseif($request->type == 'Absent' && $schedule != null){
     			$format = explode('#', $request->format);
     			$started_at = Carbon::parse($format[2]);
     			$stoped_at = Carbon::parse($format[3]);
@@ -217,7 +219,7 @@ class RequestDatatableUser extends LivewireDatatable
     				]);
     			}
     		}
-    		elseif($request->type == 'Change Shift'){
+    		elseif($request->type == 'Change Shift' && $schedule != null){
 				$string = $request->desc;
 				$prefix = "to ";
 				$index = strpos($string, $prefix) + strlen($prefix);
@@ -253,7 +255,7 @@ class RequestDatatableUser extends LivewireDatatable
 					'shift_name' => $shift->name
 				]);
     		}
-    		elseif($request->type != 'Overtime'){
+    		elseif($request->type != 'Overtime' && $schedule != null){
 	    		$schedule->update([
 	    			'status' => $request->type
 	    		]);
