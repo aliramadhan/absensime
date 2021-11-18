@@ -608,11 +608,11 @@
         <div class="hover:bg-white duration-300 px-4 py-3 rounded-lg overflow-y-auto h-full grid grid-cols-2 border items-center font-semibold justify-items-center text-sm">
           <div  class="flex flex-cols space-x-2 items-center">
           <label class=" text-gray-700">Attend</label>
-          <h2 class="text-white rounded-md bg-green-400 px-1.5">{{auth()->user()->leave_count}}</h2> 
+          <h2 class="text-white rounded-md bg-green-400 px-1.5">{{$schedules->where('status','!=','No Record')->count()}}</h2> 
           </div>
           <div class="flex flex-cols space-x-2 items-center">
           <label class=" text-gray-700">No Record</label>
-          <h2 class="text-white rounded-md bg-red-500 px-1.5">{{auth()->user()->leave_count}}</h2> 
+          <h2 class="text-white rounded-md bg-red-500 px-1.5">{{$schedules->where('status','No Record')->count()}}</h2> 
           </div>
        
         </div>
@@ -782,8 +782,9 @@
                   $stoped_atDetail = Carbon\Carbon::parse($listDetail->stoped_at);
                   $workhourDetail += $started_atDetail->diffInSeconds($stoped_atDetail);
                 }
-                @endphp
                 $checkDivision = strpos($user->position, 'Project Manager');
+                @endphp
+              
                 @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800) && ($checkDivision === false))
                   @include('livewire.User.show-confirm-stop')
                   @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && ($checkDivision === true))
