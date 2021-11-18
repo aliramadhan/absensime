@@ -26,9 +26,9 @@ class AdminDatatableSchedule extends LivewireDatatable
             $this->users = User::where('division',auth()->user()->division)->get();
             $users = User::where('division',auth()->user()->division)->pluck('id');
             $this->schedules = Schedule::whereIn('employee_id',$users)->get();
-            return Schedule::whereIn('employee_id',$users);
+            return Schedule::whereIn('employee_id',$users)->orderBy('date','desc');
         }
-  		return Schedule::where('id','!=',null);
+  		return Schedule::orderBy('date','desc');
     }
 
     public function columns()
