@@ -33,7 +33,7 @@ class ScheduleToday extends LivewireDatatable
             Column::name('shift_name')
                 ->label('Shift'),
             Column::name('status_depart')
-                ->label('Status Attendance'),
+                ->label('Status Attendance')->filterable(),
             Column::name('status')
                 ->label('Status')
                 ->filterable(['Working','Not sign in',' Pause','Done']),
@@ -78,7 +78,7 @@ class ScheduleToday extends LivewireDatatable
                     return '-';
                 }
             })->label('Wasted Time'),
-            Column::callback(['id','timer','status'], function ($id,$timer,$status) {
+            /*Column::callback(['id','timer','status'], function ($id,$timer,$status) {
                 $schedule = Schedule::find($id);
                 $rest = $schedule->details->where('status','Rest')->sortByDesc('id')->first();
                 if($rest != null && $schedule->status == 'Pause'){
@@ -89,7 +89,8 @@ class ScheduleToday extends LivewireDatatable
                         return 'without subtitute';
                     }
                 }
-            })->label('Reason'),
+            })->label('Reason')*/
+            Column::name('note')->label('Reason'),
             Column::name('position_start')
                 ->label('Position (start state)'),
             Column::name('position_stop')
