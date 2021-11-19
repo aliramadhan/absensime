@@ -72,8 +72,8 @@
                     </div>
                     <div>
                       <label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Nickname:</label>
-                      <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNickname" wire:model="nickname">
-                      @error('nicknawme') <span class="text-red-500">{{ $message }}</span>@enderror
+                      <input type="text" class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formNickname" wire:model="username">
+                      @error('username') <span class="text-red-500">{{ $message }}</span>@enderror
                     </div>
                   </div>
                   <div class="mb-4 flex-auto">

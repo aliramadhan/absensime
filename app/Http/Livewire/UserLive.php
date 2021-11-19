@@ -13,7 +13,7 @@ use Jantinnerezo\LivewireAlert\LivewireAlert;
 class UserLive extends Component
 {
     use LivewireAlert;
-    public $users, $user, $name, $email, $role, $division, $joined_at, $number, $address, $isModal, $divisions, $position;
+    public $users, $user, $name, $username, $email, $role, $division, $joined_at, $number, $address, $isModal, $divisions, $position;
     public function render()
     {
         $this->users = User::where('is_active',0)->orderBy('updated_at','asc')->get();
@@ -33,6 +33,7 @@ class UserLive extends Component
         //MEMBUAT VALIDASI
         $this->validate([
             'name' => 'required|string|unique:users',
+            'username' => 'string|unique:users',
             'email' => 'required|email|unique:users',
             'role' => 'required',
             'division' => 'required',
@@ -47,6 +48,7 @@ class UserLive extends Component
             $password = bin2hex(random_bytes(4));
             $user = User::create([
                 'name' => $this->name,
+                'username' => $this->username,
                 'email' => $this->email,
                 'password' => Hash::make($password),
                 'role' => 'Employee',
