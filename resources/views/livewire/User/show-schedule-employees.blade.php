@@ -140,12 +140,12 @@
           </td>
           @elseif($schedule != null && $schedule->status == 'Done')
           <td class='hover:bg-green-500 px-1 py-2 text-center border border-white bg-green-400 font-semibold tracking-wide text-center text-sm text-white hover-trigger relative'>
-            <div class="flex "> 
-              {{$schedule->shift_name}}
-              {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} 
+            <div class="flex flex-col "> 
+             <label> {{$schedule->shift_name}}</label>
+             <label  class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} </label>
               
             </div>
-            <div class="hover-target absolute inset-0 w-full flex">
+            <div class="hover-target absolute inset-0 w-full h-max flex bg-green-500 px-1 py-3 flex flex-col">
                  Record Result
               <label class="font-normal">{{Carbon\Carbon::parse($schedule->started_at)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->stoped_at)->format('H.i')}}</label>
               </div>

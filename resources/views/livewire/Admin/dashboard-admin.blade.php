@@ -281,8 +281,9 @@
               <livewire:charts.chart-attend-statistic />
 
             </div>
-            <div class="overflow-y-auto px-2 py-3 text-center flex flex-col hidden lg:block items-center bg-white rounded-lg shadow">
-            <label class="text-xl text-center font-semibold tracking-wide text-gray-700 border-b mb-3">Admin of Division</label>
+            <div class=" px-2 py-3 text-center flex flex-col hidden lg:block items-center bg-white rounded-lg shadow space-y-2">
+            <label class="text-xl text-center font-semibold tracking-wide text-gray-700 py-2">Admin of Division</label>
+            <div class=" overflow-y-auto h-52">
             @foreach($users->where('roles','Manager') as $user)
             <div class="flex justify-between space-x-2 items-center text-sm my-2 px-2"> 
               <label class="truncate font-semibold text-center">{{$user->division}}</label>
@@ -290,9 +291,9 @@
               <label class="truncate text-center">{{$user->name}}</label>
             </div>
             @endforeach
-            
-            <div class="w-full text-center mt-4">
-            <a class="bg-blue-400 font-semibold focus:outline-none py-2 text-center px-8 shadow-lg rounded-lg text-sm mt-4 text-white hover:bg-blue-600 mx-auto modal-open cursor-pointer" wire:click="showManageDivision()">Manage</a>
+            </div>
+            <div class="w-full text-center py-2">
+            <a class="bg-blue-400 font-semibold focus:outline-none py-2 text-center px-8 shadow-lg rounded-lg text-sm mt-4 text-white hover:bg-blue-600 mx-auto modal-open cursor-pointer tracking-wider" wire:click="showManageDivision()">Manage</a>
             </div>
             </div>
           </div>
