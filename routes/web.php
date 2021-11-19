@@ -22,6 +22,7 @@ use App\Http\Livewire\MakeTeamDesigner;
 use App\Http\Livewire\Tables\EmployeePresence;
 use App\Http\Livewire\Tables\ReportOvertime;
 use App\Http\Livewire\Guide;
+use App\Http\Livewire\ManageGuide;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Auth;
 use App\Mail\SendNotifUserNonActived;
@@ -107,7 +108,11 @@ Route::group(['middleware' => ['auth:sanctum','role:Admin,Admin'], 'prefix' => '
 	Route::get('report-overtime', ReportOvertime::class)->name('overtime.report');
 
 	//Route Guide
+	
 	Route::get('guide', Guide::class)->name('guide');
+	Route::get('manage-guide', ManageGuide::class)->name('manage.guide');
+	
+	
 });
 Route::group(['middleware' => ['auth:sanctum','role:Employee,Employee'], 'prefix' => 'user', 'as' => 'user.'], function() {
 	Route::get('dashboard', DashboardUser::class)->name('dashboard');

@@ -67,6 +67,9 @@
                                       <x-jet-dropdown-link  href="{{ route('admin.division') }}">
                                         {{ __('Division') }}
                                     </x-jet-dropdown-link> 
+                                      <x-jet-dropdown-link  href="{{ route('admin.manage.guide') }}">
+                                        {{ __('Guide') }}
+                                    </x-jet-dropdown-link>
                                       
                                     <x-jet-dropdown-link  href="{{ route('admin.leave') }}">
                                         {{ __('List Leave') }}

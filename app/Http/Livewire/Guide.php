@@ -12,3 +12,4 @@ class Guide extends Component
         return view('livewire.User.guide');
     }
 }
+
