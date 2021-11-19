@@ -32,54 +32,49 @@
         <!-- content -->
         <form>
           <div class="bg-white px-6 pt-5 pb-4  max-w-8xl ">          
-          <div class="">  
-         			 <div class="mb-4">
-                      <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Team Name </label>
-                      <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." >
-                      @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>          
-                     <div class="mb-4">
-                      <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Task Team </label>
-                      <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." >
-                      @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>  
-                     <div class="mb-4">
-                      <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Leader </label>
-                       <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="locationRe">
-                      <option hidden>Choose one</option>
-                      <option value="WFO">Work From Office</option>
-                      <option value="WFH">Work From Home</option>
-                      <option value="Business Travel">Business Travel</option>
-                      <option>Remote</option>
-                    </select>
-                      @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                    </div>          
+            <div class="">  
+         			  <div class="mb-4">
+                  <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Team Name </label>
+                  <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." >
+                  @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                </div>          
+                <div class="mb-4">
+                  <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Task Team </label>
+                  <input type="text" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." >
+                  @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                </div>  
+                <div class="mb-4">
+                  <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Leader </label>
+                  <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="locationRe">
+                    <option hidden>Choose one</option>
+                    <option value="WFO">Work From Office</option>
+                    <option value="WFH">Work From Home</option>
+                    <option value="Business Travel">Business Travel</option>
+                    <option>Remote</option>
+                  </select>
+                  @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                </div>          
 
-                  <div class="mb-4">
-                  	<label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Crew </label>
-                    <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="locationRe">
-                      <option hidden>Choose one</option>
-                      <option value="WFO">Work From Office</option>
-                      <option value="WFH">Work From Home</option>
-                      <option value="Business Travel">Business Travel</option>
-                      <option>Remote</option>
-                    </select>
-                    @error('locationRe') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
-                  </div>              
-                 
-                       
-               
-                
-                  </div>
-                </div>
-
-                <!--Footer-->
-                <div class="flex justify-end py-3 bg-gray-100 space-x-4 px-4  items-center">
-                  <a class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-gray-700 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white focus:outline-none cursor-pointer" @click="showModal = false">Cancel</a>
-                  <button type="button" class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.createRequest()" wire:loading.remove wire:target="createRequest">Save</button>
-                  <button type="button" class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="createRequest" readonly>Saving..</button>
-                </div>
-              </form>
+                <div class="mb-4">
+                	<label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Crew </label>
+                  <select class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="locationRe">
+                    <option hidden>Choose one</option>
+                    <option value="WFO">Work From Office</option>
+                    <option value="WFH">Work From Home</option>
+                    <option value="Business Travel">Business Travel</option>
+                    <option>Remote</option>
+                  </select>
+                  @error('locationRe') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
+                </div> 
+            </div>
+          </div>
+          <!--Footer-->
+          <div class="flex justify-end py-3 bg-gray-100 space-x-4 px-4  items-center">
+            <a class="bg-transparent py-2 px-4 rounded-lg text-gray-500 hover:bg-white hover:text-gray-700 font-semibold tracking-wider border border-gray-400 rounded-lg bg-white focus:outline-none cursor-pointer" @click="showModal = false">Cancel</a>
+            <button type="button" class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none" @click="$wire.createRequest()" wire:loading.remove wire:target="createRequest">Save</button>
+            <button type="button" class="modal-close bg-blue-500 py-2 px-5 rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="createRequest" readonly>Saving..</button>
+          </div>
+        </form>
 
             </div>
             <!--/Dialog -->
