@@ -41,276 +41,303 @@ class DashboardUser extends Component
         'detailsSchedule.*.id_task' => 'required',
     ];
 
-
+ 
 
     public function setLatitudeLongitude($latitude, $longitude) 
     {
-     $this->latitude = $latitude;
-     $this->longitude = $longitude;
- }
- public function intToTime($int)
- {
+       $this->latitude = $latitude;
+       $this->longitude = $longitude;
+    }
+    public function intToTime($int)
+    {
 
-    $seconds = intval($int%60);
-    $total_minutes = intval($int/60);
-    $minutes = $total_minutes%60;
-    $hours = intval($total_minutes/60);
-    $time = $hours."h ".$minutes."m";
-    return $time;
-}
-public function getOvertimeDuration()
-{
-    if ($this->started_at != null && $this->stoped_at != null) {
-        $started_at = Carbon::parse($this->started_at);
-        $stoped_at = Carbon::parse($this->stoped_at);
-        $this->time_overtime = $started_at->diffInMinutes($stoped_at);
+        $seconds = intval($int%60);
+        $total_minutes = intval($int/60);
+        $minutes = $total_minutes%60;
+        $hours = intval($total_minutes/60);
+        $time = $hours."h ".$minutes."m";
+        return $time;
     }
-}
-public function updateJurnal(HistorySchedule $detail, $value)
-{
-    $detail->update([
-        'task' => $value
-    ]);
-}
-public function render()
-{
-    $this->user = auth()->user();
-    $this->leaves = ListLeave::all();
-    $leave = ListLeave::pluck('name');
-    $unproductive = 0;
-    $this->user = auth()->user();
-    $this->now = Carbon::now();
-    $this->shifts = Shift::all();
-    $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->orderBy('date','asc')->with('shift')->get();
-    $request = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
-    if ($request != null) {
-        $this->cekRemote = 1;
-        $this->location = 'Remote';
+    public function getOvertimeDuration()
+    {
+        if ($this->started_at != null && $this->stoped_at != null) {
+            $started_at = Carbon::parse($this->started_at);
+            $stoped_at = Carbon::parse($this->stoped_at);
+            $this->time_overtime = $started_at->diffInMinutes($stoped_at);
+        }
     }
+    public function changeTrackOption()
+    {
+        if ($this->detailSchedule == null) {
+            $this->detailSchedule = $this->schedule->details->where('status','Work')->SortByDesc('id')->first();
+        }
+        //stoped working detail
+        $this->detailSchedule->update(['stoped_at' => Carbon::now()]);
+
+        $this->detailSchedule = HistorySchedule::create([
+            'schedule_id' => $this->schedule->id,
+            'started_at' => Carbon::now(),
+            'status' => 'Work',
+            'location' => $this->location,
+            'task' => $this->task,
+            'task_desc' => $this->task_desc,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+        ]);
+        
+        $timer = $this->schedule->timer;
+        $workhour = $this->schedule->workhour + $timer;
+        $this->schedule->update([
+            'workhour' => $workhour,
+            'timer' => 0,
+            'status' => 'Working',
+        ]);
+    }
+    public function updateJurnal(HistorySchedule $detail, $value)
+    {
+        $detail->update([
+            'task' => $value
+        ]);
+    }
+    public function render()
+    {
+        $this->user = auth()->user();
+        $this->leaves = ListLeave::all();
+        $leave = ListLeave::pluck('name');
+        $unproductive = 0;
+        $this->user = auth()->user();
+        $this->now = Carbon::now();
+        $this->shifts = Shift::all();
+        $this->schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->startOfMonth(),Carbon::now()->endOfMonth()])->orderBy('date','asc')->with('shift')->get();
+        $request = Request::whereDate('date',$this->now)->where('employee_id',$this->user->id)->where('type','Remote')->where('status','Accept')->first();
+        if ($request != null) {
+            $this->cekRemote = 1;
+            $this->location = 'Remote';
+        }
         //check if have shift over 24
-    $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->subDay(2),Carbon::now()->subDay()])->where('status','!=','Done')->where('status','!=','No Record')->whereNotIn('status',$leave)->orderBy('date','desc')->with('shift')->get();
-    if ($schedules->first() != null) {
-        $this->schedule = $schedules->first();
-    }
-    else{
-        $this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
-    }
-        //$this->prevSchedule = Schedule::where('employee_id',$this->user->id)->where('date',Carbon::now()->subDay()->format('Y-m-d'))->first();
-    if ($this->schedule != null) {
-        $this->shift = $this->schedule->shift;
-        $this->time_in = $time_in = Carbon::parse($this->shift->time_in);
-        $this->time_out = $time_out = Carbon::parse($this->shift->time_out);
-        if ($this->shift->is_night) {
-            $this->limit_workhour = $time_in->diffInSeconds(Carbon::parse($time_out)->addDay());
+        $schedules = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[Carbon::now()->subDay(2),Carbon::now()->subDay()])->where('status','!=','Done')->where('status','!=','No Record')->whereNotIn('status',$leave)->orderBy('date','desc')->with('shift')->get();
+        if ($schedules->first() != null) {
+            $this->schedule = $schedules->first();
         }
         else{
-            $this->limit_workhour = $time_in->diffInSeconds($time_out);
+            $this->schedule = Schedule::where('employee_id',$this->user->id)->where('date',$this->now->format('Y-m-d'))->first();
         }
-        $this->detailSchedule = $this->schedule->details->SortByDesc('id')->first();
-        if($this->detailSchedule != null && $this->detailSchedule->status != 'Rest' && $this->detailSchedule->stoped_at == null){
-            $this->location = $this->detailSchedule->location;
-        }
-        foreach ($this->schedule->details->where('status','Rest') as $detail) {
-            if ($detail->stoped_at != null) {
-                $startPause = Carbon::parse($detail->started_at);
-                $stopPause = Carbon::parse($detail->stoped_at);
-                $unproductive += $startPause->diffInSeconds($stopPause);
+        //$this->prevSchedule = Schedule::where('employee_id',$this->user->id)->where('date',Carbon::now()->subDay()->format('Y-m-d'))->first();
+        if ($this->schedule != null) {
+            $this->shift = $this->schedule->shift;
+            $this->time_in = $time_in = Carbon::parse($this->shift->time_in);
+            $this->time_out = $time_out = Carbon::parse($this->shift->time_out);
+            if ($this->shift->is_night) {
+                $this->limit_workhour = $time_in->diffInSeconds(Carbon::parse($time_out)->addDay());
             }
             else{
-                $startPause = Carbon::parse($detail->started_at);
-                $unproductive += $startPause->diffInSeconds(Carbon::now());
+                $this->limit_workhour = $time_in->diffInSeconds($time_out);
             }
-        }
-        $this->unproductive = $this->intToTime($unproductive);
+            $this->detailSchedule = $this->schedule->details->SortByDesc('id')->first();
+            if($this->detailSchedule != null && $this->detailSchedule->status != 'Rest' && $this->detailSchedule->stoped_at == null){
+                $this->location = $this->detailSchedule->location;
+            }
+            foreach ($this->schedule->details->where('status','Rest') as $detail) {
+                if ($detail->stoped_at != null) {
+                    $startPause = Carbon::parse($detail->started_at);
+                    $stopPause = Carbon::parse($detail->stoped_at);
+                    $unproductive += $startPause->diffInSeconds($stopPause);
+                }
+                else{
+                    $startPause = Carbon::parse($detail->started_at);
+                    $unproductive += $startPause->diffInSeconds(Carbon::now());
+                }
+            }
+            $this->unproductive = $this->intToTime($unproductive);
 
             //count WFO/WFH
-        $wfo = 0;
-        $wfh = 0;
-        $remote = 0;
-        $business_travel = 0;
-        foreach ($this->schedule->details->where('status','Work') as $work) {
-            if ($work->stoped_at != null) {
-                $startPause = Carbon::parse($work->started_at);
-                $stopPause = Carbon::parse($work->stoped_at);
-                if ($work->location == 'WFO') {
-                    $wfo += $startPause->diffInSeconds($stopPause);
-                }
-                elseif($work->location == 'WFH'){
-                    $wfh += $startPause->diffInSeconds($stopPause);
-                }
-                elseif($work->location == 'Remote'){
-                    $remote += $startPause->diffInSeconds($stopPause);
-                }
-                else{
-                    $business_travel += $startPause->diffInSeconds($stopPause);
-                }
-            }
-            else{
-                $startPause = Carbon::parse($work->started_at);
-                if ($work->location == 'WFO') {
-                    $wfo += $startPause->diffInSeconds(Carbon::now());
-                }
-                elseif($work->location == 'WFH'){
-                    $wfh += $startPause->diffInSeconds(Carbon::now());
-                }
-                elseif($work->location == 'Remote'){
-                    $remote += $startPause->diffInSeconds(Carbon::now());
+            $wfo = 0;
+            $wfh = 0;
+            $remote = 0;
+            $business_travel = 0;
+            foreach ($this->schedule->details->where('status','Work') as $work) {
+                if ($work->stoped_at != null) {
+                    $startPause = Carbon::parse($work->started_at);
+                    $stopPause = Carbon::parse($work->stoped_at);
+                    if ($work->location == 'WFO') {
+                        $wfo += $startPause->diffInSeconds($stopPause);
+                    }
+                    elseif($work->location == 'WFH'){
+                        $wfh += $startPause->diffInSeconds($stopPause);
+                    }
+                    elseif($work->location == 'Remote'){
+                        $remote += $startPause->diffInSeconds($stopPause);
+                    }
+                    else{
+                        $business_travel += $startPause->diffInSeconds($stopPause);
+                    }
                 }
                 else{
-                    $business_travel += $startPause->diffInSeconds(Carbon::now());
+                    $startPause = Carbon::parse($work->started_at);
+                    if ($work->location == 'WFO') {
+                        $wfo += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    elseif($work->location == 'WFH'){
+                        $wfh += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    elseif($work->location == 'Remote'){
+                        $remote += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    else{
+                        $business_travel += $startPause->diffInSeconds(Carbon::now());
+                    }
                 }
             }
+            $this->wfo = $this->intToTime($wfo);
+            $this->wfh = $this->intToTime($wfh);
+            $this->remote = $this->intToTime($remote);
+            $this->business_travel = $this->intToTime($business_travel);
         }
-        $this->wfo = $this->intToTime($wfo);
-        $this->wfh = $this->intToTime($wfh);
-        $this->remote = $this->intToTime($remote);
-        $this->business_travel = $this->intToTime($business_travel);
-    }
         //set history lock
         //$this->historyLock = HistoryLock::where('employee_id',$this->user->id)->where('is_requested',0)->orderBy('id','asc')->get();
         //set weekly target
-    $startWeek = Carbon::now()->startOfWeek();
-    $endWeek = Carbon::now()->endOfWeek();
-    $weekly_work = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
-    foreach ($weekly_work->get() as $weeklySchedule) {
-        $shiftWeekly = $weeklySchedule->shift;
-        $time_inWeekly = Carbon::parse($shiftWeekly->time_in);
-        $time_outWeekly = Carbon::parse($shiftWeekly->time_out);
-        if ($time_outWeekly < $time_inWeekly) {
-            $this->user->target_weekly += $time_inWeekly->diffInSeconds($time_outWeekly->addDay());
-        }
-        else{
-            $this->user->target_weekly += $time_inWeekly->diffInSeconds($time_outWeekly);
-        }
-    }
-    $this->user->target_weekly = $this->intToTime($this->user->target_weekly);
-    if ($this->user->roles == 'Manager') {
-        $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
-    }
-    return view('livewire.User.dashboard');
-}
-public function syncTime()
-{
-    if ($this->schedule != null) {
-            #count time
-        $start = Carbon::parse($this->schedule->started_at);
-        if($this->schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
-            $start = Carbon::parse($this->schedule->details->sortByDesc('id')->first()->started_at);
-        }
-        $timeInt = $start->diffInSeconds(Carbon::now());
-        $this->schedule->update(['timer' => $timeInt]);
-        $timeInt += $this->schedule->workhour;
-        $seconds = intval($timeInt%60);
-        $total_minutes = intval($timeInt/60);
-        $minutes = $total_minutes%60;
-        $hours = intval($total_minutes/60);
-        $this->time = $hours."h ".$minutes."m";
-            #count WFO/WFH
-        $wfo = 0;
-        $wfh = 0;
-        $remote = 0;
-        $business_travel = 0;
-        foreach ($this->schedule->details->where('status','Work') as $work) {
-            if ($work->stoped_at != null) {
-                $startPause = Carbon::parse($work->started_at);
-                $stopPause = Carbon::parse($work->stoped_at);
-                if ($work->location == 'WFO') {
-                    $wfo += $startPause->diffInSeconds($stopPause);
-                }
-                elseif($work->location == 'WFH'){
-                    $wfh += $startPause->diffInSeconds($stopPause);
-                }
-                elseif($work->location == 'Remote'){
-                    $remote += $startPause->diffInSeconds($stopPause);
-                }
-                else{
-                    $business_travel += $startPause->diffInSeconds($stopPause);
-                }
+        $startWeek = Carbon::now()->startOfWeek();
+        $endWeek = Carbon::now()->endOfWeek();
+        $weekly_work = Schedule::where('employee_id',$this->user->id)->whereBetween('date',[$startWeek->format('Y-m-d'),$endWeek->format('Y-m-d')]);
+        foreach ($weekly_work->get() as $weeklySchedule) {
+            $shiftWeekly = $weeklySchedule->shift;
+            $time_inWeekly = Carbon::parse($shiftWeekly->time_in);
+            $time_outWeekly = Carbon::parse($shiftWeekly->time_out);
+            if ($time_outWeekly < $time_inWeekly) {
+                $this->user->target_weekly += $time_inWeekly->diffInSeconds($time_outWeekly->addDay());
             }
             else{
-                $startPause = Carbon::parse($work->started_at);
-                if ($work->location == 'WFO') {
-                    $wfo += $startPause->diffInSeconds(Carbon::now());
-                }
-                elseif($work->location == 'WFH'){
-                    $wfh += $startPause->diffInSeconds(Carbon::now());
-                }
-                elseif($work->location == 'Remote'){
-                    $remote += $startPause->diffInSeconds(Carbon::now());
-                }
-                else{
-                    $business_travel += $startPause->diffInSeconds(Carbon::now());
-                }
+                $this->user->target_weekly += $time_inWeekly->diffInSeconds($time_outWeekly);
             }
         }
-        $this->wfo = $this->intToTime($wfo);
-        $this->wfh = $this->intToTime($wfh);
-        $this->remote = $this->intToTime($remote);
-        $this->business_travel = $this->intToTime($business_travel);
+        $this->user->target_weekly = $this->intToTime($this->user->target_weekly);
+        if ($this->user->roles == 'Manager') {
+            $this->users = User::where('division',$this->user->division)->where('roles','Employee')->get();
+        }
+        return view('livewire.User.dashboard');
     }
-}
-public function showStart()
-{
-    $this->isModal = 'Working';
-}
-public function showStop()
-{
-    $this->isModal = 'Stop';
-}
-public function showOvertime()
-{
-    $this->isModal = 'Overtime';
-}
-public function lateOn()
-{
-    $this->validate([
-        'note' => 'required'
-    ],[
-        'note.required' => 'Reason field is required.'
-    ]);
-    $this->schedule->update([
-        'note' => $this->note
-    ]);
+    public function syncTime()
+    {
+        if ($this->schedule != null) {
+            #count time
+            $start = Carbon::parse($this->schedule->started_at);
+            if($this->schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
+                $start = Carbon::parse($this->schedule->details->sortByDesc('id')->first()->started_at);
+            }
+            $timeInt = $start->diffInSeconds(Carbon::now());
+            $this->schedule->update(['timer' => $timeInt]);
+            $timeInt += $this->schedule->workhour;
+            $seconds = intval($timeInt%60);
+            $total_minutes = intval($timeInt/60);
+            $minutes = $total_minutes%60;
+            $hours = intval($total_minutes/60);
+            $this->time = $hours."h ".$minutes."m";
+            #count WFO/WFH
+            $wfo = 0;
+            $wfh = 0;
+            $remote = 0;
+            $business_travel = 0;
+            foreach ($this->schedule->details->where('status','Work') as $work) {
+                if ($work->stoped_at != null) {
+                    $startPause = Carbon::parse($work->started_at);
+                    $stopPause = Carbon::parse($work->stoped_at);
+                    if ($work->location == 'WFO') {
+                        $wfo += $startPause->diffInSeconds($stopPause);
+                    }
+                    elseif($work->location == 'WFH'){
+                        $wfh += $startPause->diffInSeconds($stopPause);
+                    }
+                    elseif($work->location == 'Remote'){
+                        $remote += $startPause->diffInSeconds($stopPause);
+                    }
+                    else{
+                        $business_travel += $startPause->diffInSeconds($stopPause);
+                    }
+                }
+                else{
+                    $startPause = Carbon::parse($work->started_at);
+                    if ($work->location == 'WFO') {
+                        $wfo += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    elseif($work->location == 'WFH'){
+                        $wfh += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    elseif($work->location == 'Remote'){
+                        $remote += $startPause->diffInSeconds(Carbon::now());
+                    }
+                    else{
+                        $business_travel += $startPause->diffInSeconds(Carbon::now());
+                    }
+                }
+            }
+            $this->wfo = $this->intToTime($wfo);
+            $this->wfh = $this->intToTime($wfh);
+            $this->remote = $this->intToTime($remote);
+            $this->business_travel = $this->intToTime($business_travel);
+        }
+    }
+    public function showStart()
+    {
+        $this->isModal = 'Working';
+    }
+    public function showStop()
+    {
+        $this->isModal = 'Stop';
+    }
+    public function showOvertime()
+    {
+        $this->isModal = 'Overtime';
+    }
+    public function lateOn()
+    {
+        $this->validate([
+            'note' => 'required'
+        ],[
+            'note.required' => 'Reason field is required.'
+        ]);
+        $this->schedule->update([
+            'note' => $this->note
+        ]);
 
-    $this->note = null;
-}
-public function overtimeOn()
-{
+        $this->note = null;
+    }
+    public function overtimeOn()
+    {
         //update detail pause and stop it
-    $this->schedule->update([
-        'status' => 'Overtime'
-    ]);
+        $this->schedule->update([
+            'status' => 'Overtime'
+        ]);
 
         //create new overtime
-    $this->detailSchedule = HistorySchedule::create([
-        'schedule_id' => $this->schedule->id,
-        'status' => 'Overtime',
-        'started_at' => Carbon::now(),
-        'task' => $this->task,
-        'task_desc' => $this->task_desc,
-        'latitude' => $this->latitude,
-        'longitude' => $this->longitude,
-        'location' => $this->location
-    ]);
+        $this->detailSchedule = HistorySchedule::create([
+            'schedule_id' => $this->schedule->id,
+            'status' => 'Overtime',
+            'started_at' => Carbon::now(),
+            'task' => $this->task,
+            'task_desc' => $this->task_desc,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+            'location' => $this->location
+        ]);
 
-    $this->closeModal();
-    $this->resetFields();
-    $this->alert('info', 'Overtime record started.', [
-        'position' =>  'center', 
-        'timer' =>  3000,
-        'toast' =>  false, 
-        'text' =>  '', 
-    ]);
-}
-public function startOn()
-{
+        $this->closeModal();
+        $this->resetFields();
+        $this->alert('info', 'Overtime record started.', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false, 
+            'text' =>  '', 
+        ]);
+    }
+    public function startOn()
+    {
         //validate option tracking
-    $this->validate([
-        'location' => 'required|string|not_in:none',
-    ],[
-        'location.required' => 'Please, Choose Tracking Option before start record.',
-        'location.not_in' => 'Please, Choose Tracking Option before start record.',
-    ]);
+        $this->validate([
+            'location' => 'required|string|not_in:none',
+        ],[
+            'location.required' => 'Please, Choose Tracking Option before start record.',
+            'location.not_in' => 'Please, Choose Tracking Option before start record.',
+        ]);
         /*
         //set position
         if ($this->latitude == null || $this->longitude == null) {
@@ -352,22 +379,21 @@ public function startOn()
             'schedule_id' => $this->schedule->id,
             'status' => 'Work']
             ,[
-                'started_at' => $this->now,
-                'location' => $this->location,
-                'task' => $this->task,
-                'task_desc' => $this->task_desc,
-                'latitude' => $this->latitude,
-                'longitude' => $this->longitude,
-            ]);
+            'started_at' => $this->now,
+            'location' => $this->location,
+            'task' => $this->task,
+            'task_desc' => $this->task_desc,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+        ]);
         $this->task = null;
         $this->closeModal();
         $this->resetFields();
-        $this->alert('success', 'Record started.', [
+        $this->alert('info', 'Record started.', [
             'position' =>  'center', 
-            'timer' =>  5000,  
-            'toast' =>  true, 
+            'timer' =>  3000,
+            'toast' =>  false, 
             'text' =>  '', 
-            'timerProgressBar' => true,
         ]);
     }
     public function closeModal()
@@ -456,7 +482,7 @@ public function startOn()
         $this->closeModal();
         $this->resetFields();
         $this->alert('success', 'Recording Paused', [
-            'position' =>  'center', 
+            'position' =>  'bottom-start', 
             'timer' =>  5000,  
             'toast' =>  true, 
             'text' =>  '', 
@@ -509,7 +535,7 @@ public function startOn()
 
         $this->closeModal();
         $this->resetFields();
-        $this->alert('success', 'Recording resumed', [
+         $this->alert('success', 'Recording resumed', [
             'position' =>  'bottom-start', 
             'timer' =>  5000,
             'toast' =>  true, 
@@ -608,7 +634,7 @@ public function startOn()
             'toast' =>  false, 
             'text' =>  '', 
         ]);
-
+      
     }
     public function continueOn()
     {
@@ -866,7 +892,7 @@ public function startOn()
         else{
             //create activated record
             if ($this->type == 'Record Activation') {
-
+                
                 $request = Request::create([
                     'employee_id' => $this->user->id,
                     'employee_name' => $this->user->name,
