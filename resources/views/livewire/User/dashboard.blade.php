@@ -674,7 +674,7 @@
 
         <h2 class="font-semibold text-xl tracking-wide truncate pt-2">{{(auth()->user()->username ? auth()->user()->username : auth()->user()->name )}}</h2>                  
         <h2 class="text-gray-50">{{auth()->user()->division}}</h2> 
-        <div class="flex space-x-1 mt-2 font-semibold mx-auto w-max items-center">
+        <div class="flex space-x-1 mt-2 font-semibold mx-auto w-max items-center ">
           <h2 class="text-gray-100 border border-gray-100 px-2 py-1 rounded-md text-sm shadow-md ">
             Annual Leave Quota           
           </h2> 
@@ -701,14 +701,11 @@
             $weekStop = Carbon\Carbon::now()->endOfWeek();
             $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
             @endphp
-            <div class="my-auto flex flex-row space-x-2">                          
+            <div class="my-auto flex flex-row space-x-2 border shadow rounded-md py-1 px-2 ">                          
               @if($schedule != null)
+             
               <div class="flex flex-col">
-                <i class="far fa-calendar-alt text-orange-500"></i>
-                <div class="border w-0.5 mt-0.5 mx-auto h-full"></div>
-              </div>
-              <div class="flex flex-col">
-                <h2 class="font-semibold text-gray-800 text-sm "> Shift {{$schedule->shift->name}}  @if(strpos($user->position,'Project Manager')) <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
+                <h2 class="font-semibold text-gray-800 text-sm "> <i class="far fa-calendar-alt text-orange-500 "></i> Shift {{$schedule->shift->name}}  @if(strpos($user->position,'Project Manager')) <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
                 <h4 class="text-sm text-right text-gray-600">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
               </div>
               @else
