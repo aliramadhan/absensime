@@ -18,13 +18,13 @@ class ScheduleLive extends Component
 {
   use LivewireAlert;
   use WithFileUploads;
-	public $schedules, $schedule, $employees, $shifts, $employee_id, $shift_id,$date, $employee, $shift, $file;
+  public $schedules, $schedule, $employees, $shifts, $employee_id, $shift_id,$date, $employee, $shift, $file;
   public $isModal = null, $showModal = false;
-	protected $rules = [
-		'employee_id' => 'required',
-		'shift_id' => 'required',
-		'date' => 'required|date_format:Y-m-d',
-	];
+  protected $rules = [
+    'employee_id' => 'required',
+    'shift_id' => 'required',
+    'date' => 'required|date_format:Y-m-d',
+  ];
   protected $messages = [
     '*.required' => 'The :attribute cannot be empty.',
   ];
@@ -89,10 +89,10 @@ class ScheduleLive extends Component
     $this->shift = Shift::findOrFail($this->shift_id);
     if ($schedule != null) {
       $this->alert('warning', 'Schedule for '.$this->employee->name . ' at '.$this->date.' already exists, add different date.', [
-          'position' =>  'center', 
-          'timer' =>  5000,
-          'toast' =>  false, 
-          'text' =>  '', 
+        'position' =>  'center', 
+        'timer' =>  5000,
+        'toast' =>  false, 
+        'text' =>  '', 
       ]);
       $this->closeModal();
       $this->resetFields();
@@ -109,10 +109,10 @@ class ScheduleLive extends Component
       ]);
 
       $this->alert('info', 'Schedule for '.$this->employee->name . ' at '.$this->date.' added successfully.', [
-          'position' =>  'center', 
-          'timer' =>  5000,
-          'toast' =>  false, 
-          'text' =>  '', 
+        'position' =>  'center', 
+        'timer' =>  5000,
+        'toast' =>  false, 
+        'text' =>  '', 
       ]);
       $this->closeModal();
       $this->resetFields();
@@ -130,10 +130,10 @@ class ScheduleLive extends Component
     ]);
 
     $this->alert('info', 'Schedule for '.$this->employee->name . ' at '.$this->date.' updated successfully.', [
-        'position' =>  'center', 
-        'timer' =>  5000,
-        'toast' =>  false, 
-        'text' =>  '', 
+      'position' =>  'center', 
+      'timer' =>  5000,
+      'toast' =>  false, 
+      'text' =>  '', 
     ]);
     $this->closeModal();
     $this->resetFields(); 
@@ -144,10 +144,10 @@ class ScheduleLive extends Component
     $this->shift = Shift::findOrFail($this->shift_id);
     $this->employee = User::findOrFail($this->employee_id);
     $this->alert('info', 'Schedule for '.$this->employee->name . ' at '.$this->date.' deleted successfully.', [
-        'position' =>  'center', 
-        'timer' =>  5000,
-        'toast' =>  false, 
-        'text' =>  '', 
+      'position' =>  'center', 
+      'timer' =>  5000,
+      'toast' =>  false, 
+      'text' =>  '', 
     ]);
     $this->schedule->delete();
     $this->closeModal();
@@ -196,19 +196,19 @@ class ScheduleLive extends Component
       }
     }
     $this->alert('info', 'Import Schedule successfully.', [
-        'position' =>  'center', 
-        'timer' =>  5000,
-        'toast' =>  false, 
-        'text' =>  '', 
+      'position' =>  'center', 
+      'timer' =>  5000,
+      'toast' =>  false, 
+      'text' =>  '', 
     ]);
     if ($message != '') {
       $this->alert('error', $message, [
-          'position' =>  'center', 
-          'timer' =>  10000,
-          'toast' =>  true, 
-          'text' =>  '',
-           'width' => '700',
-           'timerProgressBar' => true, 
+        'position' =>  'center', 
+        'timer' =>  10000,
+        'toast' =>  true, 
+        'text' =>  '',
+        'width' => '700',
+        'timerProgressBar' => true, 
       ]);
     }
     $this->closeModal();
