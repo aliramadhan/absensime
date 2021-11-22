@@ -376,104 +376,104 @@
                             <i x-show="date[2] === 6" class="fas fa-pause-circle  mx-auto fa-lg my-4  text-purple-500"></i>
                             <!-- if permission -->
                             <i x-show="date[2] === 4" class="fas fa-check-circle  mx-auto fa-lg my-4  text-yellow-500"></i>
-                              <!-- if today -->
+                            <!-- if today -->
                             <i x-show="date[2] === 2" class="fas fa-circle-notch animate-spin  mx-auto fa-lg my-4  text-blue-500"></i>
                             
-                         </div>
-                         <div
-                         @click="showEventModal(date)" class="text-lg font-semibold border-b border-dashed w-6 text-center " :class="isToday(date[0]) ? 'border-white':'border-gray-500'"
-                         x-text="date[0]"></div> 
+                          </div>
+                          <div
+                          @click="showEventModal(date)" class="text-lg font-semibold border-b border-dashed w-6 text-center " :class="isToday(date[0]) ? 'border-white':'border-gray-500'"
+                          x-text="date[0]"></div> 
 
-                         <label x-text="date[1]" class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{'text-white': date[1] == 'libur' && isToday(date[0]) == true,'text-red-500': date[1] == 'libur' && isToday(date[0]) != true}"></label>
-                       </div>
+                          <label x-text="date[1]" class="text-xs font-semibold rounded-br-md  pt-0.5" :class="{'text-white': date[1] == 'libur' && isToday(date[0]) == true,'text-red-500': date[1] == 'libur' && isToday(date[0]) != true}"></label>
+                        </div>
 
-                     </div>
-                   </template>
-                 </div>
-               </div>
-             </div>
-           </div>
+                      </div>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-         </div>
+          </div>
 
-         <script>
-          const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-          const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+          <script>
+            const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 
-          function app() {
-            return {
-              month: '',
-              year: '',
-              no_of_days: [],
-              schedules: {!! json_encode(App\Models\Schedule::where('employee_id',$user->id)->get()->toArray()) !!},
-              blankdays: [],
-              days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-              today : '',
+            function app() {
+              return {
+                month: '',
+                year: '',
+                no_of_days: [],
+                schedules: {!! json_encode(App\Models\Schedule::where('employee_id',$user->id)->get()->toArray()) !!},
+                blankdays: [],
+                days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+                today : '',
 
-              events: [
-              {
-                event_date: new Date(2021, 4, 1),
-                event_title: "April Fool's Day",
-                event_theme: 'blue'
-              },
+                events: [
+                {
+                  event_date: new Date(2021, 4, 1),
+                  event_title: "April Fool's Day",
+                  event_theme: 'blue'
+                },
 
-              {
-                event_date: new Date(2021, 3, 10),
-                event_title: "Birthday",
-                event_theme: 'red'
-              },
+                {
+                  event_date: new Date(2021, 3, 10),
+                  event_title: "Birthday",
+                  event_theme: 'red'
+                },
 
-              {
-                event_date: new Date(2021, 3, 16),
-                event_title: "Upcoming Event",
-                event_theme: 'green'
-              }
-              ],
-              event_title: '',
-              event_date: '',
-              event_theme: 'blue',
+                {
+                  event_date: new Date(2021, 3, 16),
+                  event_title: "Upcoming Event",
+                  event_theme: 'green'
+                }
+                ],
+                event_title: '',
+                event_date: '',
+                event_theme: 'blue',
 
-              themes: [
-              {
-                value: "blue",
-                label: "Blue Theme"
-              },
-              {
-                value: "red",
-                label: "Red Theme"
-              },
-              {
-                value: "yellow",
-                label: "Yellow Theme"
-              },
-              {
-                value: "green",
-                label: "Green Theme"
-              },
-              {
-                value: "purple",
-                label: "Purple Theme"
-              }
-              ],
+                themes: [
+                {
+                  value: "blue",
+                  label: "Blue Theme"
+                },
+                {
+                  value: "red",
+                  label: "Red Theme"
+                },
+                {
+                  value: "yellow",
+                  label: "Yellow Theme"
+                },
+                {
+                  value: "green",
+                  label: "Green Theme"
+                },
+                {
+                  value: "purple",
+                  label: "Purple Theme"
+                }
+                ],
 
-              openEventModal: false,
+                openEventModal: false,
 
-              initDate() {
-                let today = new Date();
-                this.today = new Date();
-                this.month = today.getMonth();
-                this.year = today.getFullYear();
-                this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
-              },
+                initDate() {
+                  let today = new Date();
+                  this.today = new Date();
+                  this.month = today.getMonth();
+                  this.year = today.getFullYear();
+                  this.datepickerValue = new Date(this.year, this.month, today.getDate()).toDateString();
+                },
 
-              isToday(date) {
-                const today = new Date();
-                const d = new Date(this.year, this.month, date);
+                isToday(date) {
+                  const today = new Date();
+                  const d = new Date(this.year, this.month, date);
 
-                return today.toDateString() === d.toDateString() ? true : false;
-              },
+                  return today.toDateString() === d.toDateString() ? true : false;
+                },
 
-              showEventModal(date) {
+                showEventModal(date) {
                   // open the modal
                   this.openEventModal = true;
                   this.event_date = new Date(this.year, this.month, date).toDateString();
@@ -537,14 +537,14 @@
                       6 = Pause
 
 
-                    */
-                    if (schedule != null) {
-                      if (schedule.status == 'No Record') {
-                        daysArray.push([i,schedule.shift_name,1]);
-                      }
-                      else if (schedule.status == 'Pause') {
-                        daysArray.push([i,schedule.shift_name,6]);
-                      }
+                      */
+                      if (schedule != null) {
+                        if (schedule.status == 'No Record') {
+                          daysArray.push([i,schedule.shift_name,1]);
+                        }
+                        else if (schedule.status == 'Pause') {
+                          daysArray.push([i,schedule.shift_name,6]);
+                        }
                       else if((this.isToday(i))&& schedule.status != 'Done'){ //sedang melakukan recording & belum selesai
                         daysArray.push([i,schedule.shift_name,2]);
                       }
@@ -575,52 +575,65 @@
         </div>
 
         <div class="flex-row bg-white px-3 pt-2 py-4 mt-3 mb-2 rounded-xl space-y-1 border md:w-full w-11/12 mx-auto md:mb-0 lg:flex  md:hidden sm:flex  space-x-2">
-          <div class="flex flex-col py-1 space-y-2">
+          <div class="hidden md:flex flex-col py-1 space-y-2">
             <div class="rounded-full w-5 h-5 border-blue-400 p-1 border-4 mt-0.5"></div>
             <div class="border w-0.5 mt-0.5 mx-auto h-full py-1"></div>
           </div>
-         
-            <div>
+
+          <div>
             <div class="text-gray-700 pb-3 flex items-center pb-2 space-x-1">
              <label class=" font-semibold tracking-wider text-lg -mt-0.5"> Legend   </label>
            </div>
 
            <div class="grid grid-cols-2 gap-2  truncate">
             <div class="flex flex-col space-y-1">
-            <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend</label>
-            <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent</label>
-            <label class="text-sm flex items-center "><i class="w-4 fas fa-walking mr-1 text-indigo-500"></i>Coming</label>
+              <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend</label>
+              <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent</label>
+              <label class="text-sm flex items-center "><i class="w-4 fas fa-walking mr-1 text-indigo-500"></i>Coming</label>
             </div>
             <div class="flex flex-col space-y-1">
-            <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
-            <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
-            <label class="text-sm flex items-center "> <i class=" fas fa-circle-notch animate-spin  text-blue-500 mr-1"></i>Recording</label>
+              <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
+              <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
+              <label class="text-sm flex items-center "> <i class=" fas fa-circle-notch animate-spin  text-blue-500 mr-1"></i>Recording</label>
             </div>
           </div>
-          </div>
-      
+        </div>
+
 
       </div>
-      </div>
-        
-      
-      <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden lg:block hidden">
-        <div class="hover:bg-white duration-300 px-4 py-3 rounded-lg overflow-y-auto h-full grid grid-cols-2 border items-center font-semibold justify-items-center text-sm">
-          <div  class="flex flex-cols space-x-2 items-center">
+       <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden block  mb-3">
+          <div class="hover:bg-white duration-300 px-4 py-3 rounded-lg overflow-y-auto h-full grid grid-cols-2 border items-center font-semibold justify-items-center text-sm mx-auto w-11/12">
+            <div  class="flex flex-cols space-x-2 items-center">
+              <label class=" text-gray-700">Attend</label>
+              <h2 class="text-white rounded-md bg-green-400 px-1.5">{{$schedules->where('status','!=','No Record')->count()}}</h2> 
+            </div>
+            <div class="flex flex-cols space-x-2 items-center">
+              <label class=" text-gray-700">No Record</label>
+              <h2 class="text-white rounded-md bg-red-500 px-1.5">{{$schedules->where('status','No Record')->count()}}</h2> 
+            </div>
+
+          </div>
+        </div>
+    </div>
+
+
+    <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden lg:block hidden">
+      <div class="hover:bg-white duration-300 px-4 py-3 rounded-lg overflow-y-auto h-full grid grid-cols-2 border items-center font-semibold justify-items-center text-sm">
+        <div  class="flex flex-cols space-x-2 items-center">
           <label class=" text-gray-700">Attend</label>
           <h2 class="text-white rounded-md bg-green-400 px-1.5">{{$schedules->where('status','!=','No Record')->count()}}</h2> 
-          </div>
-          <div class="flex flex-cols space-x-2 items-center">
+        </div>
+        <div class="flex flex-cols space-x-2 items-center">
           <label class=" text-gray-700">No Record</label>
           <h2 class="text-white rounded-md bg-red-500 px-1.5">{{$schedules->where('status','No Record')->count()}}</h2> 
-          </div>
-       
         </div>
+
       </div>
-      <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg md:mt-0 sm:mt-4 md:block lg:hidden hidden">
-          <div class="flex flex-col bg-white px-3 py-2  rounded-xl space-y-1 border md:w-full w-11/12 mx-auto  mb-4 ">
-          <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 ">Legend</label>
-          <div class="grid grid-cols-2 gap-2">
+    </div>
+    <div class="overflow-hidden md:col-span-1 col-span-2 md:w-full w-11/12 mx-auto md:mx-0 rounded-lg md:mt-0 sm:mt-4 md:block lg:hidden hidden">
+      <div class="flex flex-col bg-white px-3 py-2  rounded-xl space-y-1 border md:w-full w-11/12 mx-auto  mb-4 ">
+        <label class="mb-2 font-semibold tracking-wider text-base text-gray-700 ">Legend</label>
+        <div class="grid grid-cols-2 gap-2">
 
           <label class="text-sm flex items-center "><i class="w-4 fas fa-check-circle mr-1 text-green-500"></i>Attend {{$schedules->where('status','!=','No Record')->count()}}</label>
           <label class="text-sm flex items-center "><i class="w-4 fas fa-times-circle mr-1 text-red-500"></i>Absent {{$schedules->where('status','No Record')->count()}}</label>
@@ -628,267 +641,267 @@
           <label class="text-sm flex items-center "><i class="w-4 fas fa-pause-circle mr-1 text-purple-500"></i>Paused</label>
           <label class="text-sm flex items-center "> <i class="w-4 fas fa-check-circle mr-1 text-yellow-500"></i>Permission</label>
           <label class="text-sm flex items-center "> <i class=" fas fa-circle-notch animate-spin  text-blue-500 mr-1"></i>Recording</label>
-          </div>
         </div>
-
-        <div class="overflow-hidden md:col-span-1 col-span-2  mb-2">
-          <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
-            <label class=" text-gray-700">Annual Leave Quota</label>
-            <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
-          </div>
-        </div>            
       </div>
 
-
-
-
+      <div class="overflow-hidden md:col-span-1 col-span-2  mb-2">
+        <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
+          <label class=" text-gray-700">Annual Leave Quota</label>
+          <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
+        </div>
+      </div>            
     </div>
-    <div class="overflow-hidden sm:rounded-lg col-span-6 grid md:gap-10 md:space-y-0 space-y-4">
 
-      <div class="overflow-hidden sm:rounded-lg h-60 grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 items-center leading-tight h-full ">
-       <div class=" bg-gradient-to-r from-purple-400 to-blue-400 w-full h-full pb-4 pt-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-md">   
-        <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-3 items-center rounded-full mx-auto relative weekly-trigger cursor-pointer" style="background-image: url({{ Auth::user()->profile_photo_url }});">
-          @if($schedule != null)
-          @php
-          $progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
-          @endphp
-          @endif
-          <progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>  
-          <div class="absolute weekly-target w-32 h-32 top-0  rounded-full justify-center text-center px-2 space-y-2 flex flex-col" style="background-color: #292929a3;">
-            <label class="leading-none">Work Progress</label>
-            <label class="text-4xl"> @if($progress>=100) {{100}}% @else {{number_format($progress,0)}}% @endif</label> </div>
-          </div>
 
-          <h2 class="font-semibold text-xl tracking-wide truncate pt-2">{{auth()->user()->name}}</h2>                  
-          <h2 class="text-gray-50">{{auth()->user()->division}}</h2> 
-          <div class="flex space-x-1 mt-2 font-semibold mx-auto w-max items-center">
+
+
+  </div>
+  <div class="overflow-hidden sm:rounded-lg col-span-6 grid md:gap-10 md:space-y-0 space-y-4">
+
+    <div class="overflow-hidden sm:rounded-lg h-60 grid xl:grid-cols-8 lg:grid-cols-6 md:grid-cols-6 items-center leading-tight h-full ">
+     <div class=" bg-gradient-to-r from-purple-400 to-blue-400 w-full h-full pb-4 pt-10 px-4 flex-row col-span-2 text-center text-white rounded-xl hidden md:block shdow-md">   
+      <div class="bg-cover bg-no-repeat bg-center w-32 h-32 mb-3 items-center rounded-full mx-auto relative weekly-trigger cursor-pointer" style="background-image: url({{ Auth::user()->profile_photo_url }});">
+        @if($schedule != null)
+        @php
+        $progress = ($schedule->timer + $schedule->workhour)/$limit_workhour * 100;
+        @endphp
+        @endif
+        <progress-ring stroke="4" percent="5" radius="74.5" progress="@if($progress>=100) {{100}} @else {{$progress}} @endif"  class=" left-11 -mt-1 "></progress-ring>  
+        <div class="absolute weekly-target w-32 h-32 top-0  rounded-full justify-center text-center px-2 space-y-2 flex flex-col" style="background-color: #292929a3;">
+          <label class="leading-none">Work Progress</label>
+          <label class="text-4xl"> @if($progress>=100) {{100}}% @else {{number_format($progress,0)}}% @endif</label> </div>
+        </div>
+
+        <h2 class="font-semibold text-xl tracking-wide truncate pt-2">{{(auth()->user()->username ? auth()->user()->username : auth()->user()->name )}}</h2>                  
+        <h2 class="text-gray-50">{{auth()->user()->division}}</h2> 
+        <div class="flex space-x-1 mt-2 font-semibold mx-auto w-max items-center">
           <h2 class="text-gray-100 border border-gray-100 px-2 py-1 rounded-md text-sm shadow-md ">
             Annual Leave Quota           
           </h2> 
           <h2 class="bg-gradient-to-r from-blue-500 to-indigo-600   shadow-md text-white rounded-md px-2 py-1 duration-300">{{auth()->user()->leave_count}}</h2>
-          </div>
         </div>
-        <div class="flex-auto col-span-4 xl:col-span-6 h-full md:py-6 pt-8 md:pt-0">
-          <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl  static ">
-            <div class="border-b-2 row-span-1 px-4 flex justify-between items-center relative "> 
+      </div>
+      <div class="flex-auto col-span-4 xl:col-span-6 h-full md:py-6 pt-8 md:pt-0">
+        <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl  static ">
+          <div class="border-b-2 row-span-1 px-4 flex justify-between items-center relative "> 
 
-              <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-4 md:-ml-2">
-               <div class="bg-cover bg-no-repeat bg-center w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
-               <label class="border-r pr-2 text-gray-600"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
-               <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
-                <label class="leading-none text-base hidden md:block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d F')}} @else {{$now->format('d F')}} @endif</label>
-                <label class="leading-none text-base  md:hidden block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d M')}} @else {{$now->format('d M')}} @endif</label>
-                <label class="text-blue-500 xl:text-lg text-base md:text-base leading-none ">@if($schedule != null) {{Carbon\Carbon::parse($schedule->date)->format('Y')}} @else {{$now->format('Y')}} @endif</label>
-              </div>
+            <div class="py-4 md:py-0 xl:text-4xl justify-between md:mx-0 mx-auto text-3xl font-bold text-gray-500 flex items-center space-x-4 md:-ml-2">
+             <div class="bg-cover bg-no-repeat bg-center w-12 h-12 items-center rounded-full mx-auto inline-flex md:hidden" style="background-image: url({{ Auth::user()->profile_photo_url }});"></div>
+             <label class="border-r pr-2 text-gray-600"> @if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('l')}} @else {{$now->format('l')}} @endif</label>
+             <div class="md:text-base md:text-sm font-semibold text-gray-500 flex flex-col leading-none mt-2 ">
+              <label class="leading-none text-base hidden md:block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d F')}} @else {{$now->format('d F')}} @endif</label>
+              <label class="leading-none text-base  md:hidden block">@if($schedule != null){{Carbon\Carbon::parse($schedule->date)->format('d M')}} @else {{$now->format('d M')}} @endif</label>
+              <label class="text-blue-500 xl:text-lg text-base md:text-base leading-none ">@if($schedule != null) {{Carbon\Carbon::parse($schedule->date)->format('Y')}} @else {{$now->format('Y')}} @endif</label>
             </div>
-            <div class="flex items-center gap-4 hidden md:inline-flex">
+          </div>
+          <div class="flex items-center gap-4 hidden md:inline-flex">
+            @if($schedule != null)
+            @php
+            $weekStart = Carbon\Carbon::now()->startOfWeek();
+            $weekStop = Carbon\Carbon::now()->endOfWeek();
+            $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
+            @endphp
+            <div class="my-auto flex flex-row space-x-2">                          
               @if($schedule != null)
-              @php
-              $weekStart = Carbon\Carbon::now()->startOfWeek();
-              $weekStop = Carbon\Carbon::now()->endOfWeek();
-              $weekSchedules = App\Models\Schedule::where('employee_id',$user->id)->whereBetween('created_at',[$weekStart,$weekStop->format('Y-m-d 23:59:59')])->get();
-              @endphp
-              <div class="my-auto flex flex-row space-x-2">                          
-                @if($schedule != null)
-                <div class="flex flex-col">
+              <div class="flex flex-col">
                 <i class="far fa-calendar-alt text-orange-500"></i>
                 <div class="border w-0.5 mt-0.5 mx-auto h-full"></div>
-                </div>
-                <div class="flex flex-col">
+              </div>
+              <div class="flex flex-col">
                 <h2 class="font-semibold text-gray-800 text-sm "> Shift {{$schedule->shift->name}}  @if(strpos($user->position,'Project Manager')) <span class="text-sm font-semibold text-gray-500 align-top">+4 h </span> @endif</h2>
                 <h4 class="text-sm text-right text-gray-600">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}}</h4>
-                </div>
-                @else
-                <h2 class="font-semibold text-gray-800 text-sm md:text-base ">No Schedule</h2>
-                @endif
-              </div>
-              @endif
-
-            </div>
-
-            <a href="#" class="flex items-center gap-4 md:hidden block w-screen left-0 absolute -mt-9 z-10 top-0 text-center bg-gradient-to-r from-purple-400 to-blue-500 border text-white py-2 hover:bg-gray-500">
-              @if($schedule != null)
-              @php
-              $weekStart = Carbon\Carbon::now()->startOfWeek();
-              $weekStop = Carbon\Carbon::now()->endOfWeek();
-              @endphp
-              <div class="space-x-2 flex mx-auto items-center ">
-                <h2 class="font-semibold text-sm md:text-base tracking-wide"><i class="far fa-calendar-alt"></i>  Shift {{$schedule->shift->name}} </h2>
-                <h4 class="text-sm md:text-base tracking-wider">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}} @if(strpos($user->position,'Project Manager')) <span >(+4 h) </span> @endif</h4>
-
               </div>
               @else
-              <div class="gap-2 flex mx-auto items-center ">
-                <h2 class="font-semibold text-sm md:text-base tracking-wide"> No Schedule Today</h2>                          
-              </div>
-
+              <h2 class="font-semibold text-gray-800 text-sm md:text-base ">No Schedule</h2>
               @endif
-
-            </a>
+            </div>
+            @endif
 
           </div>
 
-          <div class="row-span-3 flex h-min flex-col justify-between px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
-            <div class="flex md:flex-row flex-col  space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate flex-auto md:px-4 flex-auto">
-              <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
-                <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
-                @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
-                <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12" disabled wire:model="location" >
-                  @if($cekRemote)<option selected="true">Remote</option>@endif
-                  <option value="WFO">Work From Office</option>
-                  <option value="WFH">Work From Home</option>
-                  <option value="Business Travel">Business Travel</option>
-                </select>
-                @else
-                <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12  @error('location') border-red-500  @enderror" wire:model="location" >
-                  <option hidden value="none">Choose One</option>
-                  @if($cekRemote)<option selected="true">Remote</option>@endif
-                  <option value="WFO">Work From Office</option>
-                  <option value="WFH">Work From Home</option>
-                  <option value="Business Travel">Business Travel</option>
-                </select>
-                @endif
-              </label>
-              @error('location') <span class="text-red-500 text-base font-semibold ">Please fill tracking option</span>@enderror
+          <a href="#" class="flex items-center gap-4 md:hidden block w-screen left-0 absolute -mt-9 z-10 top-0 text-center bg-gradient-to-r from-purple-400 to-blue-500 border text-white py-2 hover:bg-gray-500">
+            @if($schedule != null)
+            @php
+            $weekStart = Carbon\Carbon::now()->startOfWeek();
+            $weekStop = Carbon\Carbon::now()->endOfWeek();
+            @endphp
+            <div class="space-x-2 flex mx-auto items-center ">
+              <h2 class="font-semibold text-sm md:text-base tracking-wide"><i class="far fa-calendar-alt"></i>  Shift {{$schedule->shift->name}} </h2>
+              <h4 class="text-sm md:text-base tracking-wider">{{Carbon\Carbon::parse($schedule->shift->time_in)->format('H:i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H:i')}} @if(strpos($user->position,'Project Manager')) <span >(+4 h) </span> @endif</h4>
 
-              <!--   <h2 class="text-gray-700 text-left mr-2 truncate w-full md:w-11/12  border rounded-xl px-3  py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2> -->
             </div>
-            <div class="flex justify-between items-center flex-col md:flex-row">
-              @if($isModal == 'Pause')
-              @include('livewire.User.create_pause')
-              @elseif($isModal == 'Working')
-              @include('livewire.User.create_start')
-              @elseif($isModal == 'Resume')
-              @include('livewire.User.create_start')
-              @elseif($isModal == 'Create Request')
-              @include('livewire.User.Request.create_request')
-              @elseif($isModal == 'Create Mandatory')
-              @include('livewire.User.Request.create_mandatory')
-              @elseif($isModal == 'Stop')
-              @include('livewire.User.show_stop')
+            @else
+            <div class="gap-2 flex mx-auto items-center ">
+              <h2 class="font-semibold text-sm md:text-base tracking-wide"> No Schedule Today</h2>                          
+            </div>
+
+            @endif
+
+          </a>
+
+        </div>
+
+        <div class="row-span-3 flex h-min flex-col justify-between px-4 py-3 mt-2 md:mb-0 mb-4  xl:w-auto overflow-hidden">                      
+          <div class="flex md:flex-row flex-col  space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate flex-auto md:px-4 flex-auto">
+            <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
+              <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
+              @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
+              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12" disabled wire:model="location" >
+                @if($cekRemote)<option selected="true">Remote</option>@endif
+                <option value="WFO">Work From Office</option>
+                <option value="WFH">Work From Home</option>
+                <option value="Business Travel">Business Travel</option>
+              </select>
+              @else
+              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12  @error('location') border-red-500  @enderror" wire:model="location" >
+                <option hidden value="none">Choose One</option>
+                @if($cekRemote)<option selected="true">Remote</option>@endif
+                <option value="WFO">Work From Office</option>
+                <option value="WFH">Work From Home</option>
+                <option value="Business Travel">Business Travel</option>
+              </select>
               @endif
-              @if($schedule != null && $schedule->started_at != null)
-              <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
-              @if($schedule->status == 'Working')
-              <div class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
-                @if($schedule != null && $schedule->status != 'Not sign in')
-                @if($time_in->lessThan(Carbon\Carbon::parse($schedule->started_at)) && Carbon\Carbon::parse($schedule->started_at)->diffInMinutes($time_in) > 60  && $schedule->note == null)
-                @include('livewire.User.show-late')
-                @endif
-                @php
-                $workhourDetail = 0;
-                foreach ($schedule->details->where('status','Work') as $listDetail) {
-                  $started_atDetail = Carbon\Carbon::parse($listDetail->started_at);
-                  $stoped_atDetail = Carbon\Carbon::parse($listDetail->stoped_at);
-                  $workhourDetail += $started_atDetail->diffInSeconds($stoped_atDetail);
-                }
-                $checkDivision = strpos($user->position, 'Project Manager');
-                @endphp
-              
-                @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800) && ($checkDivision === false))
-                  @include('livewire.User.show-confirm-stop')
-                  @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && ($checkDivision === true))
-                    @include('livewire.User.show-confirm-stop')
-                    @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && ($checkDivision === false))
-                    @php
-                    //update task and stop schedule
-                    $detailSchedule = $schedule->details->sortByDesc('id')->first();
-                    $detailSchedule->update([
-                    'stoped_at' => $now,
-                    ]);
-                    $workhour = 0;
-                    foreach ($schedule->details->where('status','Work') as $detail) {
-                      $started_at = Carbon\Carbon::parse($detail->started_at);
-                      $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
-                      $workhour += $started_at->diffInSeconds($stoped_at);
-                    }
-                    $schedule->update([
-                    'stoped_at' => $now,
-                    'workhour' => $workhour,
-                    'timer' => 0,
-                    'status' => 'Done',
-                    ]);
-                    @endphp
-                    @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && ($checkDivision === true))
-                    @php
-                    //update task and stop schedule
-                    $detailSchedule = $schedule->details->sortByDesc('id')->first();
-                    $detailSchedule->update([
-                    'stoped_at' => $now,
-                    ]);
-                    $workhour = 0;
-                    foreach ($schedule->details->where('status','Work') as $detail) {
-                      $started_at = Carbon\Carbon::parse($detail->started_at);
-                      $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
-                      $workhour += $started_at->diffInSeconds($stoped_at);
-                    }
-                    $schedule->update([
-                    'stoped_at' => $now,
-                    'workhour' => $workhour,
-                    'timer' => 0,
-                    'status' => 'Done',
-                    ]);
-                    @endphp
-                    @endif
-                    @endif
-                    @if($schedule != null)
-                    @php
-                    $start = Carbon\Carbon::parse($schedule->started_at);
-                    if($schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
-                      $start = Carbon\Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
-                    }
-                    $timeInt = $start->diffInSeconds(Carbon\Carbon::now());
-                    $schedule->update(['timer' => $timeInt]);
-                    $timeInt += $schedule->workhour;
-                    $seconds = intval($timeInt%60);
-                    $total_minutes = intval($timeInt/60);
-                    $minutes = $total_minutes%60;
-                    $hours = intval($total_minutes/60);
-                    $time = $hours."h ".$minutes."m";
-                    @endphp
-                    <div class="pt-3 block  md:mt-0 mt-2 text-gray-700 w-auto">
-                      <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
-                        <span class="md:hidden xl:inline-block -top-4 bg-white relative  xl:px-2 md:text-lg text-base px-3 xl:font-medium lg:text-base ">Tracking Progress</span>
-                        <span class="xl:hidden hidden md:inline-block md:px-2  -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
-                        <div class="px-5 pb-2 md:-mt-4 -mt-6 flex flex-col items-center text-center ">
-                          <h2 class="text-2xl font-semibold text-orange-500 mt-2 mb-1 tracking-wide">{{$time}}</h2>
-                          <h2 class="text-base ">Status: <span class="font-semibold text-gray-800">{{$schedule->status}}</span></h2>
-                        </div>
-                      </h2>
-                    </div>
+            </label>
+            @error('location') <span class="text-red-500 text-base font-semibold ">Please fill tracking option</span>@enderror
 
-                    @else
-                    <div class="pt-3 block  md:mt-0 mt-2 text-gray-700 w-auto">
-                      @php
-                      $timeInt = $schedule->workhour;
-                      $seconds = intval($timeInt%60);
-                      $total_minutes = intval($timeInt/60);
-                      $minutes = $total_minutes%60;
-                      $hours = intval($total_minutes/60);
-                      $time = $hours."h ".$minutes."m";
-                      @endphp
-                      <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
-                        <span class=" xl:inline-block md:hidden  -top-4 bg-white relative  xl:px-2 text-lg xl:font-medium lg:text-base ">Tracking Progress</span>
-                        <span class="xl:hidden hidden md:inline-block md:px-2 -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
-                        <div class="md:px-5 px-12 pb-2 -mt-6 flex flex-col items-center text-center ">
-                          <h2 class="text-2xl font-semibold text-orange-500 mt-3 ">{{$time}}</h2>
-                          <h2 class="text-base ">Status: <span class="font-semibold text-gray-800">{{$schedule->status}}</span></h2>
-                        </div>
-                      </h2>
-                    </div>
+            <!--   <h2 class="text-gray-700 text-left mr-2 truncate w-full md:w-11/12  border rounded-xl px-3  py-1"><i class="fas fa-map-marker-alt mr-1 text-orange-500"></i> {{ $schedule->current_position ?? "Your Location" }}</h2> -->
+          </div>
+          <div class="flex justify-between items-center flex-col md:flex-row">
+            @if($isModal == 'Pause')
+            @include('livewire.User.create_pause')
+            @elseif($isModal == 'Working')
+            @include('livewire.User.create_start')
+            @elseif($isModal == 'Resume')
+            @include('livewire.User.create_start')
+            @elseif($isModal == 'Create Request')
+            @include('livewire.User.Request.create_request')
+            @elseif($isModal == 'Create Mandatory')
+            @include('livewire.User.Request.create_mandatory')
+            @elseif($isModal == 'Stop')
+            @include('livewire.User.show_stop')
+            @endif
+            @if($schedule != null && $schedule->started_at != null)
+            <!-- <br>Started record at : {{ Carbon\Carbon::parse($schedule->started_at)->format('d F Y H:i:s') }} -->
+            @if($schedule->status == 'Working')
+            <div class="block lg:w-4/12 md:w-5/12 w-full md:mt-0 mt-2 text-gray-700">
+              @if($schedule != null && $schedule->status != 'Not sign in')
+              @if($time_in->lessThan(Carbon\Carbon::parse($schedule->started_at)) && Carbon\Carbon::parse($schedule->started_at)->diffInMinutes($time_in) > 60  && $schedule->note == null)
+              @include('livewire.User.show-late')
+              @endif
+              @php
+              $workhourDetail = 0;
+              foreach ($schedule->details->where('status','Work') as $listDetail) {
+              $started_atDetail = Carbon\Carbon::parse($listDetail->started_at);
+              $stoped_atDetail = Carbon\Carbon::parse($listDetail->stoped_at);
+              $workhourDetail += $started_atDetail->diffInSeconds($stoped_atDetail);
+            }
+            $checkDivision = strpos($user->position, 'Project Manager');
+            @endphp
 
-                    @endif
-                  </div>
-                  @endif
-                  @endif
+            @if($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 1800) && ($checkDivision === false))
+            @include('livewire.User.show-confirm-stop')
+            @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail <= ($limit_workhour + 16200) && ($checkDivision === true))
+            @include('livewire.User.show-confirm-stop')
+            @elseif($workhourDetail >= $limit_workhour && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 1800) && ($checkDivision === false))
+            @php
+            //update task and stop schedule
+            $detailSchedule = $schedule->details->sortByDesc('id')->first();
+            $detailSchedule->update([
+            'stoped_at' => $now,
+            ]);
+            $workhour = 0;
+            foreach ($schedule->details->where('status','Work') as $detail) {
+            $started_at = Carbon\Carbon::parse($detail->started_at);
+            $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
+            $workhour += $started_at->diffInSeconds($stoped_at);
+          }
+          $schedule->update([
+          'stoped_at' => $now,
+          'workhour' => $workhour,
+          'timer' => 0,
+          'status' => 'Done',
+          ]);
+          @endphp
+          @elseif(($workhourDetail >= $limit_workhour+14400) && $schedule->status_stop == null && $workhourDetail > ($limit_workhour + 16200) && ($checkDivision === true))
+          @php
+          //update task and stop schedule
+          $detailSchedule = $schedule->details->sortByDesc('id')->first();
+          $detailSchedule->update([
+          'stoped_at' => $now,
+          ]);
+          $workhour = 0;
+          foreach ($schedule->details->where('status','Work') as $detail) {
+          $started_at = Carbon\Carbon::parse($detail->started_at);
+          $stoped_at = Carbon\Carbon::parse($detail->stoped_at);
+          $workhour += $started_at->diffInSeconds($stoped_at);
+        }
+        $schedule->update([
+        'stoped_at' => $now,
+        'workhour' => $workhour,
+        'timer' => 0,
+        'status' => 'Done',
+        ]);
+        @endphp
+        @endif
+        @endif
+        @if($schedule != null)
+        @php
+        $start = Carbon\Carbon::parse($schedule->started_at);
+        if($schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
+        $start = Carbon\Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
+      }
+      $timeInt = $start->diffInSeconds(Carbon\Carbon::now());
+      $schedule->update(['timer' => $timeInt]);
+      $timeInt += $schedule->workhour;
+      $seconds = intval($timeInt%60);
+      $total_minutes = intval($timeInt/60);
+      $minutes = $total_minutes%60;
+      $hours = intval($total_minutes/60);
+      $time = $hours."h ".$minutes."m";
+      @endphp
+      <div class="pt-3 block  md:mt-0 mt-2 text-gray-700 w-auto">
+        <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
+          <span class="md:hidden xl:inline-block -top-4 bg-white relative  xl:px-2 md:text-lg text-base px-3 xl:font-medium lg:text-base ">Tracking Progress</span>
+          <span class="xl:hidden hidden md:inline-block md:px-2  -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
+          <div class="px-5 pb-2 md:-mt-4 -mt-6 flex flex-col items-center text-center ">
+            <h2 class="text-2xl font-semibold text-orange-500 mt-2 mb-1 tracking-wide">{{$time}}</h2>
+            <h2 class="text-base ">Status: <span class="font-semibold text-gray-800">{{$schedule->status}}</span></h2>
+          </div>
+        </h2>
+      </div>
 
-                  <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full" wire:poll.10000ms >
+      @else
+      <div class="pt-3 block  md:mt-0 mt-2 text-gray-700 w-auto">
+        @php
+        $timeInt = $schedule->workhour;
+        $seconds = intval($timeInt%60);
+        $total_minutes = intval($timeInt/60);
+        $minutes = $total_minutes%60;
+        $hours = intval($total_minutes/60);
+        $time = $hours."h ".$minutes."m";
+        @endphp
+        <h2 class="text-center relative border-4 border-blue-400 rounded-xl leading-tight" >
+          <span class=" xl:inline-block md:hidden  -top-4 bg-white relative  xl:px-2 text-lg xl:font-medium lg:text-base ">Tracking Progress</span>
+          <span class="xl:hidden hidden md:inline-block md:px-2 -top-4 bg-white relative px-4 text-lg lg:text-base ">Tracking</span>
+          <div class="md:px-5 px-12 pb-2 -mt-6 flex flex-col items-center text-center ">
+            <h2 class="text-2xl font-semibold text-orange-500 mt-3 ">{{$time}}</h2>
+            <h2 class="text-base ">Status: <span class="font-semibold text-gray-800">{{$schedule->status}}</span></h2>
+          </div>
+        </h2>
+      </div>
 
-                    @if($schedule != null && $user->is_active != 1 && $schedule->status == 'Done')
+      @endif
+    </div>
+    @endif
+    @endif
 
-                    <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Recording Complete  
-                      <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
-                    </button>  
+    <div class="bg-white md:p-4 mt-5 md:mt-0 rounded-xl md:w-auto w-full" wire:poll.10000ms >
+
+      @if($schedule != null && $user->is_active != 1 && $schedule->status == 'Done')
+
+      <button  class="relative bg-gradient-to-r from-red-400 to-purple-700 duration-200 opacity-80 hover:opacity-100 px-4 py-4 text-lg font-semibold tracking-wider px-6  text-white rounded-xl shadow-xl focus:outline-none w-full weekly-trigger"><i class="fas fa-lock"></i> Recording Complete  
+        <div class="absolute weekly-target bg-white rounded-lg text-gray-700  md:-bottom-8 bottom-0 md:-top-15 z-30 p-3 left-0 ml-0 md:ml-2 shadow-xl border-2 md:-left-8 text-sm whitespace-normal">Your account is locked because you didn’t stop the record. To start your attendance record, you need to activate your account and provide the reason.</div>
+      </button>  
               <!--
               @elseif(auth()->user()->is_active != 1 && ($prevSchedule != null && $prevSchedule->position_stop == null))
              
@@ -1156,30 +1169,30 @@
   @php
   $start = Carbon\Carbon::parse($schedule->started_at);
   if($schedule->details->where('status','Work')->sortByDesc('id')->first() != null){
-    $start = Carbon\Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
-    $timeInt = $start->diffInSeconds(Carbon\Carbon::now());
-    if($schedule->details->where('status','Work')->sortByDesc('id')->first()->stoped_at != null){
-      $timeInt = $start->diffInSeconds(Carbon\Carbon::parse($schedule->details->where('status','Work')->sortByDesc('id')->first()->stoped_at));
-    }
-  }
-  $time_out = Carbon\Carbon::parse($schedule->shift->time_out);
-  if($schedule->stoped_at == null){
-    $schedule->update(['timer' => $timeInt]);
-  }
-  else{
-    $schedule->update(['timer' => 0]);
-  }
-  $timeInt = $schedule->workhour + $schedule->timer;
-  $seconds = intval($timeInt%60);
-  $total_minutes = intval($timeInt/60);
-  $minutes = $total_minutes%60;
-  $hours = intval($total_minutes/60);
-  $time = $hours."h ".$minutes."m";
-  @endphp
-  @if($now->gte($time_out) && $time_out->diffInMinutes($now) <= 5)
+  $start = Carbon\Carbon::parse($schedule->details->sortByDesc('id')->first()->started_at);
+  $timeInt = $start->diffInSeconds(Carbon\Carbon::now());
+  if($schedule->details->where('status','Work')->sortByDesc('id')->first()->stoped_at != null){
+  $timeInt = $start->diffInSeconds(Carbon\Carbon::parse($schedule->details->where('status','Work')->sortByDesc('id')->first()->stoped_at));
+}
+}
+$time_out = Carbon\Carbon::parse($schedule->shift->time_out);
+if($schedule->stoped_at == null){
+$schedule->update(['timer' => $timeInt]);
+}
+else{
+$schedule->update(['timer' => 0]);
+}
+$timeInt = $schedule->workhour + $schedule->timer;
+$seconds = intval($timeInt%60);
+$total_minutes = intval($timeInt/60);
+$minutes = $total_minutes%60;
+$hours = intval($total_minutes/60);
+$time = $hours."h ".$minutes."m";
+@endphp
+@if($now->gte($time_out) && $time_out->diffInMinutes($now) <= 5)
 
-  @endif
-  @endif
+@endif
+@endif
 </div>
 
 <div class="bg-white overflow-hidden border-1 sm:rounded-2xl p-4 md:w-full w-11/12 md:mx-0 mx-auto rounded-lg duration-300 hover:shadow-lg border md:border-4 border-white flex flex-col justify-between ">
@@ -1303,7 +1316,7 @@
 
 <script type="text/javascript">
 
- 
+
   class ProgressRing extends HTMLElement {
     constructor() {
       super();

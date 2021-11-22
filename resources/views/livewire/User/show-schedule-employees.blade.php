@@ -116,7 +116,7 @@
             <div class="truncate md:w-full w-28 flex flex-rows space-x-2  items-center">
              <img src="{{$user->profile_photo_url}}" class="w-8 h-8 rounded-full"> 
              <div class="grid grid-rows-2  w-56 ">
-              <label class="truncate "> {{$user->name}} </label>
+              <label class="truncate ">{{($user->username ? $user->username : $user->name)}} </label>
               <label class="text-gray-500"> {{$user->division}} </label>
             </div>
           </div>
