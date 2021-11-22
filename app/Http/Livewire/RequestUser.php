@@ -52,6 +52,14 @@ class RequestUser extends Component
     {
         $this->desc = "";
     }
+    public function getOvertimeDuration()
+    {
+        if ($this->started_at != null && $this->stoped_at != null) {
+            $started_at = Carbon::parse($this->started_at);
+            $stoped_at = Carbon::parse($this->stoped_at);
+            $this->time_overtime = $started_at->diffInMinutes($stoped_at);
+        }
+    }
     public function createActivationWithRequest()
     {
         //validate for activation        
@@ -535,10 +543,12 @@ class RequestUser extends Component
                         Mail::to($admin->email)->send(new RequestNotificationMail($data));
                     }
 
+                    $format = $this->type.'#'.$this->locationRe.'#'.$this->started_at.'#'.$this->stoped_at;
                     $request = Request::create([
                         'employee_id' => $this->user->id,
                         'employee_name' => $this->user->name,
                         'type' => $this->type,
+                        'format' => $format,
                         'desc' => $this->desc,
                         'date' => $this->date,
                         'time' => $this->time_overtime,

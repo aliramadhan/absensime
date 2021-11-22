@@ -202,12 +202,12 @@
                   <div class="mb-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Started at </label>
-                      <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." wire:model="started_at">
+                      <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStartedAt"  placeholder="Fill in here..." wire:model="started_at" wire:change="getOvertimeDuration">
                       @error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                     </div>
                     <div>
                       <label for="formStopedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Stoped at </label>
-                      <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopedAt" placeholder="Fill in here..." wire:model="stoped_at">
+                      <input type="time" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formStopedAt" placeholder="Fill in here..." wire:model="stoped_at" wire:change="getOvertimeDuration">
                       @error('stoped_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                     </div>
                   </div>
@@ -218,7 +218,7 @@
                   </div>
                   <div class="mb-4">
                     <label for="formTime" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">Duration (minute) :</label>
-                    <input type="number" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTime" wire:model="time_overtime" placeholder="duration in minutes">
+                    <input type="number" class="shadow appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formTime" wire:model="time_overtime" placeholder="duration in minutes" readonly>
                     @error('time_overtime') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
                   </div>
                   @elseif($type == 'Change Shift')
