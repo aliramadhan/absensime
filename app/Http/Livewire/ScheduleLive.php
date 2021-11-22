@@ -174,8 +174,11 @@ class ScheduleLive extends Component
         }
         $shift = Shift::where('name','like','%'.$data[$i][$k].'%')->first();
         if ($data[$i][$k] == 'DEL') {
-          $message .= 'Schedule '.$employee->name.' tanggal '.$date->format('l F Y').' berhasil dihapus.<br>';
-          $schedule->delete();
+          $schedule = Schedule::where('employee_id',$employee->id)->where('date',$date->format('Y-m-d'))->first();
+          if($schedule != null){
+            $message .= 'Schedule '.$employee->name.' tanggal '.$date->format('l F Y').' berhasil dihapus.<br>';
+            $schedule->delete();
+          }
         }
         else{
           $schedule = Schedule::updateOrCreate([
