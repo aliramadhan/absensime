@@ -173,6 +173,11 @@ class ScheduleLive extends Component
           continue;
         }
         $shift = Shift::where('name','like','%'.$data[$i][$k].'%')->first();
+        if ($data[$i][$k] == 'DEL') {
+          $message .= 'Schedule '.$employee->name.' tanggal '.$date->format('l F Y').' berhasil dihapus.<br>';
+          $schedule->delete();
+        }
+        else{
           $schedule = Schedule::updateOrCreate([
             'employee_id' => $employee->id,
             'employee_name' => $employee->name,
@@ -187,6 +192,7 @@ class ScheduleLive extends Component
           else{
             $message .= 'Schedule '.$employee->name.' tanggal '.$date->format('l F Y').' gagal dimasukkan.<br>';
           }
+        }
       }
     }
     $this->alert('info', 'Import Schedule successfully.', [
