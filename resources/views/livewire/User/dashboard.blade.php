@@ -742,8 +742,8 @@
           <div class="flex md:flex-row flex-col  space-x-0 md:space-x-4 items-start md:items-center pb-3 truncate flex-auto md:px-4 flex-auto">
             <label class="flex space-x-4 items-center md:mb-0 mb-2 flex-shrink-0">
               <span class="text-gray-700 flex space-x-1 ">Tracking Option</span>
-              @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Working'))
-              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12" wire:model="location" wire:change="changeTrackOption()">
+              @if(($cekRemote)|| ($schedule != null && $schedule->status == 'Done'))
+              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12" wire:model="location" disabled wire:change="changeTrackOption()">
                 @if($cekRemote)<option selected="true">Remote</option>@endif
                 <option value="WFO">Work From Office</option>
                 <option value="WFH">Work From Home</option>

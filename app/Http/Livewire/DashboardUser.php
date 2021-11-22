@@ -16,6 +16,8 @@ use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestNotificationMail;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Notification;
+use App\Notifications\NotifWithSlack;
 
 class DashboardUser extends Component
 {
@@ -627,6 +629,12 @@ class DashboardUser extends Component
             'position_stop' => $this->position,
             'current_position' => $this->currentPosition
         ]);
+        #Sent Notif Slack
+        if ($this->user->slack_id != null) {
+            $message = "Hey <@".$this->user->slack_id.">, Record hari ini sudah berhasil, sampai jumpa hari besok.";
+            Notification::route('slack', env('SLACK_HOOK'))
+              ->notify(new NotifWithSlack($message, $this->user->slack_id));
+        }
         $this->closeModal();
         $this->alert('info', 'Record stoped', [
             'position' =>  'center', 
