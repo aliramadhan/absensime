@@ -601,19 +601,19 @@
 
 
       </div>
-       <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden block  mb-3">
-          <div class="hover:bg-white duration-300 px-4 py-3 rounded-lg overflow-y-auto h-full grid grid-cols-2 border items-center font-semibold justify-items-center text-sm mx-auto w-11/12">
-            <div  class="flex flex-cols space-x-2 items-center">
-              <label class=" text-gray-700">Attend</label>
-              <h2 class="text-white rounded-md bg-green-400 px-1.5">{{$schedules->where('status','!=','No Record')->count()}}</h2> 
-            </div>
-            <div class="flex flex-cols space-x-2 items-center">
-              <label class=" text-gray-700">No Record</label>
-              <h2 class="text-white rounded-md bg-red-500 px-1.5">{{$schedules->where('status','No Record')->count()}}</h2> 
-            </div>
-
+      <div class="overflow-hidden md:col-span-1 col-span-2 md:hidden block  mb-3">
+        <div class="hover:bg-white duration-300 px-4 py-3 rounded-lg overflow-y-auto h-full grid grid-cols-2 border items-center font-semibold justify-items-center text-sm mx-auto w-11/12">
+          <div  class="flex flex-cols space-x-2 items-center">
+            <label class=" text-gray-700">Attend</label>
+            <h2 class="text-white rounded-md bg-green-400 px-1.5">{{$schedules->where('status','!=','No Record')->count()}}</h2> 
           </div>
+          <div class="flex flex-cols space-x-2 items-center">
+            <label class=" text-gray-700">No Record</label>
+            <h2 class="text-white rounded-md bg-red-500 px-1.5">{{$schedules->where('status','No Record')->count()}}</h2> 
+          </div>
+
         </div>
+      </div>
     </div>
 
 
