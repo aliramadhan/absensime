@@ -82,6 +82,11 @@ class CheckStopedSchedule extends Command
                             'status' => 'Done',
                         ]);
                     }
+                    if ($user->slack_id != null) {
+                        $message = "Hey <@".$user->slack_id.">, Record hari ini sudah berhasil, sampai jumpa hari besok.";
+                        Notification::route('slack', env('SLACK_HOOK'))
+                          ->notify(new NotifWithSlack($message, $user->slack_id));
+                    }
                 }
             }
         }
