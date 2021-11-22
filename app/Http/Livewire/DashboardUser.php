@@ -66,6 +66,33 @@ class DashboardUser extends Component
             $this->time_overtime = $started_at->diffInMinutes($stoped_at);
         }
     }
+    public function changeTrackOption()
+    {
+        if ($this->detailSchedule == null) {
+            $this->detailSchedule = $this->schedule->details->where('status','Work')->SortByDesc('id')->first();
+        }
+        //stoped working detail
+        $this->detailSchedule->update(['stoped_at' => Carbon::now()]);
+
+        $this->detailSchedule = HistorySchedule::create([
+            'schedule_id' => $this->schedule->id,
+            'started_at' => Carbon::now(),
+            'status' => 'Work',
+            'location' => $this->location,
+            'task' => $this->task,
+            'task_desc' => $this->task_desc,
+            'latitude' => $this->latitude,
+            'longitude' => $this->longitude,
+        ]);
+        
+        $timer = $this->schedule->timer;
+        $workhour = $this->schedule->workhour + $timer;
+        $this->schedule->update([
+            'workhour' => $workhour,
+            'timer' => 0,
+            'status' => 'Working',
+        ]);
+    }
     public function updateJurnal(HistorySchedule $detail, $value)
     {
         $detail->update([
