@@ -94,7 +94,7 @@ class DashboardUser extends Component
             'timer' => 0,
             'status' => 'Working',
         ]);
-        $this->alert('info', 'Tracking option switched.', [
+        $this->alert('success', 'Tracking option switched to '.$this->location, [
             'position' =>  'center', 
             'timer' =>  3000,
             'toast' =>  false, 

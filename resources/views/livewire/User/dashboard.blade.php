@@ -749,14 +749,17 @@
                 <option value="WFH">Work From Home</option>
                 <option value="Business Travel">Business Travel</option>
               </select>
+           
               @else
-              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12  @error('location') border-red-500  @enderror" wire:model="location" wire:change="changeTrackOption()">
+              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12  @error('location') border-red-500  @enderror" wire:model="location" wire:change="changeTrackOption()" wire:loading.remove wire:target="changeTrackOption">
                 <option hidden value="none">Choose One</option>
                 @if($cekRemote)<option selected="true">Remote</option>@endif
                 <option value="WFO">Work From Office</option>
                 <option value="WFH">Work From Home</option>
                 <option value="Business Travel">Business Travel</option>
               </select>
+                 <button wire:loading wire:target="changeTrackOption" readonly class="rounded-md py-1 px-2.5 pr-4  text-sm bg-gray-50 border border-gray-500 md:w-auto w-6/12 animate-pulse flex items-center">
+                <i class="fas fa-circle-notch animate-spin m-auto  mr-2 text-blue-500" ></i>Changing Request</button>
               @endif
             </label>
             @error('location') <span class="text-red-500 text-base font-semibold ">Please fill tracking option</span>@enderror
