@@ -324,7 +324,7 @@ class DashboardUser extends Component
 
         $this->closeModal();
         $this->resetFields();
-        $this->alert('info', 'Overtime record started.', [
+        $this->alert('success', 'Overtime record started.', [
             'position' =>  'center', 
             'timer' =>  3000,
             'toast' =>  false, 
@@ -636,7 +636,7 @@ class DashboardUser extends Component
               ->notify(new NotifWithSlack($message, $this->user->slack_id));
         }
         $this->closeModal();
-        $this->alert('info', 'Record stoped', [
+        $this->alert('success', 'Record stoped', [
             'position' =>  'center', 
             'timer' =>  3000,
             'toast' =>  false, 
