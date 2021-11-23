@@ -94,6 +94,12 @@ class DashboardUser extends Component
             'timer' => 0,
             'status' => 'Working',
         ]);
+        $this->alert('info', 'Tracking option switched.', [
+            'position' =>  'center', 
+            'timer' =>  3000,
+            'toast' =>  false, 
+            'text' =>  '', 
+        ]);
     }
     public function updateJurnal(HistorySchedule $detail, $value)
     {
