@@ -89,7 +89,7 @@ class CheckStopedAfterShift extends Command
                             $message = "Hey <@".$user->slack_id.">, Your recording has exceeded shift, please stop recording";
                             Notification::route('slack', env('SLACK_HOOK'))
                               ->notify(new NotifWithSlack($message, $user->slack_id));
-                            $expireTime = Carbon::now()->addHours(4);
+                            $expireTime = Carbon::now()->addHours(8);
                             Cache::put('sent_notif_stop_'.$user->id, Carbon::now(), $expireTime);
                             $this->info("Sending after shift notification email to: {$user->name}!");
                             #send notif to dev
@@ -171,6 +171,7 @@ class CheckStopedAfterShift extends Command
             elseif ($now->greaterThan($time_in)) {
                 $timeSet = $time_in->diffInMinutes($now);
                 //send email if 1 hour not yet started
+                /*
                 if($timeSet < 60 && ($schedule->status == 'Not sign in')){
                     //Mail::to($user->email)->send(new NotifLateAfterTimeIn($timeSet));
                     //$this->info("Sending late notification email to: {$user->name}!");
@@ -190,8 +191,8 @@ class CheckStopedAfterShift extends Command
                         }
                     }
                     
-                }
-                elseif($timeSet >= 60 && $schedule->status == 'Not sign in'){
+                }*/
+                if($timeSet >= 60 && $schedule->status == 'Not sign in'){
 
                     if(Cache::has('sent_notif_late1_' .$user->id)){
                         //do nothing
