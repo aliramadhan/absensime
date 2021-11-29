@@ -14,7 +14,7 @@
 		<div class="bg-white rounded-lg px-4 py-3 shadow">
 			<div class="mb-4">
 				<label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">File Type </label>
-				<select class="border-gray-300 bg-gray-100 appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" >
+				<select class="border-gray-300 bg-gray-100 appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="type_upload">
 					<option hidden>Choose one</option>
 					<option value="image">Image Embed</option>
 					<option value="doc">Google Docs</option>		
@@ -23,15 +23,22 @@
 			</div>          
 
 			<div class="mb-4">
-				<label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Embed URL :</label>
-				<input type="text" class="border-gray-300  appearance-none  rounded-lg w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline bg-gray-100" id="formName" wire:model="name" 
-				placeholder="Write url link ..">
-				@error('name') <span class="text-red-500">{{ $message }}</span>@enderror
+				@if($type_upload == 'doc')
+					<label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Embed URL :</label>
+					<input type="text" class="border-gray-300  appearance-none  rounded-lg w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline bg-gray-100" id="formName"
+					placeholder="Write url link .." wire:model="link">
+					@error('item') <span class="text-red-500">{{ $message }}</span>@enderror
+				@elseif($type_upload == 'image')
+					<label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Embed URL :</label>
+					<input type="file" class="border-gray-300  appearance-none  rounded-lg w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline bg-gray-100" id="formName"
+					placeholder="Write url link .." wire:model="file">
+					@error('item') <span class="text-red-500">{{ $message }}</span>@enderror
+				@endif
 			</div>
 			<div class="flex justify-end">
-				<button type="button" class="modal-close bg-blue-500 py-2 px-3 text-base rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none flex justify-between items-center " @click="$wire.createRequest()" wire:loading.remove wire:target="createRequest">
+				<button type="button" class="modal-close bg-blue-500 py-2 px-3 text-base rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none flex justify-between items-center " wire:click="store()" wire:loading.remove wire:target="store()">
 					<i class="fas fa-arrow-circle-up mr-3"></i> Upload</button>
-					<button type="button" class="modal-close bg-blue-500 py-2 px-5 text-base rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="createRequest" readonly>Saving..</button>
+					<button type="button" class="modal-close bg-blue-500 py-2 px-5 text-base rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="store()" readonly>Saving..</button>
 				</div>
 			</div>
 
