@@ -16,7 +16,7 @@
 				<label for="formStartedAt" class="block text-gray-500 text-sm tracking-wide font-semibold mb-2">File Type </label>
 				<select class="border-gray-300 bg-gray-100 appearance-none hover:pointer border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formLocation" wire:model="type_upload">
 					<option hidden>Choose one</option>
-					<option value="image">Image Embed</option>
+					<!--<option value="image">Image Embed</option>-->
 					<option value="doc">Google Docs</option>		
 				</select>
 				@error('started_at') <span class="text-red-500 text-sm">{{ $message }}</span>@enderror
@@ -36,9 +36,9 @@
 				@endif
 			</div>
 			<div class="flex justify-end">
-				<button type="button" class="modal-close bg-blue-500 py-2 px-3 text-base rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none flex justify-between items-center " wire:click="store()" wire:loading.remove wire:target="store()">
+				<button type="button" class="modal-close bg-blue-500 py-2 px-3 text-base rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none flex justify-between items-center " wire:click="updateGuide()" wire:loading.remove wire:target="updateGuide()">
 					<i class="fas fa-arrow-circle-up mr-3"></i> Upload</button>
-					<button type="button" class="modal-close bg-blue-500 py-2 px-5 text-base rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="store()" readonly>Saving..</button>
+					<button type="button" class="modal-close bg-blue-500 py-2 px-5 text-base rounded-lg text-white hover:bg-blue-600 font-semibold tracking-wider focus:outline-none animate-pulse" wire:loading wire:target="updateGuide()" readonly>Saving..</button>
 				</div>
 			</div>
 
@@ -49,7 +49,11 @@
 				<label class="text-sm font-semibold text-gray-500 tracking-wider">Last Update : 11/19/2021</label>
 			</div>
 			<div class="bg-white rounded-lg h-screen px-4 py-2">
-				<iframe class="w-full h-full" src="https://docs.google.com/document/d/e/2PACX-1vTjjMpetIiE_9tb0_cREr4rhh8eZf5jmEE4Vz7vDmGPXFgffsMYB_Q3JaK_GMzguheZ5vD133_DJkVQ/pub?embedded=true"></iframe>
+				@if(Cache::has('guide_link'))
+					<iframe class="w-full h-full" src="{{Cache::get('guide_link');}}"></iframe>
+				@else
+					<iframe class="w-full h-full" src="https://docs.google.com/document/d/e/2PACX-1vTjjMpetIiE_9tb0_cREr4rhh8eZf5jmEE4Vz7vDmGPXFgffsMYB_Q3JaK_GMzguheZ5vD133_DJkVQ/pub?embedded=true"></iframe>
+				@endif
 			</div>
 		</div>
 		
