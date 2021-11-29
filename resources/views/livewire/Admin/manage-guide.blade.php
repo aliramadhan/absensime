@@ -27,12 +27,12 @@
 					<label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Embed URL :</label>
 					<input type="text" class="border-gray-300  appearance-none  rounded-lg w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline bg-gray-100" id="formName"
 					placeholder="Write url link .." wire:model="link">
-					@error('item') <span class="text-red-500">{{ $message }}</span>@enderror
+					@error('link') <span class="text-red-500">{{ $message }}</span>@enderror
 				@elseif($type_upload == 'image')
 					<label for="formName" class="block text-gray-500 text-sm font-semibold mb-2">Embed URL :</label>
 					<input type="file" class="border-gray-300  appearance-none  rounded-lg w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline bg-gray-100" id="formName"
 					placeholder="Write url link .." wire:model="file">
-					@error('item') <span class="text-red-500">{{ $message }}</span>@enderror
+					@error('file') <span class="text-red-500">{{ $message }}</span>@enderror
 				@endif
 			</div>
 			<div class="flex justify-end">
