@@ -24,11 +24,11 @@
   <script src="{{ mix('js/app.js') }}" defer></script>
 
   <style type="text/css">   
-  @-moz-document url-prefix() {
- .backdrop-blur-xl {  
-  background : #fff;
+    @-moz-document url-prefix() {
+     .backdrop-blur-xl {  
+      background : #fff;
+    }
   }
-}
   /* width */
   ::-webkit-scrollbar {
     width: 6px !important;
@@ -54,78 +54,78 @@
     height: 5px;
   }
   .backdrop-blur-xl {
-  
+    
     backdrop-filter: blur(24px);
-     -webkit-backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
   }
 
 
 
-html,body,table{
-  font-family: 'Poppins', sans-serif;       
-}
-.text-orange-500{
-  color: #FF5B27;
-}
-.bg-orange-500{
-  background-color: #FF5B27;
-}
-.toggle-checkbox:checked {
-  @apply: right-0 border-green-400;
-  right: 0;
-  border-color: #D1D5DB;
-  border: 2px solid #fff;
-}
-.toggle-checkbox:checked + .toggle-label {
-  @apply: bg-green-400;
-  background-color: #D1D5DB;
-}
-.progress-ring {
+  html,body,table{
+    font-family: 'Poppins', sans-serif;       
+  }
+  .text-orange-500{
+    color: #FF5B27;
+  }
+  .bg-orange-500{
+    background-color: #FF5B27;
+  }
+  .toggle-checkbox:checked {
+    @apply: right-0 border-green-400;
+    right: 0;
+    border-color: #D1D5DB;
+    border: 2px solid #fff;
+  }
+  .toggle-checkbox:checked + .toggle-label {
+    @apply: bg-green-400;
+    background-color: #D1D5DB;
+  }
+  .progress-ring {
 
-}
-.modal {
-  transition: opacity 0.25s ease;
-}
+  }
+  .modal {
+    transition: opacity 0.25s ease;
+  }
 
-.progress-ring__circle {
-  transition: 0.35s stroke-dashoffset;
+  .progress-ring__circle {
+    transition: 0.35s stroke-dashoffset;
 
-  transform: rotate(-90deg);
-  transform-origin: 50% 50%;
-}
-.hover-trigger .hover-target {
-  display: none;
-}
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+  }
+  .hover-trigger .hover-target {
+    display: none;
+  }
 
-.hover-trigger:hover .hover-target {
-  display: block;
-}
-.hide-scroll {  
-  overflow-y: scroll; /* Add the ability to scroll */
-  overflow-x: scroll;
-}
+  .hover-trigger:hover .hover-target {
+    display: block;
+  }
+  .hide-scroll {  
+    overflow-y: scroll; /* Add the ability to scroll */
+    overflow-x: scroll;
+  }
 
-/* Hide scrollbar for Chrome, Safari and Opera */
-.hide-scroll::-webkit-scrollbar {
-  display: none;
-}
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .hide-scroll::-webkit-scrollbar {
+    display: none;
+  }
 
-/* Hide scrollbar for IE, Edge and Firefox */
-.hide-scroll {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .hide-scroll {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 
-.form-input {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #fff;
-  border-color: #d2d6dc;
-  border-width: 1px;
-  border-radius: .375rem;      
-  line-height: 1.5;
-}
+  .form-input {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border-color: #d2d6dc;
+    border-width: 1px;
+    border-radius: .375rem;      
+    line-height: 1.5;
+  }
 
 
 </style>
@@ -153,9 +153,21 @@ html,body,table{
     @php
     $user_agent = $_SERVER['HTTP_USER_AGENT']; 
     @endphp
-    @if((stripos( $user_agent, 'Chrome') !== false) || (preg_match('/Firefox/i', $user_agent)))
+    @if(stripos( $user_agent, 'Safari') === true)
 
+    <div class="p-4 flex justify-center flex flex-col h-screen space-y-4 text-center">
+      <label>
+        Sorry Attendance app doesn't support on Safari Browser now
+      </label>
+      <a href="https://pahlawandesignstudio.com" class="mx-auto bg-blue-500 px-5 py-2 rounded-lg text-white font-semibold tracking-wider w-max shadow-lg hover:bg-blue-700 duration-300 text-sm">Back to Homepage</a>
+    </div>
     
+    
+
+
+
+    @else
+
     <main>
      
      <script type="text/javascript">       
@@ -213,14 +225,6 @@ html,body,table{
 </main>
 
 
-
-@elseif(stripos( $user_agent, 'Safari') !== false)    
-<div class="p-4 flex justify-center flex flex-col h-screen space-y-4 text-center">
-  <label>
-    Sorry Attendance app doesn't support on Safari Browser now
-  </label>
-  <a href="https://pahlawandesignstudio.com" class="mx-auto bg-blue-500 px-5 py-2 rounded-lg text-white font-semibold tracking-wider w-max shadow-lg hover:bg-blue-700 duration-300 text-sm">Back to Homepage</a>
-</div>
 @endif
 
 </div>
