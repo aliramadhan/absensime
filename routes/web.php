@@ -50,6 +50,7 @@ Route::get('setcookie', function(){
 	return redirect()->route('dashboard');
 });
 Route::get('error/gps-not-activated', [AdminController::class, 'errorGPSNotActivated'])->name('error.gps_not_activated');
+Route::get('get/schedule', [AdminController::class, 'getScheduleToday'])->name('get.schedule_today');
 
 Route::get('/', function () {
 	if (!Auth::check()) {

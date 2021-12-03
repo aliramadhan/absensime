@@ -169,10 +169,13 @@ class ScheduleLive extends Component
       }
       for ($k=1; $k < count($data[0]); $k++) { 
         $date = Carbon::parse(Date::excelToDateTimeObject($data[0][$k]));
-        if($data[$i][$k] == null){
+        if($data[$i][$k] == null || $data[$i][$k] == "" || $data[$i][$k] == " "){
           continue;
         }
         $shift = Shift::where('name','like','%'.$data[$i][$k].'%')->first();
+        if ($shift == null) {
+          continue;
+        }
         if ($data[$i][$k] == 'DEL') {
           $schedule = Schedule::where('employee_id',$employee->id)->where('date',$date->format('Y-m-d'))->first();
           if($schedule != null){

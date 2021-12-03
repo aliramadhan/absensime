@@ -285,7 +285,19 @@
 </div>
 </div>
 
-
+<script type="text/javascript">
+  jQuery(document).ready(function(){
+    $.ajax({
+      cache: false,
+      url: "{{ route('get.schedule_today') }}",
+      method: 'get',
+      dataType: "json",
+      success: function (result) {
+        console.log(result);
+      }
+    });
+  });
+</script>
 <script>
   function searching1() {
     var input, filter, tbody, tr, th, i, txtValue;
