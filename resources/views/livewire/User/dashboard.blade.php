@@ -751,7 +751,7 @@
               </select>
            
               @else
-              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12  @error('location') border-red-500  @enderror" wire:model="location" wire:change="changeTrackOption()" wire:loading.remove wire:target="changeTrackOption">
+              <select class="form-select rounded-md py-1 pr-8 text-sm bg-gray-50 border-gray-400 md:w-auto w-6/12  @error('location') border-red-500  @enderror" wire:model="location" wire:change="changeTrackOption()" wire:loading.remove wire:target="changeTrackOption" @if($schedule == null) disabled @endif>
                 <option hidden value="none">Choose One</option>
                 @if($cekRemote)<option selected="true">Remote</option>@endif
                 <option value="WFO">Work From Office</option>

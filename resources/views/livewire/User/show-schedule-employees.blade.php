@@ -84,7 +84,7 @@
       <thead>
        <tr>
 
-         <th  class="text-gray-700 bg-gray-100 w-56 px-1 py-2 top-0 tracking-wider font-semibold">Employee Name</th>
+         <th  class="text-gray-700 bg-gray-100 px-1 py-2 top-0 tracking-wider font-semibold">Employee Name</th>
 
          @for($i = 1; $i <= $now->daysInMonth; $i++)
           @php
@@ -112,8 +112,8 @@
       <tbody class="border-gray-50 duration-300"  id="scheduleTable">
         @foreach($users as $user)
         <tr >
-          <th  class="p-2  truncate text-gray-700 bg-gray-50 whitespace-nowrap  border-2 text-left h-auto text-sm font-semibold shadow-xl w-1/2 top-0  z-20 ">
-            <div class="truncate md:w-full w-28 flex flex-rows space-x-2  items-center">
+          <th  class="truncate  text-gray-700 whitespace-nowrap  text-left h-auto text-sm font-semibold  w-1/2 top-0  z-20 bg-gray-10">
+            <div class="truncate md:w-full w-28 flex flex-rows space-x-2  items-center inset-0 px-4 py-2.5  -my-2 border -mr-1">
              <img src="{{$user->profile_photo_url}}" class="w-8 h-8 rounded-full"> 
              <div class="grid grid-rows-2  w-56 ">
               <label class="truncate ">{{($user->username ? $user->username : $user->name)}} </label>
@@ -145,13 +145,13 @@
              <label  class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}} </label>
               
             </div>
-            <div class="hover-target absolute inset-0 w-full h-max flex bg-green-500 px-1 py-3 flex flex-col">
-                 Record Result
+            <div class="hover-target absolute inset-0 space-y-1 w-full h-max flex bg-green-500 px-1 py-3 flex flex-col">
+                <label> Record Result </label>
               <label class="font-normal">{{Carbon\Carbon::parse($schedule->started_at)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->stoped_at)->format('H.i')}}</label>
               </div>
           </td>
           @elseif($schedule != null && $schedule->status == 'No Record')
-          <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-400 font-semibold tracking-wide text-center text-sm text-white'>{{$schedule->shift_name}}</td>
+          <td class='hover:bg-red-500 duration-300 text-gray-700 px-1 py-2 text-center border border-white bg-red-400 font-semibold tracking-wide text-center text-sm text-white'>{{$schedule->shift_name}}</td>
           @elseif($schedule != null && $schedule->status =='Not sign in')
           <td class='hover:bg-blue-600 text-white px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-blue-400 relative duration-300 '>
               <div class="flex flex-col">
@@ -191,7 +191,7 @@
              <!-- <label class="hover:bg-red-300 duration-500 bg-red-500 text-white py-0 px-2 rounded-full"></label> -->
            </td>
            @elseif($schedule != null && in_array($schedule->status,$leaves) )
-           <td class='hover:bg-blue-300 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-500 relative duration-300 text-white'>
+           <td class='hover:bg-yellow-600 px-1 py-2 text-center font-semibold tracking-wide text-center border border-gray-300 text-sm bg-yellow-500 relative duration-300 text-white'>
             <div class="flex flex-col">
               <label class="text-base">  {{$schedule->shift_name}} </label>
               <label class="font-normal"> {{$schedule->status}}  </label>
@@ -204,13 +204,13 @@
               <label class="font-normal"> {{Carbon\Carbon::parse($schedule->shift->time_in)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->shift->time_out)->format('H.i')}}
              </label>             
             </div>
-             <div class="hover-target absolute inset-0 w-full h-max flex bg-green-500 px-1 py-3 flex flex-col">
-               Record Result
+             <div class="hover-target absolute space-y-1 inset-0 w-full h-max flex bg-green-500 px-1 py-3 flex flex-col">
+              <label> Record Result </label>
                 <label class="font-normal"> {{Carbon\Carbon::parse($schedule->started_at)->format('H.i')}} - {{Carbon\Carbon::parse($schedule->stoped_at)->format('H.i')}}</label>
               </div>
           </td>
           @elseif($schedule != null && $schedule->status == 'No Record')
-          <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white'>{{$schedule->shift_name}}</td>
+          <td class='hover:bg-red-500 px-1 py-2 text-center border border-white bg-red-200 font-semibold tracking-wide text-center text-sm text-gray-700 hover:text-white duration-300'>{{$schedule->shift_name}}</td>
          
           @else
           <td class='hover:bg-gray-100 px-1 py-2 text-center  border border-gray-300 font-semibold tracking-wide text-center text-sm '>
