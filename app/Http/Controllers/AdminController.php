@@ -175,4 +175,10 @@ class AdminController extends Controller
     {
         return view('errors.gps_not_activated');
     }
+    public function getScheduleToday()
+    {
+        return response()->json([
+            'asd' => 'asd'
+        ]);
+    }
 }
