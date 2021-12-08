@@ -4,11 +4,11 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Division;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class DivisionLive extends Component
 {
-    use LivewireAlert;
+    //use LivewireAlert;
 	public $divisions, $isModal, $name, $desc, $showModal = false;
     public function render()
     {

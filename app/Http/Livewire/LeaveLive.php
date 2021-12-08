@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\ListLeave;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 class LeaveLive extends Component
 {
-    use LivewireAlert;
+    //use LivewireAlert;
 	public $leaves, $leave, $name, $desc, $is_annual = false, $isModal = false;
     public function render()
     {

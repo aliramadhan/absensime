@@ -15,13 +15,13 @@ use Geocoder;
 use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestNotificationMail;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 use Notification;
 use App\Notifications\NotifWithSlack;
 
 class DashboardUser extends Component
 {
-    use LivewireAlert;
+    //use LivewireAlert;
     public $user, $now, $schedule, $schedules, $detailSchedule, $detailsSchedule, $task, $task_desc, $isModal, $location, $weekSchedules, $type_pause, $shift, $limit_workhour = 28800, $is_cancel_order, $is_check_half = 0, $note, $prevSchedule, $checkAutoStop;
     public $progress = 0, $latitude, $longitude, $position, $currentPosition;
     public $wfo = 0, $wfh = 0, $business_travel = 0, $remote, $unproductive, $time = "", $timeInt = 0, $dateCheck, $leaves, $newShift, $shifts, $newCatering, $users, $setUser, $cekRemote;

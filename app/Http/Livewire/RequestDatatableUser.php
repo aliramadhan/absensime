@@ -17,11 +17,11 @@ use Mediconesystems\LivewireDatatables\TimeColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use DB;
 use Carbon\Carbon;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class RequestDatatableUser extends LivewireDatatable
 {
-    use LivewireAlert;
+    //use LivewireAlert;
 	public $hideable = 'select',$time_overtime, $users;
     public function builder()
     {

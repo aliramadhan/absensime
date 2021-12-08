@@ -12,11 +12,11 @@ use Excel;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ScheduleLive extends Component
 {
-  use LivewireAlert;
+  //use LivewireAlert;
   use WithFileUploads;
   public $schedules, $schedule, $employees, $shifts, $employee_id, $shift_id,$date, $employee, $shift, $file;
   public $isModal = null, $showModal = false;
