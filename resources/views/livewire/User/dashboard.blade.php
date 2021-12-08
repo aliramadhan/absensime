@@ -20,10 +20,10 @@
     <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
       Attendance <span class="md:inline-block hidden"> Record </span>
       <div class="overflow-hidden md:hidden block">
-        <div class="flex space-x-1 items-center font-semibold text-sm">
+       <!--  <div class="flex space-x-1 items-center font-semibold text-sm">
          <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
          <label class="text-gray-500">Annual Leave Quota</label>
-       </div>
+       </div> -->
      </div>
 
    </h2>
@@ -55,7 +55,7 @@
               <select class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-500 leading-tight focus:outline-none focus:shadow-outline" id="formType" wire:model="type" wire:change="updateDescRequest()">
                 <option hidden>Choose here</option>
                 @foreach($leaves as $leave)
-                <option>{{$leave->name}}</option>
+                <!-- <option>{{$leave->name}}</option> -->
                 @endforeach
                       <!--@if($user->is_active == 0)
                       <option>Record Activation</option>
@@ -63,9 +63,9 @@
                       <option>Absent</option>
                       <option>Sick</option>
                       <option>Permission</option>
-                      <option>Overtime</option>
-                      <option>Remote</option>
-                      <option>Change Shift</option>
+                     <!--  <option>Overtime</option> -->
+                     <!--  <option>Remote</option> -->
+                     <!--  <option>Change Shift</option> -->
                       
                       @if($user->roles == 'Manager')
                       <option>Mandatory</option>
@@ -644,12 +644,12 @@
         </div>
       </div>
 
-      <div class="overflow-hidden md:col-span-1 col-span-2  mb-2">
+    <!--   <div class="overflow-hidden md:col-span-1 col-span-2  mb-2">
         <div class="bg-white p-4 rounded-lg overflow-y-auto h-full flex justify-between border items-center font-semibold">
           <label class=" text-gray-700">Annual Leave Quota</label>
           <h2 class="text-white rounded-lg bg-orange-500 px-2">{{auth()->user()->leave_count}}</h2> 
         </div>
-      </div>            
+      </div>     -->        
     </div>
 
 
@@ -674,12 +674,12 @@
 
         <h2 class="font-semibold text-xl tracking-wide truncate pt-2">{{(auth()->user()->username ? auth()->user()->username : auth()->user()->name )}}</h2>                  
         <h2 class="text-gray-50">{{auth()->user()->division}}</h2> 
-        <div class="flex space-x-1 mt-2 font-semibold mx-auto w-max items-center ">
+      <!--   <div class="flex space-x-1 mt-2 font-semibold mx-auto w-max items-center ">
           <h2 class="text-gray-100 border border-gray-100 px-2 py-1 rounded-md text-sm shadow-md ">
             Annual Leave Quota           
           </h2> 
           <h2 class="bg-gradient-to-r from-blue-500 to-indigo-600   shadow-md text-white rounded-md px-2 py-1 duration-300">{{auth()->user()->leave_count}}</h2>
-        </div>
+        </div> -->
       </div>
       <div class="flex-auto col-span-4 xl:col-span-6 h-full md:py-6 pt-8 md:pt-0">
         <div class="grid grid-rows-4 border-l-0 border-2 bg-white h-full my-auto md:rounded-br-xl md:rounded-tl-xl md:rounded-tr-xl  static ">
