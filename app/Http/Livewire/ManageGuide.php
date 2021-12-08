@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 use Cache;
+use Carbon\Carbon;
 use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ManageGuide extends Component
@@ -34,8 +35,10 @@ class ManageGuide extends Component
     {
         if (Cache::has('guide_link')) {
             Cache::forget('guide_link');
+            Cache::forget('guide_time');
         }
         Cache::forever('guide_link', $this->link);
+        Cache::forever('guide_time', Carbon::now());
         $this->link = null;
         $this->alert('success', 'update guide successfully.', [
             'position' =>  'center', 
