@@ -6,7 +6,11 @@
 
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 hidden sm:block">
-       <iframe class="w-full bg-white h-screen rounded-lg shadow-md" src="https://docs.google.com/document/d/e/2PACX-1vTjjMpetIiE_9tb0_cREr4rhh8eZf5jmEE4Vz7vDmGPXFgffsMYB_Q3JaK_GMzguheZ5vD133_DJkVQ/pub?embedded=true"></iframe>
+        @if(Cache::has('guide_link'))
+            <iframe class="w-full bg-white h-screen rounded-lg shadow-md" src="{{Cache::get('guide_link');}}"></iframe>
+        @else
+            <iframe class="w-full bg-white h-screen rounded-lg shadow-md"  src="https://docs.google.com/document/d/e/2PACX-1vTjjMpetIiE_9tb0_cREr4rhh8eZf5jmEE4Vz7vDmGPXFgffsMYB_Q3JaK_GMzguheZ5vD133_DJkVQ/pub?embedded=true"></iframe>
+        @endif
     </div>
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 block md:hidden">
         <label class="px-4 flex text-center flex-col ">Guide content is not compatible on mobile devices, please open it from this link 
