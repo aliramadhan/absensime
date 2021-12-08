@@ -24,12 +24,20 @@ class ManageGuide extends Component
 		      'file' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
 		    ]);
     	}
-    	elseif($this->type_upload == 'doc'){
-		    $this->validate([
-		      'link' => 'required'
-		    ]);
-    	}
-    	return dd($this->item);
+        $this->file->storeAs('public','guide.jpg');
+        if (Cache::has('guide_link')) {
+            Cache::forget('guide_link');
+            Cache::forget('guide_time');
+        }
+        Cache::forever('guide_link', '../storage/app/public/guide.jpg');
+        Cache::forever('guide_time', Carbon::now());
+        $this->file = null;
+        $this->alert('success', 'update guide successfully.', [
+            'position' =>  'center', 
+            'timer' =>  5000,
+            'toast' =>  false, 
+            'text' =>  '', 
+        ]);
     }
     public function updateGuide()
     {
