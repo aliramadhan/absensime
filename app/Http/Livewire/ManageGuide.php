@@ -6,12 +6,12 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Cache;
 use Carbon\Carbon;
-//use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use File;
 class ManageGuide extends Component
 {
   	use WithFileUploads;
-    //use LivewireAlert;
+    use LivewireAlert;
 	public $type_upload, $file, $link;
     public function render()
     {
@@ -48,6 +48,9 @@ class ManageGuide extends Component
         if (Cache::has('guide_link')) {
             Cache::forget('guide_link');
             Cache::forget('guide_time');
+            if(file_exists(public_path('image/guide.jpg'))){
+                unlink(public_path('image/guide.jpg'));
+            }
         }
         Cache::forever('guide_link', $this->link);
         Cache::forever('guide_time', Carbon::now());

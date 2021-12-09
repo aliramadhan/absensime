@@ -7,7 +7,11 @@
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 hidden sm:block">
         @if(Cache::has('guide_link'))
-            <iframe class="w-full bg-white h-screen rounded-lg shadow-md" src="{{Cache::get('guide_link');}}"></iframe>
+            @if(file_exists(public_path('image/guide.jpg')))
+                <img src="{{ asset('image/guide.jpg') }}">
+            @else
+                <iframe class="w-full bg-white h-screen rounded-lg shadow-md" src="{{Cache::get('guide_link');}}"></iframe>
+            @endif
         @else
             <iframe class="w-full bg-white h-screen rounded-lg shadow-md"  src="https://docs.google.com/document/d/e/2PACX-1vTjjMpetIiE_9tb0_cREr4rhh8eZf5jmEE4Vz7vDmGPXFgffsMYB_Q3JaK_GMzguheZ5vD133_DJkVQ/pub?embedded=true"></iframe>
         @endif
