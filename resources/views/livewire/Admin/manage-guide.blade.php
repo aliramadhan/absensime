@@ -101,7 +101,11 @@
 			</div>
 			<div class="bg-white rounded-lg h-screen px-4 py-2">
 				@if(Cache::has('guide_link'))
-					<iframe class="w-full h-full" src="{{Cache::get('guide_link');}}"></iframe>
+					 @if(file_exists(public_path('image/guide.jpg')))
+		                <img src="{{ asset('image/guide.jpg') }}">
+		            @else
+		                <iframe class="w-full h-full" src="{{Cache::get('guide_link');}}"></iframe>
+		            @endif
 				@else
 					<iframe class="w-full h-full" src="https://docs.google.com/document/d/e/2PACX-1vTjjMpetIiE_9tb0_cREr4rhh8eZf5jmEE4Vz7vDmGPXFgffsMYB_Q3JaK_GMzguheZ5vD133_DJkVQ/pub?embedded=true"></iframe>
 				@endif
