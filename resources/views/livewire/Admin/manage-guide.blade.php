@@ -92,9 +92,21 @@
 
 					</div>
 				</div>
-
-
 			</div>
+
+			<div class="col-span-4 lg:col-span-3 flex flex-col  space-y-3 ">
+			<div class="flex md:flex-row flex-col justify-between items-start md:items-end">
+				<label class="text-xl font-semibold text-gray-800 tracking-wider">Guide Result</label>
+				<label class="text-sm font-semibold text-gray-500 tracking-wider">Last Update : @if(Cache::has('guide_time')) {{Carbon\Carbon::parse(Cache::get('guide_time'))->format('Y-m-d');}} @endif</label>
+			</div>
+			<div class="bg-white rounded-lg h-screen px-4 py-2">
+				@if(Cache::has('guide_link'))
+					<iframe class="w-full h-full" src="{{Cache::get('guide_link');}}"></iframe>
+				@else
+					<iframe class="w-full h-full" src="https://docs.google.com/document/d/e/2PACX-1vTjjMpetIiE_9tb0_cREr4rhh8eZf5jmEE4Vz7vDmGPXFgffsMYB_Q3JaK_GMzguheZ5vD133_DJkVQ/pub?embedded=true"></iframe>
+				@endif
+			</div>
+		</div>
 
 			</div>
 
