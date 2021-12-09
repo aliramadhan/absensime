@@ -8,11 +8,11 @@ use App\Models\Division;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RegisterSuccessfully;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class UserLive extends Component
 {
-    use LivewireAlert;
+    //use LivewireAlert;
     public $users, $user, $name, $username, $email, $role, $division, $joined_at, $number, $address, $isModal, $divisions, $position;
     public function render()
     {

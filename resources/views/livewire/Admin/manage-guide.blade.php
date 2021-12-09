@@ -7,7 +7,7 @@
 </x-slot>
 
 <div class="grid grid-cols-4 gap-8 max-w-7xl mx-auto py-12 lg:px-8 md:px-5 px-3  ">
-	<div class="flex flex-col space-y-6 col-span-4 lg:col-span-1">
+<div class="flex flex-col space-y-6 col-span-4 lg:col-span-1">
 		<div class="flex flex flex-col space-y-3">
 			<label class="text-xl font-semibold text-gray-800 tracking-wider">Upload Form</label>
 			<div class="bg-white rounded-lg px-4 py-3 shadow">
@@ -95,19 +95,7 @@
 
 
 			</div>
-			<div class="col-span-4 lg:col-span-3 flex flex-col  space-y-3 ">
-				<div class="flex md:flex-row flex-col justify-between items-start md:items-end">
-					<label class="text-xl font-semibold text-gray-800 tracking-wider">Guide Result</label>
-					<label class="text-sm font-semibold text-gray-500 tracking-wider">Last Update : @if(Cache::has('guide_time')) {{Carbon\Carbon::parse(Cache::get('guide_time'))->format('Y-m-d');}} @endif</label>
-				</div>
-				<div class="bg-white rounded-lg h-screen px-4 py-2">
 
-					@if(Cache::has('guide_link'))
-					<iframe class="w-full h-full" src="{{Cache::get('guide_link');}}"></iframe>
-					@else
-					<img class="w-full h-full py-4" src="https://pingpoint.co.id/media/images/1_YUfBfhp.original.jpg">
-					@endif
-				</div>
 			</div>
 
 

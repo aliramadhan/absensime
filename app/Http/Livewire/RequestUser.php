@@ -13,11 +13,11 @@ use Carbon\Carbon;
 use DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\RequestNotificationMail;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class RequestUser extends Component
 {
-    use LivewireAlert;
+    //use LivewireAlert;
 	public $user, $tasks,$now, $isModal = false, $type, $desc, $date, $time_overtime, $is_cancel_order, $is_check_half = 0, $leaves,$stopRequestDate, $startRequestDate, $newShift, $shifts, $newCatering, $users, $setUser, $historyLock, $started_at, $stoped_at,$format,$locationRe, $schedule;
 
     public function render()

@@ -10,11 +10,11 @@ use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\TimeColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 use App\Models\ListLeave as Leave;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ListLeave extends LivewireDatatable
 {
-    use LivewireAlert;
+    //use LivewireAlert;
     public function builder()
     {
         return Leave::where('id','!=',null);

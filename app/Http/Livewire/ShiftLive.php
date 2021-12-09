@@ -4,11 +4,11 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 use App\Models\Shift;
-use Jantinnerezo\LivewireAlert\LivewireAlert;
+//use Jantinnerezo\LivewireAlert\LivewireAlert;
 
 class ShiftLive extends Component
 {
-  use LivewireAlert;
+  //use LivewireAlert;
 	public $name, $time_in, $time_out, $shifts,$shift;
   public $isModal, $showModal = false;
   protected $rules = [
