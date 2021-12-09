@@ -6,12 +6,12 @@ use Livewire\Component;
 use Livewire\WithFileUploads;
 use Cache;
 use Carbon\Carbon;
-//use Jantinnerezo\LivewireAlert\LivewireAlert;
+use Jantinnerezo\LivewireAlert\LivewireAlert;
 use File;
 class ManageGuide extends Component
 {
   	use WithFileUploads;
-    //use LivewireAlert;
+    use LivewireAlert;
 	public $type_upload, $file, $link;
     public function render()
     {
