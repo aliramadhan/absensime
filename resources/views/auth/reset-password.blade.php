@@ -3,6 +3,7 @@
      <img src="{{ asset('/image/logo2.png')}}" class="img-fluid " width="138px" height="138px">
      <label class="text-xl font-semibold text-gray-600"><span class="text-red-500">A</span>ttendance <span class="text-red-500">A</span>pplication</label>
  </div>
+
     <div class="h-screen md:min-h-screen flex flex-col sm:justify-center items-center pt-0 md:pt-6 sm:pt-0 " 
     style="background-image: linear-gradient(to top, #cfd9df 0%, #e2ebf0 100%);">   
     <div class="md:h-auto h-screen w-full sm:max-w-sm m-0 md:mt-6 px-7 py-7 bg-white shadow-xl overflow-hidden sm:rounded-2xl grid">
@@ -10,8 +11,17 @@
          <a href="{{ route('login') }}" class="px-3 py-1 font-semibold hover:bg-gray-400 duration-300 rounded-full text-gray-600 hover:text-white cursor-pointer text-2xl"><i class="fas fa-chevron-left"></i></a>
          <label class="font-bold text-2xl text-gray-700 flex-auto  tracking-wide">Reset Password</label>        
      </div>
+
+       <x-jet-validation-errors />
+      <button class="modal-open visible absolute" id="modal-click" data-toggle="modal" data-target="login-danger"></button>
+       @if (session('status'))
+       <div class="mb-4 font-medium text-sm text-green-600">
+        {{ session('status') }}
+    </div>
+    @endif
+    
        <img src="{{ asset('/image/logo.png')}}" class="img-fluid mx-auto my-auto" width="100px" height="100px">
-        <x-jet-validation-errors class="mb-4" />
+       
 
         <form method="POST" action="{{ route('password.update') }}">
             @csrf
