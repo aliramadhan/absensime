@@ -18,9 +18,8 @@
   <link rel="stylesheet" href="{{ mix('css/app.css') }}">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
+  
   @livewireStyles
-
-  <!-- Scripts -->
   <script src="{{ mix('js/app.js') }}" defer></script>
 
   <style type="text/css">   
@@ -39,7 +38,7 @@
   ::-webkit-scrollbar-track {
     box-shadow: inset 0 0 1px grey;  
   }
-  
+
   /* Handle */
   ::-webkit-scrollbar-thumb {
     background: gray; 
@@ -54,12 +53,10 @@
     height: 5px;
   }
   .backdrop-blur-xl {
-    
+
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
   }
-
-
 
   html,body,table{
     font-family: 'Poppins', sans-serif;       
@@ -126,17 +123,75 @@
     border-radius: .375rem;      
     line-height: 1.5;
   }
+  #loader {
+   position: sticky;
+   z-index: 1;
+   top: 50%;
+   margin: auto;
+ }
+
+ 
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-bottom {
+  position: relative;
+  -webkit-animation-name: animatebottom;
+  -webkit-animation-duration: 1s;
+  animation-name: animatebottom;
+  animation-duration: 1s
+}
+
+@-webkit-keyframes animatebottom {
+  from { bottom:-100px; opacity:0 } 
+  to { bottom:0px; opacity:1 }
+}
+
+@keyframes animatebottom { 
+  from{ bottom:-100px; opacity:0 } 
+  to{ bottom:0; opacity:1 }
+}
 
 
-</style>
 
 </style>
 </head>
 
-<body class="antialiased">
-  <x-jet-banner />
+<body class="antialiased" >
 
-  <div class="min-h-screen bg-gradient-to-r from-gray-100 to-gray-200">
+ <div id="loader-bk" class="z-40 w-screen h-screen absolute bg-gradient-to-r from-white to-gray-100"  >
+  <div id="loader">
+    <div class="animate-spin w-28 h-28 relative m-auto">
+      <svg version="1.1" id="L3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
+      <circle fill="none" stroke="#66A3FA" stroke-width="5" cx="50" cy="50" r="44"/>
+      <circle fill="#66A3FA" stroke="#fff" stroke-width="3" cx="8" cy="54" r="6" >
+       <animateTransform
+       attributeName="transform"
+       dur="2s"
+       type="rotate"
+       from="0 50 48"
+       to="360 50 52"
+       repeatCount="indefinite" />
+
+     </circle>
+   </svg>
+ </div>
+
+</div>
+</div>
+<div style="display:none;" id="showBody" class="animate-bottom contents" id="showBody"> 
+
+
+  <div class="min-h-screen bg-gradient-to-r from-gray-100 to-gray-200"  > 
+    <x-jet-banner />
 
     @livewire('navigation-menu')
 
@@ -162,16 +217,12 @@
       <a href="https://pahlawandesignstudio.com" class="mx-auto bg-blue-500 px-5 py-2 rounded-lg text-white font-semibold tracking-wider w-max shadow-lg hover:bg-blue-700 duration-300 text-sm">Back to Homepage</a>
     </div>
     
-    
-
-
-
     @else
 
     <main>
-     
+
      <script type="text/javascript">       
-       
+
        function notifyMe() {
       // Let's check if the browser supports notifications
       
@@ -243,9 +294,15 @@
   </span> 
 </div>
 </footer>
+</div>
 @stack('modals')
 
 @livewireScripts
+<script type="text/javascript">    
+
+
+</script>
+
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10">
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -283,15 +340,21 @@
   @endif
 </script>
 <script >
-  window.onload = function checkBtnNotif() {
+  window.onload = function loader() {
+    myVar = setTimeout(showPage, 300);
+  }
+  function showPage() {
+    document.getElementById("loader-bk").style.display = "none";
+    document.getElementById("loader").style.display = "none";  
+    document.getElementById("showBody").style.display = "block";
+    if(Notification.permission === 'denied' || Notification.permission === 'default') {
+      document.getElementById("Notificationbtn").className = 'shadow-md md:fixed w-full bottom-0 bg-white border-t hidden md:block text-center py-4 z-50 flex flex-row space-x-3 hidden';
+    } else {
+      document.getElementById("Notificationbtn").className = 'hidden';
+    }
 
-   if(Notification.permission === 'denied' || Notification.permission === 'default') {
-    document.getElementById("Notificationbtn").className = 'shadow-md md:fixed w-full bottom-0 bg-white border-t hidden md:block text-center py-4 z-50 flex flex-row space-x-3 hidden';
-  } else {
-    document.getElementById("Notificationbtn").className = 'hidden';
   }
 
-}
 </script>
 </body>
 </html>

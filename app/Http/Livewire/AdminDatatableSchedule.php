@@ -49,7 +49,7 @@ class AdminDatatableSchedule extends LivewireDatatable
             	$schedule = $this->schedules->where('id',$id)->first();
             	$employee = $this->users->where('id',$schedule->employee_id)->first();
             	$shifts = $this->shifts;
-            	if($schedule->date > Carbon::now()->format('Y-m-d')){
+            	if(($schedule->date >= Carbon::now()->format('Y-m-d')) AND ($schedule->status == 'Not sign in')){
 	                return view('livewire.Admin.table-actions-schedule-admin', [
 	                	'id' => $id,
 	                	'employee' => $employee,
