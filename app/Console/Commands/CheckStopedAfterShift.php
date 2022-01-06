@@ -70,7 +70,7 @@ class CheckStopedAfterShift extends Command
                     $time_out = Carbon::parse($shift->time_out);
                 }
             }
-            if(($user->position == 'Project Manager' && $user->position == 'Junior PM')){
+            if(($user->position == 'Project Manager' || $user->position == 'Junior PM') || $user->position == "Senior Project Manager"){
                 $time_out->addHours(4);
             }
             $time_limit = $time_in->diffInSeconds($time_out);
@@ -122,7 +122,7 @@ class CheckStopedAfterShift extends Command
                         ]);
                     }
                 }
-                elseif ($schedule->status == 'Not sign in') {
+                /*elseif ($schedule->status == 'Not sign in') {
                     $schedule->update([
                         'status' => 'No Record',
                     ]);
@@ -132,7 +132,7 @@ class CheckStopedAfterShift extends Command
                         #send notif to dev
                         Notification::route('slack', env('SLACK_HOOK'))
                       ->notify(new NotifWithSlack("Notif tidak record untuk ".$user->name, 'U0115H2EE4F'));
-                }
+                }*/
                 /*elseif(($schedule->status != 'Done' && $schedule->status != 'Not sign in') && ($schedule->status_stop == null) && ($time_out->diffInMinutes($now) == 10){
                     $workhour = 0;
                     foreach ($schedule->details->where('status','Work') as $detail) {

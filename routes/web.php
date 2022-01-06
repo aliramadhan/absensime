@@ -42,7 +42,7 @@ use Carbon\Carbon;
 Route::get('/cek_mail', function(){
 	$message = "Hello cutie, this is Direct Message using bot!";
 	Notification::route('slack', env('SLACK_HOOK'))
-      ->notify(new NotifWithSlack($message, 'U02DX6PEELW'));
+  	->notify(new NotifWithSlack($message, 'U0115H2EE4F'));
 });
 Route::get('setcookie', function(){
   	Session::setId($_GET['id']);

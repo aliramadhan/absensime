@@ -78,6 +78,23 @@ class ScheduleToday extends LivewireDatatable
                     return '-';
                 }
             })->label('Wasted Time'),
+            Column::callback(['id','date'], function ($id,$date) {
+                $schedule = Schedule::where('id',$id)->with('shift')->with('details')->first();
+                $now = Carbon::now();
+                $shift = $schedule->shift;
+                $details = $schedule->details;
+                $text = "";
+                $i = 1;
+                foreach ($details as $detail) {
+                    $started_at = Carbon::parse($detail->started_at);
+                    $stoped_at = Carbon::parse($detail->stoped_at);
+                    $text .= $detail->location."(".$started_at->format('H:m')." - ".$stoped_at->format('H:m')." / ".$started_at->diffInMinutes($stoped_at)."min ";
+                    if ($i < $details->count()) {
+                        $text .= "-> ";
+                    }
+                }
+                return $text;
+            })->label('Switch Detail'),
             /*Column::callback(['id','timer','status'], function ($id,$timer,$status) {
                 $schedule = Schedule::find($id);
                 $rest = $schedule->details->where('status','Rest')->sortByDesc('id')->first();
