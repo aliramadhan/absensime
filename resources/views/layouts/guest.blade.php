@@ -78,6 +78,9 @@
         </label>
         <a href="https://pahlawandesignstudio.com" class="mx-auto bg-blue-500 px-5 py-2 rounded-lg text-white font-semibold tracking-wider w-max shadow-lg hover:bg-blue-700 duration-300 text-sm">Back to Homepage</a>
     </div>
+    @else
+    {{ $slot }}  
+
    @endif
     </div>
 </div>

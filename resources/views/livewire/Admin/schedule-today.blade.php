@@ -1,7 +1,7 @@
 <div class="bg-white shadow">
     <div class="flex gap-4 justify-between items-center max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 ">
-         <h2 class="font-semibold text-2xl text-gray-800 leading-tight">
-            {{ __('Attendance Detail Reporting') }}
+         <h2 class="font-normal text-2xl text-gray-700 leading-tight">
+            {{ __('Attendance Detail Report') }}
         </h2>
     </div>   
 </div>

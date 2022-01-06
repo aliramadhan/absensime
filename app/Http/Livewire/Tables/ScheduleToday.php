@@ -88,10 +88,11 @@ class ScheduleToday extends LivewireDatatable
                 foreach ($details as $detail) {
                     $started_at = Carbon::parse($detail->started_at);
                     $stoped_at = Carbon::parse($detail->stoped_at);
-                    $text .= $detail->location."(".$started_at->format('H:m')." - ".$stoped_at->format('H:m')." / ".$started_at->diffInMinutes($stoped_at)."min ";
+                    $text .= $detail->location."(".$started_at->format('H:m')." - ".$stoped_at->format('H:m')." / ".$started_at->diffInMinutes($stoped_at)."min)";
                     if ($i < $details->count()) {
                         $text .= "-> ";
                     }
+                    $i++;
                 }
                 return $text;
             })->label('Switch Detail'),
