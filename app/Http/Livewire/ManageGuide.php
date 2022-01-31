@@ -19,22 +19,36 @@ class ManageGuide extends Component
     }
     public function store()
     {
-    	if ($this->type_upload == 'image') {
-		    $this->validate([
-		      'file' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
-		    ]);
-    	}
-        $this->file->storeAs('photos','guide.jpg');
         if (Cache::has('guide_link')) {
             Cache::forget('guide_link');
             Cache::forget('guide_time');
         }
-        Cache::forever('guide_link', 'image/guide.jpg');
-        Cache::forever('guide_time', Carbon::now());
-        if (file_exists(storage_path('app/photos/guide.jpg'))) {
-            File::move(storage_path('app\photos\guide.jpg'), public_path('image\guide.jpg'));
+    	if ($this->type_upload == 'image') {
+            $this->validate([
+              'file' => 'mimes:jpeg,jpg,png,gif|required|max:10000'
+            ]);
+            $this->file->storeAs('photos','guide.jpg');
+            //create cache and move file
+            Cache::forever('guide_link', 'image/guide.jpg');
+            Cache::forever('guide_time', Carbon::now());
+            if (file_exists(storage_path('app/photos/guide.jpg'))) {
+                File::move(storage_path('app\photos\guide.jpg'), public_path('image\guide.jpg'));
+            }
+            $this->file = null;
+    	}
+        if ($this->type_upload == 'document') {
+            $this->validate([
+              'file' => 'mimetypes:application/pdf|required|max:10000'
+            ]);
+            $this->file->storeAs('photos','guide.pdf');
+            //create cache and move file
+            Cache::forever('guide_link', 'image/guide.pdf');
+            Cache::forever('guide_time', Carbon::now());
+            if (file_exists(storage_path('app/photos/guide.pdf'))) {
+                File::move(storage_path('app\photos\guide.pdf'), public_path('image\guide.pdf'));
+            }
+            $this->file = null;
         }
-        $this->file = null;
         $this->alert('success', 'update guide successfully.', [
             'position' =>  'center', 
             'timer' =>  5000,
@@ -50,6 +64,9 @@ class ManageGuide extends Component
             Cache::forget('guide_time');
             if(file_exists(public_path('image/guide.jpg'))){
                 unlink(public_path('image/guide.jpg'));
+            }
+            if(file_exists(public_path('image/guide.pdf'))){
+                unlink(public_path('image/guide.pdf'));
             }
         }
         Cache::forever('guide_link', $this->link);
