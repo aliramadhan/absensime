@@ -9,6 +9,8 @@
         @if(Cache::has('guide_link'))
             @if(file_exists(public_path('image/guide.jpg')))
                 <img src="{{ asset('image/guide.jpg') }}">
+            @elseif(file_exists(public_path('image/guide.pdf')))
+                <embed src="{{ asset('image/guide.pdf') }}" alt="pdf" />
             @else
                 <iframe class="w-full bg-white h-screen rounded-lg shadow-md" src="{{Cache::get('guide_link');}}"></iframe>
             @endif
