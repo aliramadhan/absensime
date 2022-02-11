@@ -108,24 +108,26 @@
                                         {{ __('Report') }}
                                     </div>
     
-                                    <x-jet-dropdown-link  href="{{ route('admin.show.schedule') }}">
-                                        {{ __('Show Schedule') }}
-                                    </x-jet-dropdown-link>
+                                    
                                     <x-jet-dropdown-link  href="{{ route('admin.employee_presence.report') }}">
                                         {{ __('Attendance Report') }}
                                     </x-jet-dropdown-link>
-                                    <x-jet-dropdown-link  href="{{ route('admin.overtime.report') }}">
-                                        {{ __('Overtime Report') }}
-                                    </x-jet-dropdown-link>
                                     <x-jet-dropdown-link  href="{{ route('admin.schedule_today') }}">
                                         {{ __('Attend Detail Record ') }}
-                                    </x-jet-dropdown-link>                                    
+                                    </x-jet-dropdown-link>       
+                                     <x-jet-dropdown-link  href="{{ route('admin.all_late.report') }}">
+                                        {{ __('All Late Report') }}
+                                    </x-jet-dropdown-link>
+                                    <x-jet-dropdown-link  href="{{ route('admin.overtime.report') }}">
+                                        {{ __('Overtime Report') }}
+                                    </x-jet-dropdown-link>                                              
+                                    <x-jet-dropdown-link  href="{{ route('admin.show.schedule') }}">
+                                        {{ __('Show Schedule') }}
+                                    </x-jet-dropdown-link>                   
                                     <x-jet-dropdown-link  href="{{ route('admin.weekly.report') }}">
                                         {{ __('Weekly Target Report') }}
                                     </x-jet-dropdown-link>
-                                    <x-jet-dropdown-link  href="{{ route('admin.all_late.report') }}">
-                                        {{ __('All Late Report') }}
-                                    </x-jet-dropdown-link>
+                                   
                                 </x-slot>
 
                             </x-jet-dropdown>
@@ -333,13 +335,13 @@
                                 {{ __('Change Application') }}
                             </div>
                             <x-jet-dropdown-link href="https://pahlawandesignstudio.com/">                                
-                                <i class="fas fa-tv mr-2"></i>{{ __('Homepage') }}
+                                <i class="fas fa-tv mr-2 w-4"></i>{{ __('Homepage') }}
                             </x-jet-dropdown-link>
                             <x-jet-dropdown-link href="https://attendance.pahlawandesignstudio.com/">
-                                <i class="fas fa-briefcase mr-2 "></i>{{ __('Attendance') }}
+                                <i class="fas fa-briefcase mr-2 w-4 "></i>{{ __('Attendance') }}
                             </x-jet-dropdown-link>
                             <x-jet-dropdown-link href="https://catering.pahlawandesignstudio.com/">
-                             <i class="fas fa-utensils mr-2"></i>{{ __('Catering') }}
+                             <i class="fas fa-utensils mr-2 w-4"></i>{{ __('Catering') }}
                          </x-jet-dropdown-link>
 
                            
@@ -386,15 +388,15 @@
                     </x-jet-responsive-nav-link>
                     <x-jet-responsive-nav-link  href="{{ route('admin.schedule_today') }}">
                         {{ __('Attend Detail Record ') }}
-                    </x-jet-responsive-nav-link>                                    
-                    <x-jet-responsive-nav-link  href="{{ route('admin.weekly.report') }}">
-                        {{ __('Weekly Target Report') }}
-                    </x-jet-responsive-nav-link>
+                    </x-jet-responsive-nav-link>                                           
                     <x-jet-responsive-nav-link  href="{{ route('admin.all_late.report') }}">
                         {{ __('All Late Report') }}
                     </x-jet-responsive-nav-link>
                     <x-jet-responsive-nav-link href="{{ route('admin.users') }}" :active="request()->routeIs('admin.users')">
                         {{ __('Users') }}
+                    </x-jet-responsive-nav-link>
+                     <x-jet-responsive-nav-link  href="{{ route('admin.weekly.report') }}">
+                        {{ __('Weekly Target Report') }}
                     </x-jet-responsive-nav-link>
                     @elseif(auth()->user()->roles == 'Employee')
                     <x-jet-responsive-nav-link href="{{ route('user.dashboard') }}" :active="request()->routeIs('user.dashboard')">
