@@ -19,16 +19,15 @@ class AdminDatatableSchedule extends LivewireDatatable
     public $schedules, $users, $shifts;
     public function builder()
     {
-        $this->schedules = Schedule::all();
-        $this->users = User::all();
+        $this->schedules = Schedule::orderBy('updated_at', 'desc')->take(1000)->get();
+   
         $this->shifts = Shift::all();
         if (auth()->user()->roles == 'Manager') {
-            $this->users = User::where('division',auth()->user()->division)->get();
             $users = User::where('division',auth()->user()->division)->pluck('id');
             $this->schedules = Schedule::whereIn('employee_id',$users)->get();
             return Schedule::whereIn('employee_id',$users)->orderBy('date','desc');
         }
-  		return Schedule::orderBy('date','desc');
+  		return Schedule::whereBetween('date',[Carbon::now()->subMonth(1),Carbon::now()])->orderBy('id','desc');
     }
 
     public function columns()
@@ -47,13 +46,11 @@ class AdminDatatableSchedule extends LivewireDatatable
 
             Column::callback(['id'], function ($id) {
             	$schedule = $this->schedules->where('id',$id)->first();
-            	$employee = $this->users->where('id',$schedule->employee_id)->first();
             	$shifts = $this->shifts;
-            	if(($schedule->date >= Carbon::now()->format('Y-m-d')) AND ($schedule->status == 'Not sign in')){
+            	if(($this->schedules[0]->date >= Carbon::now()->format('Y-m-d')) AND ($schedule->status == 'Not sign in')){
 	                return view('livewire.Admin.table-actions-schedule-admin', [
 	                	'id' => $id,
-	                	'employee' => $employee,
-	                	'date' => $schedule->date,
+	                	'date' => $this->schedules[0]->date,
 	                	'shifts' => $shifts,
 	                	'shift' => $schedule->shift,
 	                	'schedule' => $schedule,
